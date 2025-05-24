@@ -96,7 +96,7 @@ const Head = () => (
                 <path stroke="none" d="M0-.5h1v2H0z"></path>
             </pattern>
         </defs>
-        <g strokeLinecap="round" opacity="1" transform="translate(280.17 93.617)">
+        <g strokeLinecap="round" opacity="1" transform="translate(280.17 93.617)" id="headArea">
             <g stroke="none" opacity="1" transform="translate(0 17.562)">
                 <path
                     fill="#fff"

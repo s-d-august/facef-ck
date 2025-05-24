@@ -32,6 +32,7 @@ const Dick = () => (
       stroke="none"
       strokeLinecap="round"
       transform="matrix(.83992 0 0 1 19.369 15.783)"
+      id="dickArea"
     >
       <path
         fill="#a00"
