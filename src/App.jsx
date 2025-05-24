@@ -64,7 +64,7 @@ function App() {
         if (percent < 0.1) {
           resistance = 0
         } else {
-          resistance = percent * 3
+          resistance = percent * 3.5
         }
         this.dragResistance = resistance
         console.log(percent)
