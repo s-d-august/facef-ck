@@ -21,21 +21,22 @@ function App() {
 
     const containerSize = document.getElementById("container").getBoundingClientRect().height
 
-    const followers = [headParts, body].map(
-      (el, i) => follower(el, 0.25 + i * 0.1)
-    );
+    function updateFollowers(itemsArray, ease) {
 
-    console.log(followers)
+      function follower(target, duration, ease) {
+        let xTo = gsap.quickTo(target, "x", { duration: duration, ease: ease }),
+          yTo = gsap.quickTo(target, "y", { duration: duration, ease: ease });
+        return (x, y) => { xTo(x); yTo(y) };
+      }
 
-    function updateFollowers() {
+      const followers = itemsArray.map(
+        (el, i) => follower(el, 0.25 + i * 0.1, ease)
+      );
+
       followers.forEach(f => f(this.x, this.y));
     }
 
-    function follower(target, duration) {
-      let xTo = gsap.quickTo(target, "x", { duration: duration, ease: "back" }),
-        yTo = gsap.quickTo(target, "y", { duration: duration, ease: "back" });
-      return (x, y) => { xTo(x); yTo(y) };
-    }
+
 
     function getOverlapPercent(rectA, rectB) {
       const x_overlap = Math.max(
@@ -51,20 +52,16 @@ function App() {
       return areaA ? (overlapArea / areaA) : 0; // percent of A overlapped by B
     }
 
-    const [headArea] = Draggable.create("#headArea");
-    var resistance
-
-
     Draggable.create("#hand", {
       onDrag: function () {
-        updateFollowers.call(this)
+        updateFollowers.call(this, [headParts, body], "back");
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
         if (percent < 0.1) {
-          resistance = 0
+          var resistance = 0
         } else {
-          resistance = percent * 3.5
+          var resistance = percent * 3.5
         }
         this.dragResistance = resistance
         console.log(percent)
