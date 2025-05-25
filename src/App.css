@@ -13,6 +13,9 @@ svg {
 #container {
   position: relative;
   height: 100vh;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
 }
 
 .noInteract {
@@ -21,4 +24,8 @@ svg {
 
 .interact {
   pointer-events: all;
+}
+
+#handBeadsDiv {
+  opacity: 0;
 }

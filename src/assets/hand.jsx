@@ -5,7 +5,7 @@ const Hand = () => (
         version="1.1"
         viewBox="0 0 1482.262 1233.252"
         id="hand"
-        className="noInteract"
+        className="hideHand noInteract"
     >
         <g fillOpacity="1" stroke="none" transform="translate(38.98 -85.519)">
             <path
@@ -17,6 +17,7 @@ const Hand = () => (
                 transform="translate(402.763 259.923)"
             ></path>
             <path
+                id="handGrab"
                 className="interact"
                 fill="#a00"
                 strokeLinecap="round"
