@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import Dick from './assets/dick'
-import Hand from './assets/hand'
+import HairPullHand from './assets/hair-pull-hand'
 import Body from './assets/body'
 import Mouth from './assets/mouth'
 import Head from './assets/head'
@@ -54,22 +54,22 @@ function App() {
     const headParts = gsap.utils.toArray(".headParts");
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
-    const hand = document.getElementById("handGrab");
+    const hairPullHand = document.getElementById("hairPullHandGrab");
     const containerSize = document.getElementById("container").getBoundingClientRect().height
     const hideHand = document.getElementById("handBeadsDiv")
 
-    hand.addEventListener("mouseenter", () => {
+    hairPullHand.addEventListener("mouseenter", () => {
       gsap.to("#handBeadsDiv", { opacity: 1, duration: 0.2 })
     });
-    hand.addEventListener("mouseleave", () => {
-      if (Draggable.get("#hand").isDragging) {
+    hairPullHand.addEventListener("mouseleave", () => {
+      if (Draggable.get("#hairPullHand").isDragging) {
         return
       } else
         gsap.to("#handBeadsDiv", { opacity: 0, duration: 0.2 })
     });
 
-    Draggable.create("#hand", {
-      trigger: "#handGrab",
+    Draggable.create("#hairPullHand", {
+      trigger: "#hairPullHandGrab",
       onDrag: function () {
         gsap.to("#handBeadsDiv", { opacity: 1, duration: 0.2 })
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
@@ -108,7 +108,7 @@ function App() {
       <Dick />
       <Head />
       <div id='handBeadsDiv'>
-        <Hand />
+        <HairPullHand />
         <HairPullBeads />
       </div>
 

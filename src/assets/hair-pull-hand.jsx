@@ -1,10 +1,10 @@
 import * as React from "react";
 
-const Hand = () => (
+const HairPullHand = () => (
     <svg
         version="1.1"
         viewBox="0 0 1482.262 1233.252"
-        id="hand"
+        id="hairPullHand"
         className="hideHand noInteract"
     >
         <g fillOpacity="1" stroke="none" transform="translate(38.98 -85.519)">
@@ -17,7 +17,7 @@ const Hand = () => (
                 transform="translate(402.763 259.923)"
             ></path>
             <path
-                id="handGrab"
+                id="hairPullHandGrab"
                 className="interact"
                 fill="#a00"
                 strokeLinecap="round"
@@ -34,4 +34,4 @@ const Hand = () => (
     </svg>
 );
 
-export default Hand;
+export default HairPullHand;
