@@ -9,14 +9,14 @@ const beadPaths = [
     "M1117.43 210.728c-5.52 0-10 4.478-10 10 0 5.524 4.48 10.002 10 10.002s10-4.478 10-10.002c0-5.522-4.48-10-10-10"
 ];
 
-const Beads = () => (
-    <div className="noInteract absolute hideHand" id="crossbeads">
+const HairPullBeads = () => (
+    <div className="noInteract absolute hideHand" id="hairPullBeads">
         {beadPaths.map((d, i) => (
             <svg
                 key={i}
                 version="1.1"
                 viewBox="0 0 1482.262 1233.252"
-                className="crossBeads"
+                className="hairPullBeads"
             >
                 <g fill="#2b1100" fillOpacity="1" fillRule="nonzero">
                     <path d={d} />
@@ -26,4 +26,4 @@ const Beads = () => (
     </div>
 );
 
-export default Beads;
+export default HairPullBeads;

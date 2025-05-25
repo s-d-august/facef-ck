@@ -5,7 +5,7 @@ import Hand from './assets/hand'
 import Body from './assets/body'
 import Mouth from './assets/mouth'
 import Head from './assets/head'
-import Beads from './assets/beads'
+import HairPullBeads from './assets/hair-pull-beads'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
@@ -52,7 +52,7 @@ function App() {
   useEffect(() => {
 
     const headParts = gsap.utils.toArray(".headParts");
-    const crossBeads = gsap.utils.toArray(".crossBeads").reverse()
+    const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
     const hand = document.getElementById("handGrab");
     const containerSize = document.getElementById("container").getBoundingClientRect().height
@@ -73,7 +73,7 @@ function App() {
       onDrag: function () {
         gsap.to("#handBeadsDiv", { opacity: 1, duration: 0.2 })
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
-        updateFollowers.call(this, crossBeads, "back", 0.1, 0.1);
+        updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.1);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
@@ -109,7 +109,7 @@ function App() {
       <Head />
       <div id='handBeadsDiv'>
         <Hand />
-        <Beads />
+        <HairPullBeads />
       </div>
 
     </div>
