@@ -16,7 +16,8 @@ import { Observer } from 'gsap/all'
 
 function App() {
 
-  const [mode, setMode] = useState(["none"])
+  const [ives, setIves] = useState(0)
+  const [boyd, setBoyd] = useState(0)
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer);
 
@@ -56,22 +57,21 @@ function App() {
     const body = document.getElementById("body");
     const hairPullHand = document.getElementById("hairPullHandGrab");
     const containerSize = document.getElementById("container").getBoundingClientRect().height
-    const hideHand = document.getElementById("handBeadsDiv")
 
     hairPullHand.addEventListener("mouseenter", () => {
-      gsap.to("#handBeadsDiv", { opacity: 1, duration: 0.2 })
+      gsap.to("#hairPullDiv", { opacity: 1, duration: 0.2 })
     });
     hairPullHand.addEventListener("mouseleave", () => {
       if (Draggable.get("#hairPullHand").isDragging) {
         return
       } else
-        gsap.to("#handBeadsDiv", { opacity: 0, duration: 0.2 })
+        gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 })
     });
 
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
-        gsap.to("#handBeadsDiv", { opacity: 1, duration: 0.2 })
+        gsap.to("#hairPullDiv", { opacity: 1, duration: 0.2 })
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.1);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
@@ -95,11 +95,11 @@ function App() {
       dragResistance: 0,
       zIndexBoost: false,
       onDragEnd: function () {
-        gsap.to("#handBeadsDiv", { opacity: 0, duration: 0.2 })
+        gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 })
       }
     });
 
-  }, [mode])
+  }, [])
 
   return (
     <div id='container'>
@@ -107,7 +107,7 @@ function App() {
       <Mouth />
       <Dick />
       <Head />
-      <div id='handBeadsDiv'>
+      <div id='hairPullDiv'>
         <HairPullHand />
         <HairPullBeads />
       </div>
