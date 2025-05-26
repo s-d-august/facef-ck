@@ -223,13 +223,14 @@ const Head = () => (
                 display="inline"
             ></path>
             <g
-                id="g60"
+                id="blushGroup"
                 fillOpacity="1"
                 stroke="none"
                 strokeDasharray="none"
                 display="inline"
             >
                 <ellipse
+                    className="blush"
                     id="ellipse59"
                     cx="462.892"
                     cy="538.056"
@@ -239,6 +240,7 @@ const Head = () => (
                     ry="33.53"
                 ></ellipse>
                 <ellipse
+                    className="blush"
                     id="ellipse58"
                     cx="225.841"
                     cy="607.602"
@@ -250,6 +252,7 @@ const Head = () => (
                     transform="rotate(-10.855)"
                 ></ellipse>
                 <ellipse
+                    className="blush"
                     id="path57"
                     cx="667.536"
                     cy="450.123"
@@ -470,6 +473,7 @@ const Head = () => (
             ></path>
             <path
                 id="path60-3"
+                className="sweat"
                 fill="none"
                 fillOpacity="1"
                 stroke="#fff"
@@ -479,6 +483,7 @@ const Head = () => (
             ></path>
             <path
                 id="path60-3-1"
+                className="sweat"
                 fill="none"
                 fillOpacity="1"
                 stroke="#fff"
@@ -488,6 +493,7 @@ const Head = () => (
             ></path>
             <path
                 id="path60-3-6"
+                className="sweat"
                 fill="none"
                 fillOpacity="1"
                 stroke="#fff"
@@ -496,6 +502,7 @@ const Head = () => (
                 d="M620.612 579.687c-2.023 19.199-4.298 32.458-6.764 38.498l1.188 6.17 4.007 2.625 4.307-1.486 1.684-6.477c-.98-1.423-1.752-5.278-2.371-10.594z"
             ></path>
             <ellipse
+                className="tear"
                 id="path33"
                 cx="616.029"
                 cy="493.776"
@@ -509,6 +516,7 @@ const Head = () => (
                 ry="7.037"
             ></ellipse>
             <ellipse
+                className="tear"
                 id="ellipse33"
                 cx="300.6"
                 cy="502.883"

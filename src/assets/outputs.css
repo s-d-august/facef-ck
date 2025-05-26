@@ -1,0 +1,56 @@
+:root {
+  --UI-bar-width: 30px;
+  --UI-bar-height: 200px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#progressBarsDiv {
+  height: calc(100vh - 20px);
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  gap: 5px;
+  position: relative;
+  margin: 10px;
+}
+
+.gridElement {
+  height: 100%;
+  width: 32px;
+  border-radius: 10px;
+}
+
+.barWrap {
+  position: relative;
+  background-color: white;
+  height: 100%;
+}
+
+.progressBar {
+  height: 0;
+  width: 30px;
+  margin-left: 1px;
+  position: absolute;
+  bottom: 0;
+  border-radius: 0 0 9px 9px
+}
+
+#numberOutputsDiv {
+  display: none;
+}
+
+#ivesBar {
+  background-color: maroon;
+}
+
+#boydBar {
+  background-color: cornflowerblue;
+}
+
+#pnutBar {
+  background-color: var(--mddk)
+}

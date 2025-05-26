@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const Dick = () => (
-  <div id="dickArea" className="noInteract">
+  <div className="noInteract">
 
     <svg
       viewBox="0 0 987.679 1234.713"

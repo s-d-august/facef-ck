@@ -50,3 +50,9 @@ svg {
 .dickHandParts {
   opacity: 0;
 }
+
+.tear,
+.sweat,
+.blush {
+  opacity: 0;
+}
