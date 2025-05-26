@@ -1,14 +1,28 @@
-    <div className="noInteract absolute hideHand" id="hairPullBeads">
-        {beadPaths.map((d, i) => (
-            <svg
-                key={i}
-                version="1.1"
-                viewBox="0 0 987.679 1234.713"
-                className="hairPullBeads"
-            >
-                <g fill="#2b1100" fillOpacity="1" fillRule="nonzero">
-                    <path d={d} />
-                </g>
-            </svg>
-        ))}
-    </div>
+    <svg
+      id="dickHandSvg"
+      viewBox="0 0 987.679 1234.713"
+    >
+      <defs>
+        <linearGradient id="dickhanda">
+          <stop offset="0" stopColor="maroon" stopOpacity="1"></stop>
+          <stop offset="1" stopColor="maroon" stopOpacity="0"></stop>
+        </linearGradient>
+        <linearGradient
+          xlinkHref="#dickhanda"
+          id="dickhandb"
+          x1="782.692"
+          x2="752.958"
+          y1="562.606"
+          y2="630.494"
+          gradientUnits="userSpaceOnUse"
+        ></linearGradient>
+      </defs>
+      <path
+        id="dickHandGrab"
+        className="dickHandParts interact"
+        fill="url(#dickhandb)"
+        strokeWidth="4"
+        d="M880.701 257s-21.052 11.703-34.42 18.633c-7.99 4.144-17.687 7.7-25.346 12.43-6.26 3.867-12.101 9.215-15.442 15.77-8.615 16.9-4.733 37.747-9.51 56.104-8.948 34.387-22.293 67.534-35.67 100.45C743.022 502.936 685 620.282 685 620.282l137.684 49.236s29.907-96.32 44.143-124.726c5.823-11.62 10.089-12.454 17.33-21.97 4.442-5.838 8.184-10.234 7.376-17.525-.727-6.564-.3-19.32-.3-19.32l-1.762-18.865 1.851-19.956c10.474-9.379 22.823-20.4 27.885-24.702 4.52-3.84 9.205-7.878 12.073-13.07 8.421-15.249 13.61-50.457 13.61-50.457l31.362-12.356s21.314 6.169 33.314 3.092c5.575-1.429 12.653-3.452 16.768-7.474 4.036-3.944 9.327-7.544 10.882-12.968 2.092-7.298-2.296-13.56-6.542-19.853-5.449-8.075-14.806-11.319-21.942-17.306-7.135-5.988-14.607-17.064-20.853-18.603-13.478-3.322-45.646 8.912-66.927 17.872-11.02 4.639-30.84 18.318-30.84 18.318s-2.312-10.798-3.846-16.486c-3.67-13.62-5.565-36.162-5.565-36.162"
+        display="inline"
+        transform="translate(-488.596 632.385)"
+      ></path>

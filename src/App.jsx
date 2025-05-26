@@ -50,26 +50,48 @@ function App() {
     return areaA ? (overlapArea / areaA) : 0; // percent of A overlapped by B
   }
 
+  function fadeIn(hoverArea, fullArea, dragElement) {
+    hoverArea.addEventListener("mouseenter", () => {
+      gsap.to(fullArea, { opacity: 1, duration: 0.2 })
+    });
+    hoverArea.addEventListener("mouseleave", () => {
+      if (Draggable.get(dragElement).isDragging) {
+        return
+      } else
+        gsap.to(fullArea, { opacity: 0, duration: 0.2 })
+    });
+  }
+
   useEffect(() => {
 
     const headParts = gsap.utils.toArray(".headParts");
     const hideHand = gsap.utils.toArray(".hideHand")
+    const dickHand = gsap.utils.toArray(".dickHandParts")
+    const dickHandle = document.getElementById("dickHandGrab")
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
     const hairPullHand = document.getElementById("hairPullHandGrab");
     const containerSize = document.getElementById("container").getBoundingClientRect().height
 
-    hairPullHand.addEventListener("mouseenter", () => {
-      gsap.to(hideHand, { opacity: 1, duration: 0.2 })
-    });
-    hairPullHand.addEventListener("mouseleave", () => {
-      if (Draggable.get("#hairPullHand").isDragging) {
-        return
-      } else
-        gsap.to(hideHand, { opacity: 0, duration: 0.2 })
-    });
+    fadeIn(hairPullHand, hideHand, "#hairPullHand")
+    fadeIn(dickHandle, dickHand, dickHand)
 
-    console.log(hairPullBeads)
+    Draggable.create(dickHand, {
+      trigger: "#dickHandGrab",
+      zIndexBoost: false,
+      type: "y",
+      cursor: "ns-resize",
+      bounds: {
+        minY: -65,
+        maxY: 65,
+      },
+      inertia: {
+        y: {
+          end: 0,
+        }
+      },
+      edgeResistance: 0.9,
+    })
 
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",

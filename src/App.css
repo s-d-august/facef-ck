@@ -5,8 +5,9 @@ body {
 svg {
   height: 100vh;
   position: absolute;
-  bottom: 0;
   max-width: 100vw;
+  pointer-events: none;
+  bottom: 0;
 }
 
 #body {
@@ -18,9 +19,6 @@ svg {
   height: 100vh;
   display: flex;
   width: 100vw;
-  bottom: 0;
-  align-items: center;
-  flex-direction: row;
 }
 
 .buffer {
@@ -47,4 +45,8 @@ svg {
 #positioning>div,
 #positioning>div>div {
   display: contents;
+}
+
+.dickHandParts {
+  opacity: 0;
 }
