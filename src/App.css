@@ -35,7 +35,7 @@ svg {
   pointer-events: all;
 }
 
-#handBeadsDiv {
+.hideHand {
   opacity: 0;
 }
 

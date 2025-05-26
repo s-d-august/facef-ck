@@ -66,7 +66,7 @@ const HairPullHand = () => (
                 <svg
                     key={i}
                     viewBox="0 0 987.679 1234.713"
-                    className="hairPullBeads"
+                    className="hairPullBeads hideHand"
                 >
                     <path
                         fill="#2b1100"

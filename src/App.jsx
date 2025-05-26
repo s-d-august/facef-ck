@@ -53,19 +53,20 @@ function App() {
   useEffect(() => {
 
     const headParts = gsap.utils.toArray(".headParts");
+    const hideHand = gsap.utils.toArray(".hideHand")
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
     const hairPullHand = document.getElementById("hairPullHandGrab");
     const containerSize = document.getElementById("container").getBoundingClientRect().height
 
     hairPullHand.addEventListener("mouseenter", () => {
-      gsap.to("#hairPullDiv", { opacity: 1, duration: 0.2 })
+      gsap.to(hideHand, { opacity: 1, duration: 0.2 })
     });
     hairPullHand.addEventListener("mouseleave", () => {
       if (Draggable.get("#hairPullHand").isDragging) {
         return
       } else
-        gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 })
+        gsap.to(hideHand, { opacity: 0, duration: 0.2 })
     });
 
     console.log(hairPullBeads)
@@ -73,7 +74,7 @@ function App() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
-        gsap.to("#hairPullDiv", { opacity: 1, duration: 0.2 })
+        gsap.to(hideHand, { opacity: 1, duration: 0.2 })
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
@@ -95,7 +96,7 @@ function App() {
       dragResistance: 0,
       zIndexBoost: false,
       onDragEnd: function () {
-        gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 })
+        gsap.to(hideHand, { opacity: 0, duration: 0.2 })
       }
     });
 
