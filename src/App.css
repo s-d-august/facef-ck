@@ -9,12 +9,22 @@ svg {
   max-width: 100vw;
 }
 
+#body {
+  display: block;
+}
+
 #container {
   position: relative;
   height: 100vh;
-  flex: 1;
+  display: flex;
   width: 100vw;
   bottom: 0;
+  align-items: center;
+  flex-direction: row;
+}
+
+.buffer {
+  flex-grow: 2;
 }
 
 .noInteract {
@@ -27,4 +37,14 @@ svg {
 
 #handBeadsDiv {
   opacity: 0;
+}
+
+#positioning {
+  display: flex;
+  justify-content: center;
+}
+
+#positioning>div,
+#positioning>div>div {
+  display: contents;
 }

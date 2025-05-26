@@ -68,12 +68,14 @@ function App() {
         gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 })
     });
 
+    console.log(hairPullBeads)
+
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
         gsap.to("#hairPullDiv", { opacity: 1, duration: 0.2 })
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
-        updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.1);
+        updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
@@ -87,8 +89,6 @@ function App() {
       bounds: {
         minX: containerSize * -0.0055,
         maxX: containerSize * 0.0055,
-        // minX: containerSize * -0.5,
-        // maxX: containerSize * 0.5,
         minY: containerSize * -0.07,
         maxY: containerSize * 0.3
       },
@@ -103,15 +103,15 @@ function App() {
 
   return (
     <div id='container'>
-      <Body />
-      <Mouth />
-      <Dick />
-      <Head />
-      <div id='hairPullDiv'>
+      <div className='buffer'></div>
+      <div id='positioning'>
+        <Body />
+        <Mouth />
+        <Dick />
+        <Head />
         <HairPullHand />
-        <HairPullBeads />
       </div>
-
+      <div className='buffer'></div>
     </div>
   )
 }

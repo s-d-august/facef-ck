@@ -1,75 +1,179 @@
 import * as React from "react";
 
 const Dick = () => (
-  <svg
-    version="1.1"
-    viewBox="0 0 1482.262 1233.252"
-    id="dick"
-  >
-    <defs>
-      <pattern
-        xlinkHref="#dickPattern"
-        id="dickPatternB"
-        x="0"
-        y="0"
-        patternTransform="rotate(12.384)scale(2)"
-        preserveAspectRatio="xMidYMid"
-      ></pattern>
-      <pattern
-        id="dickPattern"
-        width="4"
-        height="1"
-        fill="#000"
-        patternTransform="scale(2)"
-        patternUnits="userSpaceOnUse"
-        preserveAspectRatio="xMidYMid"
-      >
-        <path stroke="none" d="M0-.5h1v2H0z"></path>
-      </pattern>
-    </defs>
-    <g
-      fillOpacity="1"
-      stroke="none"
-      strokeLinecap="round"
-      transform="matrix(.83992 0 0 1 19.369 15.783)"
-      id="dickArea"
+  <div>
+
+    <svg
+      viewBox="0 0 987.679 1234.713"
+      xmlns="http://www.w3.org/2000/svg"
+      id="dickHandFingers"
+      className="dickHandParts"
+    >
+      <g strokeWidth="4" transform="rotate(-5 -602.319 4292.467)">
+        <path
+          fill="#2b0000"
+          d="M791.395 1196.827s-.01 17.396-4.232 24.546c-4.593 7.778-21.16 16.928-21.16 16.928l-1.693-34.703z"
+        ></path>
+        <path
+          fill="#2b0000"
+          d="M798.167 1158.738s3.561 22.924-.847 33.01c-6.152 14.077-33.01 32.164-33.01 32.164l4.232-66.867z"
+        ></path>
+        <path
+          fill="#500"
+          d="M806.63 1119.803s8.354 17.047 5.926 25.393c-5.518 18.965-46.553 38.088-46.553 38.088l7.618-61.788z"
+        ></path>
+        <path
+          fill="#500"
+          d="M804.938 1084.254s10.814 13.485 10.157 22.853c-.756 10.776-6.55 20.309-16.082 25.392-8.275 4.414-27.932 3.386-27.932 3.386l.968-24.178 1.572-39.303z"
+        ></path>
+      </g>
+    </svg>
+
+    <svg
+      viewBox="0 0 987.679 1234.713"
+      id="dick"
+    >
+      <defs>
+        <linearGradient id="dick-b">
+          <stop offset="0" stopColor="maroon" stopOpacity="1"></stop>
+          <stop offset="1" stopColor="maroon" stopOpacity="0"></stop>
+        </linearGradient>
+        <linearGradient
+          xlinkHref="#dick-a"
+          id="dick-d"
+          x1="475.089"
+          x2="474.554"
+          y1="881.733"
+          y2="967.788"
+          gradientTransform="matrix(.83992 0 0 1 47.111 170.478)"
+          gradientUnits="userSpaceOnUse"
+        ></linearGradient>
+        <linearGradient id="dick-a">
+          <stop offset="0.143" stopColor="#a00" stopOpacity="1"></stop>
+          <stop offset="0.929" stopColor="#a00" stopOpacity="0"></stop>
+        </linearGradient>
+        <linearGradient>
+          <stop offset="0.853" stopColor="gray" stopOpacity="1"></stop>
+          <stop offset="0.938" stopColor="gray" stopOpacity="0"></stop>
+        </linearGradient>
+        <linearGradient
+          xlinkHref="#dick-b"
+          id="dick-f"
+          x1="782.692"
+          x2="752.958"
+          y1="562.606"
+          y2="630.494"
+          gradientUnits="userSpaceOnUse"
+        ></linearGradient>
+        <pattern
+          xlinkHref="#dick-c"
+          id="dick-e"
+          x="0"
+          y="0"
+          patternTransform="matrix(1.64075 .42892 -.36026 1.95346 47.11 170.478)"
+          preserveAspectRatio="xMidYMid"
+        ></pattern>
+        <pattern
+          id="dick-c"
+          width="4"
+          height="1"
+          fill="#000"
+          patternTransform="scale(2)"
+          patternUnits="userSpaceOnUse"
+          preserveAspectRatio="xMidYMid"
+        >
+          <path stroke="none" d="M0-.5h1v2H0z"></path>
+        </pattern>
+      </defs>
+      <g transform="translate(1.394 -.445)">
+        <g
+          stroke="none"
+          strokeLinecap="round"
+          transform="translate(-4.683 114.74)"
+          id="dickArea"
+        >
+          <path
+            fill="#a00"
+            fillOpacity="1"
+            strokeWidth="2.749"
+            d="m492.436 710.295-88.512 2.569s-14.233 101.27-16.787 148.922c-2.31 43.1-.346 141.118.875 201.57l120.799-4.017c2.767-60.616 3.47-157.346 1.938-197.553-1.992-52.262-18.313-151.49-18.313-151.49"
+          ></path>
+          <path
+            fill="maroon"
+            fillOpacity="1"
+            strokeDasharray="none"
+            strokeWidth="10.065"
+            d="M403.925 685.32c-6.568 12.066-12.007 34.755-4.96 49.952 5.127 11.056 11.201 18.62 24.417 23.813 11.831 4.65 31.831 4.304 43.875 1.165 10.685-2.785 22.469-6.523 29.376-19.167 6.908-12.644 5.356-35.78-2.502-55.328-16.784-41.75-58.13-59.364-90.206-.435"
+            display="inline"
+          ></path>
+          <ellipse
+            cx="447.385"
+            cy="-661.274"
+            fill="#2b0000"
+            fillOpacity="1"
+            strokeDasharray="none"
+            strokeWidth="10.065"
+            display="inline"
+            rx="1.349"
+            ry="11.5"
+            transform="scale(1 -1)"
+          ></ellipse>
+          <path
+            fill="url(#dick-d)"
+            strokeWidth="2.749"
+            d="m387.426 1057.503-77.68 70.707 278.207-.3-82.07-74.425z"
+          ></path>
+          <path
+            fill="url(#dick-e)"
+            fillOpacity="1"
+            strokeWidth="2.749"
+            d="m368.616 1113.932-4.758-43.494 25.728-19.869 55.222-17.278 61.6 16.45 25.729 20.697-3.477 44.707z"
+          ></path>
+        </g>
+        <path
+          id="dickDrool2"
+          className="dickDrool"
+          fill="#fff"
+          fillOpacity="1"
+          stroke="none"
+          strokeLinecap="round"
+          strokeWidth="3.16"
+          d="M509.616 942.073c-30.208 48.438-124.108-15.22-124.108-15.22l-.293 5.853s19.812-.243 22.28 32.228c-2.966 61.886-6.65 65.975-.16 66.496 6.99.562 2.891-4.569 1.242-68.847 1.005-6.877 3.194-15.133 7.959-13.192 23.757 9.679 41.588 14.153 54.43 15.108 13.764 1.022 24.557-4.314 26.46 2.9-1.84 34.499-4.267 36.658-.199 36.94 4.336.299 1.743-2.423.742-37.157 2.648-12.177 13.768-14.718 13.768-14.718 1.45-16.787-.585-12.855-2.121-10.391"
+          opacity="0.5"
+          transform="translate(-4.683 114.74)"
+        ></path>
+        <path
+          id="dickDrool1"
+          className="dickDrool"
+          fill="#fff"
+          fillOpacity="1"
+          stroke="none"
+          strokeLinecap="round"
+          strokeWidth="2.819"
+          d="M392.378 802.705c44.69 16.512 47.88 18.952 48.115 35.906-2.944 47.407-6.446 50.612-.043 51.021 6.824.437 3.086-3.544 1.369-51.307 5.235-36.008-1.053-19.67 64.686-27.622.35-1.157.523-1.52-.345-2.585-78.931 10.745-.598-6.911-.598-6.911s.931-1.306-.414-2.142c-67.588 25.755-96.278 4.775-111.965-.104-1.055-.328-1.506 3.004-.805 3.744"
+          opacity="0.503"
+          transform="translate(-4.683 114.74)"
+        ></path>
+
+      </g>
+    </svg>
+
+    <svg
+      viewBox="0 0 987.679 1234.713"
+      xmlns="http://www.w3.org/2000/svg"
+      id="dickHandSvg"
     >
       <path
-        fill="#a00"
-        strokeWidth="3"
-        d="m402.763 639.27 7.025 244.701-86.64 57.37 314.5 2.626-94.587-63.058-7.995-246.323z"
-        opacity="1"
-        transform="translate(402.763 259.923)"
+        id="dickHandGrab"
+        className="dickHandParts"
+        fill="url(#dick-f)"
+        strokeWidth="4"
+        d="M880.701 257s-21.052 11.703-34.42 18.633c-7.99 4.144-17.687 7.7-25.346 12.43-6.26 3.867-12.101 9.215-15.442 15.77-8.615 16.9-4.733 37.747-9.51 56.104-8.948 34.387-22.293 67.534-35.67 100.45C743.022 502.936 685 620.282 685 620.282l137.684 49.236s29.907-96.32 44.143-124.726c5.823-11.62 10.089-12.454 17.33-21.97 4.442-5.838 8.184-10.234 7.376-17.525-.727-6.564-.3-19.32-.3-19.32l-1.762-18.865 1.851-19.956c10.474-9.379 22.823-20.4 27.885-24.702 4.52-3.84 9.205-7.878 12.073-13.07 8.421-15.249 13.61-50.457 13.61-50.457l31.362-12.356s21.314 6.169 33.314 3.092c5.575-1.429 12.653-3.452 16.768-7.474 4.036-3.944 9.327-7.544 10.882-12.968 2.092-7.298-2.296-13.56-6.542-19.853-5.449-8.075-14.806-11.319-21.942-17.306-7.135-5.988-14.607-17.064-20.853-18.603-13.478-3.322-45.646 8.912-66.927 17.872-11.02 4.639-30.84 18.318-30.84 18.318s-2.312-10.798-3.846-16.486c-3.67-13.62-5.565-36.162-5.565-36.162"
+        display="inline"
+        transform="translate(-489.99 632.83)"
       ></path>
-      <path
-        fill="url(#dickPatternB)"
-        strokeWidth="3"
-        d="m382.083 940.528-4.967-40.567 30.632-19.87 65.747-17.278 73.34 16.45 30.632 20.698-4.14 44.706z"
-        opacity="1"
-        transform="translate(402.763 259.923)"
-      ></path>
-      <path
-        fill="maroon"
-        strokeWidth="6.352"
-        d="M817.133 909.594c-16.343-4.936-23.878-31.8-16.31-49.853 16.488-39.336 63.385-63.938 68.314-51.981 3.09-11.782 56.95 18.769 70.015 48.728 8.27 18.967 2.896 42.651-13.54 49.301-36.822 14.898-77.32 13.218-108.48 3.805"
-      ></path>
-      <path
-        fill="#fff"
-        strokeWidth="3.448"
-        d="M832.737 1036.864c-3.568 78.85-9.499 83.444-1.095 84.011 8.938.603 2.646-5.275 1.095-84.01"
-      ></path>
-      <path
-        fill="#fff"
-        strokeWidth="3.448"
-        d="M927.363 995.883c-3.569 78.85-9.499 83.444-1.095 84.011 8.938.603 2.646-5.275 1.095-84.01"
-      ></path>
-      <path
-        fill="#fff"
-        strokeWidth="3.448"
-        d="M872.164 918.475c-3.568 78.85-9.498 83.444-1.095 84.011 8.938.603 2.646-5.275 1.095-84.01"
-      ></path>
-    </g>
-  </svg>
+    </svg>
+  </div>
 );
 
 export default Dick;

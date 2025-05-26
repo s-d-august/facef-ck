@@ -1,0 +1,14 @@
+    <div className="noInteract absolute hideHand" id="hairPullBeads">
+        {beadPaths.map((d, i) => (
+            <svg
+                key={i}
+                version="1.1"
+                viewBox="0 0 987.679 1234.713"
+                className="hairPullBeads"
+            >
+                <g fill="#2b1100" fillOpacity="1" fillRule="nonzero">
+                    <path d={d} />
+                </g>
+            </svg>
+        ))}
+    </div>
