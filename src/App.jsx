@@ -12,6 +12,7 @@ import { CustomEase } from 'gsap/all'
 import { CustomWiggle } from 'gsap/all'
 import { Observer } from 'gsap/all'
 import Outputs from './assets/outputs'
+import { MorphSVGPlugin } from 'gsap/all'
 
 
 function App() {
@@ -21,13 +22,13 @@ function App() {
   const [maxIves, setMaxIves] = useState(500)
   const [maxBoyd, setMaxBoyd] = useState(2000)
 
-  gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer);
+  gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
   function valUp() {
     setIves((prevIves) => {
       const newIves = prevIves + 1;
       if (newIves > maxIves) {
-        return prevIves; // Do not increment further if max is reached
+        return 0; // Do not increment further if max is reached
       }
       return newIves; // Increment Ives
     });
@@ -36,7 +37,7 @@ function App() {
       if (newBoyd > maxBoyd) {
         return prevBoyd; // Do not increment further if max is reached
       }
-      return newBoyd; // Increment Ives
+      return newBoyd; // Increment Boyd
     });
   };
 
@@ -80,6 +81,7 @@ function App() {
         gsap.to(fullArea, { opacity: 0, duration: 0.2 })
     });
   }
+
   function valDown() {
     setBoyd((prevBoyd) => {
       const newBoyd = prevBoyd - 1;
@@ -111,13 +113,12 @@ function App() {
     const dickHandle = document.getElementById("dickHandGrab")
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
+    const tongue = document.getElementById("tongue");
     const hairPullHand = document.getElementById("hairPullHandGrab");
     const containerSize = document.getElementById("container").getBoundingClientRect().height
 
     fadeIn(hairPullHand, hideHand, "#hairPullHand")
     fadeIn(dickHandle, dickHand, dickHand)
-
-
 
     Draggable.create(dickHand, {
       trigger: "#dickHandGrab",
@@ -140,7 +141,6 @@ function App() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
-        valUp;
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
@@ -151,9 +151,9 @@ function App() {
           var resistance = 0
         } else {
           var resistance = percent * 3
+          valUp();
         }
         this.dragResistance = resistance
-        console.log(resistance)
       },
       bounds: {
         minX: containerSize * -0.0055,
@@ -185,7 +185,6 @@ function App() {
         <Head />
         <HairPullHand />
       </div>
-
       <div className='buffer'></div>
     </div>
   )
