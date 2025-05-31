@@ -136,11 +136,10 @@ const Dick = () => (
     <svg
       viewBox="0 0 987.679 1234.713"
       id="dickDrool1Svg"
-      className="dickDrool"
     >
       <path
         id="dickDrool1"
-        className="dickDrool"
+        className="dickDrool opacity0"
         fill="#fff"
         fillOpacity="1"
         stroke="none"
@@ -158,7 +157,7 @@ const Dick = () => (
     >
       <path
         id="dickDrool2"
-        className="dickDrool"
+        className="dickDrool opacity0"
         fill="#fff"
         fillOpacity="1"
         stroke="none"

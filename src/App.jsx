@@ -20,7 +20,7 @@ function App() {
   const [ives, setIves] = useState(0)
   const [boyd, setBoyd] = useState(0)
   const [maxIves, setMaxIves] = useState(500)
-  const [maxBoyd, setMaxBoyd] = useState(500)
+  const [maxBoyd, setMaxBoyd] = useState(100)
   const [mouthOn, setMouthOn] = useState(false)
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
@@ -101,21 +101,32 @@ function App() {
     });
   }
 
-  function showDrool(drool) {
-    if (
-      Draggable.hitTest(drool, "#faceOpen")) {
-      drool.classList.remove("opacity0")
-      const dimensions = drool.getBoundingClientRect()
-      const toBase = dimensions.height + dimensions.bottom;
-      gsap.to(drool, { y: toBase, duration: (toBase / 20) })
-        .then(() => {
-          gsap.set(drool, { y: (toBase * -1) });
-          drool.classList.add("opacity0");
-        });
-
+  function getDroolVals(id, overlapId) {
+    var head = document.getElementById(overlapId)
+    var drool = document.getElementById(id)
+    var droolArea = drool.getBoundingClientRect()
+    var headVal = head.getBoundingClientRect().bottom
+    console.log(droolArea)
+    console.log(head.getBoundingClientRect())
+    return {
+      drool: drool,
+      overlapY: (droolArea.bottom + (droolArea.height * 1.5) - headVal),
+      defY: droolArea.top
     }
   }
 
+  function showDrool({ drool, overlapY, defY }) {
+    console.log(overlapY)
+    console.log(this.y)
+    if ((this.y) >= overlapY && drool.classList.contains("opacity0")) {
+      drool.classList.remove("opacity0")
+      gsap.to(drool, { y: defY, duration: defY })
+        .then(() => {
+          gsap.set(drool, { y: defY * -1 })
+          drool.classList.add("opacity0")
+        })
+    }
+  }
 
 
   useEffect(() => {
@@ -132,7 +143,12 @@ function App() {
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
     const tongue = document.getElementById("tongue");
+    const dickDroolValsArray = []
 
+
+    dickDrool.forEach(function (el) {
+      dickDroolValsArray.push(getDroolVals(el.id, "headArea"))
+    })
 
     Draggable.create(dickHand, {
       trigger: "#dickHandGrab",
@@ -155,7 +171,7 @@ function App() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
-        console.log(this.bounds)
+        dickDroolValsArray.forEach(showDrool, this)
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
