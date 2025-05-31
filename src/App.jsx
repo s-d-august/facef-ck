@@ -20,7 +20,8 @@ function App() {
   const [ives, setIves] = useState(0)
   const [boyd, setBoyd] = useState(0)
   const [maxIves, setMaxIves] = useState(500)
-  const [maxBoyd, setMaxBoyd] = useState(2000)
+  const [maxBoyd, setMaxBoyd] = useState(500)
+  const [mouthOn, setMouthOn] = useState(false)
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
@@ -100,25 +101,38 @@ function App() {
     });
   }
 
+  function showDrool(drool) {
+    if (
+      Draggable.hitTest(drool, "#faceOpen")) {
+      drool.classList.remove("opacity0")
+      const dimensions = drool.getBoundingClientRect()
+      const toBase = dimensions.height + dimensions.bottom;
+      gsap.to(drool, { y: toBase, duration: (toBase / 20) })
+        .then(() => {
+          gsap.set(drool, { y: (toBase * -1) });
+          drool.classList.add("opacity0");
+        });
+
+    }
+  }
+
+
+
   useEffect(() => {
     const interval = setInterval(valDown, 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   useEffect(() => {
-
-    const headParts = gsap.utils.toArray(".headParts");
-    const hideHand = gsap.utils.toArray(".hideHand")
+    const containerSize = document.getElementById("container").getBoundingClientRect().height
     const dickHand = gsap.utils.toArray(".dickHandParts")
-    const dickHandle = document.getElementById("dickHandGrab")
+    const hideHand = gsap.utils.toArray(".hideHand")
+    const headParts = gsap.utils.toArray(".headParts");
+    const dickDrool = gsap.utils.toArray(".dickDrool");
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
     const tongue = document.getElementById("tongue");
-    const hairPullHand = document.getElementById("hairPullHandGrab");
-    const containerSize = document.getElementById("container").getBoundingClientRect().height
 
-    fadeIn(hairPullHand, hideHand, "#hairPullHand")
-    fadeIn(dickHandle, dickHand, dickHand)
 
     Draggable.create(dickHand, {
       trigger: "#dickHandGrab",
@@ -141,6 +155,7 @@ function App() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
+        console.log(this.bounds)
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
@@ -149,7 +164,9 @@ function App() {
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
         if (percent < 0.1) {
           var resistance = 0
+          setMouthOn(false)
         } else {
+          setMouthOn(true)
           var resistance = percent * 3
           valUp();
         }
@@ -159,7 +176,7 @@ function App() {
         minX: containerSize * -0.0055,
         maxX: containerSize * 0.0055,
         minY: containerSize * -0.07,
-        maxY: containerSize * 0.4
+        maxY: containerSize * 0.2
       },
       dragResistance: 0,
       zIndexBoost: false,
@@ -169,6 +186,99 @@ function App() {
     });
 
   }, [])
+
+  useEffect(() => {
+    // Update bounds for #hairPullHand Draggable when boyd or maxBoyd changes
+    const container = document.getElementById("container");
+    const draggable = Draggable.get("#hairPullHand");
+    if (container && draggable) {
+      const containerSize = container.getBoundingClientRect().height;
+      const bounds = containerSize * (0.2 + (boyd / maxBoyd * 0.2));
+      draggable.applyBounds({
+        minX: containerSize * -0.0055,
+        maxX: containerSize * 0.0055,
+        minY: containerSize * -0.07,
+        maxY: bounds
+      });
+    }
+  }, [boyd, maxBoyd]);
+
+  useEffect(() => {
+
+    var dickHandDraggable = Draggable.get("#dickHandGrab")
+    if (mouthOn) {
+      dickHandDraggable.disable()
+    } else {
+      dickHandDraggable.enable()
+    }
+    // Always set up hairPullHand hover listeners
+    const hairPullHandGrab = document.getElementById("hairPullHandGrab");
+    const hairPullHand = document.getElementById("hairPullHand");
+    const hideHand = gsap.utils.toArray(".hideHand");
+
+    let hairEnter, hairLeave, dickEnter, dickLeave, dickHandle, dickHand;
+
+    if (hairPullHandGrab && hideHand && hairPullHand) {
+      hairEnter = () => {
+        gsap.to(hideHand, { opacity: 1, duration: 0.2 });
+      };
+      hairLeave = () => {
+        if (Draggable.get(hairPullHand)?.isDragging) {
+          return;
+        } else {
+          gsap.to(hideHand, { opacity: 0, duration: 0.2 });
+        }
+      };
+      hairPullHandGrab.addEventListener("mouseenter", hairEnter);
+      hairPullHandGrab.addEventListener("mouseleave", hairLeave);
+    }
+
+    // Only set up dickHand hover listeners when mouthOn === false
+    dickHand = gsap.utils.toArray(".dickHandParts");
+    dickHandle = document.getElementById("dickHandGrab");
+
+    if (mouthOn === false && dickHandle && dickHand.length) {
+      dickHand.forEach((el) => {
+        el.style.display = "inline";
+      });
+      dickEnter = () => {
+        dickHand.forEach(el => el.classList.remove("opacity0"));
+        gsap.to(dickHand, { opacity: 1, duration: 0.2 });
+      };
+      dickLeave = () => {
+        if (Draggable.get(dickHandle)?.isDragging) {
+          return;
+        } else {
+          gsap.to(dickHand, {
+            opacity: 0,
+            duration: 0.2,
+            onComplete: () => {
+              dickHand.forEach(el => el.classList.add("opacity0"));
+            }
+          });
+        }
+      };
+      dickHandle.addEventListener("mouseenter", dickEnter);
+      dickHandle.addEventListener("mouseleave", dickLeave);
+    }
+
+    // Cleanup
+    return () => {
+      if (hairPullHandGrab) {
+        hairPullHandGrab.removeEventListener("mouseenter", hairEnter);
+        hairPullHandGrab.removeEventListener("mouseleave", hairLeave);
+      }
+      if (dickHandle) {
+        dickHandle.removeEventListener("mouseenter", dickEnter);
+        dickHandle.removeEventListener("mouseleave", dickLeave);
+      }
+    };
+
+
+
+  }, [mouthOn]);
+
+
 
   return (
     <div id='container'>

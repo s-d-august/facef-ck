@@ -50,7 +50,7 @@ const Mouth = () => (
                 strokeWidth="6.417"
                 d="m357.059 702.24 90.377 59.258 42.569-2.577 67.74-46.304-.966-61.066-27.783 10.04-1.774 45.056-37.427 13.742-17.385-7.947-15.437.035-17.919 7.983-45.09-24.785.946-41.332-36.544.28z"
             ></path>
-            <g id="tongueGroup" transform="translate(-1.999 -1.684)">
+            <g id="tongueGroup" transform="translate(1.313 -56.325)">
                 <path
                     id="tongue"
                     fill="url(#linearGradient30)"
@@ -64,6 +64,7 @@ const Mouth = () => (
                 ></path>
                 <path
                     id="tongueDroolTop"
+                    className="tongueDrool"
                     fill="#fff"
                     fillOpacity="1"
                     stroke="none"
@@ -75,6 +76,7 @@ const Mouth = () => (
                 ></path>
                 <path
                     id="tongueDroolBottom"
+                    className="tongueDrool"
                     fill="#fff"
                     fillOpacity="1"
                     stroke="none"
