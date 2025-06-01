@@ -1,12 +1,10 @@
 FEATURES
- - saliva appears on dick
  - face expression changes (morphSVG)
  - blush fades in
  - sweat drops appear and move down face
  - cum on face
  - cum in mouth
  - cum down throat
- - drool bound to top of dick
  - tongue
  - breathing
  - blinking

@@ -27,6 +27,12 @@ svg {
   display: block;
 }
 
+#tongueGroup {
+  pointer-events: all;
+  transform-origin: top;
+  transform: scaleY(0)
+}
+
 #container {
   position: relative;
   height: 100vh;
@@ -36,6 +42,7 @@ svg {
 
 .buffer {
   flex-grow: 2;
+  pointer-events: none;
 }
 
 .noInteract {

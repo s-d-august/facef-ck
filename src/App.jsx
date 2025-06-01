@@ -159,10 +159,15 @@ function App() {
   }
 
   useEffect(() => {
+    gsap.set("#tongueGroup", { scaleY: 0 });
+  }, []);
+
+  useEffect(() => {
     // Only set interval when mouthOn is true
     if (mouthOn) {
       droolIntervalRef.current = setInterval(showDrool, 10000);
     } else {
+      gsap.to("#tongueGroup", { scaleY: 0, duration: 3 })
       if (droolIntervalRef.current) {
         clearInterval(droolIntervalRef.current);
         droolIntervalRef.current = null;
@@ -179,6 +184,7 @@ function App() {
 
 
   useEffect(() => { // Lowers values gradually
+
     const interval = setInterval(valDown, 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
@@ -219,6 +225,7 @@ function App() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
+
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
@@ -226,12 +233,13 @@ function App() {
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
         if (percent < 0.1) { // Dick isn't in mouth
+          console.log(percent)
           var resistance = 0
           setMouthOn(false)
         } else { // Dick is in mouth
+          gsap.to("#tongueGroup", { scaleY: 1, duration: 1 })
           setMouthOn(true)
           var resistance = percent * 3
-
           valUp();
         }
         this.dragResistance = resistance
