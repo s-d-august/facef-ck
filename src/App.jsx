@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import Dick from './assets/dick'
 import HairPullHand from './assets/hair-pull-hand'
@@ -25,6 +25,8 @@ function App() {
   const [maxIves, setMaxIves] = useState(500)
   const [maxBoyd, setMaxBoyd] = useState(100)
   const [mouthOn, setMouthOn] = useState(false)
+  const [droolArray, setDroolArray] = useState([1, 2, 3, 4])
+  const droolIntervalRef = useRef(null);
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
@@ -123,29 +125,57 @@ function App() {
     };
   }
 
-  function showDrool({ drool, droolBottom, headBottom, defY }) {
-    // this.y is the current y position of the drag (applied to #headArea)
-    // Move headBottom by this.y
-    const currentHeadBottom = headBottom + (this?.y || 0);
 
-    // Show drool when drool's bottom is at or above the dragged head's bottom
-    if (droolBottom <= currentHeadBottom && drool.classList.contains("opacity0")) {
-      drool.classList.remove("opacity0"); // 
-      var defs = {
-        transformOrigin: "top center",
-        y: defY, // Moves the element down and offscreen
-        scaleY: (Math.random() + 1), // Stretches the element down between 100-200%
-        duration: defY / (Math.random() * 2 + 4) // Duration is the pixel value of y divided by between 4-6, in seconds
-      };
-      if (random()) {
-        gsap.set(drool, { scaleX: -1 }) // 50% chance of flipping element horizontally
-      }
-      gsap.to(drool, defs) // Element is moved
-        .set(drool, { y: 0 }); // When animation is completed, element is reset to origin
-      drool.classList.add("opacity0");
+  function showDrool() {
+    if (droolArray.length === 0) return
+
+    let index = Math.floor(Math.random() * droolArray.length); // Generates a random index for the array
+    let val = droolArray[index]; // Retrieves the value associated with the index
+    console.log(index)
+    console.log(droolArray)
+    let drool = document.getElementById(`dickDrool${val}`);
+    let defY = drool.getBoundingClientRect().top
+
+    droolArray.splice(index, 1) // Removes the selected element from the array
+
+
+    drool.classList.remove("opacity0"); // Makes element visible
+    var defs = {
+      transformOrigin: "top center",
+      y: defY, // Moves the element down and offscreen
+      scaleY: (Math.random() + 1), // Stretches the element down between 100-200%
+      duration: defY / (Math.random() * 2 + 4) // Duration is the pixel value of y divided by between 4-6, in seconds
     };
+    if (random()) {
+      gsap.set(drool, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
+    }
+    gsap.to(drool, defs) // Element is moved
+      .then(() => {
+        gsap.set(drool, { y: 0 }); // When animation is completed, element is reset to origin
+        drool.classList.add("opacity0");
+        droolArray.splice(0, 0, val) // Adds the element back to the array so it can be called again
+      })
+
   }
 
+  useEffect(() => {
+    // Only set interval when mouthOn is true
+    if (mouthOn) {
+      droolIntervalRef.current = setInterval(showDrool, 10000);
+    } else {
+      if (droolIntervalRef.current) {
+        clearInterval(droolIntervalRef.current);
+        droolIntervalRef.current = null;
+      }
+    }
+    // Cleanup on unmount or when mouthOn changes
+    return () => {
+      if (droolIntervalRef.current) {
+        clearInterval(droolIntervalRef.current);
+        droolIntervalRef.current = null;
+      }
+    };
+  }, [mouthOn]);
 
 
   useEffect(() => { // Lowers values gradually
@@ -163,7 +193,6 @@ function App() {
     const body = document.getElementById("body");
     const tongue = document.getElementById("tongue");
     const dickDroolValsArray = []
-
 
     dickDrool.forEach(function (el) {
       dickDroolValsArray.push(getDroolVals(el.id, "faceOpen"))
@@ -190,19 +219,19 @@ function App() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
-        dickDroolValsArray.forEach(showDrool, this)
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
-        if (percent < 0.1) {
+        if (percent < 0.1) { // Dick isn't in mouth
           var resistance = 0
           setMouthOn(false)
-        } else {
+        } else { // Dick is in mouth
           setMouthOn(true)
           var resistance = percent * 3
+
           valUp();
         }
         this.dragResistance = resistance
@@ -242,8 +271,10 @@ function App() {
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
     if (mouthOn) {
+
       dickHandDraggable.disable()
     } else {
+
       dickHandDraggable.enable()
     }
     // Always set up hairPullHand hover listeners
