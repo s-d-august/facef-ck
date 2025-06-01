@@ -1,0 +1,1 @@
+declare module '@jmeirinkmarimed/age-gate';

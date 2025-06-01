@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Benguiat";
+  src: url("./assets/benguiat.woff");
+}
+
 body {
   background-color: #93ac93;
 }
@@ -8,6 +13,14 @@ svg {
   max-width: 100vw;
   pointer-events: none;
   bottom: 0;
+}
+
+#age-gate-header {
+  letter-spacing: 0.5px !important
+}
+
+#age-gate-yes-no {
+  font-family: serif !important
 }
 
 #body {

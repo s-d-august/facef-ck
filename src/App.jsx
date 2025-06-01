@@ -13,6 +13,9 @@ import { CustomWiggle } from 'gsap/all'
 import { Observer } from 'gsap/all'
 import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
+import { AgeGate } from '@jmeirinkmarimed/age-gate'
+import icon from './assets/icon.png';
+
 
 
 function App() {
@@ -24,6 +27,12 @@ function App() {
   const [mouthOn, setMouthOn] = useState(false)
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
+
+  function random() {
+    if (Math.random() > 0.5) {
+      return true
+    } else return false
+  }
 
   function valUp() {
     setIves((prevIves) => {
@@ -102,39 +111,49 @@ function App() {
   }
 
   function getDroolVals(id, overlapId) {
-    var head = document.getElementById(overlapId)
-    var drool = document.getElementById(id)
-    var droolArea = drool.getBoundingClientRect()
-    var headVal = head.getBoundingClientRect().bottom
-    console.log(droolArea)
-    console.log(head.getBoundingClientRect())
+    const head = document.getElementById(overlapId);
+    const drool = document.getElementById(id);
+    const droolRect = drool.getBoundingClientRect();
+    const headRect = head.getBoundingClientRect();
     return {
-      drool: drool,
-      overlapY: (droolArea.bottom + (droolArea.height * 1.5) - headVal),
-      defY: droolArea.top
-    }
+      drool,
+      droolBottom: droolRect.bottom,
+      headBottom: headRect.bottom,
+      defY: droolRect.top
+    };
   }
 
-  function showDrool({ drool, overlapY, defY }) {
-    console.log(overlapY)
-    console.log(this.y)
-    if ((this.y) >= overlapY && drool.classList.contains("opacity0")) {
-      drool.classList.remove("opacity0")
-      gsap.to(drool, { y: defY, duration: defY })
-        .then(() => {
-          gsap.set(drool, { y: defY * -1 })
-          drool.classList.add("opacity0")
-        })
-    }
+  function showDrool({ drool, droolBottom, headBottom, defY }) {
+    // this.y is the current y position of the drag (applied to #headArea)
+    // Move headBottom by this.y
+    const currentHeadBottom = headBottom + (this?.y || 0);
+
+    // Show drool when drool's bottom is at or above the dragged head's bottom
+    if (droolBottom <= currentHeadBottom && drool.classList.contains("opacity0")) {
+      drool.classList.remove("opacity0"); // 
+      var defs = {
+        transformOrigin: "top center",
+        y: defY, // Moves the element down and offscreen
+        scaleY: (Math.random() + 1), // Stretches the element down between 100-200%
+        duration: defY / (Math.random() * 2 + 4) // Duration is the pixel value of y divided by between 4-6, in seconds
+      };
+      if (random()) {
+        gsap.set(drool, { scaleX: -1 }) // 50% chance of flipping element horizontally
+      }
+      gsap.to(drool, defs) // Element is moved
+        .set(drool, { y: 0 }); // When animation is completed, element is reset to origin
+      drool.classList.add("opacity0");
+    };
   }
 
 
-  useEffect(() => {
+
+  useEffect(() => { // Lowers values gradually
     const interval = setInterval(valDown, 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // Sets up draggables
     const containerSize = document.getElementById("container").getBoundingClientRect().height
     const dickHand = gsap.utils.toArray(".dickHandParts")
     const hideHand = gsap.utils.toArray(".hideHand")
@@ -147,7 +166,7 @@ function App() {
 
 
     dickDrool.forEach(function (el) {
-      dickDroolValsArray.push(getDroolVals(el.id, "headArea"))
+      dickDroolValsArray.push(getDroolVals(el.id, "faceOpen"))
     })
 
     Draggable.create(dickHand, {
@@ -203,8 +222,8 @@ function App() {
 
   }, [])
 
-  useEffect(() => {
-    // Update bounds for #hairPullHand Draggable when boyd or maxBoyd changes
+  useEffect(() => {    // Update bounds for #hairPullHand Draggable when boyd or maxBoyd changes
+
     const container = document.getElementById("container");
     const draggable = Draggable.get("#hairPullHand");
     if (container && draggable) {
@@ -219,7 +238,7 @@ function App() {
     }
   }, [boyd, maxBoyd]);
 
-  useEffect(() => {
+  useEffect(() => { // Sets up opacity listeners for draggables & deactivates JOHand when mouthOn
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
     if (mouthOn) {
@@ -298,6 +317,20 @@ function App() {
 
   return (
     <div id='container'>
+      <AgeGate
+        minAge={18}
+        confirmationType="yesNo"
+        headerText="This page contains sexually explicit content!"
+        subHeaderText="Are you over 18 and okay with seeing that?"
+        logo={icon}
+        logoWidth="200px"
+        backgroundColor="#000000"
+        textColor="#ffffff"
+        buttonColor="#ffffff"
+        buttonTextColor="#000000"
+        buttonHoverColor="#e6e6e6"
+        fontFamily="Benguiat"
+      />
       <Outputs
         boyd={boyd}
         ives={ives}
