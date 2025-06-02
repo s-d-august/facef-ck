@@ -28,6 +28,7 @@ function App() {
   const [mouthOn, setMouthOn] = useState(false)
   const [droolArray, setDroolArray] = useState([1, 2, 3, 4])
   const droolIntervalRef = useRef(null);
+  const mouthGroupIntervalRef = useRef(null);
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
@@ -167,11 +168,20 @@ function App() {
     // Only set interval when mouthOn is true
     if (mouthOn) {
       droolIntervalRef.current = setInterval(showDrool, 10000);
+      if (mouthGroupIntervalRef.current) {
+        clearInterval(mouthGroupIntervalRef.current);
+        mouthGroupIntervalRef.current = null;
+      }
     } else {
       gsap.to("#tongueGroup", { scaleY: 0, duration: 3 })
       if (droolIntervalRef.current) {
         clearInterval(droolIntervalRef.current);
         droolIntervalRef.current = null;
+      }
+      if (!mouthGroupIntervalRef.current) {
+        mouthGroupIntervalRef.current = setInterval(() => {
+          gsap.to("#mouthGroup", { y: 0, duration: 3 });
+        }, 1500);
       }
     }
     // Cleanup on unmount or when mouthOn changes
@@ -179,6 +189,10 @@ function App() {
       if (droolIntervalRef.current) {
         clearInterval(droolIntervalRef.current);
         droolIntervalRef.current = null;
+      }
+      if (mouthGroupIntervalRef.current) {
+        clearInterval(mouthGroupIntervalRef.current);
+        mouthGroupIntervalRef.current = null;
       }
     };
   }, [mouthOn]);
@@ -224,11 +238,27 @@ function App() {
       edgeResistance: 0.9,
       onDrag: valUp
     })
+    let mouthOriginalY = 0; // Will be set on drag start
 
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
-
+      onPress: function () {
+        // Store the original y (parseFloat or 0 if not set)
+        const mouth = document.getElementById("mouthGroup");
+        const current = gsap.getProperty(mouth, "y");
+        mouthOriginalY = typeof current === "number" ? current : 0;
+      },
       onDrag: function () {
+        const minY = this.vars.bounds.minY;
+        const maxY = this.vars.bounds.maxY;
+        const progress = (this.y - minY) / ((maxY * 0.5) - minY);
+
+        // Clamp progress between 0 and 1
+        const clamped = Math.max(0, Math.min(1, progress));
+
+        // Set mouthSvg y to original + up to 50px extra
+        const mouth = document.getElementById("mouthGroup");
+        gsap.to(mouth, { y: mouthOriginalY + clamped * 10, duration: 0.2 });
 
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
