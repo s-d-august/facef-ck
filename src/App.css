@@ -15,6 +15,7 @@ svg {
   bottom: 0;
 }
 
+
 #age-gate-header {
   letter-spacing: 0.5px !important
 }
@@ -31,6 +32,30 @@ svg {
   pointer-events: all;
   transform-origin: top;
   transform: scaleY(0)
+}
+
+#headElements {
+  position: absolute
+}
+
+#head {
+  z-index: 5;
+}
+
+#dick {
+  z-index: 4;
+}
+
+#mouthGroup {
+  z-index: 3;
+}
+
+#hairPullHand {
+  z-index: 6
+}
+
+#hairPullBeadsSvg {
+  z-index: 7
 }
 
 #container {

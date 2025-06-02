@@ -5,6 +5,7 @@ import HairPullHand from './assets/hair-pull-hand'
 import Body from './assets/body'
 import Mouth from './assets/mouth'
 import Head from './assets/head'
+import HeadFull from './assets/head-full'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
@@ -197,6 +198,8 @@ function App() {
     const dickDrool = gsap.utils.toArray(".dickDrool");
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("body");
+    const headFull = document.getElementById("headFull");
+    const head = document.getElementById("head")
     const tongue = document.getElementById("tongue");
     const dickDroolValsArray = []
 
@@ -232,8 +235,6 @@ function App() {
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
-        console.log(dickRect)
-        console.log(headRect)
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
         if (percent < 0.1) { // Dick isn't in mouth
           var resistance = 0
@@ -380,7 +381,7 @@ function App() {
       <div className='buffer'></div>
       <div id='positioning'>
         <Body />
-        <Mouth />
+        <HeadFull />
         <Dick />
         <Head />
         <HairPullHand />

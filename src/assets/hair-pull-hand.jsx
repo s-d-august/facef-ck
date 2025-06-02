@@ -61,12 +61,13 @@ const HairPullHand = () => (
                 ></path>
             </g>
         </svg>
-        <div className="noInteract hideHand opacity0" id="hairPullBeads">
+        <div className="noInteract hideHand opacity0" id="hairPullBeadsDiv">
             {beadPaths.map((d, i) => (
                 <svg
                     key={i}
                     viewBox="0 0 987.679 1234.713"
                     className="hairPullBeads hideHand opacity0"
+                    id="hairPullBeadsSvg"
                 >
                     <path
                         fill="#2b1100"
