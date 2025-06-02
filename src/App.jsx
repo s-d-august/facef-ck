@@ -224,6 +224,7 @@ function App() {
 
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
+
       onDrag: function () {
 
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
@@ -231,9 +232,10 @@ function App() {
         updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
+        console.log(dickRect)
+        console.log(headRect)
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
         if (percent < 0.1) { // Dick isn't in mouth
-          console.log(percent)
           var resistance = 0
           setMouthOn(false)
         } else { // Dick is in mouth
