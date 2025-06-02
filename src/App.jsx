@@ -15,7 +15,7 @@ import { Observer } from 'gsap/all'
 import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
-import icon from './assets/icon.png';
+import icon from './assets/cover.png';
 
 
 
@@ -84,17 +84,7 @@ function App() {
     return areaA ? (overlapArea / areaA) : 0; // percent of A overlapped by B
   }
 
-  function fadeIn(hoverArea, fullArea, dragElement) {
-    hoverArea.addEventListener("mouseenter", () => {
-      gsap.to(fullArea, { opacity: 1, duration: 0.2 })
-    });
-    hoverArea.addEventListener("mouseleave", () => {
-      if (Draggable.get(dragElement).isDragging) {
-        return
-      } else
-        gsap.to(fullArea, { opacity: 0, duration: 0.2 })
-    });
-  }
+
 
   function valDown() {
     setBoyd((prevBoyd) => {
@@ -164,7 +154,7 @@ function App() {
     gsap.set("#tongueGroup", { scaleY: 0 });
   }, []);
 
-  useEffect(() => {
+  useEffect(() => { // Elements that change based on mouthOn
     // Only set interval when mouthOn is true
     if (mouthOn) {
       droolIntervalRef.current = setInterval(showDrool, 10000);
@@ -395,14 +385,15 @@ function App() {
         headerText="This page contains sexually explicit content!"
         subHeaderText="Are you over 18 and okay with seeing that?"
         logo={icon}
-        logoWidth="200px"
+        logoWidth='250px'
         backgroundColor="#000000"
         textColor="#ffffff"
         buttonColor="#ffffff"
         buttonTextColor="#000000"
         buttonHoverColor="#e6e6e6"
         fontFamily="Benguiat"
-      />
+      >
+      </AgeGate>
       <Outputs
         boyd={boyd}
         ives={ives}

@@ -15,13 +15,13 @@ svg {
   bottom: 0;
 }
 
-
-#age-gate-header {
-  letter-spacing: 0.5px !important
+#age-gate-header,
+#age-gate-subheader {
+  letter-spacing: 0.5px !important;
 }
 
 #age-gate-yes-no {
-  font-family: serif !important
+  font-family: serif !important;
 }
 
 #body {
@@ -36,18 +36,6 @@ svg {
 
 #headElements {
   position: absolute
-}
-
-#head {
-  z-index: 5;
-}
-
-#dick {
-  z-index: 4;
-}
-
-#mouthGroup {
-  z-index: 3;
 }
 
 #hairPullHand {
