@@ -185,20 +185,20 @@ function App() {
 
     var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
 
-    if (prevDuration !== (breathCycleDuration + "s")) {
-      document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
-    } else return
-
     const blush = document.getElementById("blush")
     renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
 
-    sweatIntervalRef.current = setInterval(() => randomizeArray(sweatArray, "sweat", "faceArea"), 15000);
+    sweatIntervalRef.current = setInterval(() => randomizeArray(sweatArray, "sweat", "faceArea"), 10000);
 
     return () => {
       if (sweatIntervalRef.current) {
         clearInterval(sweatIntervalRef.current);
         sweatIntervalRef.current = null;
       }
+
+      if (prevDuration !== (breathCycleDuration + "s")) {
+        document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
+      } else return
     };
   }, [arousal["boyd"]]);
 
