@@ -143,6 +143,14 @@ const Head = () => (
         </defs>
         <g id="headArea" opacity="1" transform="translate(-16.217 -15.665)">
             <path
+                id="faceArea"
+                opacity="0"
+                fill="#fff"
+                stroke="none"
+                strokeWidth="2.835"
+                d="m557.138 708.792-196.699-15.22-104.203-103.033-8.196-314.951 407.447-1.17 4.683 348.904z"
+            ></path>
+            <path
                 id="eyesBack"
                 fill="#e9c6af"
                 fillOpacity="1"
@@ -588,131 +596,187 @@ const Head = () => (
                     opacity="1"
                 ></path>
             </g>
-            <g id="sweatGroup">
+            <g
+                id="sweatGroup"
+                fill="#fff"
+                fillOpacity="0.5"
+                stroke="#fff"
+                strokeDasharray="none"
+                strokeLinecap="round"
+                strokeWidth="2"
+            >
                 <path
-                    id="sweat3"
+                    id="sweat1"
                     className="sweat"
-                    fill="#fff"
-                    fillOpacity="1"
-                    stroke="#fff"
-                    strokeDasharray="none"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    d="M586.362 354.972c-.577 30.383-6.713 38.234-3.516 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.615-12.895-2.53-43.944z"
+                    d="M437.341 225.82c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.555 4.567 2.218 6.048.504 4.452-5.153-3.615-12.895-2.531-43.944z"
                     opacity="1"
                 ></path>
                 <path
                     id="sweat2"
                     className="sweat"
-                    fill="#fff"
-                    fillOpacity="1"
-                    stroke="#fff"
-                    strokeDasharray="none"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    d="M304.878 335.93c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.152-3.614-12.895-2.53-43.944z"
+                    d="M296.185 262.661c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.556 4.566 2.218 6.047.504 4.452-5.152-3.614-12.895-2.53-43.944z"
                     opacity="1"
                 ></path>
                 <path
-                    id="sweat1"
+                    id="sweat3"
                     className="sweat"
-                    fill="#fff"
-                    fillOpacity="1"
-                    stroke="#fff"
-                    strokeDasharray="none"
-                    strokeLinecap="round"
-                    strokeWidth="2"
-                    d="M631.897 581.816c-.578 30.382-6.714 38.234-3.517 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.614-12.895-2.53-43.944z"
+                    d="M270.934 274.666c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.614-12.895-2.53-43.944z"
                     opacity="1"
                 ></path>
-                <g
-                    id="blush"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeDasharray="none"
-                    strokeLinecap="round"
-                    display="inline"
-                    opacity="1"
-                >
-                    <ellipse
-                        id="blushMiddle"
-                        className="blush"
-                        cx="462.892"
-                        cy="538.056"
-                        fill="url(#radialGradient60)"
-                        strokeWidth="5.606"
-                        rx="104.315"
-                        ry="33.53"
-                    ></ellipse>
-                    <ellipse
-                        id="blushLeft"
-                        className="blush"
-                        cx="225.841"
-                        cy="607.602"
-                        fill="url(#radialGradient59)"
-                        strokeWidth="4.126"
-                        opacity="1"
-                        rx="65.404"
-                        ry="28.976"
-                        transform="rotate(-10.855)"
-                    ></ellipse>
-                    <ellipse
-                        id="blushRight"
-                        className="blush"
-                        cx="667.536"
-                        cy="450.123"
-                        fill="url(#radialGradient58)"
-                        strokeWidth="4.126"
-                        opacity="1"
-                        rx="65.404"
-                        ry="28.976"
-                        transform="rotate(9.063)"
-                    ></ellipse>
-                </g>
-                <ellipse
-                    id="tearRight"
-                    className="tear"
-                    cx="616.029"
-                    cy="493.776"
-                    fill="#acf"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeDasharray="none"
-                    strokeLinecap="round"
-                    strokeWidth="3"
-                    display="inline"
-                    opacity="1"
-                    rx="16.972"
-                    ry="7.037"
-                ></ellipse>
-                <ellipse
-                    id="tearLeft"
-                    className="tear"
-                    cx="300.6"
-                    cy="502.883"
-                    fill="#acf"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeDasharray="none"
-                    strokeLinecap="round"
-                    strokeWidth="3"
-                    display="inline"
-                    opacity="1"
-                    rx="16.972"
-                    ry="7.037"
-                ></ellipse>
                 <path
-                    id="faceCum"
-                    className="opacity0"
-                    fill="#fff"
-                    strokeWidth="1.377"
-                    d="M447.202 434.529c-1.56 6.022-.7 15.802 3.028 34.428 3.614 18.062 3.796 21.146 1.687 28.52-1.944 6.796-1.554 11.599 1.895 23.382 4.83 16.499 9.613 25.407 18.467 34.396 8.248 8.375 10.56 12.448 15.782 27.817 8.064 23.73 10.4 29.458 18.797 46.064 10.517 20.805 15.755 23.005 12.931 5.435-1.963-12.21-.899-14.147 5.64-10.263 10.113 6.005 10.405-6.133.627-26.08-8.713-17.772-6.826-21.9 5.114-11.184 10.4 9.335 14.9 9.025 14.343-.987-.681-12.26-8.979-26.236-18.477-31.122-16.26-8.368-23.177-20.502-24.65-43.249-1.215-18.753-2.086-24.314-5.226-33.335-3.702-10.632-7.559-15.91-12.996-17.78-3.926-1.35-5.11-2.7-9.514-10.858-3.802-7.043-6.16-9.983-9.286-11.572-1.187-.605-4.383-2.697-7.102-4.652-6.907-4.963-9.57-4.714-11.06 1.04"
-                    display="inline"
-                    opacity="0.843"
+                    id="sweat4"
+                    className="sweat"
+                    d="M323.92 257.28c-.578 30.383-6.714 38.234-3.517 43.44 1.569 2.555 4.566 2.218 6.047.504 4.452-5.153-3.615-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat6"
+                    className="sweat"
+                    d="M378.56 242.378c-.577 30.383-6.713 38.234-3.516 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.615-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat7"
+                    className="sweat"
+                    d="M350.412 249.001c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.555 4.567 2.218 6.047.504 4.453-5.153-3.614-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat5"
+                    className="sweat"
+                    d="M406.709 230.787c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.152-3.614-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat8"
+                    className="sweat"
+                    d="M465.49 228.304c-.578 30.383-6.714 38.234-3.517 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.614-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat9"
+                    className="sweat"
+                    d="M493.638 229.132c-.578 30.382-6.714 38.234-3.517 43.44 1.57 2.555 4.567 2.218 6.048.504 4.452-5.153-3.615-12.895-2.531-43.945z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat10"
+                    className="sweat"
+                    d="M523.442 231.615c-.577 30.383-6.713 38.234-3.516 43.44 1.569 2.555 4.566 2.218 6.047.504 4.452-5.152-3.615-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat11"
+                    className="sweat"
+                    d="M551.59 233.271c-.577 30.383-6.713 38.234-3.516 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.614-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat12"
+                    className="sweat"
+                    d="M581.395 236.583c-.577 30.382-6.714 38.234-3.517 43.44 1.57 2.555 4.567 2.218 6.048.504 4.452-5.153-3.615-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat14"
+                    className="sweat"
+                    d="M610.371 240.722c-.577 30.383-6.713 38.234-3.516 43.44 1.57 2.555 4.566 2.218 6.047.504 4.452-5.153-3.614-12.895-2.53-43.944z"
+                    opacity="1"
+                ></path>
+                <path
+                    id="sweat13"
+                    className="sweat"
+                    d="M636.036 244.034c-.577 30.383-6.713 38.234-3.516 43.44 1.569 2.555 4.566 2.218 6.047.504 4.452-5.153-3.615-12.895-2.53-43.944z"
+                    opacity="1"
                 ></path>
             </g>
+            <g
+                id="blush"
+                fillOpacity="1"
+                stroke="none"
+                strokeDasharray="none"
+                strokeLinecap="round"
+                display="inline"
+                opacity="1"
+            >
+                <ellipse
+                    id="blushMiddle"
+                    className="blush"
+                    cx="462.892"
+                    cy="538.056"
+                    fill="url(#radialGradient60)"
+                    strokeWidth="5.606"
+                    rx="104.315"
+                    ry="33.53"
+                ></ellipse>
+                <ellipse
+                    id="blushLeft"
+                    className="blush"
+                    cx="225.841"
+                    cy="607.602"
+                    fill="url(#radialGradient59)"
+                    strokeWidth="4.126"
+                    opacity="1"
+                    rx="65.404"
+                    ry="28.976"
+                    transform="rotate(-10.855)"
+                ></ellipse>
+                <ellipse
+                    id="blushRight"
+                    className="blush"
+                    cx="667.536"
+                    cy="450.123"
+                    fill="url(#radialGradient58)"
+                    strokeWidth="4.126"
+                    opacity="1"
+                    rx="65.404"
+                    ry="28.976"
+                    transform="rotate(9.063)"
+                ></ellipse>
+            </g>
+            <ellipse
+                id="tearRight"
+                className="tear"
+                cx="616.029"
+                cy="493.776"
+                fill="#acf"
+                fillOpacity="1"
+                stroke="none"
+                strokeDasharray="none"
+                strokeLinecap="round"
+                strokeWidth="3"
+                display="inline"
+                opacity="1"
+                rx="16.972"
+                ry="7.037"
+            ></ellipse>
+            <ellipse
+                id="tearLeft"
+                className="tear"
+                cx="300.6"
+                cy="502.883"
+                fill="#acf"
+                fillOpacity="1"
+                stroke="none"
+                strokeDasharray="none"
+                strokeLinecap="round"
+                strokeWidth="3"
+                display="inline"
+                opacity="1"
+                rx="16.972"
+                ry="7.037"
+            ></ellipse>
+            <path
+                id="faceCum"
+                className="opacity0"
+                fill="#fff"
+                strokeWidth="1.377"
+                d="M447.202 434.529c-1.56 6.022-.7 15.802 3.028 34.428 3.614 18.062 3.796 21.146 1.687 28.52-1.944 6.796-1.554 11.599 1.895 23.382 4.83 16.499 9.613 25.407 18.467 34.396 8.248 8.375 10.56 12.448 15.782 27.817 8.064 23.73 10.4 29.458 18.797 46.064 10.517 20.805 15.755 23.005 12.931 5.435-1.963-12.21-.899-14.147 5.64-10.263 10.113 6.005 10.405-6.133.627-26.08-8.713-17.772-6.826-21.9 5.114-11.184 10.4 9.335 14.9 9.025 14.343-.987-.681-12.26-8.979-26.236-18.477-31.122-16.26-8.368-23.177-20.502-24.65-43.249-1.215-18.753-2.086-24.314-5.226-33.335-3.702-10.632-7.559-15.91-12.996-17.78-3.926-1.35-5.11-2.7-9.514-10.858-3.802-7.043-6.16-9.983-9.286-11.572-1.187-.605-4.383-2.697-7.102-4.652-6.907-4.963-9.57-4.714-11.06 1.04"
+                display="inline"
+                opacity="0.843"
+            ></path>
         </g>
-    </svg>
+    </svg >
 );
 
 export default Head;

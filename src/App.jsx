@@ -23,7 +23,10 @@ import { getOverlapPercent, updateFollowers, random } from './functions'
 function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
+  const [approach, setApproach] = useState(false)
   const [droolArray, setDroolArray] = useState([1, 2, 3, 4])
+  const [sweatArray, setSweatArray] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
+  const [headDownPercent, setHeadDownPercent] = useState(0)
   const droolIntervalRef = useRef(null);
   const mouthGroupIntervalRef = useRef(null);
   const [arousal, setArousal] = useState({
@@ -36,8 +39,6 @@ function App() {
   })
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
-
-
 
   function valChange(ids, upDown) {
     if (!Array.isArray(ids)) {
@@ -63,20 +64,19 @@ function App() {
   }
 
 
-  function showDrool() {
-    if (droolArray.length === 0) return
+  function randomizeArray(array, idString, bounds) {
+    if (array.length === 0) return
 
-    let index = Math.floor(Math.random() * droolArray.length); // Generates a random index for the array
-    let val = droolArray[index]; // Retrieves the value associated with the index
-    console.log(index)
-    console.log(droolArray)
-    let drool = document.getElementById(`dickDrool${val}`);
-    let defY = drool.getBoundingClientRect().top
+    let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
+    let val = array[index]; // Retrieves the value associated with the index
+    let element = document.getElementById(idString + val);
+    var boundsArea = !bounds ? element : bounds
+    let defY = boundsArea.getBoundingClientRect().top
 
-    droolArray.splice(index, 1) // Removes the selected element from the array
+    array.splice(index, 1) // Removes the selected element from the array
 
 
-    drool.classList.remove("opacity0"); // Makes element visible
+    element.classList.remove("opacity0"); // Makes element visible
     var defs = {
       transformOrigin: "top center",
       y: defY, // Moves the element down and offscreen
@@ -84,13 +84,13 @@ function App() {
       duration: defY / (Math.random() * 2 + 4) // Duration is the pixel value of y divided by between 4-6, in seconds
     };
     if (random()) {
-      gsap.set(drool, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
+      gsap.set(element, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
     }
-    gsap.to(drool, defs) // Element is moved
+    gsap.to(element, defs) // Element is moved
       .then(() => {
-        gsap.set(drool, { y: 0 }); // When animation is completed, element is reset to origin
-        drool.classList.add("opacity0");
-        droolArray.splice(0, 0, val) // Adds the element back to the array so it can be called again
+        gsap.set(element, { y: 0 }); // When animation is completed, element is reset to origin
+        element.classList.add("opacity0");
+        array.splice(0, 0, val) // Adds the element back to the array so it can be called again
       })
 
   }
@@ -102,40 +102,40 @@ function App() {
   useEffect(() => { // Elements that change based on mouthOn
     // Only set interval when mouthOn is true
     if (mouthOn) {
-      droolIntervalRef.current = setInterval(showDrool, 10000);
-      if (mouthGroupIntervalRef.current) {
-        clearInterval(mouthGroupIntervalRef.current);
-        mouthGroupIntervalRef.current = null;
-      }
-    } else {
-      gsap.to("#tongueGroup", { scaleY: 0, duration: 3 })
+      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 10000);
+    }
+    else {
       if (droolIntervalRef.current) {
         clearInterval(droolIntervalRef.current);
         droolIntervalRef.current = null;
       }
-      if (!mouthGroupIntervalRef.current) {
-        mouthGroupIntervalRef.current = setInterval(() => {
-          gsap.to("#mouthGroup", { y: 0, duration: 3 });
-        }, 1500);
-      }
     }
+
     // Cleanup on unmount or when mouthOn changes
     return () => {
       if (droolIntervalRef.current) {
         clearInterval(droolIntervalRef.current);
         droolIntervalRef.current = null;
       }
-      if (mouthGroupIntervalRef.current) {
-        clearInterval(mouthGroupIntervalRef.current);
-        mouthGroupIntervalRef.current = null;
-      }
     };
   }, [mouthOn]);
 
+  useEffect(() => { // Elements that change based on approach state
+    const containerSize = document.getElementById("container").getBoundingClientRect().height
 
-  useEffect(() => { // Lowers values gradually
+    if (approach) {
+      gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1 })
+      gsap.to("#tongueGroup", { scaleY: 1, duration: 1 })
+    } else {
+      gsap.to("#mouthGroup", { y: 0, duration: 2 })
+      gsap.to("#tongueGroup", { scaleY: 0, duration: 2 })
+    }
+    console.log('approach changed:', approach);
+  }, [approach])
 
-    const interval = setInterval(valChange(["boyd", "ives"], "down"), 500);
+
+  useEffect(() => {
+    const interval = setInterval(() => valChange(["boyd", "ives"], "down"), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -201,11 +201,15 @@ function App() {
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
-        if (percent < 0.1) { // Dick isn't in mouth
+        console.log(percent)
+
+        if (percent <= 0.05) {
+          setApproach(false)
+        } else if (percent > 0.05) setApproach(true)
+        if (percent <= 0.1) { // Dick isn't in mouth
           var resistance = 0
           setMouthOn(false)
         } else { // Dick is in mouth
-          gsap.to("#tongueGroup", { scaleY: 1, duration: 1 })
           setMouthOn(true)
           var resistance = percent * 3
           valChange(["boyd", "ives"], "up");
@@ -224,8 +228,11 @@ function App() {
         gsap.to(hideHand, { opacity: 0, duration: 0.2 })
       }
     });
-
   }, [])
+
+  useEffect(() => {
+    console.log(headDownPercent)
+  }, [headDownPercent])
 
   useEffect(() => {    // Update bounds for #hairPullHand Draggable when boyd or maxBoyd changes
 
