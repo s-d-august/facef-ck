@@ -16,105 +16,50 @@ import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 import icon from './assets/cover.png';
+import { getOverlapPercent, updateFollowers, random } from './functions'
 
 
 
 function App() {
 
-  const [ives, setIves] = useState(0)
-  const [boyd, setBoyd] = useState(0)
-  const [maxIves, setMaxIves] = useState(500)
-  const [maxBoyd, setMaxBoyd] = useState(100)
   const [mouthOn, setMouthOn] = useState(false)
   const [droolArray, setDroolArray] = useState([1, 2, 3, 4])
   const droolIntervalRef = useRef(null);
   const mouthGroupIntervalRef = useRef(null);
+  const [arousal, setArousal] = useState({
+    "ives": 0,
+    "boyd": 0,
+  })
+  const [maxArousal, setmaxArousal] = useState({
+    "ives": 500,
+    "boyd": 100,
+  })
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
-  function random() {
-    if (Math.random() > 0.5) {
-      return true
-    } else return false
-  }
 
-  function valUp() {
-    setIves((prevIves) => {
-      const newIves = prevIves + 1;
-      if (newIves > maxIves) {
-        return 0; // Do not increment further if max is reached
-      }
-      return newIves; // Increment Ives
-    });
-    setBoyd((prevBoyd) => {
-      const newBoyd = prevBoyd + 1;
-      if (newBoyd > maxBoyd) {
-        return prevBoyd; // Do not increment further if max is reached
-      }
-      return newBoyd; // Increment Boyd
-    });
-  };
 
-  function updateFollowers(itemsArray, ease, init, increase) {
-
-    function follower(target, duration, ease) {
-      let xTo = gsap.quickTo(target, "x", { duration: duration, ease: ease }),
-        yTo = gsap.quickTo(target, "y", { duration: duration, ease: ease });
-      return (x, y) => { xTo(x); yTo(y) };
+  function valChange(ids, upDown) {
+    if (!Array.isArray(ids)) {
+      ids = [ids];
     }
-
-    const followers = itemsArray.map(
-      (el, i) => follower(el, init + i * increase, ease)
-    );
-
-    followers.forEach(f => f(this.x, this.y));
-  }
-
-  function getOverlapPercent(rectA, rectB) {
-    const x_overlap = Math.max(
-      0,
-      Math.min(rectA.right, rectB.right) - Math.max(rectA.left, rectB.left)
-    );
-    const y_overlap = Math.max(
-      0,
-      Math.min(rectA.bottom, rectB.bottom) - Math.max(rectA.top, rectB.top)
-    );
-    const overlapArea = x_overlap * y_overlap;
-    const areaA = (rectA.right - rectA.left) * (rectA.bottom - rectA.top);
-    return areaA ? (overlapArea / areaA) : 0; // percent of A overlapped by B
-  }
-
-
-
-  function valDown() {
-    setBoyd((prevBoyd) => {
-      const newBoyd = prevBoyd - 1;
-      if (newBoyd < 0) {
-        return 0; // Do not decrement below 0
-      }
-      return newBoyd;
+    ids.forEach((key) => {
+      setArousal((prev) => {
+        const newVal = upDown === "up" ? prev[key] + 1 : prev[key] - 1;
+        if (upDown === "up") {
+          if (newVal > maxArousal[key]) {
+            return { ...prev, [key]: prev[key] };
+          }
+          return { ...prev, [key]: newVal };
+        } else if (upDown === "down") {
+          if (newVal < 0) {
+            return { ...prev, [key]: 0 };
+          }
+          return { ...prev, [key]: newVal };
+        }
+        return prev;
+      });
     });
-
-    setIves((prevIves) => {
-      const newIves = prevIves - 1;
-      if (newIves < 0) {
-        return 0; // Do not decrement below 0
-      }
-      return newIves;
-    });
-  }
-
-  function getDroolVals(id, overlapId) {
-    const head = document.getElementById(overlapId);
-    const drool = document.getElementById(id);
-    const droolRect = drool.getBoundingClientRect();
-    const headRect = head.getBoundingClientRect();
-    return {
-      drool,
-      droolBottom: droolRect.bottom,
-      headBottom: headRect.bottom,
-      defY: droolRect.top
-    };
   }
 
 
@@ -190,7 +135,7 @@ function App() {
 
   useEffect(() => { // Lowers values gradually
 
-    const interval = setInterval(valDown, 500);
+    const interval = setInterval(valChange(["boyd", "ives"], "down"), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -226,33 +171,33 @@ function App() {
         }
       },
       edgeResistance: 0.9,
-      onDrag: valUp
+      onDrag: valChange(["ives", "boyd"], "up")
     })
     let mouthOriginalY = 0; // Will be set on drag start
 
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
-      onPress: function () {
-        // Store the original y (parseFloat or 0 if not set)
-        const mouth = document.getElementById("mouthGroup");
-        const current = gsap.getProperty(mouth, "y");
-        mouthOriginalY = typeof current === "number" ? current : 0;
-      },
+      // onPress: function () {
+      //   // Store the original y (parseFloat or 0 if not set)
+      //   const mouth = document.getElementById("mouthGroup");
+      //   const current = gsap.getProperty(mouth, "y");
+      //   mouthOriginalY = typeof current === "number" ? current : 0;
+      // },
       onDrag: function () {
-        const minY = this.vars.bounds.minY;
-        const maxY = this.vars.bounds.maxY;
-        const progress = (this.y - minY) / ((maxY * 0.5) - minY);
+        // const minY = this.vars.bounds.minY;
+        // const maxY = this.vars.bounds.maxY;
+        // const progress = (this.y - minY) / ((maxY * 0.5) - minY);
 
-        // Clamp progress between 0 and 1
-        const clamped = Math.max(0, Math.min(1, progress));
+        // // Clamp progress between 0 and 1
+        // const clamped = Math.max(0, Math.min(1, progress));
 
-        // Set mouthSvg y to original + up to 50px extra
-        const mouth = document.getElementById("mouthGroup");
-        gsap.to(mouth, { y: mouthOriginalY + clamped * 10, duration: 0.2 });
+        // // Set mouthSvg y to original + up to 50px extra
+        // const mouth = document.getElementById("mouthGroup");
+        // gsap.to(mouth, { y: mouthOriginalY + clamped * 9, duration: 0.2 });
 
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
-        updateFollowers.call(this, [headParts, body], "power2", 0.25, 0.2);
-        updateFollowers.call(this, hairPullBeads, "back", 0.1, 0.05);
+        updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
+        updateFollowers.call(this, hairPullBeads, this.x, this.y, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
@@ -263,7 +208,7 @@ function App() {
           gsap.to("#tongueGroup", { scaleY: 1, duration: 1 })
           setMouthOn(true)
           var resistance = percent * 3
-          valUp();
+          valChange(["boyd", "ives"], "up");
         }
         this.dragResistance = resistance
       },
@@ -288,7 +233,7 @@ function App() {
     const draggable = Draggable.get("#hairPullHand");
     if (container && draggable) {
       const containerSize = container.getBoundingClientRect().height;
-      const bounds = containerSize * (0.2 + (boyd / maxBoyd * 0.2));
+      const bounds = containerSize * (0.2 + (arousal["boyd"] / maxArousal["boyd"] * 0.2));
       draggable.applyBounds({
         minX: containerSize * -0.0055,
         maxX: containerSize * 0.0055,
@@ -296,7 +241,7 @@ function App() {
         maxY: bounds
       });
     }
-  }, [boyd, maxBoyd]);
+  }, [arousal]);
 
   useEffect(() => { // Sets up opacity listeners for draggables & deactivates JOHand when mouthOn
 
@@ -395,10 +340,10 @@ function App() {
       >
       </AgeGate>
       <Outputs
-        boyd={boyd}
-        ives={ives}
-        maxBoyd={maxBoyd}
-        maxIves={maxIves} />
+        boyd={arousal["boyd"]}
+        ives={arousal["ives"]}
+        maxBoyd={maxArousal["boyd"]}
+        maxIves={maxArousal["ives"]} />
       <div className='buffer'></div>
       <div id='positioning'>
         <Body />
