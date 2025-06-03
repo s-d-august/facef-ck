@@ -16,7 +16,7 @@ import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 import icon from './assets/cover.png';
-import { getOverlapPercent, updateFollowers, randomizeArray } from './functions'
+import { getOverlapPercent, updateFollowers, randomizeArray, renderProgress } from './functions'
 
 
 
@@ -68,27 +68,6 @@ function App() {
   useEffect(() => {
     gsap.set("#tongueGroup", { scaleY: 0 });
   }, []);
-
-  useEffect(() => { // Elements that change based on mouthOn
-    // Only set interval when mouthOn is true
-    if (mouthOn) {
-      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 10000);
-    }
-    else {
-      if (droolIntervalRef.current) {
-        clearInterval(droolIntervalRef.current);
-        droolIntervalRef.current = null;
-      }
-    }
-
-    // Cleanup on unmount or when mouthOn changes
-    return () => {
-      if (droolIntervalRef.current) {
-        clearInterval(droolIntervalRef.current);
-        droolIntervalRef.current = null;
-      }
-    };
-  }, [mouthOn]);
 
   useEffect(() => { // Elements that change based on approach state
     const containerSize = document.getElementById("container").getBoundingClientRect().height
@@ -197,16 +176,24 @@ function App() {
         maxY: bounds
       });
     }
-  }, [arousal]);
 
-  useEffect(() => { // Sets up opacity listeners for draggables & deactivates JOHand when mouthOn
+    const blush = document.getElementById("blush")
+    renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
+
+  }, [arousal["boyd"]]);
+
+  useEffect(() => { // Elements that change based on mouthOn (including JOHand listeners)
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
-    if (mouthOn) {
 
+    if (mouthOn) {
+      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 10000);
       dickHandDraggable.disable()
     } else {
-
+      if (droolIntervalRef.current) {
+        clearInterval(droolIntervalRef.current);
+        droolIntervalRef.current = null;
+      }
       dickHandDraggable.enable()
     }
     // Always set up hairPullHand hover listeners
@@ -270,9 +257,11 @@ function App() {
         dickHandle.removeEventListener("mouseenter", dickEnter);
         dickHandle.removeEventListener("mouseleave", dickLeave);
       }
+      if (droolIntervalRef.current) {
+        clearInterval(droolIntervalRef.current);
+        droolIntervalRef.current = null;
+      }
     };
-
-
 
   }, [mouthOn]);
 

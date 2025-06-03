@@ -33,19 +33,6 @@ export const randomizeArray = (array, idString, bounds) => {
 
 }
 
-function getDroolVals(id, overlapId) {
-    const head = document.getElementById(overlapId);
-    const drool = document.getElementById(id);
-    const droolRect = drool.getBoundingClientRect();
-    const headRect = head.getBoundingClientRect();
-    return {
-        drool,
-        droolBottom: droolRect.bottom,
-        headBottom: headRect.bottom,
-        defY: droolRect.top
-    };
-}
-
 export const random = () => {
     if (Math.random() > 0.5) {
         return true
@@ -90,7 +77,6 @@ export const updateFollowers = (itemsArray, x, y, ease, init, increase) => {
     followers.forEach(f => f(x, y));
 }
 
-
 export const getOverlapPercent = (rectA, rectB) => {
     const x_overlap = Math.max(
         0,
@@ -103,4 +89,12 @@ export const getOverlapPercent = (rectA, rectB) => {
     const overlapArea = x_overlap * y_overlap;
     const areaA = (rectA.right - rectA.left) * (rectA.bottom - rectA.top);
     return areaA ? (overlapArea / areaA) : 0; // percent of A overlapped by B
+}
+
+export const renderProgress = (element, attr, stat, max) => {
+    const newVal = function (stat) {
+        if (stat >= max) { return 100 }
+        else return stat / max * 100
+    }
+    element.style[attr] = (newVal(stat) || 0) + '%'
 }
