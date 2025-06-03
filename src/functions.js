@@ -8,13 +8,13 @@ export const randomizeArray = (array, idString, bounds) => {
     let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
     let val = array[index]; // Retrieves the value associated with the index
     let element = document.getElementById(idString + val);
-    var boundsArea = !bounds ? element : bounds
-    let defY = boundsArea.getBoundingClientRect().top
-
+    var boundsArea = !bounds ? element : document.getElementById(bounds)
+    let defY = boundsArea.getBoundingClientRect().height
+    console.log(defY)
     array.splice(index, 1) // Removes the selected element from the array
 
 
-    element.classList.remove("opacity0"); // Makes element visible
+    gsap.set(element, { opacity: 1 })
     var defs = {
         transformOrigin: "top center",
         y: defY, // Moves the element down and offscreen
@@ -24,14 +24,14 @@ export const randomizeArray = (array, idString, bounds) => {
     if (random()) {
         gsap.set(element, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
     }
-    gsap.to(element, defs) // Element is moved
-        .then(() => {
-            gsap.set(element, { y: 0 }); // When animation is completed, element is reset to origin
-            element.classList.add("opacity0");
-            array.splice(0, 0, val) // Adds the element back to the array so it can be called again
-        })
-
+    let tl = gsap.timeline()
+    console.log('gsap.timeline:', typeof gsap.timeline)
+    tl.to(element, defs)
+        .to(element, { opacity: "0", duration: 0.3 })
+        .set(element, { y: 0, opacity: 0 }); // When animation is completed, element is reset to origin
+    array.splice(0, 0, val) // Adds the element back to the array so it can be called again
 }
+
 
 export const random = () => {
     if (Math.random() > 0.5) {

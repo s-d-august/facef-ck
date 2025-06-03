@@ -24,11 +24,10 @@ function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
   const [approach, setApproach] = useState(false)
-  const [droolArray, setDroolArray] = useState([1, 2, 3, 4])
+  const [droolArray, setDroolArray] = useState([1, 2, 3, 4, 5, 6, 7, 8])
   const [sweatArray, setSweatArray] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
-  const [headDownPercent, setHeadDownPercent] = useState(0)
   const droolIntervalRef = useRef(null);
-  const mouthGroupIntervalRef = useRef(null);
+  const sweatIntervalRef = useRef(null);
   const [arousal, setArousal] = useState({
     "ives": 0,
     "boyd": 0,
@@ -98,11 +97,6 @@ function App() {
     const headFull = document.getElementById("headFull");
     const head = document.getElementById("head")
     const tongue = document.getElementById("tongue");
-    const dickDroolValsArray = []
-
-    dickDrool.forEach(function (el) {
-      dickDroolValsArray.push(getDroolVals(el.id, "faceOpen"))
-    })
 
     Draggable.create(dickHand, {
       trigger: "#dickHandGrab",
@@ -162,7 +156,7 @@ function App() {
     });
   }, [])
 
-  useEffect(() => {    // Update bounds for #hairPullHand Draggable when boyd or maxBoyd changes
+  useEffect(() => {    // Elements that change based on arousal.boyd
 
     const container = document.getElementById("container");
     const draggable = Draggable.get("#hairPullHand");
@@ -180,14 +174,24 @@ function App() {
     const blush = document.getElementById("blush")
     renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
 
+    sweatIntervalRef.current = setInterval(() => randomizeArray(sweatArray, "sweat", "faceArea"), 15000);
+
+    return () => {
+      if (sweatIntervalRef.current) {
+        clearInterval(sweatIntervalRef.current);
+        sweatIntervalRef.current = null;
+      }
+    };
   }, [arousal["boyd"]]);
 
   useEffect(() => { // Elements that change based on mouthOn (including JOHand listeners)
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
 
+    console.log(mouthOn)
+
     if (mouthOn) {
-      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 10000);
+      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 15000);
       dickHandDraggable.disable()
     } else {
       if (droolIntervalRef.current) {
