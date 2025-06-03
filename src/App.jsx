@@ -84,6 +84,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => valChange(["boyd", "ives"], "down"), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
+
   }, []);
 
   useEffect(() => { // Sets up draggables
@@ -154,15 +155,18 @@ function App() {
         gsap.to(hideHand, { opacity: 0, duration: 0.2 })
       }
     });
+
   }, [])
 
   useEffect(() => {    // Elements that change based on arousal.boyd
+
+    const arousalRatio = arousal["boyd"] / maxArousal["boyd"]
 
     const container = document.getElementById("container");
     const draggable = Draggable.get("#hairPullHand");
     if (container && draggable) {
       const containerSize = container.getBoundingClientRect().height;
-      const bounds = containerSize * (0.2 + (arousal["boyd"] / maxArousal["boyd"] * 0.2));
+      const bounds = containerSize * (0.2 + (arousalRatio * 0.2));
       draggable.applyBounds({
         minX: containerSize * -0.0055,
         maxX: containerSize * 0.0055,
@@ -170,6 +174,20 @@ function App() {
         maxY: bounds
       });
     }
+
+    var breathCycleDuration = (
+      (arousalRatio > 0.8) ? 0.75
+        : (arousalRatio > 0.6) ? 1.0625
+          : (arousalRatio > 0.4) ? 1.375
+            : (arousalRatio > 0.2) ? 1.6875
+              : 2
+    )
+
+    var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
+
+    if (prevDuration !== (breathCycleDuration + "s")) {
+      document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
+    } else return
 
     const blush = document.getElementById("blush")
     renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
@@ -184,11 +202,10 @@ function App() {
     };
   }, [arousal["boyd"]]);
 
+
   useEffect(() => { // Elements that change based on mouthOn (including JOHand listeners)
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
-
-    console.log(mouthOn)
 
     if (mouthOn) {
       droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 15000);

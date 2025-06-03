@@ -3,6 +3,42 @@
   src: url("./assets/benguiat.woff");
 }
 
+@keyframes breathTorso {
+  from {
+    transform: scale(100%);
+  }
+
+  to {
+    transform: scale(103%)
+  }
+}
+
+@keyframes breathMouth {
+  from {
+    transform: scaleY(100%);
+  }
+
+  to {
+    transform: scaleY(110%)
+  }
+}
+
+@keyframes blink {
+  
+}
+
+#mouth {
+  transform-origin: center;
+  animation: breathMouth ease-in-out infinite alternate;
+  animation-duration: var(--animation-duration);
+}
+
+#sweater {
+  transform-origin: center;
+  animation: breathTorso ease-in-out infinite alternate;
+  animation-duration: var(--animation-duration);
+}
+
 body {
   background-color: #93ac93;
 }

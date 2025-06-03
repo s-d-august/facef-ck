@@ -162,6 +162,7 @@ const Head = () => (
             ></path>
             <g
                 id="eyeLeft"
+                className="blink"
                 stroke="none"
                 strokeLinecap="round"
                 display="inline"
@@ -197,6 +198,7 @@ const Head = () => (
             </g>
             <g
                 id="eyeRight"
+                className="blink"
                 stroke="none"
                 strokeLinecap="round"
                 display="inline"
@@ -360,7 +362,7 @@ const Head = () => (
             ></path>
             <path
                 id="topLineRightOpen"
-                className="open"
+                className="open blink"
                 fill="none"
                 stroke="#d38d5f"
                 strokeLinecap="round"
@@ -373,7 +375,7 @@ const Head = () => (
             ></path>
             <path
                 id="topLineLeftOpen"
-                className="open"
+                className="open blink"
                 fill="none"
                 stroke="#d38d5f"
                 strokeLinecap="round"
@@ -406,11 +408,30 @@ const Head = () => (
                 display="inline"
                 opacity="1"
             ></path>
+            <path
+                id="browLeft"
+                fill="#e79600"
+                fillOpacity="1"
+                stroke="none"
+                strokeLinecap="round"
+                strokeWidth="2.566"
+                d="m412.653 386.376 18.894 10.662-2.613 20.77-49.725 18.317-77.918 7.624-39.71 12.51L292.414 422l72.159-12.042z"
+                opacity="1"
+            ></path>
+            <path
+                id="browRight"
+                fill="#e79600"
+                fillOpacity="1"
+                stroke="none"
+                strokeLinecap="round"
+                strokeWidth="2.521"
+                d="m495.862 383.237-16.39 10-2.444 20.672 58.72 16.224 71.515 5.525 50.768 15.239-42.792-39.058-70.313-10.173z"
+                opacity="1"
+            ></path>
             <g
                 id="sweatGroup"
                 fill="#fff"
                 fillOpacity="0.5"
-
             >
                 <path
                     id="sweat1"
@@ -518,26 +539,7 @@ const Head = () => (
                 opacity="1"
             ></path>
 
-            <path
-                id="browLeft"
-                fill="#e79600"
-                fillOpacity="1"
-                stroke="none"
-                strokeLinecap="round"
-                strokeWidth="2.566"
-                d="m412.653 386.376 18.894 10.662-2.613 20.77-49.725 18.317-77.918 7.624-39.71 12.51L292.414 422l72.159-12.042z"
-                opacity="1"
-            ></path>
-            <path
-                id="browRight"
-                fill="#e79600"
-                fillOpacity="1"
-                stroke="none"
-                strokeLinecap="round"
-                strokeWidth="2.521"
-                d="m495.862 383.237-16.39 10-2.444 20.672 58.72 16.224 71.515 5.525 50.768 15.239-42.792-39.058-70.313-10.173z"
-                opacity="1"
-            ></path>
+
             <path
                 id="path21"
                 fill="none"
@@ -628,7 +630,7 @@ const Head = () => (
                 ></path>
                 <path
                     id="topLineRightShut"
-                    className="shut"
+                    className="shut blink"
                     stroke="#d38d5f"
                     d="m503.454 449.596 31.924-11.688 26.922-4.457 36.103 4.963 30.305 6.77"
                     display="inline"
@@ -637,7 +639,7 @@ const Head = () => (
                 ></path>
                 <path
                     id="topLineLeftShut"
-                    className="shut"
+                    className="shut blink"
                     stroke="#d38d5f"
                     d="m406.831 471.712-31.924-11.688-26.922-4.458-36.103 4.964-28.649 9.254"
                     display="inline"
