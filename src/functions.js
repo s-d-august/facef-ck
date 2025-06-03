@@ -2,22 +2,36 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
 
-function valUp() {
-    setIves((prevIves) => {
-        const newIves = prevIves + 1;
-        if (newIves > maxIves) {
-            return 0; // Do not increment further if max is reached
-        }
-        return newIves; // Increment Ives
-    });
-    setBoyd((prevBoyd) => {
-        const newBoyd = prevBoyd + 1;
-        if (newBoyd > maxBoyd) {
-            return prevBoyd; // Do not increment further if max is reached
-        }
-        return newBoyd; // Increment Boyd
-    });
-};
+export const randomizeArray = (array, idString, bounds) => {
+    if (array.length === 0) return
+
+    let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
+    let val = array[index]; // Retrieves the value associated with the index
+    let element = document.getElementById(idString + val);
+    var boundsArea = !bounds ? element : bounds
+    let defY = boundsArea.getBoundingClientRect().top
+
+    array.splice(index, 1) // Removes the selected element from the array
+
+
+    element.classList.remove("opacity0"); // Makes element visible
+    var defs = {
+        transformOrigin: "top center",
+        y: defY, // Moves the element down and offscreen
+        scaleY: (Math.random() + 1), // Stretches the element down between 100-200%
+        duration: defY / (Math.random() * 2 + 4) // Duration is the pixel value of y divided by between 4-6, in seconds
+    };
+    if (random()) {
+        gsap.set(element, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
+    }
+    gsap.to(element, defs) // Element is moved
+        .then(() => {
+            gsap.set(element, { y: 0 }); // When animation is completed, element is reset to origin
+            element.classList.add("opacity0");
+            array.splice(0, 0, val) // Adds the element back to the array so it can be called again
+        })
+
+}
 
 function getDroolVals(id, overlapId) {
     const head = document.getElementById(overlapId);

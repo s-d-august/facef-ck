@@ -16,7 +16,7 @@ import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 import icon from './assets/cover.png';
-import { getOverlapPercent, updateFollowers, random } from './functions'
+import { getOverlapPercent, updateFollowers, randomizeArray } from './functions'
 
 
 
@@ -64,36 +64,6 @@ function App() {
   }
 
 
-  function randomizeArray(array, idString, bounds) {
-    if (array.length === 0) return
-
-    let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
-    let val = array[index]; // Retrieves the value associated with the index
-    let element = document.getElementById(idString + val);
-    var boundsArea = !bounds ? element : bounds
-    let defY = boundsArea.getBoundingClientRect().top
-
-    array.splice(index, 1) // Removes the selected element from the array
-
-
-    element.classList.remove("opacity0"); // Makes element visible
-    var defs = {
-      transformOrigin: "top center",
-      y: defY, // Moves the element down and offscreen
-      scaleY: (Math.random() + 1), // Stretches the element down between 100-200%
-      duration: defY / (Math.random() * 2 + 4) // Duration is the pixel value of y divided by between 4-6, in seconds
-    };
-    if (random()) {
-      gsap.set(element, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
-    }
-    gsap.to(element, defs) // Element is moved
-      .then(() => {
-        gsap.set(element, { y: 0 }); // When animation is completed, element is reset to origin
-        element.classList.add("opacity0");
-        array.splice(0, 0, val) // Adds the element back to the array so it can be called again
-      })
-
-  }
 
   useEffect(() => {
     gsap.set("#tongueGroup", { scaleY: 0 });
@@ -130,7 +100,6 @@ function App() {
       gsap.to("#mouthGroup", { y: 0, duration: 2 })
       gsap.to("#tongueGroup", { scaleY: 0, duration: 2 })
     }
-    console.log('approach changed:', approach);
   }, [approach])
 
 
@@ -171,29 +140,14 @@ function App() {
         }
       },
       edgeResistance: 0.9,
-      onDrag: valChange(["ives", "boyd"], "up")
+      onDrag: function () {
+        valChange(["ives", "boyd"], "up")
+      }
     })
-    let mouthOriginalY = 0; // Will be set on drag start
 
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
-      // onPress: function () {
-      //   // Store the original y (parseFloat or 0 if not set)
-      //   const mouth = document.getElementById("mouthGroup");
-      //   const current = gsap.getProperty(mouth, "y");
-      //   mouthOriginalY = typeof current === "number" ? current : 0;
-      // },
       onDrag: function () {
-        // const minY = this.vars.bounds.minY;
-        // const maxY = this.vars.bounds.maxY;
-        // const progress = (this.y - minY) / ((maxY * 0.5) - minY);
-
-        // // Clamp progress between 0 and 1
-        // const clamped = Math.max(0, Math.min(1, progress));
-
-        // // Set mouthSvg y to original + up to 50px extra
-        // const mouth = document.getElementById("mouthGroup");
-        // gsap.to(mouth, { y: mouthOriginalY + clamped * 9, duration: 0.2 });
 
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
         updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
@@ -201,11 +155,10 @@ function App() {
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
-        console.log(percent)
 
         if (percent <= 0.05) {
           setApproach(false)
-        } else if (percent > 0.05) setApproach(true)
+        } else setApproach(true)
         if (percent <= 0.1) { // Dick isn't in mouth
           var resistance = 0
           setMouthOn(false)
@@ -229,10 +182,6 @@ function App() {
       }
     });
   }, [])
-
-  useEffect(() => {
-    console.log(headDownPercent)
-  }, [headDownPercent])
 
   useEffect(() => {    // Update bounds for #hairPullHand Draggable when boyd or maxBoyd changes
 
