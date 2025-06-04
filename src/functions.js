@@ -8,7 +8,7 @@ export const randomizeArray = (array, idString, bounds) => {
     let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
     let val = array[index]; // Retrieves the value associated with the index
     let element = document.getElementById(idString + val);
-    var boundsArea = !bounds ? element : document.getElementById(bounds)
+    var boundsArea = document.getElementById(bounds)
     let defY = boundsArea.getBoundingClientRect().height
     array.splice(index, 1) // Removes the selected element from the array
 

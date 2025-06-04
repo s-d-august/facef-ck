@@ -154,17 +154,13 @@ function App() {
   }, [])
 
   const tweensRef = useRef({});
+  // Expression elements that have Open, HalfShut, and Shut versions
   const expressionHalf = ["face", "eyelinesRight", "eyelinesLeft", "bottomLineRight", "bottomLineLeft"]
+  // Expression elements that only have Open and Shut versions
   const expressionOpenShut = ["faceShadow", "topLineLeft", "topLineRight"]
-
-
 
   useEffect(() => {
     // Create or update tweens for multiple elements
-    const test = document.getElementById('bottomLineRightHalfShut').getBoundingClientRect()
-    console.log(test)
-    const test2 = document.getElementById('bottomLineRightOpen').getBoundingClientRect()
-    console.log(test2)
 
     expressionHalf.forEach((el) => {
       const startingY = document.getElementById(`${el}HalfShut`).getBoundingClientRect().bottom
@@ -176,8 +172,6 @@ function App() {
         paused: true
       });
     });
-
-    // Add more as needed...
 
     return () => {
       // Kill all tweens on cleanup
@@ -239,7 +233,7 @@ function App() {
     var dickHandDraggable = Draggable.get("#dickHandGrab")
 
     if (mouthOn) {
-      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool"), 15000);
+      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool", "dickArea"), 15000);
       dickHandDraggable.disable()
     } else {
       if (droolIntervalRef.current) {
