@@ -10,7 +10,6 @@ export const randomizeArray = (array, idString, bounds) => {
     let element = document.getElementById(idString + val);
     var boundsArea = !bounds ? element : document.getElementById(bounds)
     let defY = boundsArea.getBoundingClientRect().height
-    console.log(defY)
     array.splice(index, 1) // Removes the selected element from the array
 
 
@@ -25,7 +24,6 @@ export const randomizeArray = (array, idString, bounds) => {
         gsap.set(element, { transformOrigin: "center", scaleX: -1 }) // 50% chance of flipping element horizontally
     }
     let tl = gsap.timeline()
-    console.log('gsap.timeline:', typeof gsap.timeline)
     tl.to(element, defs)
         .to(element, { opacity: "0", duration: 0.3 })
         .set(element, { y: 0, opacity: 0 }); // When animation is completed, element is reset to origin

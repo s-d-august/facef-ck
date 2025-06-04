@@ -3,9 +3,8 @@ import './App.css'
 import Dick from './assets/dick'
 import HairPullHand from './assets/hair-pull-hand'
 import Body from './assets/body'
-import Mouth from './assets/mouth'
 import Head from './assets/head'
-import HeadFull from './assets/head-full'
+import Mouth from './assets/mouth'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
@@ -63,11 +62,6 @@ function App() {
   }
 
 
-
-  useEffect(() => {
-    gsap.set("#tongueGroup", { scaleY: 0 });
-  }, []);
-
   useEffect(() => { // Elements that change based on approach state
     const containerSize = document.getElementById("container").getBoundingClientRect().height
 
@@ -82,6 +76,7 @@ function App() {
 
 
   useEffect(() => {
+    gsap.set("#tongueGroup", { scaleY: 0 });
     const interval = setInterval(() => valChange(["boyd", "ives"], "down"), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
 
@@ -94,7 +89,7 @@ function App() {
     const headParts = gsap.utils.toArray(".headParts");
     const dickDrool = gsap.utils.toArray(".dickDrool");
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
-    const body = document.getElementById("body");
+    const body = document.getElementById("bodyGroup");
     const headFull = document.getElementById("headFull");
     const head = document.getElementById("head")
     const tongue = document.getElementById("tongue");
@@ -158,6 +153,38 @@ function App() {
 
   }, [])
 
+  const tweensRef = useRef({});
+  const expressionHalf = ["face", "eyelinesRight", "eyelinesLeft", "bottomLineRight", "bottomLineLeft"]
+  const expressionOpenShut = ["faceShadow", "topLineLeft", "topLineRight"]
+
+
+
+  useEffect(() => {
+    // Create or update tweens for multiple elements
+    const test = document.getElementById('bottomLineRightHalfShut').getBoundingClientRect()
+    console.log(test)
+    const test2 = document.getElementById('bottomLineRightOpen').getBoundingClientRect()
+    console.log(test2)
+
+    expressionHalf.forEach((el) => {
+      const startingY = document.getElementById(`${el}HalfShut`).getBoundingClientRect().bottom
+      const finalY = document.getElementById(`${el}HalfShut`).getBoundingClientRect().bottom
+      tweensRef.current[el] = gsap.to(`#${el}Open`, {
+        duration: 1,
+        morphSVG: `#${el}HalfShut`,
+        y: (startingY - finalY),
+        paused: true
+      });
+    });
+
+    // Add more as needed...
+
+    return () => {
+      // Kill all tweens on cleanup
+      Object.values(tweensRef.current).forEach(tween => tween && tween.kill());
+    };
+  }, []);
+
   useEffect(() => {    // Elements that change based on arousal.boyd
 
     const arousalRatio = arousal["boyd"] / maxArousal["boyd"]
@@ -175,6 +202,10 @@ function App() {
       });
     }
 
+    Object.values(tweensRef.current).forEach(tween => {
+      if (tween) tween.progress(arousalRatio);
+    });
+
     var breathCycleDuration = (
       (arousalRatio > 0.8) ? 0.75
         : (arousalRatio > 0.6) ? 1.0625
@@ -188,7 +219,7 @@ function App() {
     const blush = document.getElementById("blush")
     renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
 
-    sweatIntervalRef.current = setInterval(() => randomizeArray(sweatArray, "sweat", "faceArea"), 10000);
+    sweatIntervalRef.current = setInterval(() => randomizeArray(sweatArray, "sweat", "faceArea"), 15000);
 
     return () => {
       if (sweatIntervalRef.current) {
@@ -313,7 +344,7 @@ function App() {
       <div className='buffer'></div>
       <div id='positioning'>
         <Body />
-        <HeadFull />
+        <Mouth />
         <Dick />
         <Head />
         <HairPullHand />
