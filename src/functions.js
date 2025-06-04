@@ -2,16 +2,19 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
 
-export const randomizeArray = (array, idString, bounds) => {
+export const randomizeArray = (idString, bounds) => {
+
+    var arrayName = document.getElementById(`${idString}Group`)
+    var array = [...arrayName.children]
+    console.log(array)
+
     if (array.length === 0) return
 
     let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
-    let val = array[index]; // Retrieves the value associated with the index
-    let element = document.getElementById(idString + val);
+    let element = array[index]; // Retrieves the value associated with the index
     var boundsArea = document.getElementById(bounds)
     let defY = boundsArea.getBoundingClientRect().height
     array.splice(index, 1) // Removes the selected element from the array
-
 
     gsap.set(element, { opacity: 1 })
     var defs = {
@@ -27,7 +30,7 @@ export const randomizeArray = (array, idString, bounds) => {
     tl.to(element, defs)
         .to(element, { opacity: "0", duration: 0.3 })
         .set(element, { y: 0, opacity: 0 }); // When animation is completed, element is reset to origin
-    array.splice(0, 0, val) // Adds the element back to the array so it can be called again
+    array.splice(0, 0, element) // Adds the element back to the array so it can be called again
 }
 
 

@@ -176,26 +176,27 @@ const Head = () => (
                     d="m413.5 488.58 3.777-35.468c-21.817-17.968-30.07-26.932-56.712-33.841l-100.037 31.724 7.082 19.586 39.187 23.874z"
                     opacity="1"
                 ></path>
-                <ellipse
-                    id="irisLeft"
-                    cx="366.175"
-                    cy="444.54"
-                    fill="#5f8dd3"
-                    strokeWidth="3.224"
-                    opacity="1"
-                    rx="23.124"
-                    ry="21.631"
-                ></ellipse>
-                <circle
-                    id="pupilLeft"
-                    cx="366.157"
-                    cy="444.011"
-                    r="8.946"
-                    fill="#000"
-                    strokeWidth="18.91"
-                    opacity="1"
-                ></circle>
-            </g>
+                <g id="eyeCenterLeft" className="eyeCenter">
+                    <ellipse
+                        id="irisLeft"
+                        cx="366.175"
+                        cy="444.54"
+                        fill="#5f8dd3"
+                        strokeWidth="3.224"
+                        opacity="1"
+                        rx="23.124"
+                        ry="21.631"
+                    ></ellipse>
+                    <circle
+                        id="pupilLeft"
+                        cx="366.157"
+                        cy="444.011"
+                        r="8.946"
+                        fill="#000"
+                        strokeWidth="18.91"
+                        opacity="1"
+                    ></circle>
+                </g></g>
             <g
                 id="eyeRight"
                 className="blink"
@@ -212,26 +213,27 @@ const Head = () => (
                     d="m506.317 483.16-10.473-35.906 34.685-28.894 20.953-8.572 40.584 13.27 58.912 21.074-15.056 21.856-32.074 18.733z"
                     opacity="1"
                 ></path>
-                <ellipse
-                    id="irisRight"
-                    cx="549.994"
-                    cy="436.93"
-                    fill="#5f8dd3"
-                    strokeWidth="3.224"
-                    opacity="1"
-                    rx="23.124"
-                    ry="21.631"
-                ></ellipse>
-                <circle
-                    id="pupilRight"
-                    cx="549.976"
-                    cy="436.4"
-                    r="8.946"
-                    fill="#000"
-                    strokeWidth="18.91"
-                    opacity="1"
-                ></circle>
-            </g>
+                <g id="eyeCenterRight" className="eyeCenter">
+                    <ellipse
+                        id="irisRight"
+                        cx="549.994"
+                        cy="436.93"
+                        fill="#5f8dd3"
+                        strokeWidth="3.224"
+                        opacity="1"
+                        rx="23.124"
+                        ry="21.631"
+                    ></ellipse>
+                    <circle
+                        id="pupilRight"
+                        cx="549.976"
+                        cy="436.4"
+                        r="8.946"
+                        fill="#000"
+                        strokeWidth="18.91"
+                        opacity="1"
+                    ></circle>
+                </g></g>
             <path
                 id="faceOpen"
                 className="open"

@@ -23,8 +23,6 @@ function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
   const [approach, setApproach] = useState(false)
-  const [droolArray, setDroolArray] = useState([1, 2, 3, 4, 5, 6, 7, 8])
-  const [sweatArray, setSweatArray] = useState([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14])
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
   const [arousal, setArousal] = useState({
@@ -213,7 +211,7 @@ function App() {
     const blush = document.getElementById("blush")
     renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
 
-    sweatIntervalRef.current = setInterval(() => randomizeArray(sweatArray, "sweat", "faceArea"), 15000);
+    sweatIntervalRef.current = setInterval(() => randomizeArray("sweat", "faceArea"), 5000);
 
     return () => {
       if (sweatIntervalRef.current) {
@@ -227,13 +225,42 @@ function App() {
     };
   }, [arousal["boyd"]]);
 
+  useEffect(() => {
+    let running = true;
+
+    function checkSweatOverlap() {
+      // Get all sweat elements
+      const sweatsParent = document.getElementById(`sweatGroup`)
+      const sweats = [...sweatsParent.children]
+      // Get all .eyeCenter elements
+      const eyes = gsap.utils.toArray('.eyeCenter');
+
+      sweats.forEach(sweat => {
+        eyes.forEach(eye => {
+          // 20% overlap threshold (adjust as needed)
+          if (Draggable.hitTest(sweat, eye, 1)) {
+            gsap.to(sweat, { opacity: 0, duration: 0.2 });
+          }
+        });
+      });
+
+      if (running) requestAnimationFrame(checkSweatOverlap);
+    }
+
+    checkSweatOverlap();
+
+    return () => {
+      running = false;
+    };
+  }, []);
+
 
   useEffect(() => { // Elements that change based on mouthOn (including JOHand listeners)
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
 
     if (mouthOn) {
-      droolIntervalRef.current = setInterval(() => randomizeArray(droolArray, "dickDrool", "dickArea"), 15000);
+      droolIntervalRef.current = setInterval(() => randomizeArray("dickDrool", "dickArea"), 15000);
       dickHandDraggable.disable()
     } else {
       if (droolIntervalRef.current) {
