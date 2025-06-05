@@ -87,6 +87,11 @@ svg {
   pointer-events: all;
 }
 
+#beard,
+#tongue {
+  cursor: pointer;
+}
+
 #positioning {
   display: flex;
   justify-content: center;

@@ -15,13 +15,16 @@ import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 import icon from './assets/cover.png';
-import { getOverlapPercent, updateFollowers, randomizeArray, renderProgress } from './functions'
+import { getOverlapPercent, updateFollowers, randomizeArray, renderProgress, valChange } from './functions'
 
 
 
 function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
+  const [holdMouthOpen, setHoldMouthOpen] = useState(false)
+  const [mouthOpen, setMouthOpen] = useState(false)
+  const mouthOpenRef = useRef(mouthOpen);
   const [approach, setApproach] = useState(false)
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
@@ -35,6 +38,11 @@ function App() {
   })
 
   gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
+
+  useEffect(() => {
+    mouthOpenRef.current = mouthOpen;
+
+  }, [mouthOpen]);
 
   function valChange(ids, upDown) {
     if (!Array.isArray(ids)) {
@@ -59,25 +67,53 @@ function App() {
     });
   }
 
+  function mouthOpenFunction() {
+    const containerSize = document.getElementById("container").getBoundingClientRect().height
+    gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
+    gsap.to("#tongueGroup", { scaleY: 1, duration: 1, ease: "power1.out" })
+    gsap.timeline()
+      .to("#tongueDrool", { scaleY: 1, duration: 2 })
+      .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "center" })
+    setMouthOpen(true)
+  }
+
+  function mouthCloseFunction() {
+    gsap.to("#mouthGroup", { y: 0, duration: 2, ease: "power1.out" })
+    gsap.timeline()
+      .to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
+      .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
+    setMouthOpen(false)
+  }
+
+  function mouthOpenClose() {
+    if (mouthOpenRef.current === false) {
+      mouthOpenFunction();
+      setHoldMouthOpen(true);
+    } else {
+      mouthCloseFunction();
+      setHoldMouthOpen(false);
+    }
+  }
 
   useEffect(() => { // Elements that change based on approach state
-    const containerSize = document.getElementById("container").getBoundingClientRect().height
+
+    if (holdMouthOpen === true) return
 
     if (approach) {
-      gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1 })
-      gsap.to("#tongueGroup", { scaleY: 1, duration: 1 })
+      mouthOpenFunction()
     } else {
-      gsap.to("#mouthGroup", { y: 0, duration: 2 })
-      gsap.to("#tongueGroup", { scaleY: 0, duration: 2 })
+      mouthCloseFunction()
     }
   }, [approach])
 
 
   useEffect(() => {
+    document.getElementById("beard").addEventListener("dblclick", mouthOpenClose)
+    document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
     gsap.set("#tongueGroup", { scaleY: 0 });
+    gsap.set("#tongueDrool", { scaleY: 0, scaleX: 1 });
     const interval = setInterval(() => valChange(["boyd", "ives"], "down"), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
-
   }, []);
 
   useEffect(() => { // Sets up draggables

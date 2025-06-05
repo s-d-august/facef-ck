@@ -6,7 +6,6 @@ export const randomizeArray = (idString, bounds) => {
 
     var arrayName = document.getElementById(`${idString}Group`)
     var array = [...arrayName.children]
-    console.log(array)
 
     if (array.length === 0) return
 

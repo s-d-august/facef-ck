@@ -31,6 +31,7 @@ const Dick = () => (
     <svg
       viewBox="0 0 987.679 1234.713"
       id="dick"
+      className="opacity0"
     >
       <defs>
         <linearGradient id="dick-b">
