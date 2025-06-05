@@ -7,7 +7,7 @@ export const randomizeArray = (idString, bounds) => {
     var arrayName = document.getElementById(`${idString}Group`)
     var array = [...arrayName.children]
 
-    if (array.length === 0) return
+    if (array.length === 0 || !document.hasFocus()) return
 
     let index = Math.floor(Math.random() * array.length); // Generates a random index for the array
     let element = array[index]; // Retrieves the value associated with the index
