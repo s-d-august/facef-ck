@@ -45,17 +45,18 @@ export const valChange = (ids, upDown) => {
     }
     ids.forEach((key) => {
         setArousal((prev) => {
-            const newVal = upDown === "up" ? prev[key] + 1 : prev[key] - 1;
+            const newVal = upDown === "up" ? prev.key + 1 : prev.key - 1;
             if (upDown === "up") {
-                if (newVal > maxArousal[key]) {
-                    return { ...prev, [key]: prev[key] };
+                if (newVal > maxArousalkey) {
+                    return { ...prev, key: prev.key };
                 }
-                return { ...prev, [key]: newVal };
+                return { ...prev, key: newVal };
             } else if (upDown === "down") {
+                if (!document.hasFocus()) return
                 if (newVal < 0) {
-                    return { ...prev, [key]: 0 };
+                    return { ...prev, key: 0 };
                 }
-                return { ...prev, [key]: newVal };
+                return { ...prev, key: newVal };
             }
             return prev;
         });

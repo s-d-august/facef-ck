@@ -13,6 +13,7 @@ import { CustomWiggle } from 'gsap/all'
 import { Observer } from 'gsap/all'
 import Outputs from './assets/outputs'
 import { MorphSVGPlugin } from 'gsap/all'
+import { DrawSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 import icon from './assets/cover.png';
 import { getOverlapPercent, updateFollowers, randomizeArray, renderProgress, valChange } from './functions'
@@ -29,20 +30,51 @@ function App() {
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
   const [arousal, setArousal] = useState({
-    "ives": 0,
-    "boyd": 0,
+    ives: 0,
+    boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    "ives": 500,
-    "boyd": 100,
+    ives: 500,
+    boyd: 100,
   })
 
-  gsap.registerPlugin(Draggable, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
+  gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
   useEffect(() => {
     mouthOpenRef.current = mouthOpen;
-
   }, [mouthOpen]);
+
+  function getSVGParent(element) {
+    console.log(element)
+    while (element.nodeName !== "svg") {
+      element = element.parentElement;
+      console.log(element.nodeName)
+    }
+    return element;
+  }
+
+  function getXY(id, origin) {
+
+    var element = document.getElementById(id)
+
+    var svg = getSVGParent(element)
+
+    const rect = element.getBoundingClientRect();
+    console.log(svg)
+
+    const pt = svg.createSVGPoint();
+    if (origin == "top left" || origin == "left top") {
+      pt.x = rect.x
+      pt.y = rect.y
+    } else {
+      pt.x = rect.x + rect.width / 2;
+      pt.y = rect.y + rect.height / 2;
+    }
+
+    const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    return { x: svgPt.x, y: svgPt.y }
+  }
 
   function valChange(ids, upDown) {
     if (!Array.isArray(ids)) {
@@ -57,6 +89,7 @@ function App() {
           }
           return { ...prev, [key]: newVal };
         } else if (upDown === "down") {
+
           if (newVal < 0) {
             return { ...prev, [key]: 0 };
           }
@@ -71,17 +104,17 @@ function App() {
     const containerSize = document.getElementById("container").getBoundingClientRect().height
     gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
     gsap.to("#tongueGroup", { scaleY: 1, duration: 1, ease: "power1.out" })
-    gsap.timeline()
-      .to("#tongueDrool", { scaleY: 1, duration: 2 })
-      .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "center" })
+    gsap.to("#tongueDrool", { scaleY: 1, duration: 2, transformOrigin: "top center" })
     setMouthOpen(true)
   }
 
   function mouthCloseFunction() {
     gsap.to("#mouthGroup", { y: 0, duration: 2, ease: "power1.out" })
+    gsap.to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
     gsap.timeline()
-      .to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
+      .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
       .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
+      .set("#tongueCum", { opacity: 0 })
     setMouthOpen(false)
   }
 
@@ -93,6 +126,25 @@ function App() {
       mouthCloseFunction();
       setHoldMouthOpen(false);
     }
+  }
+
+  const maxYLoggedRef = useRef(0);
+
+  const multRef = useRef(0.2);
+
+  function setMult(y, maxY, start, end, hits, increaseBy) {
+    multRef.current = start
+    if (multRef.current >= end) return end;
+    else if (y + 1 >= maxY) {
+      maxYLoggedRef.current += 1;
+      console.log("maxYLogged:", maxYLoggedRef.current);
+      if (maxYLoggedRef.current >= hits) {
+        maxYLoggedRef.current = 0;
+        multRef.current = multRef.current + increaseBy;
+      }
+    }
+    console.log(multRef.current)
+    return multRef.current;
   }
 
   useEffect(() => { // Elements that change based on approach state
@@ -144,7 +196,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        valChange(["ives", "boyd"], "up")
+        valChange("ives", "up")
       }
     })
 
@@ -171,7 +223,16 @@ function App() {
           valChange(["boyd", "ives"], "up");
         }
         this.dragResistance = resistance
+
+        // FIX: Use applyBounds instead of mutating this.bounds
+        this.applyBounds({
+          minX: containerSize * -0.0055,
+          maxX: containerSize * 0.0055,
+          minY: containerSize * -0.07,
+          maxY: containerSize * setMult(this.y, this.maxY, multRef.current, 0.4, 5, 0.01)
+        });
       },
+
       bounds: {
         minX: containerSize * -0.0055,
         maxX: containerSize * 0.0055,
@@ -186,6 +247,44 @@ function App() {
     });
 
   }, [])
+
+  function cumAnimation(cumId, shotDuration, moveDuration, origin) {
+    const cumshot = document.getElementById("cumshot")
+    const cumVals = getXY(cumId, origin)
+    cumshot.setAttribute('x2', cumVals.x)
+    cumshot.setAttribute('y2', cumVals.y)
+    gsap.set("#cumshot", { opacity: 0.9 })
+    gsap.timeline().fromTo(
+      "#cumshot",
+      { drawSVG: "0 30%" },
+      {
+        duration: (shotDuration || 0.25),
+        drawSVG: "70% 100%"
+      })
+      .set("#cumshot", { opacity: 0 })
+      .set(`#${cumId}`, { opacity: .8, scale: 0.6, transformOrigin: (origin || "center") })
+      .to(`#${cumId}`, { scale: 1, duration: moveDuration, ease: "power1.out" })
+  }
+
+  useEffect(() => { // Nut function
+
+    if (arousal.ives >= maxArousal.ives) {
+
+      if (mouthOn) {
+        console.log("mouthOn")
+        // Plays expression change animation and resets arousal
+      }
+      if (!mouthOn && mouthOpenRef.current) {
+        cumAnimation("tongueCum", 0.25, 0.6)
+        // Plays cum on tongue animation
+      }
+      if (!mouthOn && !mouthOpenRef.current) {
+        cumAnimation("faceCum", 0.4, 1.5, "top left")
+        // Plays cum on face animation
+      }
+      setArousal(prev => ({ ...prev, ives: 0 }))
+    }
+  }, [arousal.ives])
 
   const tweensRef = useRef({});
   // Expression elements that have Open, HalfShut, and Shut versions
@@ -215,20 +314,20 @@ function App() {
 
   useEffect(() => {    // Elements that change based on arousal.boyd
 
-    const arousalRatio = arousal["boyd"] / maxArousal["boyd"]
-
-    const container = document.getElementById("container");
-    const draggable = Draggable.get("#hairPullHand");
-    if (container && draggable) {
-      const containerSize = container.getBoundingClientRect().height;
-      const bounds = containerSize * (0.2 + (arousalRatio * 0.2));
-      draggable.applyBounds({
-        minX: containerSize * -0.0055,
-        maxX: containerSize * 0.0055,
-        minY: containerSize * -0.07,
-        maxY: bounds
-      });
-    }
+    const arousalRatio = arousal.boyd / maxArousal.boyd
+    /*
+        const container = document.getElementById("container");
+        const draggable = Draggable.get("#hairPullHand");
+        if (container && draggable) {
+          const containerSize = container.getBoundingClientRect().height;
+          const bounds = containerSize * (0.2 + (arousalRatio * 0.2));
+          draggable.applyBounds({
+            minX: containerSize * -0.0055,
+            maxX: containerSize * 0.0055,
+            minY: containerSize * -0.07,
+            maxY: bounds
+          });
+        } */
 
     Object.values(tweensRef.current).forEach(tween => {
       if (tween) tween.progress(arousalRatio);
@@ -245,7 +344,7 @@ function App() {
     var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
 
     const blush = document.getElementById("blush")
-    renderProgress(blush, "opacity", arousal["boyd"], maxArousal["boyd"])
+    renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
     sweatIntervalRef.current = setInterval(() => randomizeArray("sweat", "faceArea"), 5000);
 
@@ -259,7 +358,7 @@ function App() {
         document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
       } else return
     };
-  }, [arousal["boyd"]]);
+  }, [arousal.boyd]);
 
   useEffect(() => {
     let running = true;
@@ -273,7 +372,6 @@ function App() {
 
       sweats.forEach(sweat => {
         eyes.forEach(eye => {
-          // 20% overlap threshold (adjust as needed)
           if (Draggable.hitTest(sweat, eye, 1)) {
             gsap.to(sweat, { opacity: 0, duration: 0.2 });
           }
@@ -394,10 +492,10 @@ function App() {
       >
       </AgeGate>
       <Outputs
-        boyd={arousal["boyd"]}
-        ives={arousal["ives"]}
-        maxBoyd={maxArousal["boyd"]}
-        maxIves={maxArousal["ives"]} />
+        boyd={arousal.boyd}
+        ives={arousal.ives}
+        maxBoyd={maxArousal.boyd}
+        maxIves={maxArousal.ives} />
       <div className='buffer'></div>
       <div id='positioning'>
         <Body />

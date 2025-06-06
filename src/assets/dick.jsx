@@ -28,10 +28,18 @@ const Dick = () => (
       </g>
     </svg>
 
+    <svg viewBox="0 0 987.679 1234.713" className="topmost">
+      <line
+        id="cumshot"
+        x1="444" y1="775" x2="444" y2="400"
+        style={{ stroke: "#fff", strokeWidth: 5 }}>
+      </line>
+    </svg>
+
     <svg
       viewBox="0 0 987.679 1234.713"
       id="dick"
-      className="opacity0"
+      className=""
     >
       <defs>
         <linearGradient id="dick-b">
@@ -107,6 +115,7 @@ const Dick = () => (
             display="inline"
           ></path>
           <ellipse
+            id="dickTip"
             cx="447.385"
             cy="-661.274"
             fill="#2b0000"
@@ -118,6 +127,7 @@ const Dick = () => (
             ry="11.5"
             transform="scale(1 -1)"
           ></ellipse>
+
           <path
             fill="url(#dick-d)"
             strokeWidth="2.749"
@@ -181,6 +191,7 @@ const Dick = () => (
           ></path>
         </g>
       </g>
+
     </svg>
 
     <svg
