@@ -1,6 +1,102 @@
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
+import { useRef } from 'react';
+
+var maxYLoggedRef = {};
+var multRef = {};
+
+export const setMult = (id, y, maxY, initial, end, hits, increaseBy) => {
+
+    if (!multRef.id) {
+        Object.defineProperty(multRef, id, { value: initial })
+    }
+
+    if (!maxYLoggedRef.id) {
+        Object.defineProperty(maxYLoggedRef, id, { value: 0 })
+    }
+
+    if (multRef >= end) return end;
+    else if (y + 1 >= maxY) {
+        maxYLoggedRef += 1;
+        console.log("maxYLogged:", maxYLoggedRef);
+        if (maxYLoggedRef >= hits) {
+            maxYLoggedRef = 0;
+            multRef = multRef + increaseBy;
+        }
+    }
+    return multRef;
+}
+
+var mouthOpenRef = false
+var holdMouthOpenRef = false
+
+export const checkHoldMouthOpen = () => {
+    return holdMouthOpenRef
+}
+
+export const mouthOpenFunction = () => {
+    const containerSize = document.getElementById("container").getBoundingClientRect().height
+    gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
+    gsap.to("#tongueGroup", { scaleY: 1, duration: 1, ease: "power1.out" })
+    gsap.to("#tongueDrool", { scaleY: 1, duration: 2, transformOrigin: "top center" })
+    mouthOpenRef = true
+}
+
+export const mouthCloseFunction = () => {
+    gsap.to("#mouthGroup", { y: 0, duration: 2, ease: "power1.out" })
+    gsap.to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
+    gsap.timeline()
+        .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
+        .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
+        .set("#tongueCum", { opacity: 0 })
+    mouthOpenRef = false
+}
+
+export const mouthOpenClose = () => {
+    if (mouthOpenRef !== true) { // if mouth is closed
+        mouthOpenFunction();
+        holdMouthOpenRef = true
+    } else {
+        mouthCloseFunction();
+        holdMouthOpenRef = false
+    }
+}
+
+export const getSVGParent = (element) => {
+    console.log(element)
+    while (element.nodeName !== "svg") {
+        element = element.parentElement;
+        console.log(element.nodeName)
+    }
+    return element;
+}
+
+export const getXY = (id, origin) => {
+
+    var element = document.getElementById(id)
+
+    var svg = getSVGParent(element)
+
+    const rect = element.getBoundingClientRect();
+    console.log(svg)
+
+    const pt = svg.createSVGPoint();
+    if (origin == "top left" || origin == "left top") {
+        pt.x = rect.x
+        pt.y = rect.y
+    } else if (origin == "top right" || origin == "right top") {
+        pt.x = rect.x + rect.width
+        pt.y = rect.y + rect.height
+    } else {
+        pt.x = rect.x + rect.width / 2;
+        pt.y = rect.y + rect.height / 2;
+    }
+
+    const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
+
+    return { x: svgPt.x, y: svgPt.y }
+}
 
 export const randomizeArray = (idString, bounds) => {
 
@@ -32,31 +128,30 @@ export const randomizeArray = (idString, bounds) => {
     array.splice(0, 0, element) // Adds the element back to the array so it can be called again
 }
 
-
 export const random = () => {
     if (Math.random() > 0.5) {
         return true
     } else return false
 }
 
-export const valChange = (ids, upDown) => {
+export const valChange = (ids, upDown, max, setter) => {
     if (!Array.isArray(ids)) {
         ids = [ids];
     }
     ids.forEach((key) => {
-        setArousal((prev) => {
-            const newVal = upDown === "up" ? prev.key + 1 : prev.key - 1;
+        setter((prev) => {
+            const newVal = upDown === "up" ? prev[key] + 1 : prev[key] - 1;
             if (upDown === "up") {
-                if (newVal > maxArousalkey) {
-                    return { ...prev, key: prev.key };
+                if (newVal > max[key]) {
+                    return { ...prev, [key]: prev[key] };
                 }
-                return { ...prev, key: newVal };
+                return { ...prev, [key]: newVal };
             } else if (upDown === "down") {
-                if (!document.hasFocus()) return
+
                 if (newVal < 0) {
-                    return { ...prev, key: 0 };
+                    return { ...prev, [key]: 0 };
                 }
-                return { ...prev, key: newVal };
+                return { ...prev, [key]: newVal };
             }
             return prev;
         });

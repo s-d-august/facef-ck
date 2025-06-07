@@ -16,7 +16,7 @@ import { MorphSVGPlugin } from 'gsap/all'
 import { DrawSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 import icon from './assets/cover.png';
-import { getOverlapPercent, updateFollowers, randomizeArray, renderProgress, valChange } from './functions'
+import { checkHoldMouthOpen, setMult, getOverlapPercent, updateFollowers, randomizeArray, renderProgress, valChange, mouthOpenClose, mouthCloseFunction, mouthOpenFunction, getXY } from './functions'
 
 
 
@@ -24,7 +24,7 @@ function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
-  const [mouthOpen, setMouthOpen] = useState(false)
+  const [mouthOpen, setMouthOpen] = useState("closed")
   const mouthOpenRef = useRef(mouthOpen);
   const [approach, setApproach] = useState(false)
   const droolIntervalRef = useRef(null);
@@ -44,112 +44,9 @@ function App() {
     mouthOpenRef.current = mouthOpen;
   }, [mouthOpen]);
 
-  function getSVGParent(element) {
-    console.log(element)
-    while (element.nodeName !== "svg") {
-      element = element.parentElement;
-      console.log(element.nodeName)
-    }
-    return element;
-  }
-
-  function getXY(id, origin) {
-
-    var element = document.getElementById(id)
-
-    var svg = getSVGParent(element)
-
-    const rect = element.getBoundingClientRect();
-    console.log(svg)
-
-    const pt = svg.createSVGPoint();
-    if (origin == "top left" || origin == "left top") {
-      pt.x = rect.x
-      pt.y = rect.y
-    } else {
-      pt.x = rect.x + rect.width / 2;
-      pt.y = rect.y + rect.height / 2;
-    }
-
-    const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
-
-    return { x: svgPt.x, y: svgPt.y }
-  }
-
-  function valChange(ids, upDown) {
-    if (!Array.isArray(ids)) {
-      ids = [ids];
-    }
-    ids.forEach((key) => {
-      setArousal((prev) => {
-        const newVal = upDown === "up" ? prev[key] + 1 : prev[key] - 1;
-        if (upDown === "up") {
-          if (newVal > maxArousal[key]) {
-            return { ...prev, [key]: prev[key] };
-          }
-          return { ...prev, [key]: newVal };
-        } else if (upDown === "down") {
-
-          if (newVal < 0) {
-            return { ...prev, [key]: 0 };
-          }
-          return { ...prev, [key]: newVal };
-        }
-        return prev;
-      });
-    });
-  }
-
-  function mouthOpenFunction() {
-    const containerSize = document.getElementById("container").getBoundingClientRect().height
-    gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
-    gsap.to("#tongueGroup", { scaleY: 1, duration: 1, ease: "power1.out" })
-    gsap.to("#tongueDrool", { scaleY: 1, duration: 2, transformOrigin: "top center" })
-    setMouthOpen(true)
-  }
-
-  function mouthCloseFunction() {
-    gsap.to("#mouthGroup", { y: 0, duration: 2, ease: "power1.out" })
-    gsap.to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
-    gsap.timeline()
-      .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
-      .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
-      .set("#tongueCum", { opacity: 0 })
-    setMouthOpen(false)
-  }
-
-  function mouthOpenClose() {
-    if (mouthOpenRef.current === false) {
-      mouthOpenFunction();
-      setHoldMouthOpen(true);
-    } else {
-      mouthCloseFunction();
-      setHoldMouthOpen(false);
-    }
-  }
-
-  const maxYLoggedRef = useRef(0);
-
-  const multRef = useRef(0.2);
-
-  function setMult(y, maxY, start, end, hits, increaseBy) {
-    multRef.current = start
-    if (multRef.current >= end) return end;
-    else if (y + 1 >= maxY) {
-      maxYLoggedRef.current += 1;
-      console.log("maxYLogged:", maxYLoggedRef.current);
-      if (maxYLoggedRef.current >= hits) {
-        maxYLoggedRef.current = 0;
-        multRef.current = multRef.current + increaseBy;
-      }
-    }
-    console.log(multRef.current)
-    return multRef.current;
-  }
-
   useEffect(() => { // Elements that change based on approach state
 
-    if (holdMouthOpen === true) return
+    if (checkHoldMouthOpen()) return
 
     if (approach) {
       mouthOpenFunction()
@@ -164,7 +61,7 @@ function App() {
     document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
     gsap.set("#tongueGroup", { scaleY: 0 });
     gsap.set("#tongueDrool", { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => valChange(["boyd", "ives"], "down"), 500);
+    const interval = setInterval(() => valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -196,7 +93,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        valChange("ives", "up")
+        valChange("ives", "up", maxArousal, setArousal)
       }
     })
 
@@ -220,16 +117,15 @@ function App() {
         } else { // Dick is in mouth
           setMouthOn(true)
           var resistance = percent * 3
-          valChange(["boyd", "ives"], "up");
+          valChange(["boyd", "ives"], "up", maxArousal, setArousal);
         }
         this.dragResistance = resistance
 
-        // FIX: Use applyBounds instead of mutating this.bounds
         this.applyBounds({
           minX: containerSize * -0.0055,
           maxX: containerSize * 0.0055,
           minY: containerSize * -0.07,
-          maxY: containerSize * setMult(this.y, this.maxY, multRef.current, 0.4, 5, 0.01)
+          maxY: containerSize * setMult("#hairPullHand", this.y, this.maxY, 0.2, 0.4, 5, 0.05)
         });
       },
 
@@ -263,7 +159,7 @@ function App() {
       })
       .set("#cumshot", { opacity: 0 })
       .set(`#${cumId}`, { opacity: .8, scale: 0.6, transformOrigin: (origin || "center") })
-      .to(`#${cumId}`, { scale: 1, duration: moveDuration, ease: "power1.out" })
+      .to(`#${cumId}`, { scale: 1, duration: (moveDuration || 1), ease: "power1.out" })
   }
 
   useEffect(() => { // Nut function
@@ -286,31 +182,79 @@ function App() {
     }
   }, [arousal.ives])
 
-  const tweensRef = useRef({});
-  // Expression elements that have Open, HalfShut, and Shut versions
-  const expressionHalf = ["face", "eyelinesRight", "eyelinesLeft", "bottomLineRight", "bottomLineLeft"]
-  // Expression elements that only have Open and Shut versions
-  const expressionOpenShut = ["faceShadow", "topLineLeft", "topLineRight"]
+  const expressionTweensRef = useRef([]);
 
   useEffect(() => {
     // Create or update tweens for multiple elements
 
-    expressionHalf.forEach((el) => {
-      const startingY = document.getElementById(`${el}HalfShut`).getBoundingClientRect().bottom
-      const finalY = document.getElementById(`${el}HalfShut`).getBoundingClientRect().bottom
-      tweensRef.current[el] = gsap.to(`#${el}Open`, {
+    expressionChange("Open", "HalfShut")
+
+  }, []);
+
+  function clearDupes(arr1, arr2) {
+    // Make shallow copies to avoid mutating the originals
+    let a = [...arr1];
+    let b = [...arr2];
+
+    // Remove identical elements from the larger array
+    for (let i = 0; i < b.length; i++) {
+      const idx = a.indexOf(b[i]);
+      if (idx !== -1) {
+        a.splice(idx, 1);
+      }
+    }
+
+    return [a];
+  }
+  function matchID(el,
+    startString, // The string associated with the start state (ie "Open")
+    endString // The string associated with the start state (ie "HalfShut")
+  ) {
+    const startID = el.id.toString() // Gets the ID of the original element
+    const stateless = startID.replace(startString, "") // Removes the state string from the ID to get the element name
+    const endID = stateless + endString // Concats the element name with the end state string to get the ID for the matching element
+    if (document.getElementById(endID)) {
+      return document.getElementById(endID)
+    } else console.log("Element with ID " + endID + " not found!")
+  }
+
+  function expressionChange(fromState, toState) {
+    // Get all elements whose id contains fromState and toState
+    var fromArray = document.querySelectorAll(`[id*="${fromState}"]`);
+    var stateName = fromState + "-" + toState
+    console.log(stateName)
+
+    // Cleans up duplicate elements if one state name contains another (ie "HalfOpen" and "Open")
+    if (fromState.includes(toState) || toState.includes(fromState)) {
+      var toArray = document.querySelectorAll(`[id*="${toState}"]`);
+      fromArray = clearDupes(fromArray, toArray);
+    }
+
+    // Initialize the object for this state if it doesn't exist
+    if (!expressionTweensRef.current[stateName]) {
+      expressionTweensRef.current[stateName] = {};
+    }
+
+
+
+    fromArray.forEach((el) => {
+      // Use el.id as the key, or el if you prefer
+      const match = matchID(el, fromState, toState)
+      if (!match) return
+
+      expressionTweensRef.current[stateName][el.id] = gsap.to(el, {
         duration: 1,
-        morphSVG: `#${el}HalfShut`,
-        y: (startingY - finalY),
+        morphSVG: match,
+        y: 0,
         paused: true
       });
     });
 
     return () => {
       // Kill all tweens on cleanup
-      Object.values(tweensRef.current).forEach(tween => tween && tween.kill());
+      Object.values(expressionTweensRef.current[stateName]).forEach(tween => tween && tween.kill());
     };
-  }, []);
+  }
 
   useEffect(() => {    // Elements that change based on arousal.boyd
 
@@ -329,8 +273,8 @@ function App() {
           });
         } */
 
-    Object.values(tweensRef.current).forEach(tween => {
-      if (tween) tween.progress(arousalRatio);
+    Object.values(expressionTweensRef.current["Open-HalfShut"]).forEach(tween => {
+      if (tween) tween.progress(arousalRatio / 2);
     });
 
     var breathCycleDuration = (
@@ -346,7 +290,7 @@ function App() {
     const blush = document.getElementById("blush")
     renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
-    sweatIntervalRef.current = setInterval(() => randomizeArray("sweat", "faceArea"), 5000);
+    sweatIntervalRef.current = setInterval(() => randomizeArray("sweat", "faceArea"), 10000);
 
     return () => {
       if (sweatIntervalRef.current) {

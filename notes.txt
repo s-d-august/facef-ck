@@ -6,4 +6,4 @@ FEATURES
  - eye movement
  - eye effects (wet/hazy)
  - order him to stick his tongue out
- - tongue saliva
+ - switch between bounds modes: "training" or arousal
