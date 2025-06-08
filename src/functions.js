@@ -3,6 +3,105 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
 import { useRef } from 'react';
 
+export const cumAnimation = (cumId, shotDuration, moveDuration, origin) => {
+    const cumshot = document.getElementById("cumshot")
+    const cumVals = getXY(cumId, origin)
+    cumshot.setAttribute('x2', cumVals.x)
+    cumshot.setAttribute('y2', cumVals.y)
+    gsap.set("#cumshot", { opacity: 0.9 })
+    gsap.timeline().fromTo(
+        "#cumshot",
+        { drawSVG: "0 30%" },
+        {
+            duration: (shotDuration || 0.25),
+            drawSVG: "70% 100%"
+        })
+        .set("#cumshot", { opacity: 0 })
+        .set(`#${cumId}`, { opacity: .8, scale: 0.6, transformOrigin: (origin || "center") })
+        .to(`#${cumId}`, { scale: 1, duration: (moveDuration || 1), ease: "power1.out" })
+}
+
+var depthMethodRef = "training"
+
+export const depthMethod = (change) => {
+    if (change) {
+        depthMethodRef = change
+    }
+    return depthMethodRef
+}
+
+export const clearDupes = (arr1, arr2) => {
+    // Make shallow copies to avoid mutating the originals
+    let a = [...arr1];
+    let b = [...arr2];
+
+    // Remove identical elements from the larger array
+    for (let i = 0; i < b.length; i++) {
+        const idx = a.indexOf(b[i]);
+        if (idx !== -1) {
+            a.splice(idx, 1);
+        }
+    }
+
+    return [a];
+}
+
+export const matchID = (el,
+    startString, // The string associated with the start state (ie "Open")
+    endString // The string associated with the start state (ie "HalfShut")
+) => {
+    const startID = el.id.toString() // Gets the ID of the original element
+    const stateless = startID.replace(startString, "") // Removes the state string from the ID to get the element name
+    const endID = stateless + endString // Concats the element name with the end state string to get the ID for the matching element
+    if (document.getElementById(endID)) {
+        return document.getElementById(endID)
+    } else return
+}
+
+var expressionTweensRef = []
+
+export const expressionChange = (fromState, toState) => {
+    // Get all elements whose id contains fromState and toState
+    var fromArray = document.querySelectorAll(`[id*="${fromState}"]`);
+    var stateName = fromState + "-" + toState
+
+    // Cleans up duplicate elements if one state name contains another (ie "HalfOpen" and "Open")
+    if (fromState.includes(toState) || toState.includes(fromState)) {
+        var toArray = document.querySelectorAll(`[id*="${toState}"]`);
+        fromArray = clearDupes(fromArray, toArray);
+    }
+
+    // Initialize the object for this state if it doesn't exist
+    if (!expressionTweensRef[stateName]) {
+        expressionTweensRef[stateName] = {};
+    }
+
+    fromArray.forEach((el) => {
+        // Use el.id as the key, or el if you prefer
+        const match = matchID(el, fromState, toState)
+        if (!match) return
+
+        expressionTweensRef[stateName][el.id] = gsap.to(el, {
+            duration: 1,
+            morphSVG: match,
+            y: 0,
+            paused: true
+        });
+    });
+
+    return () => {
+        // Kill all tweens on cleanup
+        Object.values(expressionTweensRef.current[stateName]).forEach(tween => tween && tween.kill());
+    };
+}
+
+export const renderFaceChange = (name, progress) => {
+    Object.values(expressionTweensRef[name]).forEach(tween => {
+        if (tween)
+            tween.progress(progress);
+    });
+}
+
 var maxYLoggedRef = {};
 var multRef = {};
 
@@ -19,7 +118,6 @@ export const setMult = (id, y, maxY, initial, end, hits, increaseBy) => {
     if (multRef >= end) return end;
     else if (y + 1 >= maxY) {
         maxYLoggedRef += 1;
-        console.log("maxYLogged:", maxYLoggedRef);
         if (maxYLoggedRef >= hits) {
             maxYLoggedRef = 0;
             multRef = multRef + increaseBy;
@@ -64,10 +162,8 @@ export const mouthOpenClose = () => {
 }
 
 export const getSVGParent = (element) => {
-    console.log(element)
     while (element.nodeName !== "svg") {
         element = element.parentElement;
-        console.log(element.nodeName)
     }
     return element;
 }
@@ -79,7 +175,6 @@ export const getXY = (id, origin) => {
     var svg = getSVGParent(element)
 
     const rect = element.getBoundingClientRect();
-    console.log(svg)
 
     const pt = svg.createSVGPoint();
     if (origin == "top left" || origin == "left top") {
