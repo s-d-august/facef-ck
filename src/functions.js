@@ -21,7 +21,7 @@ export const cumAnimation = (cumId, shotDuration, moveDuration, origin) => {
         .to(`#${cumId}`, { scale: 1, duration: (moveDuration || 1), ease: "power1.out" })
 }
 
-var depthMethodRef = "training"
+var depthMethodRef = "arousal"
 
 export const depthMethod = (change) => {
     if (change) {
@@ -156,8 +156,6 @@ export const renderChange = (fromState, toState, progress, interruptDuration) =>
 
     function render(name, progress) {
         Object.values(tweensRef[name]).forEach(tween => {
-            console.log(tween)
-            console.log(progress)
             if (tween && typeof tween.progress === "function") {
                 tween.progress(progress);
             }
@@ -186,24 +184,24 @@ var maxYLoggedRef = {};
 var multRef = {};
 
 export const setMult = (id, y, maxY, initial, end, hits, increaseBy) => {
-
-    if (!multRef.id) {
-        Object.defineProperty(multRef, id, { value: initial })
+    if (multRef[id] === undefined) {
+        multRef[id] = initial;
+    }
+    if (maxYLoggedRef[id] === undefined) {
+        maxYLoggedRef[id] = 0;
     }
 
-    if (!maxYLoggedRef.id) {
-        Object.defineProperty(maxYLoggedRef, id, { value: 0 })
-    }
 
-    if (multRef >= end) return end;
+    if (multRef[id] >= end) return end;
     else if (y + 1 >= maxY) {
-        maxYLoggedRef += 1;
-        if (maxYLoggedRef >= hits) {
-            maxYLoggedRef = 0;
-            multRef = multRef + increaseBy;
+        maxYLoggedRef[id] += 1;
+        console.log(multRef, maxYLoggedRef);
+        if (maxYLoggedRef[id] >= hits) {
+            maxYLoggedRef[id] = 0;
+            multRef[id] = multRef[id] + increaseBy;
         }
     }
-    return multRef;
+    return multRef[id];
 }
 
 var mouthOpenRef = false

@@ -30,7 +30,7 @@ function App() {
   })
   const [maxArousal, setmaxArousal] = useState({
     ives: 500,
-    boyd: 100,
+    boyd: 500,
   })
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
@@ -116,16 +116,16 @@ function App() {
             minX: containerSize * -0.0055,
             maxX: containerSize * 0.0055,
             minY: containerSize * -0.07,
-            maxY: containerSize * kkht.setMult("#hairPullHand", this.y, this.maxY, 0.2, 0.4, 5, 0.05)
+            maxY: containerSize * kkht.setMult("#hairPullHand", this.y, (this.maxY || containerSize * 0.1), 0.2, 0.4, 5, 0.005)
           });
+          console.log(this.y, this.maxY)
+        } else this.applyBounds({
+          minX: containerSize * -0.0055,
+          maxX: containerSize * 0.0055,
+          minY: containerSize * -0.07,
+          maxY: containerSize * 0.4
         }
-      },
-
-      bounds: {
-        minX: containerSize * -0.0055,
-        maxX: containerSize * 0.0055,
-        minY: containerSize * -0.07,
-        maxY: containerSize * 0.4
+        )
       },
       dragResistance: 0,
       zIndexBoost: false,
