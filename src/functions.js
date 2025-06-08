@@ -235,7 +235,6 @@ export const setMult = (id, y, maxY, initial, end, hits, increaseBy) => {
     if (multRef[id] >= end) return end;
     else if (y + 1 >= maxY) {
         maxYLoggedRef[id] += 1;
-        console.log(multRef, maxYLoggedRef);
         if (maxYLoggedRef[id] >= hits) {
             maxYLoggedRef[id] = 0;
             multRef[id] = multRef[id] + increaseBy;

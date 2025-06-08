@@ -104,12 +104,16 @@ function App() {
         if (percent <= 0.1) { // Dick isn't in mouth
           var resistance = 0
           setMouthOn(false)
+          if (Draggable.hitTest("#tongue", "#dickHead", "20%")) {
+            kkht.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
+          }
         } else { // Dick is in mouth
           setMouthOn(true)
           var resistance = percent * 3
           kkht.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
         }
         this.dragResistance = resistance
+
 
         if (kkht.depthMethod() === "training") {
           this.applyBounds({
@@ -118,7 +122,6 @@ function App() {
             minY: containerSize * -0.07,
             maxY: containerSize * kkht.setMult("#hairPullHand", this.y, (this.maxY || containerSize * 0.1), 0.2, 0.4, 5, 0.005)
           });
-          console.log(this.y, this.maxY)
         } else this.applyBounds({
           minX: containerSize * -0.0055,
           maxX: containerSize * 0.0055,
@@ -143,7 +146,6 @@ function App() {
     if (arousal.ives >= maxArousal.ives) {
 
       if (mouthOn) {
-        console.log("mouthOn")
         kkht.renderChange("Open", "Wide", 0, 1)
         // Plays expression change animation and resets arousal
       }
@@ -194,9 +196,7 @@ function App() {
         });
       }
     }
-    console.log(kkht.isInterrupted())
     if (!kkht.isInterrupted()) {
-
       kkht.renderChange("Open", "Half", (arousalRatio / 2))
     }
 
