@@ -7,3 +7,15 @@ FEATURES
  - eye effects (wet/hazy)
  - order him to stick his tongue out
  - switch between bounds modes: "training" or arousal
+
+I want it so that if an animation is in the process of running,
+I can interrupt it with another animation and have it return to
+its previous progress on complete. 
+
+It should save the progress of the animation when the interrupt
+is triggered
+
+When interrupted, progress should revert to 0
+
+interrupted is open-half 
+interruption is open-wide

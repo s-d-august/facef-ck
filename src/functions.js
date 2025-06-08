@@ -58,22 +58,22 @@ export const matchID = (el,
     } else return
 }
 
-var expressionTweensRef = []
+var tweensRef = []
+var changeInProgress = false
+var interrupted = {}
 
-export const expressionChange = (fromState, toState) => {
+export const shapeChange = (fromState, toState) => {
     // Get all elements whose id contains fromState and toState
     var fromArray = document.querySelectorAll(`[id*="${fromState}"]`);
     var stateName = fromState + "-" + toState
 
-    // Cleans up duplicate elements if one state name contains another (ie "HalfOpen" and "Open")
-    if (fromState.includes(toState) || toState.includes(fromState)) {
-        var toArray = document.querySelectorAll(`[id*="${toState}"]`);
-        fromArray = clearDupes(fromArray, toArray);
-    }
-
     // Initialize the object for this state if it doesn't exist
-    if (!expressionTweensRef[stateName]) {
-        expressionTweensRef[stateName] = {};
+    if (!tweensRef[stateName]) {
+        tweensRef[stateName] = {
+            name: stateName,
+            from: fromState,
+            to: toState
+        };
     }
 
     fromArray.forEach((el) => {
@@ -81,7 +81,7 @@ export const expressionChange = (fromState, toState) => {
         const match = matchID(el, fromState, toState)
         if (!match) return
 
-        expressionTweensRef[stateName][el.id] = gsap.to(el, {
+        tweensRef[stateName][el.id] = gsap.to(el, {
             duration: 1,
             morphSVG: match,
             y: 0,
@@ -91,15 +91,95 @@ export const expressionChange = (fromState, toState) => {
 
     return () => {
         // Kill all tweens on cleanup
-        Object.values(expressionTweensRef.current[stateName]).forEach(tween => tween && tween.kill());
+        Object.values(tweensRef.current[stateName]).forEach(tween => tween && tween.kill());
     };
 }
 
-export const renderFaceChange = (name, progress) => {
-    Object.values(expressionTweensRef[name]).forEach(tween => {
-        if (tween)
-            tween.progress(progress);
-    });
+export const renderChange = (fromState, toState, progress, interruptDuration) => {
+    var stateName = fromState + "-" + toState
+
+    function hideAllExpressions(stateNameArray) {
+        var fullArray = []
+        stateNameArray.forEach(stateName => {
+            fullArray.push(Array.from(document.querySelectorAll(`[id*="${stateName}"]`)))
+        })
+        fullArray.forEach(subArray => {
+            subArray.forEach(el => {
+                el.style.visibility = "hidden"
+            })
+        })
+    }
+
+    hideAllExpressions(["Open", "Half", "Wide", "Shut"])
+
+    var newFromState = Array.from(document.querySelectorAll(`[id*="${fromState}"]`))
+    newFromState.forEach((el) => {
+
+        el.style.visibility = "visible"
+    })
+
+    if (interruptDuration) {
+        if (changeInProgress) {
+            interrupted = { name: changeInProgress.name, progress: changeInProgress.progress }
+
+            // if the currently running animation starts with the same state as the interrupt, reverts to that state
+            if (changeInProgress.from === fromState) {
+                render(changeInProgress.name, 0)
+
+                // if the currently running animation end with the same state as the interrupt, goes to that state
+            }
+            if (changeInProgress.to === fromState) {
+                render(changeInProgress.name, 1)
+            }
+            newFromState.forEach(el => {
+                const match = matchID(el, fromState, toState)
+                if (!match) return
+
+                gsap.to(el, {
+                    duration: interruptDuration,
+                    morphSVG: match,
+                    y: 0,
+                    paused: true,
+                    onComplete: () => {
+                        render(changeInProgress.name, changeInProgress.progress)
+                    }
+                });
+            })
+
+        }
+    } else {
+        if (!tweensRef[fromState + "-" + toState]) {
+            shapeChange(fromState, toState)
+        }
+        render(stateName, progress)
+    }
+
+    function render(name, progress) {
+        Object.values(tweensRef[name]).forEach(tween => {
+            console.log(tween)
+            console.log(progress)
+            if (tween && typeof tween.progress === "function") {
+                tween.progress(progress);
+            }
+            if (progress > 0) {
+                changeInProgress = {
+                    name: stateName,
+                    from: fromState,
+                    to: toState,
+                    progress: progress
+                }
+            } else changeInProgress = false
+            var defState = Array.from(document.querySelectorAll(`[id*="Open"]`))
+            defState.forEach((el) => {
+                el.style.visibility = "visible"
+            })
+
+        });
+    }
+}
+
+export const changeInProgressCheck = () => {
+    return changeInProgress
 }
 
 var maxYLoggedRef = {};

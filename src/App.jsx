@@ -52,7 +52,6 @@ function App() {
 
 
   useEffect(() => {
-    kkht.expressionChange("Open", "Half")
     document.getElementById("beard").addEventListener("dblclick", kkht.mouthOpenClose)
     document.getElementById("tongue").addEventListener("dblclick", kkht.mouthOpenClose)
     gsap.set("#tongueGroup", { scaleY: 0 });
@@ -63,15 +62,10 @@ function App() {
 
   useEffect(() => { // Sets up draggables
     const containerSize = document.getElementById("container").getBoundingClientRect().height
-    const dickHand = gsap.utils.toArray(".dickHandParts")
     const hideHand = gsap.utils.toArray(".hideHand")
     const headParts = gsap.utils.toArray(".headParts");
-    const dickDrool = gsap.utils.toArray(".dickDrool");
     const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
     const body = document.getElementById("bodyGroup");
-    const headFull = document.getElementById("headFull");
-    const head = document.getElementById("head")
-    const tongue = document.getElementById("tongue");
 
     Draggable.create(".dickHandParts", {
       trigger: "#dickHandGrab",
@@ -183,7 +177,7 @@ function App() {
       }
     }
 
-    kkht.renderFaceChange("Open-Half", (arousalRatio / 2))
+    kkht.renderChange("Open", "Half", (arousalRatio / 2))
 
     var breathCycleDuration = (
       (arousalRatio > 0.8) ? 0.75
