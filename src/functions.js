@@ -11,11 +11,11 @@ export const cumAnimation = (cumId, shotDuration, moveDuration, origin) => {
     gsap.set("#cumshot", { opacity: 0.9 })
     gsap.timeline().fromTo(
         "#cumshot",
-        { drawSVG: "0 30%" },
+        { drawSVG: "0 0" },
         {
-            duration: (shotDuration || 0.25),
-            drawSVG: "70% 100%"
-        })
+            duration: (shotDuration / 2 || 0.125),
+            drawSVG: "0 100%"
+        }).to("#cumshot", { drawSVG: "100% 100%", duration: (shotDuration / 2 || 0.125) })
         .set("#cumshot", { opacity: 0 })
         .set(`#${cumId}`, { opacity: .8, scale: 0.6, transformOrigin: (origin || "center") })
         .to(`#${cumId}`, { scale: 1, duration: (moveDuration || 1), ease: "power1.out" })
