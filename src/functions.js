@@ -60,7 +60,11 @@ export const matchID = (el,
 
 var tweensRef = []
 var changeInProgress = false
-var interrupted = {}
+var interrupted = false
+
+export const isInterrupted = () => {
+    return interrupted
+}
 
 export const shapeChange = (fromState, toState) => {
     // Get all elements whose id contains fromState and toState
@@ -130,16 +134,14 @@ export const renderChange = (fromState, toState, progress, interruptDuration) =>
     if (interruptDuration) {
         if (changeInProgress) {
             interrupted = { name: changeInProgress.name, progress: changeInProgress.progress }
-            console.log(interrupted)
             // if the currently running animation starts with the same state as the interrupt, reverts to that state
             if (changeInProgress.from === fromState) {
-                console.log(fromState)
-                render(changeInProgress.name, 0)
+                render(changeInProgress.name, 0.01, true)
 
                 // if the currently running animation end with the same state as the interrupt, goes to that state
             }
             if (changeInProgress.to === fromState) {
-                render(changeInProgress.name, 1)
+                render(changeInProgress.name, 0.99, true)
             }
             fromArray.forEach(el => {
                 const match = matchID(el, fromState, toState)
@@ -147,40 +149,59 @@ export const renderChange = (fromState, toState, progress, interruptDuration) =>
 
                 gsap.timeline()
                     .to(el, {
-                        duration: interruptDuration,
+                        duration: 0.25,
                         morphSVG: match,
-                        type: "rotational",
                         y: 0,
                         x: 0,
-                        onComplete: console.log("eyesOpen")
                     })
                     .to(el, {
-                        duration: interruptDuration,
+                        duration: 1,
                         morphSVG: el,
                         y: 0,
                         x: 0,
-                        type: "rotational",
-                        onComplete: (() => {
-                            console.log("eyesClose")
-                            render(changeInProgress.name, changeInProgress.progress)
-                        })
+                        onComplete: () => {
+                            if (changeInProgress) {
+                                let obj = { progress: 0 };
+                                gsap.to(obj, {
+                                    progress: changeInProgress.progress,
+                                    duration: 1,
+                                    onUpdate: () => {
+                                        render(changeInProgress.name, obj.progress, true);
+                                    },
+                                    onComplete: () => {
+                                        interrupted = false;
+                                    }
+                                });
+                            } else return
+                        }
                     })
             })
-
         }
     } else {
         render(stateName, progress)
     }
 
-    function render(name, progress) {
+    function render(name, progress, ignore) {
         if (!tweensRef[name]) {
             var states = name.split("-")
             shapeChange(states[0], states[1])
         }
         Object.values(tweensRef[name]).forEach(tween => {
+
+            var defState = Array.from(document.querySelectorAll(`[id*="Open"]`))
+            defState.forEach((el) => {
+                el.style.visibility = "visible"
+            })
+
             if (tween && typeof tween.progress === "function") {
                 tween.progress(progress);
             }
+
+            // Doesn't change the changeInProgress value
+            if (ignore) {
+                return
+            }
+
             if (progress > 0) {
                 changeInProgress = {
                     name: stateName,
@@ -189,10 +210,7 @@ export const renderChange = (fromState, toState, progress, interruptDuration) =>
                     progress: progress
                 }
             } else changeInProgress = false
-            var defState = Array.from(document.querySelectorAll(`[id*="Open"]`))
-            defState.forEach((el) => {
-                el.style.visibility = "visible"
-            })
+
 
         });
     }

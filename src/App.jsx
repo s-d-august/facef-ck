@@ -30,7 +30,7 @@ function App() {
   })
   const [maxArousal, setmaxArousal] = useState({
     ives: 100,
-    boyd: 500,
+    boyd: 100,
   })
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
@@ -155,6 +155,23 @@ function App() {
         kkht.cumAnimation("faceCum", 0.4, 1.5, "top left")
         // Plays cum on face animation
       }
+      function disableAndEnableDraggables() {
+        // Disable hair pull hand
+        Draggable.get("#hairPullHand")?.disable();
+        // Disable all dick hand parts
+        gsap.utils.toArray(".dickHandParts").forEach(el => {
+          Draggable.get(el)?.disable();
+        });
+
+        // Wait 4 seconds, then enable
+        setTimeout(() => {
+          Draggable.get("#hairPullHand")?.enable();
+          gsap.utils.toArray(".dickHandParts").forEach(el => {
+            Draggable.get(el)?.enable();
+          });
+        }, 2500);
+      }
+      disableAndEnableDraggables()
       setArousal(prev => ({ ...prev, ives: 0 }))
     }
   }, [arousal.ives])
@@ -177,8 +194,11 @@ function App() {
         });
       }
     }
+    console.log(kkht.isInterrupted())
+    if (!kkht.isInterrupted()) {
 
-    kkht.renderChange("Open", "Half", (arousalRatio / 2))
+      kkht.renderChange("Open", "Half", (arousalRatio / 2))
+    }
 
     var breathCycleDuration = (
       (arousalRatio > 0.8) ? 0.75
