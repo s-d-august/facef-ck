@@ -245,8 +245,8 @@ const Head = () => (
                 opacity="1"
             ></path>
             <path
-                id="faceHalfShut"
-                className="halfShut"
+                id="faceHalf"
+                className="half"
                 fill="#ffe6d5"
                 strokeLinecap="round"
                 strokeWidth="3"
@@ -571,26 +571,26 @@ const Head = () => (
                 display="inline"
             >
                 <path
-                    id="eyelinesRightHalfShut"
-                    className="halfShut"
+                    id="eyelinesRightHalf"
+                    className="half"
                     d="m511.714 486.22 84.422-2.634zm3.943 4.744 79.107-2.305zm3.94 4.744 74.005-1.986z"
                     opacity="1"
                 ></path>
                 <path
-                    id="eyelinesLeftHalfShut"
-                    className="halfShut"
+                    id="eyelinesLeftHalf"
+                    className="half"
                     d="m400.564 492.555-87.73-2.192zm-3.885 4.791-82.413-1.928zm-3.88 4.792-77.308-1.67z"
                     opacity="1"
                 ></path>
                 <path
-                    id="bottomLineRightHalfShut"
-                    className="halfShut"
+                    id="bottomLineRightHalf"
+                    className="half"
                     d="m509.012 481.71 49.326-6.22 59.457 5.078"
                     opacity="1"
                 ></path>
                 <path
-                    id="bottomLineLeftHalfShut"
-                    className="halfShut"
+                    id="bottomLineLeftHalf"
+                    className="half"
                     d="m402.864 488.15-49.327-6.221-58.167 4.493"
                     opacity="1"
                 ></path>

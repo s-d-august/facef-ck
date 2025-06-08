@@ -1,22 +1,18 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
+import icon from './assets/cover.png';
+import * as kkht from './functions'
 import Dick from './assets/dick'
 import HairPullHand from './assets/hair-pull-hand'
 import Body from './assets/body'
 import Head from './assets/head'
 import Mouth from './assets/mouth'
+import Outputs from './assets/outputs'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
-import { InertiaPlugin } from 'gsap/all'
-import { CustomEase } from 'gsap/all'
-import { CustomWiggle } from 'gsap/all'
-import { Observer } from 'gsap/all'
-import Outputs from './assets/outputs'
-import { MorphSVGPlugin } from 'gsap/all'
-import { DrawSVGPlugin } from 'gsap/all'
+import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
-import icon from './assets/cover.png';
-import * as kkht from './functions'
+
 
 
 
@@ -56,7 +52,7 @@ function App() {
 
 
   useEffect(() => {
-    kkht.expressionChange("Open", "HalfShut")
+    kkht.expressionChange("Open", "Half")
     document.getElementById("beard").addEventListener("dblclick", kkht.mouthOpenClose)
     document.getElementById("tongue").addEventListener("dblclick", kkht.mouthOpenClose)
     gsap.set("#tongueGroup", { scaleY: 0 });
@@ -187,7 +183,7 @@ function App() {
       }
     }
 
-    kkht.renderFaceChange("Open-HalfShut", (arousalRatio / 2))
+    kkht.renderFaceChange("Open-Half", (arousalRatio / 2))
 
     var breathCycleDuration = (
       (arousalRatio > 0.8) ? 0.75

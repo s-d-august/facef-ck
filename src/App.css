@@ -106,16 +106,16 @@ svg {
   display: contents;
 }
 
-.tear,
+[id*="tear"],
+[id*="tongueCum"],
 #blush,
-.tongueDrool,
-#tongueCum,
+[id*="drool"],
 #cumshot {
   opacity: 0;
 }
 
-.tear,
-#tongueCum {
+[id*="tear"],
+[id*="tongueCum"] {
   scale: (0, 0);
 }
 
@@ -123,13 +123,10 @@ svg {
   opacity: 0
 }
 
-.halfShut,
-.shut {
+[id*="Half"],
+[id*="Shut"],
+[id*="Wide"] {
   visibility: hidden;
-}
-
-.dickHand {
-  display: none
 }
 
 @keyframes breathTorso {
