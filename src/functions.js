@@ -21,7 +21,7 @@ export const cumAnimation = (cumId, shotDuration, moveDuration, origin) => {
         .to(`#${cumId}`, { scale: 1, duration: (moveDuration || 1), ease: "power1.out" })
 }
 
-var depthMethodRef = "arousal"
+var depthMethodRef = ""
 
 export const depthMethod = (change) => {
     if (change) {
@@ -98,32 +98,42 @@ export const shapeChange = (fromState, toState) => {
 export const renderChange = (fromState, toState, progress, interruptDuration) => {
     var stateName = fromState + "-" + toState
 
+    // When building your fromArray, also build a set of IDs that have matches
+    const fromArray = Array.from(document.querySelectorAll(`[id*="${fromState}"]`));
+    const matchedIDs = new Set();
+
+    fromArray.forEach(el => {
+        const match = matchID(el, fromState, toState);
+        if (match) matchedIDs.add(el.id);
+    });
+
+    // Then, when hiding/showing, only affect matched elements
     function hideAllExpressions(stateNameArray) {
-        var fullArray = []
         stateNameArray.forEach(stateName => {
-            fullArray.push(Array.from(document.querySelectorAll(`[id*="${stateName}"]`)))
-        })
-        fullArray.forEach(subArray => {
-            subArray.forEach(el => {
-                el.style.visibility = "hidden"
-            })
-        })
+            Array.from(document.querySelectorAll(`[id*="${stateName}"]`)).forEach(el => {
+                if (matchedIDs.has(el.id)) {
+                    el.style.visibility = "hidden";
+                }
+            });
+        });
     }
 
     hideAllExpressions(["Open", "Half", "Wide", "Shut"])
 
-    var newFromState = Array.from(document.querySelectorAll(`[id*="${fromState}"]`))
-    newFromState.forEach((el) => {
-
-        el.style.visibility = "visible"
-    })
+    // When showing, only show matched elements
+    fromArray.forEach(el => {
+        if (matchedIDs.has(el.id)) {
+            el.style.visibility = "visible";
+        }
+    });
 
     if (interruptDuration) {
         if (changeInProgress) {
             interrupted = { name: changeInProgress.name, progress: changeInProgress.progress }
-
+            console.log(interrupted)
             // if the currently running animation starts with the same state as the interrupt, reverts to that state
             if (changeInProgress.from === fromState) {
+                console.log(fromState)
                 render(changeInProgress.name, 0)
 
                 // if the currently running animation end with the same state as the interrupt, goes to that state
@@ -131,30 +141,42 @@ export const renderChange = (fromState, toState, progress, interruptDuration) =>
             if (changeInProgress.to === fromState) {
                 render(changeInProgress.name, 1)
             }
-            newFromState.forEach(el => {
+            fromArray.forEach(el => {
                 const match = matchID(el, fromState, toState)
                 if (!match) return
 
-                gsap.to(el, {
-                    duration: interruptDuration,
-                    morphSVG: match,
-                    y: 0,
-                    paused: true,
-                    onComplete: () => {
-                        render(changeInProgress.name, changeInProgress.progress)
-                    }
-                });
+                gsap.timeline()
+                    .to(el, {
+                        duration: interruptDuration,
+                        morphSVG: match,
+                        type: "rotational",
+                        y: 0,
+                        x: 0,
+                        onComplete: console.log("eyesOpen")
+                    })
+                    .to(el, {
+                        duration: interruptDuration,
+                        morphSVG: el,
+                        y: 0,
+                        x: 0,
+                        type: "rotational",
+                        onComplete: (() => {
+                            console.log("eyesClose")
+                            render(changeInProgress.name, changeInProgress.progress)
+                        })
+                    })
             })
 
         }
     } else {
-        if (!tweensRef[fromState + "-" + toState]) {
-            shapeChange(fromState, toState)
-        }
         render(stateName, progress)
     }
 
     function render(name, progress) {
+        if (!tweensRef[name]) {
+            var states = name.split("-")
+            shapeChange(states[0], states[1])
+        }
         Object.values(tweensRef[name]).forEach(tween => {
             if (tween && typeof tween.progress === "function") {
                 tween.progress(progress);

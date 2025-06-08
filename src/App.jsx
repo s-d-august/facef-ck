@@ -29,7 +29,7 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 500,
+    ives: 100,
     boyd: 500,
   })
 
@@ -144,6 +144,7 @@ function App() {
 
       if (mouthOn) {
         console.log("mouthOn")
+        kkht.renderChange("Open", "Wide", 0, 1)
         // Plays expression change animation and resets arousal
       }
       if (!mouthOn && mouthOpenRef.current) {

@@ -234,36 +234,45 @@ const Head = () => (
                         opacity="1"
                     ></circle>
                 </g></g>
+            <g id="faceGroup" fill="#ffe6d5">
+                <path
+                    id="faceOpen"
+                    strokeLinecap="round"
+                    strokeWidth="3"
+                    d="M460.133 22.246 228.276 149.23l-29.79 143.843 33.278 280.464 120.145 74.778 60.597 2.179 36.626 4.282 32.137-.434 35.02-10.422-28.27-14.937 75.783 37.899 180.842-111.817-14.05-175.718-10.537-284.51ZM553.8 439.06l36.295 9.95 41.097 15.394-13.465 16.392-28.683 14.049-75.636-.756-9.368-26.93 31.022-21.67zm-196.197 6.556c23.358 5.403 30.594 12.413 49.723 26.463l-3.311 27.735-84.446.868-34.357-18.668-6.21-15.317z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="faceHalf"
+                    strokeLinecap="round"
+                    strokeWidth="3"
+                    d="M460.133 22.246 228.276 149.23l-29.79 143.843 33.278 280.464 111.038 83.056 61.914-15.691 39.645 18.106 39.811-5.002 33.88-15.027 32.048 18.924 135.736-71.826.267-33.94 44.491-172.79-10.537-284.51zM553.8 439.06l36.295 9.95 40.27 12.082-11.367 20.047-59.343-5.199-50.345 7.612-5.27-16.393 31.022-21.67zm-196.197 6.556c23.358 5.403 30.594 12.413 49.723 26.463l-3.896 16.026-49.062-5.943-58.77 4.485-10.892-20z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="faceWide"
+                    d="M460.65 21.681 228.793 148.665l-29.79 143.843 33.278 280.464 120.145 74.778 60.597 2.18 36.626 4.281 32.137-.434 35.02-10.422-28.27-14.937 75.783 37.9L745.16 554.5l-14.05-175.718-10.537-284.51zm87.227 406.275 55.906 9.951 30.852 26.516-16.392 15.807-19.902 14.05-67.915 2.656-20.893-15.707-4.977-14.636 21.655-28.987zm-186.246 7.435c23.359 5.403 44.352 13.583 48.552 36.122l-3.452 14.045-20.933 17.202-65.713-2.644-30.552-21.01-7.965-7.999 27.72-27.16z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="faceShut"
+                    strokeLinecap="round"
+                    strokeWidth="3"
+                    d="M460.133 22.246 228.276 149.23l-29.79 143.843 33.278 280.464 120.145 74.778 50.53-8.655 41.541 13.36 42.262-1.705 39.22-12.542 24.08 21.689 114.048-53.31 26.61-45.648 40.394-182.157-10.537-284.51zM553.8 439.06l36.295 9.95 40.27 12.082-14.879 12.144-59.929-5.199-48.589 6.44-2.928-7.318 31.022-21.67zm-196.197 6.556c23.358 5.403 30.594 12.413 49.723 26.463l-3.018 6.952-49.354-6.529-57.6 4.193-13.819-6.828z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
             <path
-                id="faceOpen"
-                className="open"
-                fill="#ffe6d5"
+                id="crease"
+                fill="#502d16"
+                stroke="#deaa87"
                 strokeLinecap="round"
-                strokeWidth="3"
-                d="M460.133 22.246 228.276 149.23l-29.79 143.843 33.278 280.464 120.145 74.778 60.597 2.179 36.626 4.282 32.137-.434 35.02-10.422-28.27-14.937 75.783 37.899 180.842-111.817-14.05-175.718-10.537-284.51ZM553.8 439.06l36.295 9.95 41.097 15.394-13.465 16.392-28.683 14.049-75.636-.756-9.368-26.93 31.022-21.67zm-196.197 6.556c23.358 5.403 30.594 12.413 49.723 26.463l-3.311 27.735-84.446.868-34.357-18.668-6.21-15.317z"
-                display="inline"
-                opacity="1"
-            ></path>
-            <path
-                id="faceHalf"
-                className="half"
-                fill="#ffe6d5"
-                strokeLinecap="round"
-                strokeWidth="3"
-                d="M460.133 22.246 228.276 149.23l-29.79 143.843 33.278 280.464 120.973 74.778 42.872 1.694 48.752 9 39.811-5.003 33.88-15.027 32.048 18.924 135.736-71.826.267-33.94 44.491-172.79-10.537-284.51zM553.8 439.06l36.295 9.95 40.27 12.082-11.367 20.047-59.343-5.199-50.345 7.612-5.27-16.393 31.022-21.67zm-196.197 6.556c23.358 5.403 30.594 12.413 49.723 26.463l-3.896 16.026-49.062-5.943-58.77 4.485-10.892-20z"
-                display="inline"
-                opacity="1"
-                transform="translate(-16.217 -15.665)"
-            ></path>
-            <path
-                id="faceShut"
-                className="shut"
-                fill="#ffe6d5"
-                strokeLinecap="round"
-                strokeWidth="3"
-                d="M460.133 22.246 228.276 149.23l-29.79 143.843 33.278 280.464 120.145 74.778 50.53-8.655 41.541 13.36 42.262-1.705 39.22-12.542 24.08 21.689 114.048-53.31 26.61-45.648 40.394-182.157-10.537-284.51zM553.8 439.06l36.295 9.95 40.27 12.082-14.879 12.144-59.929-5.199-48.589 6.44-2.928-7.318 31.022-21.67zm-196.197 6.556c23.358 5.403 30.594 12.413 49.723 26.463l-3.018 6.952-49.354-6.529-57.6 4.193-13.819-6.828z"
-                display="inline"
-                opacity="1"
+                strokeWidth="2.835"
+                d="m501.365 515.715 14.074 14.074"
             ></path>
             <path
                 id="path6"
@@ -291,104 +300,217 @@ const Head = () => (
                 strokeWidth="3"
                 d="m478.766 645.91 34.598-33.001-9.366-19.904"
             ></path>
-            <path
-                id="bottomLineLeftOpen"
-                className="open"
+            <g
+                id="bottomLineLeftGroup"
                 fill="none"
                 stroke="#deaa87"
                 strokeLinecap="round"
                 strokeOpacity="1"
                 strokeWidth="3"
-                d="m285.421 465.432 34.368 17.905 84.145-.958"
-                display="inline"
-                opacity="1"
-                transform="translate(0 17.562)"
-            ></path>
-            <path
-                id="bottomLineRightOpen"
-                className="open"
+            >
+                <path
+                    id="bottomLineLeftOpen"
+                    d="m285.421 482.994 34.368 17.905 84.145-.958"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="bottomLineLeftHalf"
+                    d="m402.864 488.15-49.327-6.221-58.167 4.493"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="bottomLineLeftWide"
+                    d="m405.075 486.98-20.641 16.024-68.815-2.57-19.327-14.597"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="bottomLineLeftShut"
+                    d="m404.034 478.491-49.326-6.221-58.168 4.493"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
+            <g
+                id="bottomLineRightGroup"
                 fill="none"
                 stroke="#deaa87"
                 strokeLinecap="round"
                 strokeOpacity="1"
                 strokeWidth="3"
-                d="m512.737 476.442 80.373.426 28.928-16.049"
-                display="inline"
-                opacity="1"
-                transform="translate(0 17.562)"
-            ></path>
-            <path
-                id="eyelinesRightOpen"
-                className="open"
+            >
+                <path
+                    id="bottomLineRightOpen"
+                    d="m512.737 494.004 80.373.426 28.928-16.048"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="bottomLineRightHalf"
+                    d="m509.012 481.71 49.326-6.22 59.457 5.078"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="bottomLineRightWide"
+                    d="m509.012 481.71 20.641 16.025 68.815-2.57 19.327-14.597"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="bottomLineRightShut"
+                    d="m506.963 474.1 49.326-6.221 59.457 5.079"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
+            <g
+                id="eyelinesRightGroup"
                 fill="none"
                 stroke="#deaa87"
                 strokeLinecap="round"
                 strokeOpacity="1"
                 strokeWidth="3"
-                d="m516.193 498.57 84.447 1.656zm3.698 4.938 79.122 1.715zm3.693 4.937 74.01 1.776z"
-                display="inline"
-            ></path>
-            <path
-                id="eyelinesLeftOpen"
-                className="open"
+            >
+                <path
+                    id="eyelinesRightOpen"
+                    d="m516.193 498.57 84.447 1.656zm3.698 4.938 79.122 1.715zm3.693 4.937 74.01 1.776z"
+                    display="inline"
+                ></path>
+                <path
+                    id="eyelinesRightShut"
+                    d="m509.23 478.77 84.422-2.635zm3.944 4.743 79.107-2.305zm3.939 4.744 74.005-1.986z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="eyelinesRightWide"
+                    d="m524.593 505.54 84.422-2.635zm3.943 4.743 79.107-2.306zm3.94 4.743 74.005-1.985z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="eyelinesRightHalf"
+                    d="m511.714 486.22 84.422-2.634zm3.943 4.744 79.107-2.305zm3.94 4.744 74.005-1.986z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
+            <g
+                id="eyelinesLeftGroup"
                 fill="none"
                 stroke="#deaa87"
                 strokeLinecap="round"
                 strokeOpacity="1"
                 strokeWidth="3"
-                d="m402.833 504.939-87.74 1.731zm-3.666 4.96-82.417 1.757zm-3.663 4.96-77.305 1.787z"
-                display="inline"
-            ></path>
-            <path
-                id="faceShadowOpen"
-                className="open"
+            >
+                <path
+                    id="eyelinesLeftOpen"
+                    d="m402.833 504.939-87.74 1.731zm-3.666 4.96-82.417 1.757zm-3.663 4.96-77.305 1.787z"
+                    display="inline"
+                ></path>
+                <path
+                    id="eyelinesLeftHalf"
+                    d="m400.564 492.555-87.73-2.192zm-3.885 4.791-82.413-1.928zm-3.88 4.792-77.308-1.67z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="eyelinesLeftWide"
+                    d="m389.494 510.808-84.422-2.634zm-3.943 4.743-79.107-2.305zm-3.94 4.744-74.005-1.985z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="eyelinesLeftShut"
+                    d="m400.978 482.62-87.73-2.191Zm-3.885 4.792-82.413-1.928zm-3.88 4.791-77.308-1.67z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
+            <g
+                id="faceShadowGroup"
                 fill="#c8b7b7"
                 fillOpacity="1"
                 stroke="none"
                 strokeLinecap="round"
                 strokeWidth="3"
-                d="M235.545 260.824 225.41 468.461l52.344-.262 79.848-22.584c10.25 2.371 18.08 3.955 24.588 7.479 6.529 3.535 11.73 9.014 19.066 14.486l102.916-.515 30.889-21.577 18.738-6.43 36.295 9.952 51.404 17.369 51.873-.26 34.153-202.19z"
-                display="inline"
-                opacity="1"
-            ></path>
-            <path
-                id="faceShadowShut"
-                className="shut"
-                fill="#c8b7b7"
-                fillOpacity="1"
-                stroke="none"
-                strokeLinecap="round"
-                strokeWidth="3"
-                d="M235.545 260.824 225.41 468.461l56.484 1.394 29.796-8.952 36.805-5.353c10.25 1.13 22.49 3.207 29.555 5.409 7.357 2.293 20.423 5.289 27.76 10.76l98.362-4.654 31.303-12.884 27.017-3.946 36.709 4.984 42.297 11.16 51.873-.26 34.153-202.19z"
-                display="inline"
-                opacity="1"
-            ></path>
-            <path
-                id="topLineRightOpen"
-                className="open blink"
+            >
+                <path
+                    id="faceShadowOpen"
+                    d="m233.889 261.652-10.135 207.637 52.344-.262 79.848-22.584c10.251 2.371 18.081 3.955 24.588 7.479 6.528 3.535 17.939 13.982 25.275 19.453l96.707-5.483 30.889-21.576 18.738-6.429 36.295 9.951 51.404 17.369 51.873-.26 34.153-202.189Z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="faceShadowWide"
+                    d="M235.545 260.824 225.41 468.461l55.857 2.373c14.111-13.298 21.204-14.002 35.186-22.872 13.69-2.137 35.613-6.101 47.301-7.41 10.224 4.544 14.529 4.925 21.07 8.444 6.538 3.517 17.647 17.202 24.983 22.673l94.365-4.604 25.035-24.211 21.372-8.186 47.418 7.317 37.062 23.223 58.312.911 34.153-202.189Z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="faceShadowShut"
+                    d="M235.545 260.824 225.41 468.461l56.484 1.394 29.796-8.952 36.805-5.353c10.251 1.129 22.491 3.207 29.555 5.409 7.357 2.293 20.423 5.289 27.76 10.761l98.362-4.655 31.303-12.884 27.017-3.946 36.709 4.984 42.297 11.16 51.873-.26 34.153-202.189Z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
+            <g
+                id="topLineRightGroup"
                 fill="none"
                 stroke="#d38d5f"
                 strokeLinecap="round"
                 strokeOpacity="1"
                 strokeWidth="3"
-                d="m503.454 449.596 31.924-22.865 19.885-6.113 37.759 12.001 40.653 15.05"
-                display="inline"
-                opacity="1"
-                transform="translate(0 17.562)"
-            ></path>
-            <path
-                id="topLineLeftOpen"
-                className="open blink"
+            >
+                <path
+                    id="topLineRightOpen"
+                    d="m503.454 467.158 31.924-22.864 19.885-6.114 37.759 12.001 40.653 15.05"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="topLineRightWide"
+                    d="m503.454 467.158 25.485-23.45 22.226-9.04 47.126 7.318 35.384 23.245"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="topLineRightShut"
+                    d="m503.454 467.158 31.924-11.688 26.922-4.457 36.103 4.964 30.305 6.77"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
+            <g
+                id="topLineLeftGroup"
                 fill="none"
                 stroke="#d38d5f"
                 strokeLinecap="round"
                 strokeOpacity="1"
                 strokeWidth="3"
-                d="m407.718 455.19-25.617-19.493-25.409-7.193-35.615 10.295-41.037 11.965"
-                display="inline"
-                opacity="1"
-                transform="translate(0 17.562)"
-            ></path>
+            >
+                <path
+                    id="topLineLeftOpen"
+                    d="m407.718 472.753-25.617-19.494-25.409-7.193-35.615 10.295-41.037 11.966"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="topLineLeftWide"
+                    d="m410.633 472.427-25.485-23.45-22.226-9.04-47.125 7.317-35.385 23.245"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="topLineLeftShut"
+                    d="m406.831 471.712-31.924-11.688-26.922-4.458-36.103 4.964-28.649 9.254"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
             <path
                 id="path23"
                 fill="none"
@@ -411,26 +533,67 @@ const Head = () => (
                 display="inline"
                 opacity="1"
             ></path>
-            <path
-                id="browLeft"
-                fill="#e79600"
-                fillOpacity="1"
-                stroke="none"
-                strokeLinecap="round"
-                strokeWidth="2.566"
-                d="m412.653 386.376 18.894 10.662-2.613 20.77-49.725 18.317-77.918 7.624-39.71 12.51L292.414 422l72.159-12.042z"
-                opacity="1"
-            ></path>
-            <path
-                id="browRight"
-                fill="#e79600"
-                fillOpacity="1"
-                stroke="none"
-                strokeLinecap="round"
-                strokeWidth="2.521"
-                d="m495.862 383.237-16.39 10-2.444 20.672 58.72 16.224 71.515 5.525 50.768 15.239-42.792-39.058-70.313-10.173z"
-                opacity="1"
-            ></path>
+            <g id="browsGroup" strokeLinecap="round" display="inline" opacity="1">
+                <path
+                    id="path20"
+                    fill="none"
+                    stroke="#c87137"
+                    strokeOpacity="1"
+                    strokeWidth="3"
+                    d="m435.284 375.552 9.5 15.092 1.21 15.77"
+                    opacity="1"
+                ></path>
+                <path
+                    id="path21"
+                    fill="none"
+                    stroke="#c87137"
+                    strokeOpacity="1"
+                    strokeWidth="3"
+                    d="m470.394 372.581-10.482 16.92 1.193 14.877"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browLeftOpen"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.566"
+                    d="m412.653 386.376 18.894 10.662-2.613 20.77-49.725 18.317-77.918 7.624-39.71 12.51L292.414 422l72.159-12.042z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browRightOpen"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.521"
+                    d="m495.862 383.237-16.39 10-2.444 20.672 58.72 16.224 71.515 5.525 50.768 15.239-42.792-39.058-70.313-10.173z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browLeftWide"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.566"
+                    d="m412.653 379.352 18.894 10.661-2.613 20.77-55.579 9.536-69.137 22.259-40.881 16.022 32.005-37.771 63.378-26.677Z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browRightWide"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.521"
+                    d="m495.862 376.212-16.39 9.999-2.444 20.673 58.72 9.785 69.173 20.16 52.524 14.068-44.547-37.887-67.972-24.808Z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
             <g
                 id="sweatGroup"
                 fill="#fff"
@@ -542,113 +705,6 @@ const Head = () => (
                 opacity="1"
             ></path>
 
-
-            <path
-                id="path21"
-                fill="none"
-                stroke="#c87137"
-                strokeLinecap="round"
-                strokeOpacity="1"
-                strokeWidth="3"
-                d="m435.284 375.552 9.5 15.092 1.21 15.77"
-            ></path>
-            <path
-                id="path22"
-                fill="none"
-                stroke="#c87137"
-                strokeLinecap="round"
-                strokeOpacity="1"
-                strokeWidth="3"
-                d="m470.394 372.581-10.482 16.92 1.193 14.877"
-            ></path>
-            <g
-                id="layer3"
-                fill="none"
-                stroke="#deaa87"
-                strokeLinecap="round"
-                strokeOpacity="1"
-                strokeWidth="3"
-                display="inline"
-            >
-                <path
-                    id="eyelinesRightHalf"
-                    className="half"
-                    d="m511.714 486.22 84.422-2.634zm3.943 4.744 79.107-2.305zm3.94 4.744 74.005-1.986z"
-                    opacity="1"
-                ></path>
-                <path
-                    id="eyelinesLeftHalf"
-                    className="half"
-                    d="m400.564 492.555-87.73-2.192zm-3.885 4.791-82.413-1.928zm-3.88 4.792-77.308-1.67z"
-                    opacity="1"
-                ></path>
-                <path
-                    id="bottomLineRightHalf"
-                    className="half"
-                    d="m509.012 481.71 49.326-6.22 59.457 5.078"
-                    opacity="1"
-                ></path>
-                <path
-                    id="bottomLineLeftHalf"
-                    className="half"
-                    d="m402.864 488.15-49.327-6.221-58.167 4.493"
-                    opacity="1"
-                ></path>
-            </g>
-            <g
-                id="g48"
-                fill="none"
-                strokeLinecap="round"
-                strokeOpacity="1"
-                strokeWidth="3"
-                display="inline"
-            >
-                <path
-                    id="eyelinesRightShut"
-                    className="shut"
-                    stroke="#deaa87"
-                    d="m509.23 478.77 84.422-2.635zm3.944 4.743 79.107-2.305zm3.939 4.744 74.005-1.986z"
-                    opacity="1"
-                ></path>
-                <path
-                    id="eyelinesLeftShut"
-                    className="shut"
-                    stroke="#deaa87"
-                    d="m400.978 482.62-87.73-2.191Zm-3.885 4.792-82.413-1.928zm-3.88 4.791-77.308-1.67z"
-                    opacity="1"
-                ></path>
-                <path
-                    id="bottomLineRightShut"
-                    className="shut"
-                    stroke="#deaa87"
-                    d="m506.963 474.1 49.326-6.221 59.457 5.079"
-                    opacity="1"
-                ></path>
-                <path
-                    id="bottomLineLeftShut"
-                    className="shut"
-                    stroke="#deaa87"
-                    d="m404.034 478.491-49.326-6.221-58.168 4.493"
-                    opacity="1"
-                ></path>
-                <path
-                    id="topLineRightShut"
-                    className="shut blink"
-                    stroke="#d38d5f"
-                    d="m503.454 449.596 31.924-11.688 26.922-4.457 36.103 4.963 30.305 6.77"
-                    display="inline"
-                    opacity="1"
-                    transform="translate(0 17.562)"
-                ></path>
-                <path
-                    id="topLineLeftShut"
-                    className="shut blink"
-                    stroke="#d38d5f"
-                    d="m406.831 471.712-31.924-11.688-26.922-4.458-36.103 4.964-28.649 9.254"
-                    display="inline"
-                    opacity="1"
-                ></path>
-            </g>
             <g id="layer2" fillOpacity="1" stroke="none" strokeLinecap="round">
                 <path
                     id="path26"
