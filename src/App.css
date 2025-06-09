@@ -51,7 +51,7 @@ svg {
 
 #tongueGroup {
   pointer-events: all;
-  transform-origin: top;
+  transform-origin: top center;
   transform: scaleY(0)
 }
 

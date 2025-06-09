@@ -314,21 +314,21 @@ export const checkMouthOpen = () => {
 export const mouthOpenFunction = () => {
     const containerSize = document.getElementById("container").getBoundingClientRect().height
     gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
-    gsap.to("#tongueGroup", { scaleY: 1, duration: 1, ease: "power1.out" })
+    gsap.to("#tongueGroup", { y: 0, scaleY: 1, duration: 1, ease: "power1.out" })
     gsap.to("#tongueDrool", { scaleY: 1, duration: 2, transformOrigin: "top center" })
     mouthOpenRef = true
 }
 
 export const mouthCloseFunction = () => {
     const all = document.querySelectorAll('[id*="tongueCum"]');
-    const visible = Array.from(all).filter(el => getComputedStyle(el).opacity !== "0");
+    const visible = (Array.from(all)).filter(el => getComputedStyle(el).opacity !== "0");
 
     gsap.to("#mouthGroup", { y: 0, duration: 2, ease: "power1.out" })
-    gsap.to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
+    gsap.to("#tongueGroup", { y: 0, scaleY: 0, duration: 2, ease: "power1.out" })
     gsap.timeline()
         .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
-        .set(visible, { opacity: 0 })
+    //   .set(visible, { opacity: 0 })
     mouthOpenRef = false
 }
 

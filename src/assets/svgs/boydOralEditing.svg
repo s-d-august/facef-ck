@@ -34,7 +34,7 @@
      inkscape:window-x="2391"
      inkscape:window-y="95"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g1"
+     inkscape:current-layer="svg1"
      showgrid="false" />
   <defs
      id="defs1">
@@ -477,7 +477,8 @@
     <path
        style="fill:#ffcc00;fill-opacity:1;stroke:none;stroke-width:6.41676;stroke-linecap:round"
        d="m 343.869,675.863 86.572,58.673 42.569,-2.577 67.74,-46.304 -0.381,-77.457 -29.539,1.259 -0.602,70.229 -37.429,13.742 -17.385,-7.948 -15.435,0.036 -17.92,7.983 -41.578,-20.687 1.825,-69.432 -39.471,5.548 z"
-       id="beardChin" />
+       id="beard"
+       inkscape:label="beard" />
     <path
        style="fill:#a02c2c;stroke:none;stroke-width:3.50255;stroke-linecap:round"
        d="m 381.953,608.795 12.645,-11.839 c 46.817,-42.606 68.952,-31.411 102.992,1.372 l 9.938,15.894 -6.741,33.235 -4.178,3.611 -23.641,-1.35 -55.853,-0.467 -21.99,1.631 -5.582,-3.214 z"
