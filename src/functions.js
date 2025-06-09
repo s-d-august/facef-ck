@@ -201,44 +201,74 @@ export const renderChange = (fromState, toState, progress, interruptDuration, an
                 render(changeInProgress.name, 0.99, true)
             }
 
+            const tearTop = document.getElementById("tearRight").getBoundingClientRect().top
+            console.log(tearTop)
             fromArray.forEach(el => {
                 const match = matchID(el, fromState, toState)
                 if (!match) return
+                gsap.timeline()
+                    .set(".tear", { opacity: 1, y: 0, scale: 0 })
+                    .to(".tear", {
+                        scale: 1,
+                        duration: 3,
+                    })
+                    .to(".tear", {
+                        scaleY: 2,
+                        scaleX: 0.5,
+                        duration: 0.3
+                    })
+                    .to(".tear", {
+                        y: tearTop,
+                        duration: 4,
+                        ease: "power3.in"
+                    }, "<-1.5")
 
-                if (animation) {
-                    console.log("custom animation")
-                    animation(el, match, changeInProgress, render)
-                } else {
-                    gsap.timeline()
-                        .to(el, {
-                            duration: 0.25,
-                            morphSVG: match,
-                            y: 0,
-                            x: 0,
-                        })
-                        .to(el, {
-                            duration: 1,
-                            morphSVG: el,
-                            y: 0,
-                            x: 0,
-                            onComplete: () => {
-                                if (changeInProgress) {
-                                    let obj = { progress: 0 };
-                                    gsap.to(obj, {
-                                        progress: changeInProgress.progress,
-                                        duration: 1,
-                                        onUpdate: () => {
-                                            render(changeInProgress.name, obj.progress, true);
-                                        },
-                                        onComplete: () => {
-                                            interrupted = false;
-                                        }
-                                    });
-                                } else return
-                            }
-                        })
-                }
-            })
+
+                const tl = gsap.timeline()
+                tl.to(el, {
+                    duration: 0.2,
+                    morphSVG: match,
+                    progress: 0.75,
+                    y: 0,
+                    x: 0,
+                })
+                tl.to(el, {
+                    morphSVG: el,
+                    duration: 0.15,
+                    progress: 0.85,
+                    repeat: 1,
+                    yoyo: true
+                })
+                tl.to(el, {
+                    duration: 0.25,
+                    morphSVG: match,
+                    y: 0,
+                    x: 0,
+                })
+                tl.to(el, {
+                    delay: 1.5,
+                    duration: 0.75,
+                    morphSVG: el,
+                    y: 0,
+                    x: 0,
+                    onComplete: () => {
+                        if (changeInProgress) {
+                            let obj = { progress: 0 };
+                            gsap.to(obj, {
+                                progress: changeInProgress.progress,
+                                duration: 0.75,
+                                onUpdate: () => {
+                                    render(changeInProgress.name, obj.progress, true);
+                                },
+                                onComplete: () => {
+                                    interrupted = false;
+                                }
+                            });
+                        } else return
+                    }
+                })
+            }
+            )
         }
     } else {
         render(stateName, progress)

@@ -130,38 +130,6 @@ function App() {
 
   }, [])
 
-  function pantingAnimation(el, match, changeInProgress, render) {
-    gsap.timeline()
-      .to(el, {
-        duration: 0.25,
-        morphSVG: match,
-        y: 0,
-        x: 0,
-      })
-      .to(el, {
-        duration: 1,
-        morphSVG: el,
-        y: 0,
-        x: 0,
-        onComplete: () => {
-          if (changeInProgress) {
-            console.log(changeInProgress)
-            let obj = { progress: 0 };
-            console.log(obj)
-            gsap.to(obj, {
-              progress: changeInProgress.progress,
-              duration: 1,
-              onUpdate: () => {
-                render(changeInProgress.name, obj.progress, true);
-              },
-              onComplete: () => {
-                interrupted = false;
-              }
-            });
-          } else return
-        }
-      })
-  }
 
   useEffect(() => { // Nut function
 
@@ -169,7 +137,7 @@ function App() {
       var mouthOpen = kkht.checkHoldMouthOpen()
 
       if (mouthOn) {
-        kkht.renderChange("Open", "Wide", 0, 1, pantingAnimation)
+        kkht.renderChange("Open", "Wide", 0, 1)
         // Plays expression change animation and resets arousal
       }
       if (!mouthOn && mouthOpen) {
