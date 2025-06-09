@@ -3,12 +3,54 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
 import { useRef } from 'react';
 
-export const cumAnimation = (cumId, shotDuration, moveDuration, origin) => {
-    const cumshot = document.getElementById("cumshot")
-    const cumVals = getXY(cumId, origin)
-    cumshot.setAttribute('x2', cumVals.x)
-    cumshot.setAttribute('y2', cumVals.y)
-    gsap.set("#cumshot", { opacity: 0.9 })
+var cumEligibleMap = {};
+
+function pluckRandomFrom(array, typeKey) {
+    if (!cumEligibleMap[typeKey] || cumEligibleMap[typeKey].length === 0) {
+        cumEligibleMap[typeKey] = gsap.utils.shuffle(array.slice(0));
+    }
+    return cumEligibleMap[typeKey].pop();
+}
+function getRandomFrom(array) {
+    var selected = array.selected;
+    while (
+        selected === (array.selected = Math.floor(Math.random() * array.length))
+    ) { }
+    return array[array.selected];
+}
+
+export const cumAnimation = (cumType, shotDuration, moveDuration, origin, axis, empty) => {
+
+    if (typeof cumType === "string") {
+        var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
+        var typeKey = cumType;
+    } else {
+        var cumArray = cumType;
+        var typeKey = "custom";
+    }
+
+    if (!cumArray || cumArray.length === 0) return;
+
+    let cumId;
+    if (empty) {
+        cumId = pluckRandomFrom(cumArray, typeKey);
+    } else {
+        cumId = getRandomFrom(cumArray);
+    }
+    console.log(cumId)
+
+    var scaleAxis
+    if (!axis) {
+        scaleAxis = "scale"
+    } else scaleAxis = axis
+
+    const cumshot = document.getElementById("cumshot");
+    if (!cumshot || !cumId) return;
+    const cumVals = getXY(cumId, origin);
+    cumshot.setAttribute('x2', cumVals.x);
+    cumshot.setAttribute('y2', cumVals.y);
+
+    gsap.set("#cumshot", { opacity: 0.9 });
     gsap.timeline().fromTo(
         "#cumshot",
         { drawSVG: "0 0" },
@@ -17,8 +59,23 @@ export const cumAnimation = (cumId, shotDuration, moveDuration, origin) => {
             drawSVG: "0 100%"
         }).to("#cumshot", { drawSVG: "100% 100%", duration: (shotDuration / 2 || 0.125) })
         .set("#cumshot", { opacity: 0 })
-        .set(`#${cumId}`, { opacity: .8, scale: 0.6, transformOrigin: (origin || "center") })
-        .to(`#${cumId}`, { scale: 1, duration: (moveDuration || 1), ease: "power1.out" })
+        .set(cumId, { opacity: .8, [scaleAxis]: 0.3, transformOrigin: (cumId.transformOrigin || origin || "center") })
+        .to(cumId, {
+            [scaleAxis]: 1, duration: (moveDuration || 1), ease: "power1.out",
+            onComplete: () => {
+                if (cumEligibleMap[typeKey].length === 0) {
+                    cumArray.forEach(el => {
+                        if (typeof el === "string") el = document.getElementById(el);
+                        if (el) gsap.set(el, { opacity: 0 });
+                    });
+                    // Wipe face animation
+                    console.log("wipe your face, boyd!")
+                    return;
+                }
+            }
+        });
+
+
 }
 
 var depthMethodRef = ""
@@ -250,6 +307,10 @@ export const checkHoldMouthOpen = () => {
     return holdMouthOpenRef
 }
 
+export const checkMouthOpen = () => {
+    return mouthOpenRef
+}
+
 export const mouthOpenFunction = () => {
     const containerSize = document.getElementById("container").getBoundingClientRect().height
     gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
@@ -259,12 +320,15 @@ export const mouthOpenFunction = () => {
 }
 
 export const mouthCloseFunction = () => {
+    const all = document.querySelectorAll('[id*="tongueCum"]');
+    const visible = Array.from(all).filter(el => getComputedStyle(el).opacity !== "0");
+
     gsap.to("#mouthGroup", { y: 0, duration: 2, ease: "power1.out" })
     gsap.to("#tongueGroup", { scaleY: 0, duration: 2, ease: "power1.out" })
     gsap.timeline()
         .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
-        .set("#tongueCum", { opacity: 0 })
+        .set(visible, { opacity: 0 })
     mouthOpenRef = false
 }
 
@@ -287,7 +351,9 @@ export const getSVGParent = (element) => {
 
 export const getXY = (id, origin) => {
 
-    var element = document.getElementById(id)
+    if (typeof (id) === 'object') {
+        var element = id
+    } else var element = document.getElementById(id)
 
     var svg = getSVGParent(element)
 
@@ -299,7 +365,10 @@ export const getXY = (id, origin) => {
         pt.y = rect.y
     } else if (origin == "top right" || origin == "right top") {
         pt.x = rect.x + rect.width
-        pt.y = rect.y + rect.height
+        pt.y = rect.y
+    } else if (origin == "top center" || origin == "center top") {
+        pt.x = rect.x + rect.width / 2;
+        pt.y = rect.y
     } else {
         pt.x = rect.x + rect.width / 2;
         pt.y = rect.y + rect.height / 2;

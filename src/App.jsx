@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import icon from './assets/cover.png';
+import icon from './assets/fonts-etc/cover.png';
 import * as kkht from './functions'
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
@@ -19,8 +19,6 @@ import { AgeGate } from '@jmeirinkmarimed/age-gate'
 function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
-  const [mouthOpen, setMouthOpen] = useState(false)
-  const mouthOpenRef = useRef(mouthOpen);
   const [approach, setApproach] = useState(false)
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
@@ -34,10 +32,6 @@ function App() {
   })
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
-
-  useEffect(() => {
-    mouthOpenRef.current = mouthOpen;
-  }, [mouthOpen]);
 
   useEffect(() => { // Elements that change based on approach state
 
@@ -144,19 +138,23 @@ function App() {
   useEffect(() => { // Nut function
 
     if (arousal.ives >= maxArousal.ives) {
+      var mouthOpen = kkht.checkHoldMouthOpen()
+
+      console.log(mouthOn, mouthOpen)
 
       if (mouthOn) {
         kkht.renderChange("Open", "Wide", 0, 1)
         // Plays expression change animation and resets arousal
       }
-      if (!mouthOn && mouthOpenRef.current) {
+      if (!mouthOn && mouthOpen) {
         kkht.cumAnimation("tongueCum", 0.25, 0.6)
         // Plays cum on tongue animation
       }
-      if (!mouthOn && !mouthOpenRef.current) {
-        kkht.cumAnimation("faceCum", 0.4, 1.5, "top left")
+      if (!mouthOn && !mouthOpen) {
+        kkht.cumAnimation("faceCum", 0.4, 3, "top center", "scaleY", true)
         // Plays cum on face animation
       }
+
       function disableAndEnableDraggables() {
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
@@ -165,7 +163,7 @@ function App() {
           Draggable.get(el)?.disable();
         });
 
-        // Wait 4 seconds, then enable
+        // Wait, then enable
         setTimeout(() => {
           Draggable.get("#hairPullHand")?.enable();
           gsap.utils.toArray(".dickHandParts").forEach(el => {

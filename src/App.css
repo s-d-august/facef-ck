@@ -83,6 +83,7 @@ svg {
   pointer-events: none;
 }
 
+[id*="tongueCum"],
 .noInteract {
   pointer-events: none;
 }
@@ -110,12 +111,14 @@ svg {
 [id*="tongueCum"],
 #blush,
 [id*="drool"],
-#cumshot {
+#cumshot,
+[id*="faceCum"] {
   opacity: 0;
 }
 
 [id*="tear"],
-[id*="tongueCum"] {
+[id*="tongueCum"],
+[id*="faceCum"] {
   scale: (0, 0);
 }
 
