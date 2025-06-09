@@ -1182,7 +1182,7 @@
      id="layer10"
      inkscape:label="arms"
      transform="translate(-3.1939132,63.345587)"
-     style="display:none;filter:url(#filter2)">
+     style="display:inline;filter:url(#filter2)">
     <g
        id="g8"
        transform="matrix(3.7795276,0,0,3.7795276,183.33576,270.75012)"

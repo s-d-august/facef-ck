@@ -13,9 +13,6 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import { AgeGate } from '@jmeirinkmarimed/age-gate'
 
-
-
-
 function App() {
 
   const [mouthOn, setMouthOn] = useState(false)
@@ -133,17 +130,46 @@ function App() {
 
   }, [])
 
-
+  function pantingAnimation(el, match, changeInProgress, render) {
+    gsap.timeline()
+      .to(el, {
+        duration: 0.25,
+        morphSVG: match,
+        y: 0,
+        x: 0,
+      })
+      .to(el, {
+        duration: 1,
+        morphSVG: el,
+        y: 0,
+        x: 0,
+        onComplete: () => {
+          if (changeInProgress) {
+            console.log(changeInProgress)
+            let obj = { progress: 0 };
+            console.log(obj)
+            gsap.to(obj, {
+              progress: changeInProgress.progress,
+              duration: 1,
+              onUpdate: () => {
+                render(changeInProgress.name, obj.progress, true);
+              },
+              onComplete: () => {
+                interrupted = false;
+              }
+            });
+          } else return
+        }
+      })
+  }
 
   useEffect(() => { // Nut function
 
     if (arousal.ives >= maxArousal.ives) {
       var mouthOpen = kkht.checkHoldMouthOpen()
 
-      console.log(mouthOn, mouthOpen)
-
       if (mouthOn) {
-        kkht.renderChange("Open", "Wide", 0, 1)
+        kkht.renderChange("Open", "Wide", 0, 1, pantingAnimation)
         // Plays expression change animation and resets arousal
       }
       if (!mouthOn && mouthOpen) {

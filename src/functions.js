@@ -156,7 +156,7 @@ export const shapeChange = (fromState, toState) => {
     };
 }
 
-export const renderChange = (fromState, toState, progress, interruptDuration) => {
+export const renderChange = (fromState, toState, progress, interruptDuration, animation) => {
     var stateName = fromState + "-" + toState
 
     // When building your fromArray, also build a set of IDs that have matches
@@ -200,38 +200,44 @@ export const renderChange = (fromState, toState, progress, interruptDuration) =>
             if (changeInProgress.to === fromState) {
                 render(changeInProgress.name, 0.99, true)
             }
+
             fromArray.forEach(el => {
                 const match = matchID(el, fromState, toState)
                 if (!match) return
 
-                gsap.timeline()
-                    .to(el, {
-                        duration: 0.25,
-                        morphSVG: match,
-                        y: 0,
-                        x: 0,
-                    })
-                    .to(el, {
-                        duration: 1,
-                        morphSVG: el,
-                        y: 0,
-                        x: 0,
-                        onComplete: () => {
-                            if (changeInProgress) {
-                                let obj = { progress: 0 };
-                                gsap.to(obj, {
-                                    progress: changeInProgress.progress,
-                                    duration: 1,
-                                    onUpdate: () => {
-                                        render(changeInProgress.name, obj.progress, true);
-                                    },
-                                    onComplete: () => {
-                                        interrupted = false;
-                                    }
-                                });
-                            } else return
-                        }
-                    })
+                if (animation) {
+                    console.log("custom animation")
+                    animation(el, match, changeInProgress, render)
+                } else {
+                    gsap.timeline()
+                        .to(el, {
+                            duration: 0.25,
+                            morphSVG: match,
+                            y: 0,
+                            x: 0,
+                        })
+                        .to(el, {
+                            duration: 1,
+                            morphSVG: el,
+                            y: 0,
+                            x: 0,
+                            onComplete: () => {
+                                if (changeInProgress) {
+                                    let obj = { progress: 0 };
+                                    gsap.to(obj, {
+                                        progress: changeInProgress.progress,
+                                        duration: 1,
+                                        onUpdate: () => {
+                                            render(changeInProgress.name, obj.progress, true);
+                                        },
+                                        onComplete: () => {
+                                            interrupted = false;
+                                        }
+                                    });
+                                } else return
+                            }
+                        })
+                }
             })
         }
     } else {
