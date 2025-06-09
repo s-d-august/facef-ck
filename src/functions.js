@@ -214,14 +214,20 @@ export const renderChange = (fromState, toState, progress, interruptDuration, an
                     })
                     .to(".tear", {
                         scaleY: 2,
-                        scaleX: 0.5,
-                        duration: 0.3
+                        scaleX: 0.3,
+                        duration: 0.3,
+                        ease: "power1.in"
                     })
-                    .to(".tear", {
+                    .to("#tearRight", {
                         y: tearTop,
                         duration: 4,
-                        ease: "power3.in"
-                    }, "<-1.5")
+                        ease: "power4.in"
+                    }, "<-1")
+                    .to("#tearLeft", {
+                        y: tearTop,
+                        duration: 4,
+                        ease: "power4.in"
+                    }, "<0.4")
 
 
                 const tl = gsap.timeline()
