@@ -328,7 +328,7 @@ export const mouthCloseFunction = () => {
     gsap.timeline()
         .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
-    //   .set(visible, { opacity: 0 })
+        .set(visible, { opacity: 0 })
     mouthOpenRef = false
 }
 
