@@ -5,3 +5,44 @@ FEATURES
  - switch between bounds modes: "training" or arousal
  - arms / wipe face
 
+        gsap.to(hideHand, { opacity: 1, duration: 0.2 });
+        util.updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
+        util.updateFollowers.call(this, hairPullBeads, this.x, this.y, "back", 0.1, 0.05);
+        const dickRect = document.getElementById("dickArea").getBoundingClientRect();
+        const headRect = document.getElementById("headArea").getBoundingClientRect();
+        const percent = util.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
+
+        if (percent <= 0.05) {
+          setApproach(false)
+        } else setApproach(true)
+
+        if (percent <= 0.1) { // Dick isn't in mouth
+          var resistance = 0
+          setMouthOn(false)
+
+          if (Draggable.hitTest("#tongue", "#dickHead", "20%")) {
+            util.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
+          }
+
+        } else { // Dick is in mouth
+          setMouthOn(true)
+          var resistance = percent * 3
+          util.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
+        }
+
+        this.dragResistance = resistance
+
+        if (kkht.depthMethod() === "training") {
+          this.applyBounds({
+            minX: containerSize * -0.0055,
+            maxX: containerSize * 0.0055,
+            minY: containerSize * -0.07,
+            maxY: containerSize * kkht.trainingModeMaxY("#hairPullHand", this.y, (this.maxY || containerSize * 0.1), 0.2, 0.4, 5, 0.005)
+          });
+        } else this.applyBounds({
+          minX: containerSize * -0.0055,
+          maxX: containerSize * 0.0055,
+          minY: containerSize * -0.07,
+          maxY: containerSize * 0.4
+        }
+        )

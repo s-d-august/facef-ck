@@ -15,6 +15,7 @@ export function useAnimationFunctions() {
     const arrayEligibleMap = useRef({})
 
     const trainingModeMaxY = useCallback((id, y, maxY, initial, end, hits, increaseBy) => {
+        console.log("trainingModeMaxY called", { id, y, maxY, initial, end, hits, increaseBy });
         if (trainingMultiplierRef[id] === undefined) {
             trainingMultiplierRef[id] = initial;
         }
@@ -35,6 +36,7 @@ export function useAnimationFunctions() {
 
     // randomizeArray
     const randomizeArray = useCallback(async (idString, animation, args) => {
+        console.log("randomizeArray called", { idString, animation, args });
         const arrayName = document.getElementById(`${idString}Group`);
         if (!arrayName) return;
         const array = [...arrayName.children];
@@ -44,13 +46,12 @@ export function useAnimationFunctions() {
         array.splice(index, 1);
         await animation(element, args);
         array.splice(0, 0, element);
+        console.log("randomizeArray finished", { array });
     }, []);
 
     // drip
     const drip = useCallback((element, initialY) => {
-        // bounds should be passed in or determined elsewhere
-        // var boundsArea = document.getElementById(bounds)
-        // var initialY = boundsArea.getBoundingClientRect().height
+        console.log("drip called", { element, initialY });
         return new Promise((resolve) => {
             gsap.set(element, { opacity: 1 });
             const initials = {
@@ -63,7 +64,10 @@ export function useAnimationFunctions() {
                 gsap.set(element, { transformOrigin: "center", scaleX: -1 });
             }
             let tl = gsap.timeline({
-                onComplete: resolve,
+                onComplete: () => {
+                    console.log("drip timeline complete", { element });
+                    resolve();
+                },
             });
             tl.to(element, initials)
                 .to(element, { opacity: 0, duration: 0.3 })
@@ -75,7 +79,7 @@ export function useAnimationFunctions() {
     const cumAnimation = useCallback((
         cumType, shotDuration, moveDuration, origin, axis, empty
     ) => {
-
+        console.log("cumAnimation called", { cumType, shotDuration, moveDuration, origin, axis, empty });
         if (typeof cumType === "string") {
             var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
             var typeKey = cumType;
@@ -88,16 +92,16 @@ export function useAnimationFunctions() {
 
         let cumId;
         if (empty) {
-            cumId = util.pluckRandomFrom(cumArray, typeKey);
+            cumId = pluckRandomFrom(cumArray, typeKey);
         } else {
-            cumId = util.getRandomFrom(cumArray);
+            cumId = getRandomFrom(cumArray);
         }
-        console.log(cumId)
+        console.log("cumId selected", cumId);
 
-        var scaleAxis
+        var scaleAxis;
         if (!axis) {
-            scaleAxis = "scale"
-        } else scaleAxis = axis
+            scaleAxis = "scale";
+        } else scaleAxis = axis;
 
         const cumshot = document.getElementById("cumshot");
         if (!cumshot || !cumId) return;
@@ -119,6 +123,7 @@ export function useAnimationFunctions() {
             .to(cumId, {
                 [scaleAxis]: 1, duration: (moveDuration || 1), ease: "power1.out",
                 onComplete: () => {
+                    console.log("cumAnimation complete", { cumId });
                     if (arrayEligibleMap[typeKey].length === 0) {
                         cumArray.forEach(el => {
                             if (typeof el === "string") el = document.getElementById(el);
@@ -134,6 +139,7 @@ export function useAnimationFunctions() {
 
     // generateMorphTweens
     const generateMorphTweens = useCallback((fromState, toState) => {
+        console.log("generateMorphTweens called", { fromState, toState });
         const fromArray = document.querySelectorAll(`[id*="${fromState}"]`);
         const stateName = fromState + "-" + toState;
         if (!tweensRef.current[stateName]) {
@@ -162,6 +168,7 @@ export function useAnimationFunctions() {
 
     // renderMorph
     const renderMorph = useCallback((fromState, toState, progress) => {
+        console.log("renderMorph called", { fromState, toState, progress });
         const stateName = fromState + "-" + toState;
         const fromArray = Array.from(
             document.querySelectorAll(`[id*="${fromState}"]`)
@@ -194,7 +201,7 @@ export function useAnimationFunctions() {
         }
         Object.values(tweensRef.current[stateName]).forEach((tween) => {
             const initialState = Array.from(
-                document.querySelectorAll(`[id*=${states[0] || "Open"}]`)
+                document.querySelectorAll(`[id*=${fromState || "Open"}]`)
             );
             initialState.forEach((el) => {
                 el.style.visibility = "visible";
@@ -208,8 +215,8 @@ export function useAnimationFunctions() {
             if (progress > 0) {
                 setSlowMorph({
                     name: stateName,
-                    from: states[0],
-                    to: states[1],
+                    from: fromState,
+                    to: toState,
                     progress: progress,
                 });
             } else setSlowMorph(false);
@@ -219,15 +226,15 @@ export function useAnimationFunctions() {
     // callMorph
 
     const callSlowMorph = useCallback((fromState, toState, progress) => {
+        console.log("callSlowMorph called", { fromState, toState, progress });
         if (fastMorph) {
             return
         } else renderMorph(fromState, toState, progress);
-    }, [fastMorph])
+    }, [fastMorph, renderMorph])
 
     const callFastMorph = useCallback(
-
         (fromState, toState, animations, forEachAnimations) => {
-
+            console.log("callFastMorph called", { fromState, toState, animations, forEachAnimations });
             setFastMorph(true)
 
             // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
@@ -256,6 +263,7 @@ export function useAnimationFunctions() {
                 }
                 tl.add({
                     onComplete: () => {
+                        console.log("callFastMorph timeline complete");
                         if (slowMorph) {
                             let obj = { progress: 0 };
                             gsap.to(obj, {
@@ -276,16 +284,19 @@ export function useAnimationFunctions() {
     );
 
     const mouthOpenFunction = useCallback(() => {
+        console.log("mouthOpenFunction called");
         if (fastMorph === true) return
 
         const containerSize = document.getElementById("container").getBoundingClientRect().height
         gsap.to("#mouthGroup", { y: containerSize * 0.045, duration: 1, ease: "power1.out" })
         gsap.to("#tongueGroup", { y: 0, scaleY: 1, duration: 1, ease: "power1.out" })
         gsap.to("#tongueDrool", { scaleY: 1, duration: 2, transformOrigin: "top center" })
-        mouthOpenRef = true
+        // mouthOpenRef = true
+        setIsMouthOpen(true);
     }, [fastMorph])
 
     const mouthCloseFunction = useCallback(() => {
+        console.log("mouthCloseFunction called");
         if (holdMouthOpen === true || fastMorph === true) return
 
         const all = document.querySelectorAll('[id*="tongueCum"]');
@@ -297,18 +308,35 @@ export function useAnimationFunctions() {
             .to("#tongueDrool", { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
             .set("#tongueDrool", { scaleX: 1, scaleY: 0 })
             .set(visible, { opacity: 0 })
-        mouthOpenRef = false
+        setIsMouthOpen(false);
     }, [holdMouthOpen, fastMorph])
 
     const toggleHoldMouthOpen = useCallback(() => {
+        console.log("toggleHoldMouthOpen called");
         if (isMouthOpen == true) {
             mouthCloseFunction();
-            holdMouthOpen = false
+            setHoldMouthOpen(false)
         } else {
             mouthOpenFunction();
-            holdMouthOpen = true
+            setHoldMouthOpen(true)
         }
-    })
+    }, [isMouthOpen, mouthOpenFunction, mouthCloseFunction])
+
+    function pluckRandomFrom(array, typeKey) {
+        if (!arrayEligibleMap[typeKey] || arrayEligibleMap[typeKey].length === 0) {
+            arrayEligibleMap[typeKey] = gsap.utils.shuffle(array.slice(0));
+        }
+        const popped = arrayEligibleMap[typeKey].pop();
+        return popped;
+    }
+
+    function getRandomFrom(array) {
+        var selected = array.selected;
+        while (
+            selected === (array.selected = Math.floor(Math.random() * array.length))
+        ) { }
+        return array[array.selected];
+    }
 
     return {
         tweensRef,
