@@ -13,7 +13,7 @@
   animation-duration: var(--animation-duration);
 }
 
-#sweater {
+#bodyMain {
   transform-origin: bottom;
   animation: breathTorso ease-in-out infinite alternate;
   animation-duration: var(--animation-duration);
@@ -112,7 +112,8 @@ svg {
 #blush,
 [id*="drool"],
 #cumshot,
-[id*="faceCum"] {
+[id*="faceCum"],
+#dick {
   opacity: 0;
 }
 
@@ -128,7 +129,8 @@ svg {
 
 [id*="Half"],
 [id*="Shut"],
-[id*="Wide"] {
+[id*="Wide"],
+#bodyArmsUp {
   visibility: hidden;
 }
 

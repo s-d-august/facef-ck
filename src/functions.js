@@ -2,6 +2,7 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin } from 'gsap/all'
 import { useRef } from 'react';
+import * as anim from "./animations.js"
 
 var cumEligibleMap = {};
 
@@ -46,6 +47,7 @@ export const cumAnimation = (cumType, shotDuration, moveDuration, origin, axis, 
 
     const cumshot = document.getElementById("cumshot");
     if (!cumshot || !cumId) return;
+
     const cumVals = getXY(cumId, origin);
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
@@ -119,7 +121,8 @@ var tweensRef = []
 var changeInProgress = false
 var interrupted = false
 
-export const isInterrupted = () => {
+export const isInterrupted = (state) => {
+    if (state) { interrupted = state }
     return interrupted
 }
 
@@ -190,6 +193,7 @@ export const renderChange = (fromState, toState, progress, interruptDuration, an
 
     if (interruptDuration) {
         if (changeInProgress) {
+
             interrupted = { name: changeInProgress.name, progress: changeInProgress.progress }
             // if the currently running animation starts with the same state as the interrupt, reverts to that state
             if (changeInProgress.from === fromState) {
@@ -201,62 +205,12 @@ export const renderChange = (fromState, toState, progress, interruptDuration, an
                 render(changeInProgress.name, 0.99, true)
             }
 
-            const tearTop = document.getElementById("tearRight").getBoundingClientRect().top
-            console.log(tearTop)
+            gsap.timeline().add(anim.tearsAnimation())
+
             fromArray.forEach(el => {
                 const match = matchID(el, fromState, toState)
                 if (!match) return
-                gsap.timeline()
-                    .set(".tear", { opacity: 1, y: 0, scale: 0 })
-                    .to(".tear", {
-                        scale: 1,
-                        duration: 3,
-                    })
-                    .to(".tear", {
-                        scaleY: 2,
-                        scaleX: 0.3,
-                        duration: 0.3,
-                        ease: "power1.in"
-                    })
-                    .to("#tearRight", {
-                        y: tearTop,
-                        duration: 4,
-                        ease: "power4.in"
-                    }, "<-1")
-                    .to("#tearLeft", {
-                        y: tearTop,
-                        duration: 4,
-                        ease: "power4.in"
-                    }, "<0.4")
-
-
-                const tl = gsap.timeline()
-                tl.to(el, {
-                    duration: 0.2,
-                    morphSVG: match,
-                    progress: 0.75,
-                    y: 0,
-                    x: 0,
-                })
-                tl.to(el, {
-                    morphSVG: el,
-                    duration: 0.15,
-                    progress: 0.85,
-                    repeat: 1,
-                    yoyo: true
-                })
-                tl.to(el, {
-                    duration: 0.25,
-                    morphSVG: match,
-                    y: 0,
-                    x: 0,
-                })
-                tl.to(el, {
-                    delay: 1.5,
-                    duration: 0.75,
-                    morphSVG: el,
-                    y: 0,
-                    x: 0,
+                const tl = gsap.timeline({
                     onComplete: () => {
                         if (changeInProgress) {
                             let obj = { progress: 0 };
@@ -266,17 +220,18 @@ export const renderChange = (fromState, toState, progress, interruptDuration, an
                                 onUpdate: () => {
                                     render(changeInProgress.name, obj.progress, true);
                                 },
-                                onComplete: () => {
-                                    interrupted = false;
-                                }
                             });
-                        } else return
+                        }
                     }
-                })
-            }
-            )
+                });
+
+                tl.add(anim.eyeFlutterWideAnimation(el, match))
+                    .add(anim.pantingAnimation());
+            })
         }
-    } else {
+
+    }
+    else {
         render(stateName, progress)
     }
 

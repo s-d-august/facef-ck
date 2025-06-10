@@ -89,6 +89,7 @@ function App() {
         const headRect = document.getElementById("headArea").getBoundingClientRect();
         const percent = kkht.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
 
+
         if (percent <= 0.05) {
           setApproach(false)
         } else setApproach(true)
@@ -163,7 +164,7 @@ function App() {
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
           });
-        }, 2500);
+        }, 5000);
       }
       disableAndEnableDraggables()
       setArousal(prev => ({ ...prev, ives: 0 }))
@@ -193,11 +194,12 @@ function App() {
     }
 
     var breathCycleDuration = (
-      (arousalRatio > 0.8) ? 0.75
-        : (arousalRatio > 0.6) ? 1.0625
-          : (arousalRatio > 0.4) ? 1.375
-            : (arousalRatio > 0.2) ? 1.6875
-              : 2
+      (kkht.isInterrupted()) ? 0
+        : (arousalRatio > 0.8) ? 0.75
+          : (arousalRatio > 0.6) ? 1.0625
+            : (arousalRatio > 0.4) ? 1.375
+              : (arousalRatio > 0.2) ? 1.6875
+                : 2
     )
 
     var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
