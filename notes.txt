@@ -46,3 +46,14 @@ FEATURES
           maxY: containerSize * 0.4
         }
         )
+
+                if (target instanceof SVGElement) {
+            console.log("113")
+            let xTo = gsap.quickTo(target, "attr", { attr: { cx: 0 }, duration, ease });
+            let yTo = gsap.quickTo(target, "attr", { attr: { cy: 0 }, duration, ease });
+            console.log("116")
+            return (x, y) => {
+                xTo(x);
+                yTo(y);
+            };
+        } else 

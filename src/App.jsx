@@ -95,7 +95,10 @@ function App() {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
         console.log("hairPullHand onDrag");
-
+        gsap.to(hideHand, { opacity: 1, duration: 0.2 });
+        console.log("hairPullBeads", hairPullBeads, "this.x", this.x, "this.y", this.y);
+        util.updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
+        util.updateFollowers.call(this, hairPullBeads, this.x, this.y, "back", 0.1, 0.05);
       },
       dragResistance: 0,
       zIndexBoost: false,
@@ -173,7 +176,7 @@ function App() {
       util.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
     }
 
-    var boundsArea = document.getElementById("headArea")
+    var boundsArea = document.getElementById("faceArea")
     var initialY = boundsArea.getBoundingClientRect().height
     sweatIntervalRef.current = setInterval(() => {
       console.log("Sweat interval: calling randomizeArray");
