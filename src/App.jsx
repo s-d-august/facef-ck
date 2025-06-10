@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import icon from './assets/fonts-etc/cover.png';
-import * as kkht from './functions'
+import * as util from './stateless-functions.js'
+import * as anim from './animations.js'
+import { useAnimationFunctions } from './AnimationFunctions.jsx';
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
 import Body from './assets/components/body'
@@ -15,6 +17,7 @@ import { AgeGate } from '@jmeirinkmarimed/age-gate'
 
 function App() {
 
+  const kkht = useAnimationFunctions()
   const [mouthOn, setMouthOn] = useState(false)
   const [approach, setApproach] = useState(false)
   const droolIntervalRef = useRef(null);
@@ -32,7 +35,7 @@ function App() {
 
   useEffect(() => { // Elements that change based on approach state
 
-    if (kkht.checkHoldMouthOpen()) return
+    if (kkht.holdMouthOpen) return
 
     if (approach) {
       kkht.mouthOpenFunction()
@@ -47,7 +50,7 @@ function App() {
     document.getElementById("tongue").addEventListener("dblclick", kkht.mouthOpenClose)
     gsap.set("#tongueGroup", { scaleY: 0 });
     gsap.set("#tongueDrool", { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
+    const interval = setInterval(() => util.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -74,7 +77,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        kkht.valChange("ives", "up", maxArousal, setArousal)
+        util.valChange("ives", "up", maxArousal, setArousal)
       }
     })
 
@@ -83,27 +86,32 @@ function App() {
       onDrag: function () {
 
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
-        kkht.updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
-        kkht.updateFollowers.call(this, hairPullBeads, this.x, this.y, "back", 0.1, 0.05);
+        util.updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
+        util.updateFollowers.call(this, hairPullBeads, this.x, this.y, "back", 0.1, 0.05);
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
-        const percent = kkht.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
+        const percent = util.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
 
 
         if (percent <= 0.05) {
           setApproach(false)
+
         } else setApproach(true)
+
         if (percent <= 0.1) { // Dick isn't in mouth
           var resistance = 0
           setMouthOn(false)
+
           if (Draggable.hitTest("#tongue", "#dickHead", "20%")) {
-            kkht.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
+            util.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
           }
+
         } else { // Dick is in mouth
           setMouthOn(true)
           var resistance = percent * 3
-          kkht.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
+          util.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
         }
+
         this.dragResistance = resistance
 
 
@@ -112,7 +120,7 @@ function App() {
             minX: containerSize * -0.0055,
             maxX: containerSize * 0.0055,
             minY: containerSize * -0.07,
-            maxY: containerSize * kkht.setMult("#hairPullHand", this.y, (this.maxY || containerSize * 0.1), 0.2, 0.4, 5, 0.005)
+            maxY: containerSize * kkht.trainingModeMaxY("#hairPullHand", this.y, (this.maxY || containerSize * 0.1), 0.2, 0.4, 5, 0.005)
           });
         } else this.applyBounds({
           minX: containerSize * -0.0055,
@@ -135,38 +143,21 @@ function App() {
   useEffect(() => { // Nut function
 
     if (arousal.ives >= maxArousal.ives) {
-      var mouthOpen = kkht.checkHoldMouthOpen()
 
       if (mouthOn) {
-        kkht.renderChange("Open", "Wide", 0, 1)
+        kkht.callFastMorph("Open", "Wide", [anim.tearsAnimation, anim.pantingAnimation], [anim.eyeFlutterWideAnimation])
         // Plays expression change animation and resets arousal
       }
-      if (!mouthOn && mouthOpen) {
+      if (!mouthOn && kkht.isMouthOpen) {
         kkht.cumAnimation("tongueCum", 0.25, 0.6)
         // Plays cum on tongue animation
       }
-      if (!mouthOn && !mouthOpen) {
+      if (!mouthOn && !kkht.isMouthOpen) {
         kkht.cumAnimation("faceCum", 0.4, 3, "top center", "scaleY", true)
         // Plays cum on face animation
       }
 
-      function disableAndEnableDraggables() {
-        // Disable hair pull hand
-        Draggable.get("#hairPullHand")?.disable();
-        // Disable all dick hand parts
-        gsap.utils.toArray(".dickHandParts").forEach(el => {
-          Draggable.get(el)?.disable();
-        });
-
-        // Wait, then enable
-        setTimeout(() => {
-          Draggable.get("#hairPullHand")?.enable();
-          gsap.utils.toArray(".dickHandParts").forEach(el => {
-            Draggable.get(el)?.enable();
-          });
-        }, 5000);
-      }
-      disableAndEnableDraggables()
+      util.pauseDraggable([".dickHandParts", "#hairPullHand"], 5000)
       setArousal(prev => ({ ...prev, ives: 0 }))
     }
   }, [arousal.ives])
@@ -189,12 +180,12 @@ function App() {
         });
       }
     }
-    if (!kkht.isInterrupted()) {
-      kkht.renderChange("Open", "Half", (arousalRatio / 2))
+    if (!kkht.fastMorph) {
+      kkht.callSlowMorph("Open", "Half", (arousalRatio / 2))
     }
 
     var breathCycleDuration = (
-      (kkht.isInterrupted()) ? 0
+      (kkht.fastMorph) ? 0
         : (arousalRatio > 0.8) ? 0.75
           : (arousalRatio > 0.6) ? 1.0625
             : (arousalRatio > 0.4) ? 1.375
@@ -205,9 +196,11 @@ function App() {
     var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
 
     const blush = document.getElementById("blush")
-    kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
+    util.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
-    sweatIntervalRef.current = setInterval(() => kkht.randomizeArray("sweat", "faceArea"), 10000);
+    var boundsArea = document.getElementById("headArea")
+    var initialY = boundsArea.getBoundingClientRect().height
+    sweatIntervalRef.current = setInterval(() => kkht.randomizeArray("sweat", kkht.drip, initialY), 10000);
 
     return () => {
       if (sweatIntervalRef.current) {
@@ -219,7 +212,7 @@ function App() {
         document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
       } else return
     };
-  }, [arousal.boyd]);
+  }, [arousal.boyd, kkht.fastMorph, kkht.slowMorph]);
 
   useEffect(() => {
     let running = true;
@@ -254,8 +247,11 @@ function App() {
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
 
+    var boundsArea = document.getElementById("dickArea")
+    var initialY = boundsArea.getBoundingClientRect().height
+
     if (mouthOn) {
-      droolIntervalRef.current = setInterval(() => kkht.randomizeArray("dickDrool", "dickArea"), 15000);
+      droolIntervalRef.current = setInterval(() => kkht.randomizeArray("dickDrool", kkht.drip, initialY), 15000);
       dickHandDraggable.disable()
     } else {
       if (droolIntervalRef.current) {

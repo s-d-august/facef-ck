@@ -2,6 +2,7 @@ import gsap from "gsap"
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 gsap.registerPlugin(MorphSVGPlugin);
 
+// Gets called only once
 export const tearsAnimation = () => {
     const tearTop = document.getElementById("tearRight").getBoundingClientRect().top * 2
 
@@ -33,6 +34,28 @@ export const tearsAnimation = () => {
 
 }
 
+export const cumAnimation = (cumId, shotDuration, moveDuration, axis) => {
+
+    if (!axis) scaleAxis = "scale"
+
+    return (
+        gsap.timeline().set("#cumshot", { opacity: 0.9 })
+            .fromTo(
+                "#cumshot",
+                { drawSVG: "0 0" },
+                {
+                    duration: (shotDuration / 2 || 0.125),
+                    drawSVG: "0 100%"
+                }).to("#cumshot", { drawSVG: "100% 100%", duration: (shotDuration / 2 || 0.125) })
+            .set("#cumshot", { opacity: 0 })
+            .set(cumId, { opacity: .8, [scaleAxis]: 0.3, transformOrigin: (cumId.transformOrigin || origin || "center") })
+            .to(cumId, {
+                [scaleAxis]: 1, duration: (moveDuration || 1), ease: "power1.out"
+            })
+    )
+}
+
+// Gets called on multiple elements as part of a forEach loop
 export const eyeFlutterWideAnimation = (el, match) => {
     const eyesWide = gsap.to(el, {
         duration: 0.2,
@@ -73,47 +96,8 @@ export const eyeFlutterWideAnimation = (el, match) => {
 
 }
 
-export const test = (el, match) => {
-    const eyesWide = gsap.to(el, {
-        duration: 0.2,
-        morphSVG: match,
-        y: 0,
-        x: 0,
-        paused: true
-    })
-
-    let obj = { p: 0 }
-    return (
-        gsap.timeline()
-            .to(obj, {
-                p: 0.75,
-                duration: 0.2,
-                onUpdate: () => eyesWide.progress(obj.p)
-            })
-            .to(obj, {
-                p: 0,
-                duration: 0.1,
-                repeat: 2,
-                yoyo: true,
-                onUpdate: () => eyesWide.progress(obj.p)
-            })
-            .to(obj, {
-                p: 1,
-                duration: 0.2,
-                onUpdate: () => eyesWide.progress(obj.p)
-            })
-            .to(el, {
-                delay: 1.5,
-                duration: 0.75,
-                morphSVG: el,
-                y: 0,
-                x: 0,
-            })
-    )
-
-}
-
-export const pantingAnimation = (isInterrupted) => {
+// Gets called only once
+export const pantingAnimation = () => {
     const container = document.getElementById("container");
     if (!container) {
         console.warn('pantingAnimation: #container not found');
@@ -189,10 +173,18 @@ export const pantingAnimation = (isInterrupted) => {
         onUpdate: () => {
             pantDrool.progress(objDrool.p);
         },
+        onComplete: () => {
+
+        }
 
     }, 0); // Start at the beginning of master
 
     return master;
+
 };
+
+export const fullCumInMouth = () => {
+
+}
 
 
