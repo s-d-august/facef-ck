@@ -8,16 +8,17 @@ import Body from './assets/components/body'
 import Head from './assets/components/head'
 import Mouth from './assets/components/mouth'
 import Outputs from './assets/components/outputs'
+import AgeCheck from './assets/components/age-check';
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
-import { AgeGate } from '@jmeirinkmarimed/age-gate'
+
 
 
 
 
 function App() {
-
+  const [ageChecked, setAgeChecked] = useState(false)
   const [mouthOn, setMouthOn] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
   const mouthOpenRef = useRef(mouthOpen);
@@ -343,21 +344,8 @@ function App() {
 
   return (
     <div id='container'>
-      <AgeGate
-        minAge={18}
-        confirmationType="yesNo"
-        headerText="This page contains sexually explicit content!"
-        subHeaderText="Are you over 18 and okay with seeing that?"
-        logo={icon}
-        logoWidth='250px'
-        backgroundColor="#000000"
-        textColor="#ffffff"
-        buttonColor="#ffffff"
-        buttonTextColor="#000000"
-        buttonHoverColor="#e6e6e6"
-        fontFamily="Benguiat"
-      >
-      </AgeGate>
+      {!ageChecked ? <AgeCheck ageChecked={ageChecked}
+        setAgeChecked={setAgeChecked} /> : <></>}
       <Outputs
         boyd={arousal.boyd}
         ives={arousal.ives}
