@@ -2,7 +2,7 @@ import gsap from "gsap";
 import { MorphSVGPlugin } from "gsap/all";
 gsap.registerPlugin(MorphSVGPlugin)
 
-// TO IMPORT: matchID, 
+// TO IMPORT: matchID
 
 // generateMorphTweens
 export const generateMorphTweens = (fromState, toState, tweensRef) => {
