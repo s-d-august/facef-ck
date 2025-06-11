@@ -130,5 +130,5 @@ export const pauseDraggable = ([draggableIdentifiers], delay) => {
         draggableIdentifiers.forEach(el => {
             Draggable.get(el)?.enable();
         });
-    }, 5000);
+    }, delay);
 }
