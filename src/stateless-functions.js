@@ -47,10 +47,10 @@ export const getXY = (id, origin) => {
     } else if (origin == "top right" || origin == "right top") {
         pt.x = rect.x + rect.width
         pt.y = rect.y
-    } else if (origin == "top center" || origin == "center top") {
+    } else if (origin == "top center" || origin == "center top" || origin == "top") {
         pt.x = rect.x + rect.width / 2;
         pt.y = rect.y
-    } else {
+    } else { // Origin defaults to center
         pt.x = rect.x + rect.width / 2;
         pt.y = rect.y + rect.height / 2;
     }
