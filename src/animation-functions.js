@@ -49,7 +49,7 @@ export const drip = (element, initialY) => {
     });
 };
 
-export const cumAnimation = (cumType, shotDuration, moveDuration, origin, axis, empty) => {
+export const cumAnimation = async (cumType, shotDuration, moveDuration, origin, axis, empty, cumshotAnimation, wipeFaceAnimation) => {
 
     if (typeof cumType === "string") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
@@ -81,6 +81,16 @@ export const cumAnimation = (cumType, shotDuration, moveDuration, origin, axis, 
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
+    await cumshotAnimation
+
+    if (arrayEligibleMap[typeKey].length === 0) {
+        wipeFaceAnimation
+        cumArray.forEach(el => {
+            if (typeof el === "string") el = document.getElementById(el);
+            if (el) gsap.set(el, { opacity: 0 })
+        })
+    }
+
     gsap.set("#cumshot", { opacity: 0.9 });
     gsap.timeline().fromTo(
         "#cumshot",
@@ -93,19 +103,10 @@ export const cumAnimation = (cumType, shotDuration, moveDuration, origin, axis, 
         .set(cumId, { opacity: .8, [scaleAxis]: 0.3, transformOrigin: (cumId.transformOrigin || origin || "center") })
         .to(cumId, {
             [scaleAxis]: 1, duration: (moveDuration || 1), ease: "power1.out",
-            onComplete: () => {
-                if (arrayEligibleMap[typeKey].length === 0) {
-                    cumArray.forEach(el => {
-                        if (typeof el === "string") el = document.getElementById(el);
-                        if (el) gsap.set(el, { opacity: 0 });
-                    });
-                    // Wipe face animation
-                    console.log("wipe your face, boyd!")
-                    return;
-                }
-            }
-        });
+        })
+
 }
+
 
 /* Generates tweens for an SVGMorph if they don't already exist and caches them in tweensRef */
 export const generateMorphTweens = (fromState, toState) => {

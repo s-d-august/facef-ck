@@ -2,6 +2,8 @@ import gsap from "gsap";
 import { MorphSVGPlugin } from "gsap/all";
 gsap.registerPlugin(MorphSVGPlugin)
 
+const tweensRef = [{}]
+
 // TO IMPORT: matchID
 
 // generateMorphTweens
@@ -9,8 +11,8 @@ export const generateMorphTweens = (fromState, toState, tweensRef) => {
     console.log("generateMorphTweens called", { fromState, toState });
     const fromArray = document.querySelectorAll(`[id*="${fromState}"]`);
     const stateName = fromState + "-" + toState;
-    if (!tweensRef.current[stateName]) {
-        tweensRef.current[stateName] = {
+    if (!tweensRef[stateName]) {
+        tweensRef[stateName] = {
             name: stateName,
             from: fromState,
             to: toState,
@@ -19,7 +21,7 @@ export const generateMorphTweens = (fromState, toState, tweensRef) => {
     fromArray.forEach((el) => {
         const match = util.matchID(el, fromState, toState);
         if (!match) return;
-        tweensRef.current[stateName][el.id] = gsap.to(el, {
+        tweensRef[stateName][el.id] = gsap.to(el, {
             duration: 1,
             morphSVG: match,
             y: 0,
@@ -27,7 +29,7 @@ export const generateMorphTweens = (fromState, toState, tweensRef) => {
         });
     });
     return () => {
-        Object.values(tweensRef.current[stateName]).forEach(
+        Object.values(tweensRef[stateName]).forEach(
             (tween) => tween && tween.kill()
         );
     };
@@ -63,10 +65,10 @@ export const renderMorph = (fromState, toState, progress, expressionsArray, fast
         }
     });
 
-    if (!tweensRef.current[stateName]) {
+    if (!tweensRef[stateName]) {
         generateMorphTweens(fromState, toState);
     }
-    Object.values(tweensRef.current[stateName]).forEach((tween) => {
+    Object.values(tweensRef[stateName]).forEach((tween) => {
         const initialState = Array.from(
             document.querySelectorAll(`[id*=${fromState || "Open"}]`)
         );
