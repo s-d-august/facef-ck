@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import './App.css'
 import icon from './assets/fonts-etc/cover.png';
 import * as kkht from './functions'
+import * as kihe from './assets/kkht/index'
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
 import Body from './assets/components/body'
@@ -15,6 +16,8 @@ import { AgeGate } from '@jmeirinkmarimed/age-gate'
 
 function App() {
 
+  const [holdMouthOpen, setHoldMouthOpen] = useState(false)
+  const [mouthOpen, setMouthOpen] = useState(false)
   const [mouthOn, setMouthOn] = useState(false)
   const [approach, setApproach] = useState(false)
   const droolIntervalRef = useRef(null);
@@ -27,19 +30,52 @@ function App() {
     ives: 100,
     boyd: 100,
   })
+  const containerSize = useRef()
+  const mouthGroup = useRef()
+  const tongueGroup = useRef()
+  const tongueDrool = useRef()
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
+  useEffect(() => {
+    containerSize.current = document.getElementById("container").getBoundingClientRect().height
+    mouthGroup.current = document.getElementById("mouthGroup")
+    tongueGroup.current = document.getElementById("tongueGroup")
+    tongueDrool.current = document.getElementById("tongueDrool")
+  }, [])
+
+
+
   useEffect(() => { // Elements that change based on approach state
 
-    if (kkht.checkHoldMouthOpen()) return
-
-    if (approach) {
-      kkht.mouthOpenFunction()
-    } else {
-      kkht.mouthCloseFunction()
+    if (holdMouthOpen === true) return
+    if (
+      !containerSize.current ||
+      !mouthGroup.current ||
+      !tongueGroup.current ||
+      !tongueDrool.current
+    ) {
+      console.error("One or more refs are null!");
+      return;
     }
-  }, [approach])
+    console.log(approach)
+    if (approach) {
+      kihe.mouthOpenFunction({
+        moveBy: containerSize.current * 0.045,
+        mouthGroup: mouthGroup.current,
+        tongueGroup: tongueGroup.current,
+        tongueDrool: tongueDrool.current,
+        mouthOpenSetter: setMouthOpen
+      })
+    } else {
+      kihe.mouthCloseFunction({
+        mouthGroup: mouthGroup.current,
+        tongueGroup: tongueGroup.current,
+        tongueDrool: tongueDrool.current,
+        mouthOpenSetter: setMouthOpen
+      })
+    }
+  }, [approach, holdMouthOpen])
 
 
   useEffect(() => {

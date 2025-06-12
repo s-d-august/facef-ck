@@ -1,11 +1,15 @@
-export const mouthOpenFunction = (moveBy, mouthGroup, tongueGroup, tongueDrool, mouthOpenRef) => {
+import gsap from "gsap"
+
+export const mouthOpenFunction = ({ moveBy, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter }) => {
+    console.log(moveBy, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter)
     gsap.to(mouthGroup, { y: moveBy, duration: 1, ease: "power1.out" })
     gsap.to(tongueGroup, { y: 0, scaleY: 1, duration: 1, ease: "power1.out" })
     gsap.to(tongueDrool, { scaleY: 1, duration: 2, transformOrigin: "top center" })
-    mouthOpenRef = true
+    console.log("test")
+    mouthOpenSetter(true)
 }
 
-export const mouthCloseFunction = (tongueCum, mouthGroup, tongueGroup, tongueDrool, mouthOpenRef) => {
+export const mouthCloseFunction = ({ tongueCum, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter }) => {
     const all = document.querySelectorAll('[id*="tongueCum"]');
     const visible = (Array.from(all)).filter(el => getComputedStyle(el).opacity !== "0");
 
@@ -15,15 +19,15 @@ export const mouthCloseFunction = (tongueCum, mouthGroup, tongueGroup, tongueDro
         .to(tongueDrool, { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set(tongueDrool, { scaleX: 1, scaleY: 0 })
         .set(visible, { opacity: 0 })
-    mouthOpenRef = false
+    mouthOpenSetter(true)
 }
 
-export const mouthOpenClose = (mouthOpenRef, holdMouthOpenRef) => {
+export const mouthOpenClose = (mouthOpenRef, holdMouthOpenSetter) => {
     if (mouthOpenRef !== true) { // if mouth is closed
         mouthOpenFunction();
-        holdMouthOpenRef = true
+        holdMouthOpenSetter(true)
     } else {
         mouthCloseFunction();
-        holdMouthOpenRef = false
+        holdMouthOpenSetter(false)
     }
 }
