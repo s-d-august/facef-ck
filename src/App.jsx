@@ -148,8 +148,8 @@ function App() {
       onDrag: function () {
 
         gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
-        kihe.updateFollowers.call(this, [headParts.current, body.current], this.x, this.y, "power2", 0.25, 0.2);
-        kihe.updateFollowers.call(this, hairPullBeads.current, this.x, this.y, "back", 0.1, 0.05);
+        kihe.updateFollowers([headParts.current, body.current], this.x, this.y, "power2", 0.25, 0.2);
+        kihe.updateFollowers(hairPullBeads.current, this.x, this.y, "back", 0.1, 0.05);
 
         // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
