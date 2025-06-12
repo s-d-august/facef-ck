@@ -294,6 +294,7 @@ export const setMult = (id, y, maxY, initial, end, hits, increaseBy) => {
             multRef[id] = multRef[id] + increaseBy;
         }
     }
+    console.log(multRef[id])
     return multRef[id];
 }
 

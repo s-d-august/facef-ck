@@ -16,6 +16,7 @@ import { AgeGate } from '@jmeirinkmarimed/age-gate'
 
 function App() {
 
+  const depthMethod = useRef("training")
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
   const [mouthOn, setMouthOn] = useState(false)
@@ -28,13 +29,18 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 100,
-    boyd: 100,
+    ives: 1000,
+    boyd: 1000,
   })
   const containerSize = useRef()
   const mouthGroup = useRef()
   const tongueGroup = useRef()
   const tongueDrool = useRef()
+  const hideHand = useRef()
+  const headParts = useRef()
+  const hairPullBeads = useRef()
+  const body = useRef()
+
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
@@ -43,6 +49,10 @@ function App() {
     mouthGroup.current = document.getElementById("mouthGroup")
     tongueGroup.current = document.getElementById("tongueGroup")
     tongueDrool.current = document.getElementById("tongueDrool")
+    hideHand.current = gsap.utils.toArray(".hideHand")
+    headParts.current = gsap.utils.toArray(".headParts");
+    hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
+    body.current = document.getElementById("bodyGroup");
   }, [])
 
   useEffect(() => {
@@ -51,7 +61,6 @@ function App() {
 
 
   useEffect(() => { // Elements that change based on approach state
-    console.log(approach)
     if (holdMouthOpen === true) return
     if (
       !containerSize.current ||
@@ -79,11 +88,6 @@ function App() {
       })
     }
   }, [approach, holdMouthOpen])
-
-  useEffect(() => {
-    console.log("mouthOpen: ", mouthOpen)
-    console.log("holdMouthOpen: ", holdMouthOpen)
-  }, [mouthOpen, holdMouthOpen])
 
   function mouthOpenClose() {
     if (mouthOpenRef.current === false) { // if mouth is closed
@@ -113,16 +117,11 @@ function App() {
     document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
+    const interval = setInterval(() => kihe.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
   useEffect(() => { // Sets up draggables
-    const containerSize = document.getElementById("container").getBoundingClientRect().height
-    const hideHand = gsap.utils.toArray(".hideHand")
-    const headParts = gsap.utils.toArray(".headParts");
-    const hairPullBeads = gsap.utils.toArray(".hairPullBeads").reverse()
-    const body = document.getElementById("bodyGroup");
 
     Draggable.create(".dickHandParts", {
       trigger: "#dickHandGrab",
@@ -130,8 +129,8 @@ function App() {
       type: "y",
       cursor: "ns-resize",
       bounds: {
-        minY: containerSize * -0.07,
-        maxY: containerSize * 0.07,
+        minY: containerSize.current * -0.07,
+        maxY: containerSize.current * 0.07,
       },
       inertia: {
         y: {
@@ -140,7 +139,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        kkht.valChange("ives", "up", maxArousal, setArousal)
+        kihe.valChange("ives", "up", maxArousal, setArousal)
       }
     })
 
@@ -148,50 +147,60 @@ function App() {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
 
-        gsap.to(hideHand, { opacity: 1, duration: 0.2 });
-        kkht.updateFollowers.call(this, [headParts, body], this.x, this.y, "power2", 0.25, 0.2);
-        kkht.updateFollowers.call(this, hairPullBeads, this.x, this.y, "back", 0.1, 0.05);
+        gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
+        kihe.updateFollowers.call(this, [headParts.current, body.current], this.x, this.y, "power2", 0.25, 0.2);
+        kihe.updateFollowers.call(this, hairPullBeads.current, this.x, this.y, "back", 0.1, 0.05);
+
+        // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("headArea").getBoundingClientRect();
-        const percent = kkht.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
+        const percent = kihe.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
+
+        //    var resistance
+
+        const args = {
+          percent: percent,
+          startApproach: 0.05,
+          startOn: 0.1,
+          setApproach,
+          setMouthOn,
+          affectedIDs: ["ives", "boyd"],
+          lick: {
+            tongue: "#tongue",
+            tip: "#dickTip",
+            percent: "20%"
+          },
+          maxArousal,
+          setArousal
+        };
 
 
-        if (percent <= 0.05) {
-          setApproach(false)
-        } else setApproach(true)
-        if (percent <= 0.1) { // Dick isn't in mouth
-          var resistance = 0
-          setMouthOn(false)
-          if (Draggable.hitTest("#tongue", "#dickHead", "20%")) {
-            kkht.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
-          }
-        } else { // Dick is in mouth
-          setMouthOn(true)
-          var resistance = percent * 3
-          kkht.valChange(["boyd", "ives"], "up", maxArousal, setArousal);
-        }
-        this.dragResistance = resistance
+        this.dragResistance = kihe.isApproachOrOn(args)
 
 
-        if (kkht.depthMethod() === "training") {
+        if (depthMethod.current === "training") {
+          console.log("training mode")
           this.applyBounds({
-            minX: containerSize * -0.0055,
-            maxX: containerSize * 0.0055,
-            minY: containerSize * -0.07,
-            maxY: containerSize * kkht.setMult("#hairPullHand", this.y, (this.maxY || containerSize * 0.1), 0.2, 0.4, 5, 0.005)
+            minX: containerSize.current * -0.0055,
+            maxX: containerSize.current * 0.0055,
+            minY: containerSize.current * -0.07,
+            maxY: containerSize.current * kihe.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.005)
           });
-        } else this.applyBounds({
-          minX: containerSize * -0.0055,
-          maxX: containerSize * 0.0055,
-          minY: containerSize * -0.07,
-          maxY: containerSize * 0.4
+        } else {
+          console.log("no mode")
+          this.applyBounds({
+            minX: containerSize.current * -0.0055,
+            maxX: containerSize.current * 0.0055,
+            minY: containerSize.current * -0.07,
+            maxY: containerSize.current * 0.4
+          }
+          )
         }
-        )
       },
       dragResistance: 0,
       zIndexBoost: false,
       onDragEnd: function () {
-        gsap.to(hideHand, { opacity: 0, duration: 0.2 })
+        gsap.to(hideHand.current, { opacity: 0, duration: 0.2 })
       }
     });
 

@@ -1,4 +1,5 @@
 export * from './animation-functions/call-cumshot';
+export * from './animation-functions/dick-handlers';
 export * from './animation-functions/morph';
 
 export * from './animations/complex-panting';
@@ -12,3 +13,4 @@ export * from './utils/array';
 export * from './utils/dom';
 export * from './utils/gsap';
 export * from './utils/math';
+export * from './utils/stats';
