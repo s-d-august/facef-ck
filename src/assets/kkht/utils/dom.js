@@ -37,3 +37,26 @@ export const getXY = (id, origin) => {
     const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
     return { x: svgPt.x, y: svgPt.y }
 }
+
+export const getOverlapPercent = (rectA, rectB) => {
+    const x_overlap = Math.max(
+        0,
+        Math.min(rectA.right, rectB.right) - Math.max(rectA.left, rectB.left)
+    );
+    const y_overlap = Math.max(
+        0,
+        Math.min(rectA.bottom, rectB.bottom) - Math.max(rectA.top, rectB.top)
+    );
+    const overlapArea = x_overlap * y_overlap;
+    const areaA = (rectA.right - rectA.left) * (rectA.bottom - rectA.top);
+    const percent = areaA ? (overlapArea / areaA) : 0;
+    return percent;
+}
+
+export const renderProgress = (element, attr, stat, max) => {
+    const newVal = function (stat) {
+        if (stat >= max) { return 100 }
+        else return stat / max * 100
+    }
+    element.style[attr] = (newVal(stat) || 0) + '%'
+}

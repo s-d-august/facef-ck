@@ -1,22 +1,4 @@
-/* Selects a random element from an array, removes it from that array while animation is running,
-and returns it to the array so it can be selected again once the animation is complete
-*/
 
-export const randomizeArray = async (idString, animation, boundsHeight) => {
-
-    var arrayName = document.getElementById(`${idString}Group`)
-    var array = [...arrayName.children]
-
-    if (array.length === 0 || !document.hasFocus()) return
-
-    var index = Math.floor(Math.random() * array.length); // Generates a random index for the array
-    var element = array[index]; // Retrieves the value associated with the index
-
-    array.splice(index, 1) // Removes the selected element from the array
-    await animation(element, boundsHeight)
-
-    array.splice(0, 0, element) // Adds the element back to the array so it can be called again
-}
 
 /* Makes an element move slowly down the page until it hits the bounds */
 export const drip = (element, boundsHeight) => {

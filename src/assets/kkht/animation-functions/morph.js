@@ -1,10 +1,68 @@
 import gsap from "gsap";
 import { MorphSVGPlugin } from "gsap/all";
 gsap.registerPlugin(MorphSVGPlugin)
+import { matchID } from "../utils/dom.js"
 
 const tweensRef = [{}]
 
 // TO IMPORT: matchID
+
+// callMorph
+
+export const callSlowMorph = (fromState, toState, progress, fastMorph) => {
+    console.log("callSlowMorph called", { fromState, toState, progress });
+    if (fastMorph) {
+        return
+    } else renderMorph(fromState, toState, progress);
+}
+
+export const callFastMorph =
+    (fromState, toState, animations, forEachAnimations, setFastMorph, slowMorph) => {
+        setFastMorph(true)
+
+        // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
+        if (slowMorph) {
+            if (slowMorph.from === fromState) {
+                renderMorph(slowMorph.name, 0.01);
+            }
+            if (slowMorph.to === fromState) {
+                renderMorph(slowMorph.name, 0.99);
+            }
+        }
+        const fromArray = Array.from(
+            document.querySelectorAll(`[id*="${fromState}"]`)
+        );
+        const tl = gsap.timeline()
+        animations.forEach((anim) => {
+            tl.add(anim);
+        });
+        fromArray.forEach((el) => {
+            const match = matchID(el, fromState, toState);
+            if (!match) return;
+            if (forEachAnimations) {
+                forEachAnimations.forEach((anim) => {
+                    tl.add(anim(el, match))
+                })
+            }
+            tl.add({
+                onComplete: () => {
+                    console.log("callFastMorph timeline complete");
+                    if (slowMorph) {
+                        let obj = { progress: 0 };
+                        gsap.to(obj, {
+                            progress: slowMorph.progress,
+                            duration: 0.75,
+                            onUpdate: () => {
+                                renderMorph(slowMorph.name, obj.progress);
+                            },
+                            onComplete: () => setFastMorph(false),
+                        });
+                    }
+                },
+            });
+
+        });
+    }
 
 // generateMorphTweens
 export const generateMorphTweens = (fromState, toState, tweensRef) => {
@@ -92,59 +150,3 @@ export const renderMorph = (fromState, toState, progress, expressionsArray, fast
     });
 }
 
-// callMorph
-
-export const callSlowMorph = (fromState, toState, progress, fastMorph) => {
-    console.log("callSlowMorph called", { fromState, toState, progress });
-    if (fastMorph) {
-        return
-    } else renderMorph(fromState, toState, progress);
-}
-
-export const callFastMorph =
-    (fromState, toState, animations, forEachAnimations, setFastMorph, slowMorph) => {
-        setFastMorph(true)
-
-        // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
-        if (slowMorph) {
-            if (slowMorph.from === fromState) {
-                renderMorph(slowMorph.name, 0.01);
-            }
-            if (slowMorph.to === fromState) {
-                renderMorph(slowMorph.name, 0.99);
-            }
-        }
-        const fromArray = Array.from(
-            document.querySelectorAll(`[id*="${fromState}"]`)
-        );
-        const tl = gsap.timeline()
-        animations.forEach((anim) => {
-            tl.add(anim(el, match));
-        });
-        fromArray.forEach((el) => {
-            const match = util.matchID(el, fromState, toState);
-            if (!match) return;
-            if (forEachAnimations) {
-                forEachAnimations.forEach((anim) => {
-                    tl.add(anim(el, match))
-                })
-            }
-            tl.add({
-                onComplete: () => {
-                    console.log("callFastMorph timeline complete");
-                    if (slowMorph) {
-                        let obj = { progress: 0 };
-                        gsap.to(obj, {
-                            progress: slowMorph.progress,
-                            duration: 0.75,
-                            onUpdate: () => {
-                                renderMorph(slowMorph.name, obj.progress);
-                            },
-                            onComplete: () => setFastMorph(false),
-                        });
-                    }
-                },
-            });
-
-        });
-    }

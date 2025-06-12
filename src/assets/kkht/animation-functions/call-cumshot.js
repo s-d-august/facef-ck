@@ -1,6 +1,8 @@
 const arrayEligibleMap = [{}]
+import { getXY } from "../utils/dom.js"
+import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 
-export const cumshotCalculator = async (cumType, origin, untilEmpty, cumshotAnimation, wipeFaceAnimation) => {
+export const callCumshot = async (cumType, origin, untilEmpty, cumshotAnimation, wipeFaceAnimation) => {
 
     if (typeof cumType === "string") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
@@ -14,9 +16,9 @@ export const cumshotCalculator = async (cumType, origin, untilEmpty, cumshotAnim
 
     let cumId;
     if (untilEmpty) {
-        cumId = util.pluckRandomFrom(cumArray, typeKey);
+        cumId = pluckRandomFrom(cumArray, typeKey);
     } else {
-        cumId = util.getRandomFrom(cumArray);
+        cumId = getRandomFrom(cumArray);
     }
     console.log(cumId)
 
@@ -24,7 +26,7 @@ export const cumshotCalculator = async (cumType, origin, untilEmpty, cumshotAnim
     const cumshot = document.getElementById("cumshot");
     if (!cumshot || !cumId) return;
 
-    const cumVals = util.getXY(cumId, origin);
+    const cumVals = getXY(cumId, origin);
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
