@@ -19,6 +19,7 @@ function App() {
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
   const [mouthOn, setMouthOn] = useState(false)
+  const mouthOpenRef = useRef(mouthOpen);
   const [approach, setApproach] = useState(false)
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
@@ -44,10 +45,13 @@ function App() {
     tongueDrool.current = document.getElementById("tongueDrool")
   }, [])
 
+  useEffect(() => {
+    mouthOpenRef.current = mouthOpen;
+  }, [mouthOpen]);
 
 
   useEffect(() => { // Elements that change based on approach state
-
+    console.log(approach)
     if (holdMouthOpen === true) return
     if (
       !containerSize.current ||
@@ -58,7 +62,6 @@ function App() {
       console.error("One or more refs are null!");
       return;
     }
-    console.log(approach)
     if (approach) {
       kihe.mouthOpenFunction({
         moveBy: containerSize.current * 0.045,
@@ -77,12 +80,39 @@ function App() {
     }
   }, [approach, holdMouthOpen])
 
+  useEffect(() => {
+    console.log("mouthOpen: ", mouthOpen)
+    console.log("holdMouthOpen: ", holdMouthOpen)
+  }, [mouthOpen, holdMouthOpen])
+
+  function mouthOpenClose() {
+    if (mouthOpenRef.current === false) { // if mouth is closed
+      console.log("mouthClosed detected")
+      kihe.mouthOpenFunction({
+        moveBy: containerSize.current * 0.045,
+        mouthGroup: mouthGroup.current,
+        tongueGroup: tongueGroup.current,
+        tongueDrool: tongueDrool.current,
+        mouthOpenSetter: setMouthOpen
+      });
+      setHoldMouthOpen(true)
+    } else if (mouthOpenRef.current === true) {
+      console.log("mouthOpen detected")
+      kihe.mouthCloseFunction({
+        mouthGroup: mouthGroup.current,
+        tongueGroup: tongueGroup.current,
+        tongueDrool: tongueDrool.current,
+        mouthOpenSetter: setMouthOpen
+      });
+      setHoldMouthOpen(false)
+    }
+  }
 
   useEffect(() => {
-    document.getElementById("beard").addEventListener("dblclick", kkht.mouthOpenClose)
-    document.getElementById("tongue").addEventListener("dblclick", kkht.mouthOpenClose)
-    gsap.set("#tongueGroup", { scaleY: 0 });
-    gsap.set("#tongueDrool", { scaleY: 0, scaleX: 1 });
+    document.getElementById("beard").addEventListener("dblclick", mouthOpenClose)
+    document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
+    gsap.set(tongueGroup.current, { scaleY: 0 });
+    gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
     const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
