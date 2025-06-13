@@ -22,7 +22,7 @@ const AgeCheck = ({ ageChecked, setAgeChecked }) => {
         SplitText.create("#hentai", {
             type: "chars",
             onSplit(self) {
-                gsap.fromTo(self.chars, { scale: 0, rotation: -15 }, {
+                gsap.timeline().fromTo(self.chars, { scale: 0, rotation: "random([-30, 30])" }, {
                     duration: 3,
                     scale: 1,
                     stagger: 0.05,

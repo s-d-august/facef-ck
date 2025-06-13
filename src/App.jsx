@@ -13,10 +13,6 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 
-
-
-
-
 function App() {
   const [ageChecked, setAgeChecked] = useState(false)
   const [mouthOn, setMouthOn] = useState(false)
