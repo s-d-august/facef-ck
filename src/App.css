@@ -107,6 +107,10 @@ svg {
   display: contents;
 }
 
+#face-CumGroup>path {
+  transform-origin: top center;
+}
+
 [id*="tear"],
 [id*="tongueCum"],
 #blush,

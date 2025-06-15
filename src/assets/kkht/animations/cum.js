@@ -2,23 +2,27 @@ import gsap from "gsap"
 import { DrawSVGPlugin } from "gsap/all"
 gsap.registerPlugin(DrawSVGPlugin)
 
-export const cumAnimation = (cumID, cumshotID, shotDuration, moveDuration, axis, origin) => {
+export const cumAnimation = (args) => {
+    const {
+        cumID,
+        origin
+    } = args;
 
-    if (!axis) scaleAxis = "scale"
+    console.log(cumID.style)
 
     return (
-        gsap.timeline().set(cumshotID, { opacity: 0.9 })
+        gsap.timeline().set(("#cumshot"), { opacity: 0.9 })
             .fromTo(
-                cumshotID,
+                ("#cumshot"),
                 { drawSVG: "0 0" },
                 {
-                    duration: (shotDuration / 2 || 0.125),
+                    duration: 0.125,
                     drawSVG: "0 100%"
-                }).to(cumshotID, { drawSVG: "100% 100%", duration: (shotDuration / 2 || 0.125) })
-            .set(cumshotID, { opacity: 0 })
-            .set(cumID, { opacity: .8, [scaleAxis]: 0.3, transformOrigin: (cumID.transformOrigin || origin || "center") })
+                }).to(("#cumshot"), { drawSVG: "100% 100%", duration: 0.125 })
+            .set(("#cumshot"), { opacity: 0 })
+            .set(cumID, { opacity: .8, scale: 0.3, transformOrigin: (origin || "center") })
             .to(cumID, {
-                [scaleAxis]: 1, duration: (moveDuration || 1), ease: "power1.out"
+                scale: 1, duration: 1, ease: "power1.out"
             })
     )
 }

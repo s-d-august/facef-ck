@@ -31,8 +31,8 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 1000,
-    boyd: 1000,
+    ives: 100,
+    boyd: 100,
   })
   const containerSize = useRef()
   const mouthGroup = useRef()
@@ -229,22 +229,26 @@ function App() {
   useEffect(() => { // Nut function
 
     if (arousal.ives >= maxArousal.ives) {
-      var mouthOpen = kkht.checkHoldMouthOpen()
 
       if (mouthOn) {
         kkht.renderChange("Open", "Wide", 0, 1)
+        disableAndEnableDraggables(5)
         // Plays expression change animation and resets arousal
       }
       if (!mouthOn && mouthOpen) {
-        kkht.cumAnimation("tongueCum", 0.25, 0.6)
+        kihe.callCumshot({
+          cumType: "tongueCum"
+        })
+        disableAndEnableDraggables(1.5)
         // Plays cum on tongue animation
       }
       if (!mouthOn && !mouthOpen) {
-        kkht.cumAnimation("faceCum", 0.4, 3, "top center", "scaleY", true)
+        kihe.callCumshot({ cumType: "faceCum", untilEmpty: true, origin: "top" })
+        disableAndEnableDraggables(1.5)
         // Plays cum on face animation
       }
 
-      function disableAndEnableDraggables() {
+      function disableAndEnableDraggables(sec) {
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
         // Disable all dick hand parts
@@ -258,12 +262,12 @@ function App() {
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
           });
-        }, 5000);
+        }, (sec * 1000));
       }
-      disableAndEnableDraggables()
+
       setArousal(prev => ({ ...prev, ives: 0 }))
     }
-  }, [arousal.ives])
+  }, [arousal.ives, mouthOn, mouthOpenRef])
 
   useEffect(() => {    // Elements that change based on arousal.boyd
 
@@ -434,32 +438,26 @@ function App() {
     document.getElementById("root")?.classList.add("ready");
   }, []);
 
-
-  if (ageChecked === null) {
-    // Still checking localStorage; render nothing or a spinner
-    return null
-  } else
-
-    return (
-      <div id='container'>
-        {!ageChecked ? <AgeCheck ageChecked={ageChecked}
-          setAgeChecked={setAgeChecked} /> : <></>}
-        <Outputs
-          boyd={arousal.boyd}
-          ives={arousal.ives}
-          maxBoyd={maxArousal.boyd}
-          maxIves={maxArousal.ives} />
-        <div className='buffer'></div>
-        <div id='positioning'>
-          <Body />
-          <Mouth />
-          <Dick />
-          <Head />
-          <HairPullHand />
-        </div>
-        <div className='buffer'></div>
+  return (
+    <div id='container'>
+      {!ageChecked ? <AgeCheck ageChecked={ageChecked}
+        setAgeChecked={setAgeChecked} /> : <></>}
+      <Outputs
+        boyd={arousal.boyd}
+        ives={arousal.ives}
+        maxBoyd={maxArousal.boyd}
+        maxIves={maxArousal.ives} />
+      <div className='buffer'></div>
+      <div id='positioning'>
+        <Body />
+        <Mouth />
+        <Dick />
+        <Head />
+        <HairPullHand />
       </div>
-    )
+      <div className='buffer'></div>
+    </div>
+  )
 }
 
 export default App

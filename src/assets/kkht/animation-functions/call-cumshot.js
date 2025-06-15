@@ -1,8 +1,12 @@
 const arrayEligibleMap = [{}]
 import { getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
+import { cumAnimation } from "../animations/cum.js"
 
-export const callCumshot = async (cumType, origin, untilEmpty, cumshotAnimation, wipeFaceAnimation) => {
+export const callCumshot = async (args) => {
+    const { cumType, untilEmpty, wipeFaceAnimation, origin } = args
+
+    console.log(args)
 
     if (typeof cumType === "string") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
@@ -12,25 +16,31 @@ export const callCumshot = async (cumType, origin, untilEmpty, cumshotAnimation,
         var typeKey = cumType.toString();
     }
 
+    console.log(cumArray, typeKey)
     if (!cumArray || cumArray.length === 0) return;
 
-    let cumId;
+    let cumID;
+    console.log(untilEmpty)
     if (untilEmpty) {
-        cumId = pluckRandomFrom(cumArray, typeKey);
+        console.log("untilEmpty detected")
+        console.log(pluckRandomFrom)
+        cumID = pluckRandomFrom({ array: cumArray, typeKey });
     } else {
-        cumId = getRandomFrom(cumArray);
+        console.log("untilEmpty not detected")
+        cumID = getRandomFrom(cumArray);
     }
-    console.log(cumId)
-
+    console.log(cumID)
 
     const cumshot = document.getElementById("cumshot");
-    if (!cumshot || !cumId) return;
+    console.log(cumshot, cumID)
+    if (!cumshot || !cumID) return;
 
-    const cumVals = getXY(cumId, origin);
+    const cumVals = getXY(cumID, origin);
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
-    await cumshotAnimation
+    console.log(cumID)
+    await cumAnimation({ cumID, origin })
 
     if (arrayEligibleMap[typeKey].length === 0) {
         wipeFaceAnimation
