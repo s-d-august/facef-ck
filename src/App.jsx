@@ -12,10 +12,12 @@ import Outputs from './assets/components/outputs'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
-import { AgeGate } from '@jmeirinkmarimed/age-gate'
+import AgeCheck from './assets/kkht/age-check/age-check'
 
 function App() {
 
+  const [ageChecked, setAgeChecked] = useState(false)
+  const ageCheckedRef = useRef(ageChecked)
   const depthMethod = useRef("training")
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
@@ -58,6 +60,10 @@ function App() {
   useEffect(() => {
     mouthOpenRef.current = mouthOpen;
   }, [mouthOpen]);
+
+  useEffect(() => {
+    ageCheckedRef.current = ageChecked;
+  }, [ageChecked]);
 
 
   useEffect(() => { // Elements that change based on approach state
@@ -421,41 +427,39 @@ function App() {
 
   }, [mouthOn]);
 
+  useEffect(() => {
+    const checked = localStorage.getItem("ageChecked");
+    setAgeChecked(checked === "true");
+    // Mark as ready after check
+    document.getElementById("root")?.classList.add("ready");
+  }, []);
 
 
-  return (
-    <div id='container'>
-      <AgeGate
-        minAge={18}
-        confirmationType="yesNo"
-        headerText="This page contains sexually explicit content!"
-        subHeaderText="Are you over 18 and okay with seeing that?"
-        logo={icon}
-        logoWidth='250px'
-        backgroundColor="#000000"
-        textColor="#ffffff"
-        buttonColor="#ffffff"
-        buttonTextColor="#000000"
-        buttonHoverColor="#e6e6e6"
-        fontFamily="Benguiat"
-      >
-      </AgeGate>
-      <Outputs
-        boyd={arousal.boyd}
-        ives={arousal.ives}
-        maxBoyd={maxArousal.boyd}
-        maxIves={maxArousal.ives} />
-      <div className='buffer'></div>
-      <div id='positioning'>
-        <Body />
-        <Mouth />
-        <Dick />
-        <Head />
-        <HairPullHand />
+  if (ageChecked === null) {
+    // Still checking localStorage; render nothing or a spinner
+    return null
+  } else
+
+    return (
+      <div id='container'>
+        {!ageChecked ? <AgeCheck ageChecked={ageChecked}
+          setAgeChecked={setAgeChecked} /> : <></>}
+        <Outputs
+          boyd={arousal.boyd}
+          ives={arousal.ives}
+          maxBoyd={maxArousal.boyd}
+          maxIves={maxArousal.ives} />
+        <div className='buffer'></div>
+        <div id='positioning'>
+          <Body />
+          <Mouth />
+          <Dick />
+          <Head />
+          <HairPullHand />
+        </div>
+        <div className='buffer'></div>
       </div>
-      <div className='buffer'></div>
-    </div>
-  )
+    )
 }
 
 export default App
