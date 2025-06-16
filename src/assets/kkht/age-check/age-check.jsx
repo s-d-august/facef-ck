@@ -29,7 +29,6 @@ const AgeCheck = ({ ageChecked, setAgeChecked }) => {
     return (
         <div id="ageCheckDiv">
             <h3>This page has sexual content! Are you over 18 and okay with seeing it?</h3>
-            <Eyecatch />
             <button type="button" id="ageCheckButton">Sure am!</button>
         </div>
     );

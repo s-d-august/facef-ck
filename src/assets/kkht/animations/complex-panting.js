@@ -1,4 +1,11 @@
-export const pantingAnimation = (containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool) => {
+import gsap from "gsap";
+import { tearsAnimation } from "./tears";
+
+export const pantingAnimation = (args) => {
+
+    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight } = args
+
+    console.log("pantingAnimation called", args)
 
     let obj = { p: 0 };
 
@@ -11,6 +18,10 @@ export const pantingAnimation = (containerSize, toMove, mouthGroup, bodyMain, to
         .fromTo(tongueDrool, { scaleY: 0 }, { scaleY: 1, duration: 2, transformOrigin: "top center" })
         .to(tongueDrool, { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set(tongueDrool, { scaleX: 1, scaleY: 0 });
+
+    tearsAnimation(tearLeft, tearRight)
+
+    console.log(toMove, pantGroup, pantDrool)
 
     const master = gsap.timeline()
         .to(toMove, {
@@ -69,7 +80,7 @@ export const pantingAnimation = (containerSize, toMove, mouthGroup, bodyMain, to
         }
 
     }, 0); // Start at the beginning of master
-
+    console.log(master)
     return master;
 
 };

@@ -1,5 +1,4 @@
-
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import "./eyecatch.css"
 import gsap from "gsap";
 import { ScrambleTextPlugin, SplitText, CustomEase, CustomBounce } from "gsap/all";
@@ -8,10 +7,13 @@ import { ScrambleTextPlugin, SplitText, CustomEase, CustomBounce } from "gsap/al
 gsap.registerPlugin(ScrambleTextPlugin, SplitText, CustomBounce, CustomEase)
 
 const Eyecatch = () => {
+    const kikaiRef = useRef();
 
     useEffect(() => {
+        if (!kikaiRef.current) return;
         document.fonts.ready.then(() => {
-            gsap.to("#kikai", {
+            console.log(kikaiRef.current)
+            gsap.to(kikaiRef.current, {
                 duration: 3.5,
                 scrambleText: "KIKAI"
             });
@@ -42,7 +44,7 @@ const Eyecatch = () => {
     return (
 
         <div id="kkhtLogoDiv">
-            <span id="kikai"></span>
+            <div id="kikai" ref={kikaiRef}></div>
             <span id="hentai">HENTAI</span>
         </div>
     );

@@ -46,7 +46,16 @@ function App() {
   const headParts = useRef()
   const hairPullBeads = useRef()
   const body = useRef()
-  const expressionsArray = ["Wide", "Open", "Half"]
+  const tearRight = useRef()
+  const tearLeft = useRef()
+
+  const morphArgsTemplate = {
+    expressionsArray: ["Wide", "Open", "Half"],
+    setFastMorph: setFastMorph,
+    setSlowMorph: setSlowMorph,
+    fastMorph: fastMorphRef.current,
+    slowMorph: slowMorphRef.current
+  }
 
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
@@ -60,6 +69,9 @@ function App() {
     headParts.current = gsap.utils.toArray(".headParts");
     hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
     body.current = document.getElementById("bodyGroup");
+    tearRight.current = document.getElementById("tearRight")
+    tearLeft.current = document.getElementById("tearLeft")
+
   }, [])
 
   useEffect(() => {
@@ -240,7 +252,27 @@ function App() {
     if (arousal.ives >= maxArousal.ives) {
 
       if (mouthOn) {
-        kkht.renderChange("Open", "Wide", 0, 1)
+        console.log("before calling fastMorph")
+        kihe.callFastMorph({
+          ...morphArgsTemplate,
+          fromState: "Open",
+          toState: "Wide",
+          animations: [kihe.callEyeFlutter, kihe.pantingAnimation],
+          animationArgs:
+            [{ fromState: "Open", toState: "Wide" },
+            {
+              containerSize: containerSize.current,
+              toMove: [body.current, headParts.current],
+              mouthGroup: mouthGroup.current,
+              bodyMain: body.current,
+              tongueGroup: tongueGroup.current,
+              tongueDrool: tongueDrool.current,
+              tearLeft: tearLeft.current,
+              tearRight: tearRight.current
+            }]
+
+        })
+        // kkht.renderChange("Open", "Wide", 0, 1)
         disableAndEnableDraggables(5)
         // Plays expression change animation and resets arousal
       }
@@ -296,8 +328,13 @@ function App() {
         });
       }
     }
-    if (!kkht.isInterrupted()) {
-      kkht.renderChange("Open", "Half", (arousalRatio / 2))
+    if (!fastMorphRef.current) {
+      kihe.callSlowMorph({
+        ...morphArgsTemplate,
+        fromState: "Open",
+        toState: "Half",
+        progress: (arousalRatio / 2)
+      })
     }
 
     var breathCycleDuration = (

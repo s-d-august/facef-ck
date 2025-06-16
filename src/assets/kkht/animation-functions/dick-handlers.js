@@ -34,7 +34,6 @@ var maxYLoggedRef = {};
 var multRef = {};
 
 export const trainingMultiplier = (id, y, maxY, initial, end, hits, increaseBy) => {
-    console.log(maxYLoggedRef, multRef)
     if (multRef[id] === undefined) {
         multRef[id] = initial;
     }
@@ -50,6 +49,5 @@ export const trainingMultiplier = (id, y, maxY, initial, end, hits, increaseBy) 
             multRef[id] = multRef[id] + increaseBy;
         }
     }
-    console.log(maxYLoggedRef, multRef)
     return multRef[id];
 }

@@ -5,64 +5,65 @@ import { matchID } from "../utils/dom.js"
 
 const tweensRef = [{}]
 
-export const callSlowMorph = (fromState, toState, progress, fastMorph) => {
-    console.log("callSlowMorph called", { fromState, toState, progress });
+export const callSlowMorph = (args) => {
+    const { fromState, toState, progress, expressionsArray, fastMorph, setSlowMorph } = args
+
     if (fastMorph) {
         return
-    } else renderMorph(fromState, toState, progress);
+    } else renderMorph(fromState, toState, progress, expressionsArray, fastMorph, setSlowMorph);
 }
 
-export const callFastMorph =
-    (fromState, toState, animations, forEachAnimations, setFastMorph, slowMorph) => {
-        setFastMorph(true)
+export const callFastMorph = (args) => {
+    const { fromState, toState, animations, animationArgs, expressionsArray, fastMorph, setFastMorph, slowMorph, setSlowMorph } = args
 
-        // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
-        if (slowMorph) {
-            if (slowMorph.from === fromState) {
-                renderMorph(slowMorph.name, 0.01);
-            }
-            if (slowMorph.to === fromState) {
-                renderMorph(slowMorph.name, 0.99);
-            }
+    console.log("Fast morph called", args)
+    setFastMorph(true)
+
+    // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
+    if (slowMorph) {
+        if (slowMorph.from === fromState) {
+            renderMorph(slowMorph.from, slowMorph.to, 0.01, expressionsArray, fastMorph, setSlowMorph);
         }
-        const fromArray = Array.from(
-            document.querySelectorAll(`[id*="${fromState}"]`)
-        );
-        const tl = gsap.timeline()
-        animations.forEach((anim) => {
-            tl.add(anim);
-        });
-        fromArray.forEach((el) => {
-            const match = matchID(el, fromState, toState);
-            if (!match) return;
-            if (forEachAnimations) {
-                forEachAnimations.forEach((anim) => {
-                    tl.add(anim(el, match))
-                })
-            }
-            tl.add({
-                onComplete: () => {
-                    console.log("callFastMorph timeline complete");
-                    if (slowMorph) {
-                        let obj = { progress: 0 };
-                        gsap.to(obj, {
-                            progress: slowMorph.progress,
-                            duration: 0.75,
-                            onUpdate: () => {
-                                renderMorph(slowMorph.name, obj.progress);
-                            },
-                            onComplete: () => setFastMorph(false),
-                        });
+        if (slowMorph.to === fromState) {
+            renderMorph(slowMorph.from, slowMorph.to, 0.99, expressionsArray, fastMorph, setSlowMorph);
+        }
+    }
+    console.log(slowMorph)
+    const fromArray = Array.from(
+        document.querySelectorAll(`[id*="${fromState}"]`)
+    );
+    const tl = gsap.timeline({
+        onComplete: () => {
+            console.log("callFastMorph timeline complete");
+            if (slowMorph) {
+                let obj = { progress: 0 };
+                gsap.to(obj, {
+                    progress: slowMorph.progress,
+                    duration: 0.75,
+                    onUpdate: () => {
+                        console.log("resetting to slowMorph state")
+                        renderMorph(slowMorph.from, slowMorph.to, obj.progress, expressionsArray, fastMorph, setSlowMorph);
+                    },
+                    onComplete: () => {
+                        console.log("fastMorph set to false")
+                        setFastMorph(false)
                     }
-                },
-            });
+                });
+            }
+        },
+    })
 
+    if (animations) {
+        animations.forEach((anim, index) => {
+            tl.add(anim(animationArgs[index]));
         });
     }
+    console.log(tl)
+
+}
 
 // generateMorphTweens
-export const generateMorphTweens = (fromState, toState, tweensRef) => {
-    console.log("generateMorphTweens called", { fromState, toState });
+export const generateMorphTweens = (fromState, toState) => {
     const fromArray = document.querySelectorAll(`[id*="${fromState}"]`);
     const stateName = fromState + "-" + toState;
     if (!tweensRef[stateName]) {
@@ -91,7 +92,6 @@ export const generateMorphTweens = (fromState, toState, tweensRef) => {
 
 // renderMorph
 export const renderMorph = (fromState, toState, progress, expressionsArray, fastMorph, setSlowMorph) => {
-    console.log("renderMorph called", { fromState, toState, progress });
     const stateName = fromState + "-" + toState;
     const fromArray = Array.from(
         document.querySelectorAll(`[id*="${fromState}"]`)
@@ -101,6 +101,7 @@ export const renderMorph = (fromState, toState, progress, expressionsArray, fast
         const match = matchID(el, fromState, toState);
         if (match) matchedIDs.add(el.id);
     });
+
     function hideAllExpressions(stateNameArray) {
         stateNameArray.forEach((stateName) => {
             Array.from(
@@ -122,6 +123,8 @@ export const renderMorph = (fromState, toState, progress, expressionsArray, fast
     if (!tweensRef[stateName]) {
         generateMorphTweens(fromState, toState);
     }
+
+
     Object.values(tweensRef[stateName]).forEach((tween) => {
         const initialState = Array.from(
             document.querySelectorAll(`[id*=${fromState || "Open"}]`)
