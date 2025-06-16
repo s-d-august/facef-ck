@@ -97,7 +97,6 @@ function App() {
 
   function mouthOpenClose() {
     if (mouthOpenRef.current === false) { // if mouth is closed
-      console.log("mouthClosed detected")
       kihe.mouthOpenFunction({
         moveBy: containerSize.current * 0.045,
         mouthGroup: mouthGroup.current,
@@ -107,7 +106,6 @@ function App() {
       });
       setHoldMouthOpen(true)
     } else if (mouthOpenRef.current === true) {
-      console.log("mouthOpen detected")
       kihe.mouthCloseFunction({
         mouthGroup: mouthGroup.current,
         tongueGroup: tongueGroup.current,
@@ -198,7 +196,6 @@ function App() {
 
 
         if (depthMethod.current === "training") {
-          console.log("training mode")
           this.applyBounds({
             minX: containerSize.current * -0.0055,
             maxX: containerSize.current * 0.0055,
@@ -206,7 +203,6 @@ function App() {
             maxY: containerSize.current * kihe.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.005)
           });
         } else {
-          console.log("no mode")
           this.applyBounds({
             minX: containerSize.current * -0.0055,
             maxX: containerSize.current * 0.0055,
@@ -243,7 +239,7 @@ function App() {
         // Plays cum on tongue animation
       }
       if (!mouthOn && !mouthOpen) {
-        kihe.callCumshot({ cumType: "faceCum", untilEmpty: true, origin: "top" })
+        kihe.callCumshot({ cumType: "faceCum", untilEmpty: true, origin: "top", shotDuration: 0.5, moveDuration: 2.5 })
         disableAndEnableDraggables(1.5)
         // Plays cum on face animation
       }

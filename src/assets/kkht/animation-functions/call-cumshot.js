@@ -5,7 +5,7 @@ import { cumAnimation } from "../animations/cum.js"
 import gsap from "gsap"
 
 export const callCumshot = async (args) => {
-    const { cumType, untilEmpty, wipeFaceAnimation, origin } = args
+    const { cumType, untilEmpty, origin, shotDuration, moveDuration } = args
 
     if (typeof cumType === "string") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
@@ -34,15 +34,22 @@ export const callCumshot = async (args) => {
         transformOrigin = origin
     } else transformOrigin = "center"
 
+    var shot, move
+    if (shotDuration) {
+        shot = shotDuration
+    } else shot = 0.125
+
+    if (moveDuration) {
+        move = moveDuration
+    } else move = 1
+
     const cumVals = getXY(cumID, transformOrigin);
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
-    console.log(arrayEligibleMap[typeKey].length)
-    await cumAnimation({ cumID, origin: transformOrigin })
+    await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
 
     if (arrayEligibleMap[typeKey].length === 0) {
-        console.log(cumArray)
         //   wipeFaceAnimation
         cumArray.forEach(el => {
             if (typeof el === "string") el = document.getElementById(el);
