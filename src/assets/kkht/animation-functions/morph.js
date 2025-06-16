@@ -5,10 +5,6 @@ import { matchID } from "../utils/dom.js"
 
 const tweensRef = [{}]
 
-// TO IMPORT: matchID
-
-// callMorph
-
 export const callSlowMorph = (fromState, toState, progress, fastMorph) => {
     console.log("callSlowMorph called", { fromState, toState, progress });
     if (fastMorph) {
@@ -77,7 +73,7 @@ export const generateMorphTweens = (fromState, toState, tweensRef) => {
         };
     }
     fromArray.forEach((el) => {
-        const match = util.matchID(el, fromState, toState);
+        const match = matchID(el, fromState, toState);
         if (!match) return;
         tweensRef[stateName][el.id] = gsap.to(el, {
             duration: 1,
@@ -102,7 +98,7 @@ export const renderMorph = (fromState, toState, progress, expressionsArray, fast
     );
     const matchedIDs = new Set();
     fromArray.forEach((el) => {
-        const match = util.matchID(el, fromState, toState);
+        const match = matchID(el, fromState, toState);
         if (match) matchedIDs.add(el.id);
     });
     function hideAllExpressions(stateNameArray) {

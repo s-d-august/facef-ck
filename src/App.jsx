@@ -16,6 +16,10 @@ import AgeCheck from './assets/kkht/age-check/age-check'
 
 function App() {
 
+  const [slowMorph, setSlowMorph] = useState(false)
+  const [fastMorph, setFastMorph] = useState(false)
+  const slowMorphRef = useRef(slowMorph)
+  const fastMorphRef = useRef(fastMorph)
   const [ageChecked, setAgeChecked] = useState(false)
   const ageCheckedRef = useRef(ageChecked)
   const depthMethod = useRef("training")
@@ -42,6 +46,7 @@ function App() {
   const headParts = useRef()
   const hairPullBeads = useRef()
   const body = useRef()
+  const expressionsArray = ["Wide", "Open", "Half"]
 
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
@@ -64,6 +69,14 @@ function App() {
   useEffect(() => {
     ageCheckedRef.current = ageChecked;
   }, [ageChecked]);
+
+  useEffect(() => {
+    slowMorphRef.current = slowMorph;
+  }, [slowMorph]);
+
+  useEffect(() => {
+    fastMorphRef.current = fastMorph;
+  }, [fastMorph]);
 
 
   useEffect(() => { // Elements that change based on approach state
