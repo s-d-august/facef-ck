@@ -1,9 +1,7 @@
 import gsap from "gsap";
 
-const arrayEligibleMap = []
-
 export const pluckRandomFrom = (args) => {
-    const { array, typeKey } = args
+    const { array, typeKey, arrayEligibleMap } = args
 
     if (!arrayEligibleMap[typeKey] || arrayEligibleMap[typeKey].length === 0) {
         arrayEligibleMap[typeKey] = gsap.utils.shuffle(array.slice(0));
@@ -11,6 +9,7 @@ export const pluckRandomFrom = (args) => {
     console.log(arrayEligibleMap)
     return arrayEligibleMap[typeKey].pop();
 }
+
 export const getRandomFrom = (array) => {
     var selected = array.selected;
     while (
