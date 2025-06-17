@@ -48,6 +48,7 @@ function App() {
   const body = useRef()
   const tearRight = useRef()
   const tearLeft = useRef()
+  const hairPullHandOrigin = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -71,6 +72,8 @@ function App() {
     body.current = document.getElementById("bodyGroup");
     tearRight.current = document.getElementById("tearRight")
     tearLeft.current = document.getElementById("tearLeft")
+    var hairPullDraggable = document.getElementById("hairPullHand").getBoundingClientRect()
+    hairPullHandOrigin.current = { x: hairPullDraggable.x, y: hairPullDraggable.y }
 
   }, [])
 
@@ -268,11 +271,17 @@ function App() {
               tongueGroup: tongueGroup.current,
               tongueDrool: tongueDrool.current,
               tearLeft: tearLeft.current,
-              tearRight: tearRight.current
+              tearRight: tearRight.current,
+              setMouthOn: setMouthOn,
+              setMouthOpen: setMouthOpen,
+              setApproach: setApproach,
+              draggable: Draggable.get("#hairPullHand"),
+              origin: hairPullHandOrigin.current,
+              alsoMove: hairPullBeads.current
             }]
 
         })
-        // kkht.renderChange("Open", "Wide", 0, 1)
+
         disableAndEnableDraggables(5)
         // Plays expression change animation and resets arousal
       }
@@ -338,7 +347,7 @@ function App() {
     }
 
     var breathCycleDuration = (
-      (kkht.isInterrupted()) ? 0
+      (fastMorphRef.current) ? 0
         : (arousalRatio > 0.8) ? 0.75
           : (arousalRatio > 0.6) ? 1.0625
             : (arousalRatio > 0.4) ? 1.375

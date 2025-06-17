@@ -1,18 +1,17 @@
 import gsap from "gsap";
 import { tearsAnimation } from "./tears";
+import { updateFollowers } from "../utils/gsap";
 
 export const pantingAnimation = (args) => {
 
-    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight } = args
-
-    console.log("pantingAnimation called", args)
+    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, origin, alsoMove } = args
 
     let obj = { p: 0 };
 
     const pantGroup = gsap.timeline({ paused: true })
         .fromTo(mouthGroup, { y: containerSize * 0.045 }, { y: 0, duration: 1 })
-        .fromTo(bodyMain, { scale: 1 }, { scale: 0.97, duration: 1, }, 0)
-        .fromTo(tongueGroup, { scaleY: 1 }, { y: 0, scaleY: 0, duration: 1 }, 0)
+        .fromTo(bodyMain, { scale: 0.97 }, { scale: 1, duration: 1, transformOrigin: "bottom center" }, 0)
+        .fromTo(tongueGroup, { scaleY: 0.5 }, { y: 0, scaleY: 0, duration: 1 }, 0)
 
     const pantDrool = gsap.timeline({ paused: true })
         .fromTo(tongueDrool, { scaleY: 0 }, { scaleY: 1, duration: 2, transformOrigin: "top center" })
@@ -21,10 +20,13 @@ export const pantingAnimation = (args) => {
 
     tearsAnimation(tearLeft, tearRight)
 
-    console.log(toMove, pantGroup, pantDrool)
+    gsap.set(draggable.target, { x: origin.x, y: origin.y });
+    gsap.set(alsoMove, { x: origin.x, y: origin.y });
+    draggable.update(); // Let Draggable know it moved
 
     const master = gsap.timeline()
         .to(toMove, {
+            delay: 2,
             y: 0,
             duration: 1.5,
             ease: "power3.in"
@@ -62,6 +64,9 @@ export const pantingAnimation = (args) => {
                 pantGroup.progress(obj.p);
             },
             onComplete: () => {
+                setApproach(false)
+                setMouthOn(false)
+                setMouthOpen(false)
                 console.log("complete")
             }
         });
