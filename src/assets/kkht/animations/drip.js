@@ -1,19 +1,19 @@
 import gsap from "gsap";
 
 /* Makes an element move slowly down the page until it hits the bounds */
-export const drip = (args) => {
+export const drip = (element, animArgs) => {
 
-    const { element, boundsHeight } = args
 
-    console.log("drip called", arguments)
+
+    console.log("drip called")
 
     return new Promise((resolve) => {
         gsap.set(element, { opacity: 1 });
         var initials = {
             transformOrigin: "top center",
-            y: boundsHeight,
+            y: animArgs,
             scaleY: (Math.random() + 1),
-            duration: boundsHeight / (4 + (2 * Math.random())) // Divided by a random number between 4 and 6
+            duration: animArgs / (4 + (2 * Math.random())) // Divided by a random number between 4 and 6
         };
         if (Math.random() < 0.5) {
             gsap.set(element, { transformOrigin: "center", scaleX: -1 });

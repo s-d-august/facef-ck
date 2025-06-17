@@ -49,7 +49,7 @@ export const randomizeArray = async (args) => {
     array.splice(index, 1) // Removes the selected element from the array
 
     console.log(array, element, animation)
-    await animation({ element: element, boundsHeight: animArgs })
+    await animation(element, animArgs)
 
     array.splice(0, 0, element) // Adds the element back to the array so it can be called again
 }
