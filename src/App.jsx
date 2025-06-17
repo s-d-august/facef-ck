@@ -391,8 +391,8 @@ function App() {
     sweatIntervalRef.current = setInterval(() => kihe.randomizeArray({
       idString: "sweat",
       animation: kihe.drip,
-      animArgs: 322
-    }), 10000);
+      areaHeight: 322
+    }), 500);
 
     return () => {
       if (sweatIntervalRef.current) {
@@ -409,25 +409,18 @@ function App() {
   useEffect(() => {
     let running = true;
 
-    function checkSweatOverlap() {
-      // Get all sweat elements
-      const sweatsParent = document.getElementById(`sweatGroup`)
-      const sweats = [...sweatsParent.children]
-      // Get all .eyeCenter elements
-      const eyes = gsap.utils.toArray('.eyeCenter');
+    // Get all sweat elements
+    const sweatsParent = document.getElementById(`sweatGroup`)
+    const sweats = [...sweatsParent.children]
+    // Get all .eyeCenter elements
+    const eyes = gsap.utils.toArray('.eyeCenter');
 
-      sweats.forEach(sweat => {
-        eyes.forEach(eye => {
-          if (Draggable.hitTest(sweat, eye, 1)) {
-            gsap.to(sweat, { opacity: 0, duration: 0.2 });
-          }
-        });
-      });
-
-      if (running) requestAnimationFrame(checkSweatOverlap);
-    }
-
-    checkSweatOverlap();
+    console.log(running, eyes, sweats)
+    kihe.hideOnOverlap({
+      running: running,
+      element1: sweats,
+      element2: eyes
+    })
 
     return () => {
       running = false;

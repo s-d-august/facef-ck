@@ -33,23 +33,33 @@ export const clearDupes = (arr1, arr2) => {
 and returns it to the array so it can be selected again once the animation is complete
 */
 
+// Add this at module scope
+const activeElements = []
+
 export const randomizeArray = async (args) => {
+    const { idString, animation, areaHeight } = args;
 
-    const { idString, animation, animArgs } = args
+    var arrayName = document.getElementById(`${idString}Group`);
+    var array = [...arrayName.children];
 
-    console.log("randomizeArray called", args)
-    var arrayName = document.getElementById(`${idString}Group`)
-    var array = [...arrayName.children]
+    // Filter out elements currently being animated
+    if (!activeElements[idString]) {
+        activeElements[idString] = new Set()
+    }
 
-    if (array.length === 0 || !document.hasFocus()) return
+    array = array.filter(el => !activeElements[idString].has(el));
 
-    var index = Math.floor(Math.random() * array.length); // Generates a random index for the array
-    var element = array[index]; // Retrieves the value associated with the index
+    if (array.length === 0 || !document.hasFocus()) return;
 
-    array.splice(index, 1) // Removes the selected element from the array
+    var index = Math.floor(Math.random() * array.length);
+    var element = array[index];
 
-    console.log(array, element, animation)
-    await animation(element, animArgs)
+    // Mark as active
 
-    array.splice(0, 0, element) // Adds the element back to the array so it can be called again
-}
+    activeElements[idString].add(element);
+
+    await animation(element, areaHeight);
+
+    // Animation done, mark as available again
+    activeElements[idString].delete(element);
+};

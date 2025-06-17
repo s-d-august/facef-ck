@@ -1,3 +1,7 @@
+import gsap from "gsap"
+import { Draggable } from "gsap/all"
+gsap.registerPlugin(Draggable)
+
 export const matchID = (el, startString, endString) => {
     const startID = el.id.toString()
     const stateless = startID.replace(startString, "")
@@ -59,4 +63,19 @@ export const renderProgress = (element, attr, stat, max) => {
         else return stat / max * 100
     }
     element.style[attr] = (newVal(stat) || 0) + '%'
+}
+
+export const hideOnOverlap = ({ running, element1, element2 }) => {
+
+    element1.forEach(el1 => {
+        element2.forEach(el2 => {
+            if (Draggable.hitTest(el1, el2, 1)) {
+                gsap.to(el1, { opacity: 0, duration: 0.2 });
+            }
+        });
+    });
+
+    if (running) {
+        requestAnimationFrame(() => hideOnOverlap({ running, element1, element2 }));
+    }
 }
