@@ -20,16 +20,21 @@ function App() {
   const [fastMorph, setFastMorph] = useState(false)
   const slowMorphRef = useRef(slowMorph)
   const fastMorphRef = useRef(fastMorph)
+
   const [ageChecked, setAgeChecked] = useState(false)
   const ageCheckedRef = useRef(ageChecked)
-  const depthMethod = useRef("training")
+
+  const depthMethod = useRef("")
+
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
   const [mouthOn, setMouthOn] = useState(false)
   const mouthOpenRef = useRef(mouthOpen);
   const [approach, setApproach] = useState(false)
+
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
+
   const [arousal, setArousal] = useState({
     ives: 0,
     boyd: 0,
@@ -38,6 +43,7 @@ function App() {
     ives: 100,
     boyd: 100,
   })
+
   const containerSize = useRef()
   const mouthGroup = useRef()
   const tongueGroup = useRef()
@@ -144,6 +150,82 @@ function App() {
     }
   }
 
+  function createMainDraggable() {
+    console.log("createMainDraggable called")
+    Draggable.create("#hairPullHand", {
+      trigger: "#hairPullHandGrab",
+      onDrag: function () {
+
+        gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
+        kihe.updateFollowers({
+          itemsArray: [headParts.current, body.current],
+          x: this.x,
+          y: this.y,
+          ease: "power2",
+          init: 0.25,
+          increase: 0.2
+        })
+        kihe.updateFollowers({
+          itemsArray: hairPullBeads.current,
+          x: this.x,
+          y: this.y,
+          ease: "back",
+          init: 0.1,
+          increase: 0.05
+        })
+        // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
+        const dickRect = document.getElementById("dickArea").getBoundingClientRect();
+        const headRect = document.getElementById("faceArea").getBoundingClientRect();
+        const percent = kihe.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
+
+        //    var resistance
+
+        const args = {
+          percent: percent,
+          startApproach: 0.05,
+          startOn: 0.3,
+          setApproach,
+          setMouthOn,
+          affectedIDs: ["ives", "boyd"],
+          lick: {
+            tongue: "#tongue",
+            tip: "#dickTip",
+            percent: "20%"
+          },
+          maxArousal,
+          setArousal
+        };
+
+        console.log("dickRect:", dickRect, "headRect:", headRect);
+        console.log(percent)
+
+        this.dragResistance = kihe.isApproachOrOn(args)
+
+        if (depthMethod.current === "training") {
+          this.applyBounds({
+            minX: containerSize.current * -0.0055,
+            maxX: containerSize.current * 0.0055,
+            minY: containerSize.current * -0.07,
+            maxY: containerSize.current * kihe.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.005)
+          });
+        } else {
+          this.applyBounds({
+            minX: containerSize.current * -0.0055,
+            maxX: containerSize.current * 0.0055,
+            minY: containerSize.current * -0.07,
+            maxY: containerSize.current * 0.4
+          }
+          )
+        }
+      },
+      dragResistance: 0,
+      zIndexBoost: false,
+      onDragEnd: function () {
+        gsap.to(hideHand.current, { opacity: 0, duration: 0.2 })
+      }
+    });
+  }
+
   useEffect(() => {
     document.getElementById("beard").addEventListener("dblclick", mouthOpenClose)
     document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
@@ -175,79 +257,15 @@ function App() {
       }
     })
 
-    Draggable.create("#hairPullHand", {
-      trigger: "#hairPullHandGrab",
-      onDrag: function () {
-
-        gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
-        kihe.updateFollowers({
-          itemsArray: [headParts.current, body.current],
-          x: this.x,
-          y: this.y,
-          ease: "power2",
-          init: 0.25,
-          increase: 0.2
-        })
-        kihe.updateFollowers({
-          itemsArray: hairPullBeads.current,
-          x: this.x,
-          y: this.y,
-          ease: "back",
-          init: 0.1,
-          increase: 0.05
-        })
-        // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
-        const dickRect = document.getElementById("dickArea").getBoundingClientRect();
-        const headRect = document.getElementById("headArea").getBoundingClientRect();
-        const percent = kihe.getOverlapPercent(headRect, dickRect); // percent of headArea overlapped by dickArea
-
-        //    var resistance
-
-        const args = {
-          percent: percent,
-          startApproach: 0.05,
-          startOn: 0.1,
-          setApproach,
-          setMouthOn,
-          affectedIDs: ["ives", "boyd"],
-          lick: {
-            tongue: "#tongue",
-            tip: "#dickTip",
-            percent: "20%"
-          },
-          maxArousal,
-          setArousal
-        };
-
-
-        this.dragResistance = kihe.isApproachOrOn(args)
-
-
-        if (depthMethod.current === "training") {
-          this.applyBounds({
-            minX: containerSize.current * -0.0055,
-            maxX: containerSize.current * 0.0055,
-            minY: containerSize.current * -0.07,
-            maxY: containerSize.current * kihe.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.005)
-          });
-        } else {
-          this.applyBounds({
-            minX: containerSize.current * -0.0055,
-            maxX: containerSize.current * 0.0055,
-            minY: containerSize.current * -0.07,
-            maxY: containerSize.current * 0.4
-          }
-          )
-        }
-      },
-      dragResistance: 0,
-      zIndexBoost: false,
-      onDragEnd: function () {
-        gsap.to(hideHand.current, { opacity: 0, duration: 0.2 })
-      }
-    });
+    createMainDraggable()
 
   }, [])
+
+  useEffect(() => {
+    console.log("MouthOn: ", mouthOn)
+    console.log("MouthOpen: ", mouthOpenRef.current)
+    console.log("Approach: ", approach)
+  }, [approach, mouthOn, mouthOpenRef])
 
 
   useEffect(() => { // Nut function
@@ -281,8 +299,9 @@ function App() {
             }]
 
         })
-
+        //  Draggable.get("#hairPullHand").kill()
         disableAndEnableDraggables(5)
+        //   createMainDraggable()
         // Plays expression change animation and resets arousal
       }
       if (!mouthOn && mouthOpen) {
@@ -309,8 +328,12 @@ function App() {
         // Wait, then enable
         setTimeout(() => {
           Draggable.get("#hairPullHand")?.enable();
+          Draggable.get("#hairPullHand")?.update(); // <-- Add this line
+
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
+            Draggable.get(el)?.update(); // <-- And this line
+
           });
         }, (sec * 1000));
       }

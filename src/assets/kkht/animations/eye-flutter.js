@@ -5,7 +5,6 @@ gsap.registerPlugin(MorphSVGPlugin)
 
 export const callEyeFlutter = ({ fromState, toState }) => {
 
-    console.log("eyeFlutter called")
     const fromArray = Array.from(
         document.querySelectorAll(`[id*="${fromState}"]`)
     );
@@ -16,9 +15,6 @@ export const callEyeFlutter = ({ fromState, toState }) => {
 
 export const eyeFlutterAnimation = (el, startString, endString) => {
 
-    console.log("eyeFlutterAnimation called")
-
-    console.log(matchID)
     const fullTransition = gsap.to(el, {
         duration: 0.2,
         morphSVG: matchID(el, startString, endString),
@@ -26,7 +22,7 @@ export const eyeFlutterAnimation = (el, startString, endString) => {
         x: 0,
         paused: true
     })
-    console.log(fullTransition)
+
     let obj = { p: 0 }
     return (
         gsap.timeline()

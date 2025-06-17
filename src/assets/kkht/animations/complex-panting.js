@@ -20,12 +20,13 @@ export const pantingAnimation = (args) => {
 
     tearsAnimation(tearLeft, tearRight)
 
-    gsap.set(draggable.target, { x: origin.x, y: origin.y });
-    gsap.set(alsoMove, { x: origin.x, y: origin.y });
+    gsap.set(draggable.target, { x: 0, y: 0 });
+    //  gsap.to(".hairPullBeads", { x: 0, y: 0, duration: 0.01 });
     draggable.update(); // Let Draggable know it moved
 
+
     const master = gsap.timeline()
-        .to(toMove, {
+        .to(["#bodyGroup", ".headParts"], {
             delay: 2,
             y: 0,
             duration: 1.5,

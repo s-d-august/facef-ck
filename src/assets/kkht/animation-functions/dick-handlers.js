@@ -26,7 +26,7 @@ export const isApproachOrOn =
             setMouthOn(true)
             if (whileOn) whileOn
             valChange(affectedIDs, "up", maxArousal, setArousal);
-            return percent * 3
+            return percent
         }
     }
 
