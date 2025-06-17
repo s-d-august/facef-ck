@@ -1,7 +1,11 @@
-
+import gsap from "gsap";
 
 /* Makes an element move slowly down the page until it hits the bounds */
-export const drip = (element, boundsHeight) => {
+export const drip = (args) => {
+
+    const { element, boundsHeight } = args
+
+    console.log("drip called", arguments)
 
     return new Promise((resolve) => {
         gsap.set(element, { opacity: 1 });

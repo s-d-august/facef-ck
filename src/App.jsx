@@ -64,6 +64,13 @@ function App() {
     slowMorph: slowMorphRef.current
   }
 
+  const boundsTemplate = {
+    minX: containerSize.current * -0.0055,
+    maxX: containerSize.current * 0.0055,
+    minY: containerSize.current * -0.07,
+    maxY: containerSize.current * 0.4
+  }
+
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
@@ -346,16 +353,14 @@ function App() {
 
     const arousalRatio = arousal.boyd / maxArousal.boyd
 
-    if (kkht.depthMethod() === "arousal") {
-      const container = document.getElementById("container");
+    if (depthMethod.current === "arousal") {
       const draggable = Draggable.get("#hairPullHand");
       if (container && draggable) {
-        const containerSize = container.getBoundingClientRect().height;
-        const bounds = containerSize * (0.2 + (arousalRatio * 0.2));
+        const bounds = containerSize.current * (0.2 + (arousalRatio * 0.2));
         draggable.applyBounds({
-          minX: containerSize * -0.0055,
-          maxX: containerSize * 0.0055,
-          minY: containerSize * -0.07,
+          minX: containerSize.current * -0.0055,
+          maxX: containerSize.current * 0.0055,
+          minY: containerSize.current * -0.07,
           maxY: bounds
         });
       }
@@ -381,9 +386,13 @@ function App() {
     var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
 
     const blush = document.getElementById("blush")
-    kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
+    kihe.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
-    sweatIntervalRef.current = setInterval(() => kkht.randomizeArray("sweat", "faceArea"), 10000);
+    sweatIntervalRef.current = setInterval(() => kihe.randomizeArray({
+      idString: "sweat",
+      animation: kihe.drip,
+      animArgs: 322
+    }), 10000);
 
     return () => {
       if (sweatIntervalRef.current) {

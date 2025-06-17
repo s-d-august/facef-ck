@@ -48,7 +48,7 @@ export const getOverlapPercent = (rectA, rectB, extraY) => {
         Math.min((rectA.bottom + extraY), rectB.bottom) - Math.max(rectA.top, rectB.top)
     );
     const overlapArea = x_overlap * y_overlap;
-    const areaA = (rectA.right - rectA.left) * ((rectA.bottom + extraY) - rectA.top);
+    const areaA = (rectA.right - rectA.left) * ((rectA.bottom + extraY) - rectA.top)
     const percent = areaA ? (overlapArea / areaA) : 0;
     return percent;
 }
