@@ -12,7 +12,7 @@ export const drip = (element, areaHeight) => {
             y: areaHeight,
             scaleY: (Math.random() + 1),
             ease: "none",
-            duration: 50 / (4 + (2 * Math.random())) // Divided by a random number between 4 and 6
+            duration: areaHeight / (4 + (2 * Math.random())) // Divided by a random number between 4 and 6
         };
         if (Math.random() < 0.5) {
             gsap.set(element, { transformOrigin: "center", scaleX: -1 });

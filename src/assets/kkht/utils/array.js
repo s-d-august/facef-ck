@@ -34,7 +34,7 @@ and returns it to the array so it can be selected again once the animation is co
 */
 
 // Add this at module scope
-const activeElements = []
+const activeElements = [{}]
 
 export const randomizeArray = async (args) => {
     const { idString, animation, areaHeight } = args;
