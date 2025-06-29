@@ -16,7 +16,6 @@ export const callSlowMorph = (args) => {
 export const callFastMorph = (args) => {
     const { fromState, toState, animations, animationArgs, expressionsArray, fastMorph, setFastMorph, slowMorph, setSlowMorph } = args
 
-    console.log("Fast morph called", args)
     setFastMorph(true)
 
     // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
@@ -28,24 +27,19 @@ export const callFastMorph = (args) => {
             renderMorph(slowMorph.from, slowMorph.to, 0.99, expressionsArray, fastMorph, setSlowMorph);
         }
     }
-    console.log(slowMorph)
     const fromArray = Array.from(
         document.querySelectorAll(`[id*="${fromState}"]`)
     );
     const tl = gsap.timeline({
         onComplete: () => {
-            console.log("callFastMorph timeline complete");
+
             if (slowMorph) {
                 let obj = { progress: 0 };
                 gsap.to(obj, {
                     progress: slowMorph.progress,
                     duration: 0.75,
                     onUpdate: () => {
-                        console.log("resetting to slowMorph state")
                         renderMorph(slowMorph.from, slowMorph.to, obj.progress, expressionsArray, fastMorph, setSlowMorph);
-                    },
-                    onComplete: () => {
-                        console.log("fastMorph set to false")
                         setFastMorph(false)
                     }
                 });
@@ -58,7 +52,6 @@ export const callFastMorph = (args) => {
             tl.add(anim(animationArgs[index]));
         });
     }
-    console.log(tl)
 
 }
 
