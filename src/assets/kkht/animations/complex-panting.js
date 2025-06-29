@@ -20,8 +20,19 @@ export const pantingAnimation = (args) => {
 
     tearsAnimation(tearLeft, tearRight)
 
-    gsap.set(draggable.target, { x: 0, y: 0 });
-    //  gsap.to(".hairPullBeads", { x: 0, y: 0, duration: 0.01 });
+    gsap.to(draggable.target, {
+        x: 0, y: 0, duration: 0.01,
+        onComplete: () => {
+            kkht.updateFollowers({
+                itemsArray: alsoMove,
+                x: this.x,
+                y: this.y,
+                ease: "none",
+                init: 0,
+                increase: 0
+            })
+        }
+    });
     draggable.update(); // Let Draggable know it moved
 
 
@@ -55,6 +66,11 @@ export const pantingAnimation = (args) => {
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
+            },
+            onComplete: () => {
+                setApproach(false)
+                setMouthOn(false)
+                setMouthOpen(false)
             }
         })
         .to(obj, {
@@ -63,12 +79,6 @@ export const pantingAnimation = (args) => {
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
-            },
-            onComplete: () => {
-                setApproach(false)
-                setMouthOn(false)
-                setMouthOpen(false)
-                console.log("complete")
             }
         });
 
@@ -80,13 +90,10 @@ export const pantingAnimation = (args) => {
         ease: "none",
         onUpdate: () => {
             pantDrool.progress(objDrool.p);
-        },
-        onComplete: () => {
-
         }
 
     }, 0); // Start at the beginning of master
-    console.log(master)
+
     return master;
 
 };
