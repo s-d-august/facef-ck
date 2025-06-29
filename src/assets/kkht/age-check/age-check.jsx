@@ -2,8 +2,7 @@
 import React, { useEffect } from "react"
 import "./age-check.css"
 import Eyecatch from "../eyecatch/eyecatch";
-
-
+import cover from "../../fonts-etc/cover.svg"
 
 const AgeCheck = ({ ageChecked, setAgeChecked }) => {
     if (localStorage.getItem("ageChecked")) {
@@ -28,8 +27,15 @@ const AgeCheck = ({ ageChecked, setAgeChecked }) => {
 
     return (
         <div id="ageCheckDiv">
-            <h3>This page has sexual content! Are you over 18 and okay with seeing it?</h3>
-            <button type="button" id="ageCheckButton">Sure am!</button>
+            <Eyecatch mode={"linear"} />
+            <div id="ageCheckImgDiv">
+                <img src={cover} />
+            </div>
+            <div id="ageCheckTextButtonDiv">
+                <p id="ageCheckWarningText">This page has sexual content! Are you over 18 and okay with seeing it?</p>
+                <button type="button" id="ageCheckButton">Sure am!</button>
+            </div>
+
         </div>
     );
 }
