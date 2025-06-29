@@ -1,8 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-import icon from './assets/fonts-etc/cover.png';
-import * as kkht from './functions'
-import * as kihe from './assets/kkht/index'
+import * as kkht from './assets/kkht/index'
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
 import Body from './assets/components/body'
@@ -24,7 +22,7 @@ function App() {
   const [ageChecked, setAgeChecked] = useState(false)
   const ageCheckedRef = useRef(ageChecked)
 
-  const depthMethod = useRef("")
+  const depthMethod = useRef("training")
 
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
@@ -40,8 +38,8 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 100,
-    boyd: 100,
+    ives: 1000,
+    boyd: 5000,
   })
 
   const containerSize = useRef()
@@ -119,7 +117,7 @@ function App() {
       return;
     }
     if (approach) {
-      kihe.mouthOpenFunction({
+      kkht.mouthOpenFunction({
         moveBy: containerSize.current * 0.045,
         mouthGroup: mouthGroup.current,
         tongueGroup: tongueGroup.current,
@@ -127,7 +125,7 @@ function App() {
         mouthOpenSetter: setMouthOpen
       })
     } else {
-      kihe.mouthCloseFunction({
+      kkht.mouthCloseFunction({
         mouthGroup: mouthGroup.current,
         tongueGroup: tongueGroup.current,
         tongueDrool: tongueDrool.current,
@@ -138,7 +136,7 @@ function App() {
 
   function mouthOpenClose() {
     if (mouthOpenRef.current === false) { // if mouth is closed
-      kihe.mouthOpenFunction({
+      kkht.mouthOpenFunction({
         moveBy: containerSize.current * 0.045,
         mouthGroup: mouthGroup.current,
         tongueGroup: tongueGroup.current,
@@ -147,7 +145,7 @@ function App() {
       });
       setHoldMouthOpen(true)
     } else if (mouthOpenRef.current === true) {
-      kihe.mouthCloseFunction({
+      kkht.mouthCloseFunction({
         mouthGroup: mouthGroup.current,
         tongueGroup: tongueGroup.current,
         tongueDrool: tongueDrool.current,
@@ -158,13 +156,12 @@ function App() {
   }
 
   function createMainDraggable() {
-    console.log("createMainDraggable called")
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       onDrag: function () {
 
         gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
-        kihe.updateFollowers({
+        kkht.updateFollowers({
           itemsArray: [headParts.current, body.current],
           x: this.x,
           y: this.y,
@@ -172,7 +169,7 @@ function App() {
           init: 0.25,
           increase: 0.2
         })
-        kihe.updateFollowers({
+        kkht.updateFollowers({
           itemsArray: hairPullBeads.current,
           x: this.x,
           y: this.y,
@@ -183,7 +180,7 @@ function App() {
         // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
         const dickRect = document.getElementById("dickArea").getBoundingClientRect();
         const headRect = document.getElementById("faceArea").getBoundingClientRect();
-        const percent = kihe.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
+        const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
 
         //    var resistance
 
@@ -203,17 +200,14 @@ function App() {
           setArousal
         };
 
-        console.log("dickRect:", dickRect, "headRect:", headRect);
-        console.log(percent)
-
-        this.dragResistance = kihe.isApproachOrOn(args)
+        this.dragResistance = kkht.isApproachOrOn(args)
 
         if (depthMethod.current === "training") {
           this.applyBounds({
             minX: containerSize.current * -0.0055,
             maxX: containerSize.current * 0.0055,
             minY: containerSize.current * -0.07,
-            maxY: containerSize.current * kihe.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.005)
+            maxY: containerSize.current * kkht.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.001)
           });
         } else {
           this.applyBounds({
@@ -238,7 +232,7 @@ function App() {
     document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => kihe.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
+    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -260,7 +254,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        kihe.valChange("ives", "up", maxArousal, setArousal)
+        kkht.valChange("ives", "up", maxArousal, setArousal)
       }
     })
 
@@ -268,24 +262,17 @@ function App() {
 
   }, [])
 
-  useEffect(() => {
-    console.log("MouthOn: ", mouthOn)
-    console.log("MouthOpen: ", mouthOpenRef.current)
-    console.log("Approach: ", approach)
-  }, [approach, mouthOn, mouthOpenRef])
-
-
   useEffect(() => { // Nut function
 
     if (arousal.ives >= maxArousal.ives) {
 
       if (mouthOn) {
         console.log("before calling fastMorph")
-        kihe.callFastMorph({
+        kkht.callFastMorph({
           ...morphArgsTemplate,
           fromState: "Open",
           toState: "Wide",
-          animations: [kihe.callEyeFlutter, kihe.pantingAnimation],
+          animations: [kkht.callEyeFlutter, kkht.pantingAnimation],
           animationArgs:
             [{ fromState: "Open", toState: "Wide" },
             {
@@ -306,20 +293,19 @@ function App() {
             }]
 
         })
-        //  Draggable.get("#hairPullHand").kill()
+        gsap.set(hairPullBeads.current, { x: 0, y: 0 })
         disableAndEnableDraggables(5)
-        //   createMainDraggable()
         // Plays expression change animation and resets arousal
       }
       if (!mouthOn && mouthOpen) {
-        kihe.callCumshot({
+        kkht.callCumshot({
           cumType: "tongueCum"
         })
         disableAndEnableDraggables(1.5)
         // Plays cum on tongue animation
       }
       if (!mouthOn && !mouthOpen) {
-        kihe.callCumshot({ cumType: "faceCum", untilEmpty: true, origin: "top", shotDuration: 0.5, moveDuration: 2.5 })
+        kkht.callCumshot({ cumType: "faceCum", untilEmpty: true, origin: "top", shotDuration: 0.5, moveDuration: 2.5 })
         disableAndEnableDraggables(1.5)
         // Plays cum on face animation
       }
@@ -366,7 +352,7 @@ function App() {
       }
     }
     if (!fastMorphRef.current) {
-      kihe.callSlowMorph({
+      kkht.callSlowMorph({
         ...morphArgsTemplate,
         fromState: "Open",
         toState: "Half",
@@ -386,13 +372,13 @@ function App() {
     var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
 
     const blush = document.getElementById("blush")
-    kihe.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
+    kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
-    sweatIntervalRef.current = setInterval(() => kihe.randomizeArray({
+    sweatIntervalRef.current = setInterval(() => kkht.randomizeArray({
       idString: "sweat",
-      animation: kihe.drip,
+      animation: kkht.drip,
       areaHeight: 322
-    }), 500);
+    }), 10000);
 
     return () => {
       if (sweatIntervalRef.current) {
@@ -415,8 +401,7 @@ function App() {
     // Get all .eyeCenter elements
     const eyes = gsap.utils.toArray('.eyeCenter');
 
-    console.log(running, eyes, sweats)
-    kihe.hideOnOverlap({
+    kkht.hideOnOverlap({
       running: running,
       element1: sweats,
       element2: eyes
@@ -433,7 +418,12 @@ function App() {
     var dickHandDraggable = Draggable.get("#dickHandGrab")
 
     if (mouthOn) {
-      droolIntervalRef.current = setInterval(() => kkht.randomizeArray("dickDrool", "dickArea"), 15000);
+      droolIntervalRef.current = setInterval(() => kkht.randomizeArray({
+        idString: "dickDrool",
+        animation: kkht.drip,
+        areaHeight: 350
+      }), 7500)
+
       dickHandDraggable.disable()
     } else {
       if (droolIntervalRef.current) {
