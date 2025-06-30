@@ -504,8 +504,6 @@ function App() {
   useEffect(() => {
     const checked = localStorage.getItem("ageChecked");
     setAgeChecked(checked === "true");
-    // Mark as ready after check
-    document.getElementById("root")?.classList.add("ready");
   }, []);
 
   return (
