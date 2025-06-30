@@ -794,38 +794,24 @@ const Head = () => (
                     transform="rotate(9.063)"
                 ></ellipse>
             </g>
-            <ellipse
+            <path
                 id="tearRight"
                 className="tear"
-                cx="616.029"
-                cy="493.776"
                 fill="#acf"
                 fillOpacity="1"
-                stroke="none"
-                strokeDasharray="none"
-                strokeLinecap="round"
-                strokeWidth="3"
                 display="inline"
                 opacity="1"
-                rx="16.972"
-                ry="7.037"
-            ></ellipse>
-            <ellipse
+                d="M599.057,493.776a16.972,7.037 0 1,0 33.944,0a16.972,7.037 0 1,0 -33.944,0"
+            ></path>
+            <path
                 id="tearLeft"
                 className="tear"
-                cx="300.6"
-                cy="502.883"
                 fill="#acf"
                 fillOpacity="1"
-                stroke="none"
-                strokeDasharray="none"
-                strokeLinecap="round"
-                strokeWidth="3"
                 display="inline"
                 opacity="1"
-                rx="16.972"
-                ry="7.037"
-            ></ellipse>
+                d="M283.62800000000004,502.9a16.972,7.037 0 1,0 33.944,0a16.972,7.037 0 1,0 -33.944,0"
+            ></path>
             <g id="face-CumGroup" fill="#fff" display="inline" opacity="0.782">
                 <path
                     id="faceCum6"
