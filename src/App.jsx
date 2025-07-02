@@ -38,8 +38,8 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 100,
-    boyd: 1000,
+    ives: 1000,
+    boyd: 100,
   })
 
   const containerSize = useRef()
@@ -362,6 +362,26 @@ function App() {
     const blush = document.getElementById("blush")
     kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
+    const pupilSize = gsap.timeline({ paused: true })
+      .fromTo(".pupil",
+        { scale: 0.8, transformOrigin: "center" },
+        { scale: 1.2, duration: 1 })
+
+    pupilSize.progress(arousalRatio)
+
+
+    const eyeCenterRight = document.getElementById("eyeCenterRight")
+    const eyeCenterLeft = document.getElementById("eyeCenterLeft")
+
+    kkht.eyeMovementToFro({
+      moveEls: [eyeCenterRight, eyeCenterLeft],
+      bounds: {
+        maxX: 30,
+        maxY: 30,
+        minX: -30,
+        minY: 0
+      }
+    })
 
 
     return () => {
@@ -391,20 +411,6 @@ function App() {
       running: running,
       element1: sweats,
       element2: eyes
-    })
-
-    const eyeCenterRight = document.getElementById("eyeCenterRight")
-    const eyeFillRight = document.getElementById("eyeFillRight")
-    const eyeCenterLeft = document.getElementById("eyeCenterLeft")
-    const eyeFillLeft = document.getElementById("eyeFillLeft")
-
-    kkht.eyeMovementPair({
-      moveEls: [eyeCenterRight, eyeCenterLeft], bounds: {
-        maxX: 30,
-        maxY: 30,
-        minX: -30,
-        minY: 0
-      }
     })
 
     return () => {

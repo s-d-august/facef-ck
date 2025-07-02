@@ -189,6 +189,7 @@ const Head = () => (
                     ></ellipse>
                     <circle
                         id="pupilLeft"
+                        className="pupil"
                         cx="366.157"
                         cy="444.011"
                         r="8.946"
@@ -226,6 +227,7 @@ const Head = () => (
                     ></ellipse>
                     <circle
                         id="pupilRight"
+                        className="pupil"
                         cx="549.976"
                         cy="436.4"
                         r="8.946"

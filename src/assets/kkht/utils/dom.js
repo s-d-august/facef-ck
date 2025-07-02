@@ -65,6 +65,12 @@ export const renderProgress = (element, attr, stat, max) => {
     element.style[attr] = (newVal(stat) || 0) + '%'
 }
 
+export const renderTimelineProgress = (tl, progress) => {
+    console.log(tl, progress);
+    tl.progress(progress);
+};
+
+
 export const hideOnOverlap = ({ running, element1, element2 }) => {
 
     element1.forEach(el1 => {

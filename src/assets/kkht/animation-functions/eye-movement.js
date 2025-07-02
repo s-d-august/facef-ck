@@ -3,11 +3,72 @@ import gsap from "gsap";
 /**
  * Moves two elements together in the same direction.
  * If either hits its bounds, both stop. When both have stopped, both move again in a new random direction.
- * @param {Object} params
- * @param {HTMLElement[]} params.moveEls - Array of two elements to move
- * @param {HTMLElement[]} params.bounds - Array of two bounding elements (same order as moveEls)
  */
-export function eyeMovementPair({ moveEls, bounds }) {
+export function eyeMovementToFro({ moveEls, bounds }) {
+    const [el1, el2] = moveEls;
+
+    // Store the origin (starting) positions
+    const origin1 = {
+        x: gsap.getProperty(el1, "x"),
+        y: gsap.getProperty(el1, "y")
+    };
+    const origin2 = {
+        x: gsap.getProperty(el2, "x"),
+        y: gsap.getProperty(el2, "y")
+    };
+
+    function randomTarget(origin) {
+        let x, y;
+        do {
+            x = Math.random() * (bounds.maxX - bounds.minX) + bounds.minX;
+            y = Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
+        } while (Math.abs(x - origin.x) < 10 && Math.abs(y - origin.y) < 10); // avoid trivial moves
+        return { x, y };
+    }
+
+    function moveToRandomAndBack() {
+        // Pick a single random offset so both move together
+        const targetOffset = randomTarget({ x: 0, y: 0 });
+        const target1 = {
+            x: origin1.x + (targetOffset.x - origin1.x),
+            y: origin1.y + (targetOffset.y - origin1.y)
+        };
+        const target2 = {
+            x: origin2.x + (targetOffset.x - origin1.x),
+            y: origin2.y + (targetOffset.y - origin1.y)
+        };
+
+        const duration = Math.random() * (2.5 - 1.5) + 1.5;
+        const delay = Math.random() * (1 - 0.5) + 0.5;
+
+        const tl = gsap.timeline({ onComplete: moveToRandomAndBack });
+        tl.to([el1, el2], {
+            x: (i) => i === 0 ? target1.x : target2.x,
+            y: (i) => i === 0 ? target1.y : target2.y,
+            duration: duration,
+            delay: delay,
+            ease: "none"
+        }).to([el1, el2], {
+            x: (i) => i === 0 ? origin1.x : origin2.x,
+            y: (i) => i === 0 ? origin1.y : origin2.y,
+            duration: duration,
+            delay: delay,
+            ease: "none"
+        });
+    }
+
+    // Initialize positions at origin
+    gsap.set(el1, { x: origin1.x, y: origin1.y });
+    gsap.set(el2, { x: origin2.x, y: origin2.y });
+
+    moveToRandomAndBack();
+
+    window.addEventListener("resize", () => {
+        // Optionally recalculate bounds or clamp positions here
+    });
+}
+
+export function eyeMovementRandom({ moveEls, bounds }) {
     const [el1, el2] = moveEls;
 
     function moveTogether() {
@@ -63,19 +124,22 @@ export function eyeMovementPair({ moveEls, bounds }) {
             }
         }
 
+        const duration = Math.random() * (1.5 - 1) + 1;
+        const delay = Math.random() * (0.5 - 0.2) + 0.2;
+
         tween1 = gsap.to(el1, {
-            delay: "random(0.2, 0.5)",
             x: target1.x,
             y: target1.y,
-            duration: "random(1, 1.5)",
+            duration: duration,
+            delay: delay,
             ease: "none",
             onComplete: onAnyComplete
         });
         tween2 = gsap.to(el2, {
-            delay: "random(0.2, 0.5)",
             x: target2.x,
             y: target2.y,
-            duration: "random(1, 1.5)",
+            duration: duration,
+            delay: delay,
             ease: "none",
             onComplete: onAnyComplete
         });
@@ -90,47 +154,6 @@ export function eyeMovementPair({ moveEls, bounds }) {
     window.addEventListener("resize", () => {
         // You may want to reset or clamp positions here
     });
-}
-
-export const eyeMovement = ({ moveEl, bounds }) => {
-
-    console.log(moveEl.getBoundingClientRect(), bounds.getBoundingClientRect())
-
-    let minX = -17;
-    let minY = 0;
-    let size = moveEl.getBoundingClientRect().width;
-    let maxX = bounds.getBoundingClientRect().width - (size * 1.5);
-    let maxY = bounds.getBoundingClientRect().height - size;
-
-    console.log("maxX: ", maxX, "maxY: ", maxY)
-
-    function moveToRandom() {
-        const x = Math.random() * (maxX - minX) + minX;
-        const y = Math.random() * (maxY - minY) + minY;
-        gsap.to(moveEl, {
-            delay: 0.5,
-            duration: 3,
-            x,
-            y,
-            ease: "none",
-            onComplete: moveToRandom
-        });
-    }
-    moveToRandom();
-
-    window.addEventListener("resize", () => {
-        maxX = bounds.getBoundingClientRect().width - size;
-        maxY = bounds.getBoundingClientRect().height - size;
-    });
-
-    function randomSign() {
-        return Math.random() < 0.5 ? -1 : 1;
-    }
-
-    function random(min, max) {
-        if (max == null) { max = min; min = 0; }
-        return Math.random() * (max - min) + min;
-    }
 }
 
 export const bounceBounds = ({ moveEl, bounds }) => {
