@@ -5,15 +5,3 @@ FEATURES
  - switch between bounds modes: "training" or arousal
  - arms / wipe face
 
-          animations: [kihe.callEyeFlutter("Open", "Wide"),
-          kihe.pantingAnimation({
-            containerSize: containerSize.current,
-            toMove: [body.current, headParts.current],
-            mouthGroup: mouthGroup.current,
-            bodyMain: body.current,
-            tongueGroup: tongueGroup.current,
-            tongueDrool: tongueDrool.current,
-            tearLeft: "#tearLeft",
-            tearRight: "#tearRight"
-          })
-          ]

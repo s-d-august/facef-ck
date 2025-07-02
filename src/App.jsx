@@ -295,19 +295,6 @@ function App() {
 
       function disableAndEnableDraggables(sec) {
         const hairPullHandGrab = document.getElementById("hairPullHandGrab");
-        const hairPullHand = document.getElementById("hairPullHand");
-        const hideHand = gsap.utils.toArray(".hideHand");
-
-        var hairEnter = () => {
-          gsap.to(hideHand, { opacity: 1, duration: 0.2 });
-        };
-        var hairLeave = () => {
-          if (Draggable.get(hairPullHand)?.isDragging) {
-            return;
-          } else {
-            gsap.to(hideHand, { opacity: 0, duration: 0.2 });
-          }
-        };
 
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
@@ -323,7 +310,6 @@ function App() {
           Draggable.get("#hairPullHand")?.enable();
           Draggable.get("#hairPullHand")?.update(); // <-- Add this line
           hairPullHandGrab.classList.add("interact")
-
 
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
@@ -376,17 +362,9 @@ function App() {
     const blush = document.getElementById("blush")
     kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
 
-    sweatIntervalRef.current = setInterval(() => kkht.randomizeArray({
-      idString: "sweat",
-      animation: kkht.drip,
-      areaHeight: 322
-    }), 10000);
+
 
     return () => {
-      if (sweatIntervalRef.current) {
-        clearInterval(sweatIntervalRef.current);
-        sweatIntervalRef.current = null;
-      }
 
       if (prevDuration !== (breathCycleDuration + "s")) {
         document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
@@ -394,8 +372,14 @@ function App() {
     };
   }, [arousal.boyd]);
 
-  useEffect(() => {
+  useEffect(() => { // Sweat, eye movement
     let running = true;
+
+    sweatIntervalRef.current = setInterval(() => kkht.randomizeArray({
+      idString: "sweat",
+      animation: kkht.drip,
+      areaHeight: 322
+    }), 10000);
 
     // Get all sweat elements
     const sweatsParent = document.getElementById(`sweatGroup`)
@@ -409,8 +393,27 @@ function App() {
       element2: eyes
     })
 
+    const eyeCenterRight = document.getElementById("eyeCenterRight")
+    const eyeFillRight = document.getElementById("eyeFillRight")
+    const eyeCenterLeft = document.getElementById("eyeCenterLeft")
+    const eyeFillLeft = document.getElementById("eyeFillLeft")
+
+    kkht.eyeMovementPair({
+      moveEls: [eyeCenterRight, eyeCenterLeft], bounds: {
+        maxX: 30,
+        maxY: 30,
+        minX: -30,
+        minY: 0
+      }
+    })
+
     return () => {
       running = false;
+
+      if (sweatIntervalRef.current) {
+        clearInterval(sweatIntervalRef.current);
+        sweatIntervalRef.current = null;
+      }
     };
   }, []);
 
