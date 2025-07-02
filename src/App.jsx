@@ -62,6 +62,7 @@ function App() {
   }
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
+  gsap.defaults({ overwrite: "auto" })
 
   useEffect(() => {
     containerSize.current = document.getElementById("container").getBoundingClientRect().height
@@ -310,9 +311,8 @@ function App() {
 
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
-        hairPullHandGrab.removeEventListener("mouseenter", hairEnter);
-        hairPullHandGrab.removeEventListener("mouseleave", hairLeave);
-        console.log(hairPullHand)
+        hairPullHandGrab.classList.remove("interact")
+        console.log(hairPullHandGrab)
         // Disable all dick hand parts
         gsap.utils.toArray(".dickHandParts").forEach(el => {
           Draggable.get(el)?.disable();
@@ -322,8 +322,8 @@ function App() {
         setTimeout(() => {
           Draggable.get("#hairPullHand")?.enable();
           Draggable.get("#hairPullHand")?.update(); // <-- Add this line
-          hairPullHandGrab.addEventListener("mouseenter", hairEnter);
-          hairPullHandGrab.addEventListener("mouseleave", hairLeave);
+          hairPullHandGrab.classList.add("interact")
+
 
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
