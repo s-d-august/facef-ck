@@ -21,22 +21,16 @@ export const pantingAnimation = (args) => {
     tearsAnimation(tearLeft, tearRight)
 
     gsap.to(draggable.target, {
-        x: 0, y: 0, duration: 0.01,
-        onComplete: () => {
-            kkht.updateFollowers({
-                itemsArray: alsoMove,
-                x: this.x,
-                y: this.y,
-                ease: "none",
-                init: 0,
-                increase: 0
-            })
-        }
+        x: 0, y: 0, duration: 0.01
     });
+
     draggable.update(); // Let Draggable know it moved
 
 
     const master = gsap.timeline()
+        .to([".hairPullBeads"], {
+            y: 0
+        })
         .to(["#bodyGroup", ".headParts"], {
             delay: 2,
             y: 0,

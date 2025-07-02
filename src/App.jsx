@@ -22,7 +22,7 @@ function App() {
   const [ageChecked, setAgeChecked] = useState(false)
   const ageCheckedRef = useRef(ageChecked)
 
-  const depthMethod = useRef("training")
+  const depthMethod = useRef("")
 
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
@@ -38,8 +38,8 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 1000,
-    boyd: 5000,
+    ives: 100,
+    boyd: 1000,
   })
 
   const containerSize = useRef()
@@ -267,7 +267,6 @@ function App() {
     if (arousal.ives >= maxArousal.ives) {
 
       if (mouthOn) {
-        console.log("before calling fastMorph")
         kkht.callFastMorph({
           ...morphArgsTemplate,
           fromState: "Open",
@@ -293,7 +292,7 @@ function App() {
             }]
 
         })
-        gsap.set(hairPullBeads.current, { x: 0, y: 0 })
+
         disableAndEnableDraggables(5)
         // Plays expression change animation and resets arousal
       }
@@ -504,6 +503,7 @@ function App() {
   useEffect(() => {
     const checked = localStorage.getItem("ageChecked");
     setAgeChecked(checked === "true");
+
   }, []);
 
   return (
