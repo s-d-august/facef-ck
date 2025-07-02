@@ -5,74 +5,58 @@ import gsap from "gsap";
  * If either hits its bounds, both stop. When both have stopped, both move again in a new random direction.
  */
 export function eyeMovementToFro({ moveEls, bounds }) {
+    console.log("toFro")
     const [el1, el2] = moveEls;
+    let tween;
 
-    // Store the origin (starting) positions
-    const origin1 = {
-        x: gsap.getProperty(el1, "x"),
-        y: gsap.getProperty(el1, "y")
-    };
-    const origin2 = {
-        x: gsap.getProperty(el2, "x"),
-        y: gsap.getProperty(el2, "y")
-    };
-
-    function randomTarget(origin) {
+    function randomTarget() {
         let x, y;
         do {
             x = Math.random() * (bounds.maxX - bounds.minX) + bounds.minX;
             y = Math.random() * (bounds.maxY - bounds.minY) + bounds.minY;
-        } while (Math.abs(x - origin.x) < 10 && Math.abs(y - origin.y) < 10); // avoid trivial moves
+        } while (Math.abs(x) < 10 && Math.abs(y) < 10); // avoid trivial moves
         return { x, y };
     }
 
     function moveToRandomAndBack() {
         // Pick a single random offset so both move together
         const targetOffset = randomTarget({ x: 0, y: 0 });
-        const target1 = {
-            x: origin1.x + (targetOffset.x - origin1.x),
-            y: origin1.y + (targetOffset.y - origin1.y)
-        };
-        const target2 = {
-            x: origin2.x + (targetOffset.x - origin1.x),
-            y: origin2.y + (targetOffset.y - origin1.y)
-        };
 
-        const duration = Math.random() * (2.5 - 1.5) + 1.5;
-        const delay = Math.random() * (1 - 0.5) + 0.5;
+        const duration = Math.random() * (2 - 1) + 1;
+        const delay = Math.random() * (2 - 1) + 1;
 
-        const tl = gsap.timeline({ onComplete: moveToRandomAndBack });
-        tl.to([el1, el2], {
-            x: (i) => i === 0 ? target1.x : target2.x,
-            y: (i) => i === 0 ? target1.y : target2.y,
+
+        tween = gsap.to([el1, el2], {
+            x: targetOffset.x,
+            y: targetOffset.y,
             duration: duration,
             delay: delay,
-            ease: "none"
-        }).to([el1, el2], {
-            x: (i) => i === 0 ? origin1.x : origin2.x,
-            y: (i) => i === 0 ? origin1.y : origin2.y,
-            duration: duration,
-            delay: delay,
-            ease: "none"
-        });
+            ease: "none",
+            repeat: 1,
+            repeatDelay: delay,
+            yoyo: true,
+            onComplete: moveToRandomAndBack
+        })
     }
-
-    // Initialize positions at origin
-    gsap.set(el1, { x: origin1.x, y: origin1.y });
-    gsap.set(el2, { x: origin2.x, y: origin2.y });
 
     moveToRandomAndBack();
 
     window.addEventListener("resize", () => {
         // Optionally recalculate bounds or clamp positions here
     });
+
+    // Return a cleanup function to kill the tween
+    return () => {
+        if (tween) tween.kill();
+    };
 }
 
 export function eyeMovementRandom({ moveEls, bounds }) {
+    console.log("random")
     const [el1, el2] = moveEls;
+    let tween1, tween2;
 
     function moveTogether() {
-
         const rel1 = {
             x: gsap.getProperty(el1, "x"),
             y: gsap.getProperty(el1, "y")
@@ -112,14 +96,12 @@ export function eyeMovementRandom({ moveEls, bounds }) {
         };
 
         let completed = false;
-        let tween1, tween2;
 
         function onAnyComplete() {
             if (!completed) {
                 completed = true;
                 tween1 && tween1.kill();
                 tween2 && tween2.kill();
-                // Start the next move after a short delay for visual clarity
                 setTimeout(moveTogether, 0);
             }
         }
@@ -154,6 +136,12 @@ export function eyeMovementRandom({ moveEls, bounds }) {
     window.addEventListener("resize", () => {
         // You may want to reset or clamp positions here
     });
+
+    // Return a cleanup function to kill the tweens
+    return () => {
+        if (tween1) tween1.kill();
+        if (tween2) tween2.kill();
+    };
 }
 
 export const bounceBounds = ({ moveEl, bounds }) => {

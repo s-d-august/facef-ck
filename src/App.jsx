@@ -33,13 +33,15 @@ function App() {
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
 
+  const [arousalTier, setArousalTier] = useState(1)
+
   const [arousal, setArousal] = useState({
     ives: 0,
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 1000,
-    boyd: 100,
+    ives: 100,
+    boyd: 1000,
   })
 
   const containerSize = useRef()
@@ -348,16 +350,12 @@ function App() {
       })
     }
 
-    var breathCycleDuration = (
-      (fastMorphRef.current) ? 0
-        : (arousalRatio > 0.8) ? 0.75
-          : (arousalRatio > 0.6) ? 1.0625
-            : (arousalRatio > 0.4) ? 1.375
-              : (arousalRatio > 0.2) ? 1.6875
-                : 2
-    )
-
-    var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration")
+    // arousalTier setter
+    (arousalRatio > 0.8) ? setArousalTier(5)
+      : (arousalRatio > 0.6) ? setArousalTier(4)
+        : (arousalRatio > 0.4) ? setArousalTier(3)
+          : (arousalRatio > 0.2) ? setArousalTier(2)
+            : setArousalTier(1)
 
     const blush = document.getElementById("blush")
     kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
@@ -369,28 +367,62 @@ function App() {
 
     pupilSize.progress(arousalRatio)
 
-
-    const eyeCenterRight = document.getElementById("eyeCenterRight")
-    const eyeCenterLeft = document.getElementById("eyeCenterLeft")
-
-    kkht.eyeMovementToFro({
-      moveEls: [eyeCenterRight, eyeCenterLeft],
-      bounds: {
-        maxX: 30,
-        maxY: 30,
-        minX: -30,
-        minY: 0
-      }
-    })
-
-
     return () => {
-
-      if (prevDuration !== (breathCycleDuration + "s")) {
-        document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
-      } else return
     };
   }, [arousal.boyd]);
+
+  useEffect(() => {
+    const eyeCenterRight = document.getElementById("eyeCenterRight");
+    const eyeCenterLeft = document.getElementById("eyeCenterLeft");
+    let cleanup;
+
+    if (arousalTier === 1 || arousalTier === 2) {
+      cleanup = kkht.eyeMovementRandom({
+        moveEls: [eyeCenterRight, eyeCenterLeft],
+        bounds: {
+          maxX: 30,
+          maxY: 30,
+          minX: -30,
+          minY: 0
+        }
+      });
+    } else if (arousalTier === 3 || arousalTier === 4) {
+      cleanup = kkht.eyeMovementToFro({
+        moveEls: [eyeCenterRight, eyeCenterLeft],
+        bounds: {
+          maxX: 30,
+          maxY: 30,
+          minX: -30,
+          minY: 0
+        }
+      });
+    } else if (arousalTier === 5) {
+      gsap.to([eyeCenterRight, eyeCenterLeft], {
+        x: 0,
+        y: 0,
+        duration: 1
+      })
+    }
+
+    var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration");
+
+    var breathCycleDuration = (
+      (fastMorphRef.current) ? 0
+        : (arousalTier === 5) ? 0.75
+          : (arousalTier === 4) ? 1.0625
+            : (arousalTier === 3) ? 1.375
+              : (arousalTier === 2) ? 1.6875
+                : (arousalTier === 1) ? 2
+                  : null
+    );
+
+    return () => {
+      if (cleanup) cleanup();
+      if (prevDuration !== (breathCycleDuration + "s")) {
+        document.documentElement.style.setProperty("--animation-duration", breathCycleDuration + "s");
+      }
+    };
+  }, [arousalTier])
 
   useEffect(() => { // Sweat, eye movement
     let running = true;

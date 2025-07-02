@@ -26,6 +26,10 @@ export const eyeFlutterAnimation = (el, startString, endString) => {
     let obj = { p: 0 }
     return (
         gsap.timeline()
+            .set(".eyeCenter", {
+                x: 0,
+                y: 0
+            })
             .to(obj, {
                 p: 0.75,
                 duration: 0.2,
