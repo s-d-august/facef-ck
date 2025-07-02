@@ -17,6 +17,7 @@ export const callFastMorph = (args) => {
     const { fromState, toState, animations, animationArgs, expressionsArray, fastMorph, setFastMorph, slowMorph, setSlowMorph } = args
 
     setFastMorph(true)
+    console.log(fastMorph)
 
     // If the active slowMorph starts or ends with the fastMorph start state, reverts to that state
     if (slowMorph) {
