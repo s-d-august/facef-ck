@@ -52,7 +52,6 @@ function App() {
   const body = useRef()
   const tearRight = useRef()
   const tearLeft = useRef()
-  const hairPullHandOrigin = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -61,14 +60,6 @@ function App() {
     fastMorph: fastMorphRef.current,
     slowMorph: slowMorphRef.current
   }
-
-  const boundsTemplate = {
-    minX: containerSize.current * -0.0055,
-    maxX: containerSize.current * 0.0055,
-    minY: containerSize.current * -0.07,
-    maxY: containerSize.current * 0.4
-  }
-
 
   gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
 
@@ -83,9 +74,6 @@ function App() {
     body.current = document.getElementById("bodyGroup");
     tearRight.current = document.getElementById("tearRight")
     tearLeft.current = document.getElementById("tearLeft")
-    var hairPullDraggable = document.getElementById("hairPullHand").getBoundingClientRect()
-    hairPullHandOrigin.current = { x: hairPullDraggable.x, y: hairPullDraggable.y }
-
   }, [])
 
   useEffect(() => {
@@ -107,6 +95,7 @@ function App() {
 
   useEffect(() => { // Elements that change based on approach state
     if (holdMouthOpen === true) return
+
     if (
       !containerSize.current ||
       !mouthGroup.current ||
@@ -116,41 +105,36 @@ function App() {
       console.error("One or more refs are null!");
       return;
     }
+
+    const mouthArgs = {
+      moveBy: containerSize.current * 0.045,
+      mouthGroup: mouthGroup.current,
+      tongueGroup: tongueGroup.current,
+      tongueDrool: tongueDrool.current,
+      mouthOpenSetter: setMouthOpen
+    }
+
     if (approach) {
-      kkht.mouthOpenFunction({
-        moveBy: containerSize.current * 0.045,
-        mouthGroup: mouthGroup.current,
-        tongueGroup: tongueGroup.current,
-        tongueDrool: tongueDrool.current,
-        mouthOpenSetter: setMouthOpen
-      })
+      kkht.mouthOpenFunction(mouthArgs)
     } else {
-      kkht.mouthCloseFunction({
-        mouthGroup: mouthGroup.current,
-        tongueGroup: tongueGroup.current,
-        tongueDrool: tongueDrool.current,
-        mouthOpenSetter: setMouthOpen
-      })
+      kkht.mouthCloseFunction(mouthArgs)
     }
   }, [approach, holdMouthOpen])
 
   function mouthOpenClose() {
+    const mouthArgs = {
+      moveBy: containerSize.current * 0.045,
+      mouthGroup: mouthGroup.current,
+      tongueGroup: tongueGroup.current,
+      tongueDrool: tongueDrool.current,
+      mouthOpenSetter: setMouthOpen
+    }
+
     if (mouthOpenRef.current === false) { // if mouth is closed
-      kkht.mouthOpenFunction({
-        moveBy: containerSize.current * 0.045,
-        mouthGroup: mouthGroup.current,
-        tongueGroup: tongueGroup.current,
-        tongueDrool: tongueDrool.current,
-        mouthOpenSetter: setMouthOpen
-      });
+      kkht.mouthOpenFunction(mouthArgs);
       setHoldMouthOpen(true)
     } else if (mouthOpenRef.current === true) {
-      kkht.mouthCloseFunction({
-        mouthGroup: mouthGroup.current,
-        tongueGroup: tongueGroup.current,
-        tongueDrool: tongueDrool.current,
-        mouthOpenSetter: setMouthOpen
-      });
+      kkht.mouthCloseFunction(mouthArgs);
       setHoldMouthOpen(false)
     }
   }
@@ -287,7 +271,6 @@ function App() {
               setMouthOpen: setMouthOpen,
               setApproach: setApproach,
               draggable: Draggable.get("#hairPullHand"),
-              origin: hairPullHandOrigin.current,
               alsoMove: hairPullBeads.current
             }]
 
@@ -310,8 +293,26 @@ function App() {
       }
 
       function disableAndEnableDraggables(sec) {
+        const hairPullHandGrab = document.getElementById("hairPullHandGrab");
+        const hairPullHand = document.getElementById("hairPullHand");
+        const hideHand = gsap.utils.toArray(".hideHand");
+
+        var hairEnter = () => {
+          gsap.to(hideHand, { opacity: 1, duration: 0.2 });
+        };
+        var hairLeave = () => {
+          if (Draggable.get(hairPullHand)?.isDragging) {
+            return;
+          } else {
+            gsap.to(hideHand, { opacity: 0, duration: 0.2 });
+          }
+        };
+
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
+        hairPullHandGrab.removeEventListener("mouseenter", hairEnter);
+        hairPullHandGrab.removeEventListener("mouseleave", hairLeave);
+        console.log(hairPullHand)
         // Disable all dick hand parts
         gsap.utils.toArray(".dickHandParts").forEach(el => {
           Draggable.get(el)?.disable();
@@ -321,6 +322,8 @@ function App() {
         setTimeout(() => {
           Draggable.get("#hairPullHand")?.enable();
           Draggable.get("#hairPullHand")?.update(); // <-- Add this line
+          hairPullHandGrab.addEventListener("mouseenter", hairEnter);
+          hairPullHandGrab.addEventListener("mouseleave", hairLeave);
 
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
