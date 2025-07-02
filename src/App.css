@@ -32,19 +32,6 @@ svg {
   bottom: 0;
 }
 
-#age-gate-logo>img {
-  max-height: 40vh;
-}
-
-#age-gate-header,
-#age-gate-subheader {
-  letter-spacing: 0.5px !important;
-}
-
-#age-gate-yes-no {
-  font-family: serif !important;
-}
-
 #body {
   display: block;
 }

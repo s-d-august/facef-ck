@@ -11,6 +11,7 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import AgeCheck from './assets/kkht/age-check/age-check'
+import SensitivitySet from './assets/components/sensitivity-set/sensitivity-set'
 
 function App() {
 
@@ -43,6 +44,10 @@ function App() {
     ives: 100,
     boyd: 1000,
   })
+  const [sensitivity, setSensitivity] = useState({
+    ives: 1,
+    boyd: 1,
+  })
 
   const containerSize = useRef()
   const mouthGroup = useRef()
@@ -54,6 +59,7 @@ function App() {
   const body = useRef()
   const tearRight = useRef()
   const tearLeft = useRef()
+  const sensitivityRef = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -94,6 +100,10 @@ function App() {
   useEffect(() => {
     fastMorphRef.current = fastMorph;
   }, [fastMorph]);
+
+  useEffect(() => {
+    sensitivityRef.current = sensitivity
+  }, [sensitivity])
 
 
   useEffect(() => { // Elements that change based on approach state
@@ -184,7 +194,8 @@ function App() {
             percent: "20%"
           },
           maxArousal,
-          setArousal
+          setArousal,
+          sensitivity: sensitivityRef.current
         };
 
         this.dragResistance = kkht.isApproachOrOn(args)
@@ -219,7 +230,7 @@ function App() {
     document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal), 500);
+    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal, sensitivityRef.current), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -241,7 +252,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        kkht.valChange("ives", "up", maxArousal, setArousal)
+        kkht.valChange("ives", "up", maxArousal, setArousal, sensitivityRef.current)
       }
     })
 
@@ -554,7 +565,7 @@ function App() {
     <div id='container'>
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
         setAgeChecked={setAgeChecked} /> : <></>}
-      <Outputs
+      <Outputs id="outputs"
         boyd={arousal.boyd}
         ives={arousal.ives}
         maxBoyd={maxArousal.boyd}
@@ -568,6 +579,27 @@ function App() {
         <HairPullHand />
       </div>
       <div className='buffer'></div>
+      <SensitivitySet setters={[
+        {
+          id: "boydSet",
+          setter: value => {
+            console.log("setting boyd to: ", value)
+            setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+          },
+          label: "Set Boyd's sensitivity.",
+          value: sensitivity.boyd
+        },
+        {
+          id: "ivesSet",
+          setter: value => {
+            console.log("setting ives to: ", value)
+            setSensitivity(prev => ({ ...prev, ives: Number(value) }))
+          },
+          label: "Set player sensitivity.",
+          value: sensitivity.ives
+        }
+      ]
+      } />
     </div>
   )
 }

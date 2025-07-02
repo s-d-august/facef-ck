@@ -1,10 +1,12 @@
-export const valChange = (ids, upDown, max, setter) => {
+export const valChange = (ids, upDown, max, setter, sensitivity) => {
+
+    console.log(sensitivity)
     if (!Array.isArray(ids)) {
         ids = [ids];
     }
     ids.forEach((key) => {
         setter((prev) => {
-            const newVal = upDown === "up" ? prev[key] + 1 : prev[key] - 1;
+            const newVal = upDown === "up" ? prev[key] + sensitivity[key] : prev[key] - sensitivity[key];
             if (upDown === "up") {
                 if (newVal > max[key]) {
                     return { ...prev, [key]: prev[key] };
