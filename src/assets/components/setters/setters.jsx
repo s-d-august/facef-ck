@@ -9,6 +9,7 @@ const Setters = ({ sensitivity, max }) => (
                     key={id}
                     id={id}
                     type="range"
+                    orient="vertical"
                     className="sensitivitySet"
                     min={0}
                     max={5}
