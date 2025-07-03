@@ -7,12 +7,11 @@ import Body from './assets/components/body'
 import Head from './assets/components/head'
 import Mouth from './assets/components/mouth'
 import Outputs from './assets/components/outputs'
-import AgeCheck from './assets/components/age-check';
+import AgeCheck from './assets/kkht/age-check/age-check'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
-import AgeCheck from './assets/kkht/age-check/age-check'
-import SensitivitySet from './assets/components/sensitivity-set/sensitivity-set'
+import Setters from './assets/components/setters/setters'
 
 function App() {
 
@@ -46,8 +45,8 @@ function App() {
     boyd: 1000,
   })
   const [sensitivity, setSensitivity] = useState({
-    ives: 1,
-    boyd: 1,
+    ives: 2.5,
+    boyd: 2.5,
   })
 
   const containerSize = useRef()
@@ -61,6 +60,7 @@ function App() {
   const tearRight = useRef()
   const tearLeft = useRef()
   const sensitivityRef = useRef()
+  const maxArousalRef = useRef(maxArousal);
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -105,6 +105,10 @@ function App() {
   useEffect(() => {
     sensitivityRef.current = sensitivity
   }, [sensitivity])
+
+  useEffect(() => {
+    maxArousalRef.current = maxArousal;
+  }, [maxArousal]);
 
 
   useEffect(() => { // Elements that change based on approach state
@@ -194,7 +198,7 @@ function App() {
             tip: "#dickTip",
             percent: "20%"
           },
-          maxArousal,
+          maxArousal: maxArousalRef.current,
           setArousal,
           sensitivity: sensitivityRef.current
         };
@@ -231,7 +235,7 @@ function App() {
     document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousal, setArousal, sensitivityRef.current), 500);
+    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
   }, []);
 
@@ -253,7 +257,7 @@ function App() {
       },
       edgeResistance: 0.9,
       onDrag: function () {
-        kkht.valChange("ives", "up", maxArousal, setArousal, sensitivityRef.current)
+        kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
       }
     })
 
@@ -340,6 +344,7 @@ function App() {
   useEffect(() => {    // Elements that change based on arousal.boyd
 
     const arousalRatio = arousal.boyd / maxArousal.boyd
+
 
     if (depthMethod.current === "arousal") {
       const draggable = Draggable.get("#hairPullHand");
@@ -569,6 +574,8 @@ function App() {
 
   }, []);
 
+
+
   return (
     <div id='container'>
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
@@ -587,13 +594,13 @@ function App() {
         <HairPullHand />
       </div>
       <div className='buffer'></div>
-      <SensitivitySet setters={[
+      <Setters sensitivity={[
         {
           id: "boydSet",
           setter: value => {
             setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
           },
-          label: "Set Boyd's sensitivity.",
+          label: "Set Blue's sensitivity.",
           value: sensitivity.boyd
         },
         {
@@ -601,11 +608,30 @@ function App() {
           setter: value => {
             setSensitivity(prev => ({ ...prev, ives: Number(value) }))
           },
-          label: "Set player sensitivity.",
+          label: "Set Red's sensitivity.",
           value: sensitivity.ives
         }
       ]
-      } />
+      }
+        max={[
+          {
+            id: "boydMax",
+            setter: value => {
+              setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
+            },
+            label: "Blue max: ",
+            value: maxArousal.boyd
+          },
+          {
+            id: "ivesMax",
+            setter: value => {
+              setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
+            },
+            label: "Red max: ",
+            value: maxArousal.ives
+          }
+        ]}
+      />
     </div>
   )
 }

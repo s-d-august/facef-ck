@@ -1,0 +1,62 @@
+#settersDiv {
+    position: fixed;
+    right: 0;
+    margin: 10px 15px
+}
+
+#sensitivitySettersDiv {
+    display: flex;
+    flex-direction: column;
+}
+
+.sensitivitySet {
+    width: 200px;
+    height: 10px;
+    padding: 0 5px;
+    border-radius: 5px;
+    background: white;
+    outline: none;
+    margin: 10px 0;
+    border: 1px solid white;
+}
+
+#ivesSet {
+    background: #a00
+}
+
+#boydSet {
+    background: cornflowerblue
+}
+
+#ivesSet::-moz-range-thumb,
+#ivesSet::-webkit-slider-thumb,
+#boydSet::-webkit-slider-thumb,
+#boydSet::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+    cursor: pointer;
+    border: none;
+}
+
+#ivesSet::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#boydSet::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.maxSetterWrap {
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.maxSetterWrap>input {
+    width: 100px;
+}

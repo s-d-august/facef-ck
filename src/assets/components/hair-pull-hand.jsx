@@ -16,8 +16,6 @@ beadPathsRaw.forEach(d => {
     beadPaths.push(applyMatrix(d))
 })
 
-console.log(beadPaths)
-
 function applyMatrix(d) {
     return svgPath(d).matrix([0.89647, 0, 0, 0.89647, -211.852, -153.4])
 }
