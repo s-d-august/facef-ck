@@ -1,0 +1,62 @@
+.whiteText {
+    color: white;
+}
+
+#sensitivitySlidersDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.sensitivitySet {
+    writing-mode: bt-lr;
+    -webkit-appearance: slider-vertical;
+    width: 10px;
+    height: 200px;
+    padding: 0 5px;
+    border-radius: 5px;
+    background: white;
+    outline: none;
+    margin: 10px;
+    border: 1px solid var(--dk);
+}
+
+.filterSet {
+    height: 10px;
+}
+
+#aSet {
+    background: var(--mdlt)
+}
+
+#cSet {
+    background: var(--md)
+}
+
+#aSet::-moz-range-thumb,
+#aSet::-webkit-slider-thumb,
+#cSet::-webkit-slider-thumb,
+#cSet::-moz-range-thumb {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-image: url('../../assets/heart.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border: none;
+}
+
+#aSet::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+#cSet::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url('../../assets/alert.svg');
+}
+
+#cSet::-moz-range-thumb {
+    background-image: url('../../assets/alert.svg');
+}

@@ -13,7 +13,7 @@
   animation-duration: var(--animation-duration);
 }
 
-#sweater {
+#bodyMain {
   transform-origin: bottom;
   animation: breathTorso ease-in-out infinite alternate;
   animation-duration: var(--animation-duration);
@@ -32,26 +32,13 @@ svg {
   bottom: 0;
 }
 
-#age-gate-logo>img {
-  max-height: 40vh;
-}
-
-#age-gate-header,
-#age-gate-subheader {
-  letter-spacing: 0.5px !important;
-}
-
-#age-gate-yes-no {
-  font-family: serif !important;
-}
-
 #body {
   display: block;
 }
 
 #tongueGroup {
   pointer-events: all;
-  transform-origin: top;
+  transform-origin: top center;
   transform: scaleY(0)
 }
 
@@ -63,7 +50,7 @@ svg {
   z-index: 6
 }
 
-#hairPullBeadsSvg {
+.hairPullBeads {
   z-index: 7
 }
 
@@ -83,6 +70,7 @@ svg {
   pointer-events: none;
 }
 
+[id*="tongueCum"],
 .noInteract {
   pointer-events: none;
 }
@@ -106,16 +94,22 @@ svg {
   display: contents;
 }
 
+#face-CumGroup>path {
+  transform-origin: top center;
+}
+
 [id*="tear"],
 [id*="tongueCum"],
 #blush,
 [id*="drool"],
-#cumshot {
+#cumshot,
+[id*="faceCum"] {
   opacity: 0;
 }
 
 [id*="tear"],
-[id*="tongueCum"] {
+[id*="tongueCum"],
+[id*="faceCum"] {
   scale: (0, 0);
 }
 
@@ -125,7 +119,8 @@ svg {
 
 [id*="Half"],
 [id*="Shut"],
-[id*="Wide"] {
+[id*="Wide"],
+#bodyArmsUp {
   visibility: hidden;
 }
 

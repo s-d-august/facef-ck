@@ -5,20 +5,24 @@ const Body = () => (
     id="body"
     viewBox="0 0 987.679 1234.713"
   >
-    <g
-      id="bodyGroup"
-      stroke="none"
-      strokeLinecap="round"
-      transform="translate(-16.217 -15.665)"
-    >
+    <g id="bodyGroup">
       <path
-        id="sweater"
+        id="bodyMain"
         fill="#3771c8"
-        strokeWidth="3.828"
-        d="M75.418 1249.97 17.61 884.332l1.17-207.787 202.152-207.627 480.39-13.469 190.844 186.818 19.537 228.987-51.336 377.217z"
+        strokeWidth="3.764"
+        d="M82.04 1249.97 24.235 896.523l1.171-200.858 202.15-200.704 480.391-13.02 190.844 180.59 19.537 221.351-51.336 364.639Z"
+        display="inline"
         opacity="1"
       ></path>
       <path
+        id="bodyArmsUp"
+        fill="#3771c8"
+        strokeWidth="3.764"
+        d="M174.765 1250.797 37.481 863.41l7.794-172.71 182.28-195.737 480.391-13.02L875.61 659.22l19.537 221.352-130.814 371.261Z"
+        opacity="1"
+      ></path>
+      <path
+        id="path73"
         fill="#acf"
         fillOpacity="1"
         strokeOpacity="1"
