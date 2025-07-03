@@ -7,7 +7,6 @@ export const valChange = (ids, upDown, max, setter, sensitivity) => {
         setter((prev) => {
             const newVal = upDown === "up" ? prev[key] + sensitivity[key] : prev[key] - 1;
             if (upDown === "up") {
-                console.log(newVal, max[key])
                 if (newVal - 5 > max[key]) {
                     return { ...prev, [key]: max[key] };
                 }

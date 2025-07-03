@@ -1,7 +1,7 @@
 import React from 'react';
 import './setters.css';
 
-const Setters = ({ sensitivity, max }) => (
+const Setters = ({ sensitivity, max, secret }) => (
     <div id='settersDiv'>
         <div id="sensitivitySettersDiv">
             {sensitivity.map(({ id, label, setter, value, ...inputProps }) => (
@@ -24,7 +24,7 @@ const Setters = ({ sensitivity, max }) => (
         <div id='maxSettersDiv'>
             {max.map(({ id, setter, value, label }) => (
                 <div className='maxSetterWrap'>
-                    <label for={id}>{label}</label>
+                    <label htmlFor={id}>{label}</label>
                     <input
                         key={id}
                         id={id}
@@ -37,6 +37,15 @@ const Setters = ({ sensitivity, max }) => (
                     />
                 </div>
             ))}
+        </div>
+        <div id='secret'>
+            <label className='switch'>
+                <input
+                    id={secret.id}
+                    type="checkbox"
+                    onChange={e => secret.setter(e.target.checked)} />
+                <span className="slider round"></span>
+            </label>
         </div>
     </div>
 )

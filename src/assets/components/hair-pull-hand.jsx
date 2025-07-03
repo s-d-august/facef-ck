@@ -62,6 +62,7 @@ const HairPullHand = () => (
                     opacity="1"
                 ></path>
                 <path
+                    className="ivesMode"
                     fill="#2b1100"
                     fillOpacity="1"
                     fillRule="nonzero"
@@ -75,7 +76,7 @@ const HairPullHand = () => (
                 <svg
                     key={i}
                     viewBox="0 0 987.679 1234.713"
-                    className="hairPullBeads hideHand opacity0"
+                    className="hairPullBeads hideHand opacity0 ivesMode"
                     id={"hairPullBeadsSvg" + (i + 1)}
                 >
                     <path

@@ -23,6 +23,9 @@ function App() {
   const [ageChecked, setAgeChecked] = useState(false)
   const ageCheckedRef = useRef(ageChecked)
 
+  const [ivesModeActive, setIvesModeActive] = useState(false)
+  const [ivesMode, setIvesMode] = useState(false)
+
   const depthMethod = useRef("")
 
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
@@ -108,7 +111,30 @@ function App() {
 
   useEffect(() => {
     maxArousalRef.current = maxArousal;
+    if (Object.values(maxArousal).includes(1999)
+      || Object.values(maxArousal).includes(1847)) {
+      setIvesModeActive(true)
+      localStorage.setItem("ivesModeActive", "true")
+    }
   }, [maxArousal]);
+
+  useEffect(() => {
+    if (ivesModeActive) {
+      document.getElementById("secret").style.display = "block"
+    } else {
+      document.getElementById("secret").style.display = "none"
+    }
+  }, [ivesModeActive])
+
+  useEffect(() => {
+    console.log(ivesMode)
+    var elements = gsap.utils.toArray(".ivesMode")
+
+    elements.forEach((el) => {
+      el.style.display = ivesMode ? "block" : "none"
+    })
+
+  }, [ivesMode])
 
 
   useEffect(() => { // Elements that change based on approach state
@@ -431,11 +457,11 @@ function App() {
 
     var breathCycleDuration = (
       (fastMorph) ? 0
-        : (arousalTier === 5) ? 0.75
-          : (arousalTier === 4) ? 0.9375
-            : (arousalTier === 3) ? 1.125
-              : (arousalTier === 2) ? 1.3125
-                : (arousalTier === 1) ? 1.5
+        : (arousalTier === 5) ? 0.5
+          : (arousalTier === 4) ? 0.625
+            : (arousalTier === 3) ? 0.75
+              : (arousalTier === 2) ? 0.875
+                : (arousalTier === 1) ? 1
                   : null
     );
     if (prevDuration !== (breathCycleDuration + "s")) {
@@ -572,6 +598,8 @@ function App() {
     const checked = localStorage.getItem("ageChecked");
     setAgeChecked(checked === "true");
 
+    const ivesModeActive = localStorage.getItem("ivesModeActive")
+    setIvesModeActive(ivesModeActive === "true")
   }, []);
 
 
@@ -594,25 +622,26 @@ function App() {
         <HairPullHand />
       </div>
       <div className='buffer'></div>
-      <Setters sensitivity={[
-        {
-          id: "boydSet",
-          setter: value => {
-            setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+      <Setters
+        sensitivity={[
+          {
+            id: "boydSet",
+            setter: value => {
+              setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+            },
+            label: "Set Blue's sensitivity.",
+            value: sensitivity.boyd
           },
-          label: "Set Blue's sensitivity.",
-          value: sensitivity.boyd
-        },
-        {
-          id: "ivesSet",
-          setter: value => {
-            setSensitivity(prev => ({ ...prev, ives: Number(value) }))
-          },
-          label: "Set Red's sensitivity.",
-          value: sensitivity.ives
+          {
+            id: "ivesSet",
+            setter: value => {
+              setSensitivity(prev => ({ ...prev, ives: Number(value) }))
+            },
+            label: "Set Red's sensitivity.",
+            value: sensitivity.ives
+          }
+        ]
         }
-      ]
-      }
         max={[
           {
             id: "boydMax",
@@ -631,6 +660,12 @@ function App() {
             value: maxArousal.ives
           }
         ]}
+        secret={
+          {
+            id: "ivesModeSwitch",
+            setter: setIvesMode,
+          }
+        }
       />
     </div>
   )

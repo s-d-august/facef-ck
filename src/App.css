@@ -39,6 +39,10 @@ svg {
   display: block;
 }
 
+.ivesMode {
+  display: none;
+}
+
 #tongueGroup {
   pointer-events: all;
   transform-origin: top center;
