@@ -1,4 +1,5 @@
 import * as React from "react";
+import svgPath from "svgpath";
 
 const Head = () => (
     <svg
@@ -167,36 +168,26 @@ const Head = () => (
                 strokeLinecap="round"
                 display="inline"
                 opacity="1"
-                transform="translate(0 17.562)"
             >
                 <path
                     id="eyeFillLeft"
                     fill="#fff"
                     strokeWidth="3.623"
-                    d="m413.5 488.58 3.777-35.468c-21.817-17.968-30.07-26.932-56.712-33.841l-100.037 31.724 7.082 19.586 39.187 23.874z"
+                    d={svgPath("m413.5 488.58 3.777-35.468c-21.817-17.968-30.07-26.932-56.712-33.841l-100.037 31.724 7.082 19.586 39.187 23.874z").translate(0, 18)}
                     opacity="1"
                 ></path>
                 <g id="eyeCenterLeft" className="eyeCenter">
-                    <ellipse
-                        id="irisLeft"
-                        cx="366.175"
-                        cy="444.54"
+                    <path id="irisLeft"
                         fill="#5f8dd3"
-                        strokeWidth="3.224"
-                        opacity="1"
-                        rx="23.124"
-                        ry="21.631"
-                    ></ellipse>
-                    <circle
-                        id="pupilLeft"
+                        d={svgPath("M344.157,444.011a22,22 0 1,0 44,0a22,22 0 1,0 -44,0").translate(0, 35)}>
+
+                    </path>
+                    <path id="pupilLeft"
                         className="pupil"
-                        cx="366.157"
-                        cy="444.011"
-                        r="8.946"
                         fill="#000"
-                        strokeWidth="18.91"
-                        opacity="1"
-                    ></circle>
+                        d={svgPath("M357.21099999999996,444.011a8.946,8.946 0 1,0 17.892,0a8.946,8.946 0 1,0 -17.892,0").translate(0, 35)}>
+
+                    </path>
                 </g></g>
             <g
                 id="eyeRight"
@@ -205,36 +196,29 @@ const Head = () => (
                 strokeLinecap="round"
                 display="inline"
                 opacity="1"
-                transform="translate(0 17.562)"
             >
                 <path
                     id="eyeFillRight"
                     fill="#fff"
                     strokeWidth="3.663"
-                    d="m506.317 483.16-10.473-35.906 34.685-28.894 20.953-8.572 40.584 13.27 58.912 21.074-15.056 21.856-32.074 18.733z"
+                    d={svgPath("m506.317 483.16-10.473-35.906 34.685-28.894 20.953-8.572 40.584 13.27 58.912 21.074-15.056 21.856-32.074 18.733z").translate(0, 18)}
                     opacity="1"
                 ></path>
                 <g id="eyeCenterRight" className="eyeCenter">
-                    <ellipse
+                    <path
                         id="irisRight"
-                        cx="549.994"
-                        cy="436.93"
-                        fill="#5f8dd3"
-                        strokeWidth="3.224"
-                        opacity="1"
-                        rx="23.124"
-                        ry="21.631"
-                    ></ellipse>
-                    <circle
+                        d={svgPath("M527.994,436.93a22,22 0 1,0 44,0a22,22 0 1,0 -44,0").translate(0, 35)}
+                        fill="#5f8dd3">
+
+                    </path>
+                    <path
                         id="pupilRight"
                         className="pupil"
-                        cx="549.976"
-                        cy="436.4"
-                        r="8.946"
                         fill="#000"
-                        strokeWidth="18.91"
-                        opacity="1"
-                    ></circle>
+                        d={svgPath("M541.048,436.93a8.946,8.946 0 1,0 17.892,0a8.946,8.946 0 1,0 -17.892,0").translate(0, 35)}>
+
+                    </path>
+
                 </g></g>
             <g id="faceGroup" fill="#ffe6d5" opacity="1">
                 <path

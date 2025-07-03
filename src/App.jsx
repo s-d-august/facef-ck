@@ -42,7 +42,7 @@ function App() {
   })
   const [maxArousal, setmaxArousal] = useState({
     ives: 200,
-    boyd: 500,
+    boyd: 1000,
   })
   const [sensitivity, setSensitivity] = useState({
     ives: 1,
@@ -391,29 +391,31 @@ function App() {
 
     if (!fastMorphRef.current) {
       if (arousalTier === 1 || arousalTier === 2) {
-        cleanup = kkht.eyeMovementRandom({
+        cleanup = kkht.eyeMovement({
           moveEls: [eyeCenterRight, eyeCenterLeft],
+          type: "random",
           bounds: {
             maxX: 30,
-            maxY: 30,
+            maxY: 15,
             minX: -30,
             minY: 0
           }
         });
       } else if (arousalTier === 3 || arousalTier === 4) {
-        cleanup = kkht.eyeMovementToFro({
+        cleanup = kkht.eyeMovement({
           moveEls: [eyeCenterRight, eyeCenterLeft],
+          type: "toFro",
           bounds: {
             maxX: 30,
-            maxY: 30,
+            maxY: 10,
             minX: -30,
-            minY: 0
+            minY: -17
           }
         });
       } else if (arousalTier === 5) {
         gsap.to([eyeCenterRight, eyeCenterLeft], {
           x: 0,
-          y: 0,
+          y: -17,
           duration: 1
         })
       }
