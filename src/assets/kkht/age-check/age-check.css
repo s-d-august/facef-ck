@@ -9,7 +9,6 @@
     color: white;
     display: flex;
     flex-direction: column;
-    font-family: "Quicksand", sans-serif;
     justify-content: space-between;
 }
 
@@ -21,6 +20,10 @@
     font-weight: 500;
 }
 
+#ageCheckNoHeader {
+    justify-content: end;
+}
+
 #ageCheckButton {
     margin: 3vw;
     font-weight: 700;
@@ -28,10 +31,28 @@
 }
 
 #ageCheckImgDiv {
-    height: 57vh;
+    height: 50vh;
+    margin-bottom: 20px;
 }
 
 img {
     height: 100%;
     object-fit: contain;
+}
+
+#facefuckTitleDiv {
+    display: grid;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    grid-template-columns: auto auto;
+}
+
+#kkhtLogoDiv {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#facefuckTitleDiv>h1 {
+    line-height: 1;
 }

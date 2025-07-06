@@ -6,7 +6,7 @@ import { ScrambleTextPlugin, SplitText, CustomEase, CustomBounce } from "gsap/al
 
 gsap.registerPlugin(ScrambleTextPlugin, SplitText, CustomBounce, CustomEase)
 
-const Eyecatch = ({ mode }) => {
+const Eyecatch = ({ mode, size }) => {
     const kikaiRef = useRef();
     const hentaiRef = useRef();
     const logoRef = useRef();
@@ -22,6 +22,16 @@ const Eyecatch = ({ mode }) => {
             kikaiRef.current.classList.remove("linear")
             hentaiRef.current.classList.remove("linear")
             logoRef.current.classList.remove("linear")
+        }
+
+        if (size === "small") {
+            kikaiRef.current.classList.add("small")
+            hentaiRef.current.classList.add("small")
+            logoRef.current.classList.add("small")
+        } else {
+            kikaiRef.current.classList.remove("small")
+            hentaiRef.current.classList.remove("small")
+            logoRef.current.classList.remove("small")
         }
 
         document.fonts.ready.then(() => {

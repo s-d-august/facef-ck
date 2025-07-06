@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Benguiat";
-  src: url("./assets/benguiat.woff");
+  src: url("./assets/fonts-etc/benguiat.woff");
 }
 
 .blink {
@@ -24,7 +24,7 @@
 body {
   background-color: #93ac93;
   background-color: rgb(0, 0, 0);
-  font-family: "Quicksand";
+  font-family: "Benguiat";
 }
 
 svg {
@@ -141,7 +141,7 @@ svg {
   }
 
   to {
-    transform: scale(100%)
+    transform: scale(99%)
   }
 }
 

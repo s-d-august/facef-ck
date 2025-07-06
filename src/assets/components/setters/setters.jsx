@@ -39,6 +39,7 @@ const Setters = ({ sensitivity, max, secret }) => (
             ))}
         </div>
         <div id='secret'>
+            <p>{secret.label}</p>
             <label className='switch'>
                 <input
                     id={secret.id}

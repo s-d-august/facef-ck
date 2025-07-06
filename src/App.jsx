@@ -629,7 +629,7 @@ function App() {
             setter: value => {
               setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
             },
-            label: "Set Blue's sensitivity.",
+            label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
             value: sensitivity.boyd
           },
           {
@@ -637,7 +637,7 @@ function App() {
             setter: value => {
               setSensitivity(prev => ({ ...prev, ives: Number(value) }))
             },
-            label: "Set Red's sensitivity.",
+            label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
             value: sensitivity.ives
           }
         ]
@@ -648,7 +648,7 @@ function App() {
             setter: value => {
               setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
             },
-            label: "Blue max: ",
+            label: !ivesMode ? "Blue max: " : "Boyd max: ",
             value: maxArousal.boyd
           },
           {
@@ -656,7 +656,7 @@ function App() {
             setter: value => {
               setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
             },
-            label: "Red max: ",
+            label: !ivesMode ? "Red max: " : "Ives max: ",
             value: maxArousal.ives
           }
         ]}
@@ -664,6 +664,7 @@ function App() {
           {
             id: "ivesModeSwitch",
             setter: setIvesMode,
+            label: "Ravenous"
           }
         }
       />

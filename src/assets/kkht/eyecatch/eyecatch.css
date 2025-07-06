@@ -52,3 +52,19 @@
 #kikai.linear {
     font-size: 8vw;
 }
+
+#kkhtLogoDiv.small {
+    width: 100%;
+    margin-top: 0;
+    height: 45px;
+}
+
+#kikai.small {
+    font-size: 3vw;
+    letter-spacing: -0.3vw;
+}
+
+#hentai.small {
+    font-size: 4vw;
+    top: -0.5vw
+}
