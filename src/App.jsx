@@ -6,6 +6,7 @@ import HairPullHand from './assets/components/hair-pull-hand'
 import Body from './assets/components/body'
 import Head from './assets/components/head'
 import Mouth from './assets/components/mouth'
+import Arms from './assets/components/arms'
 import Outputs from './assets/components/outputs'
 import AgeCheck from './assets/kkht/age-check/age-check'
 import { gsap } from 'gsap'
@@ -33,6 +34,8 @@ function App() {
   const [mouthOn, setMouthOn] = useState(false)
   const mouthOpenRef = useRef(mouthOpen);
   const [approach, setApproach] = useState(false)
+
+  const [armsUp, setArmsUp] = useState(true)
 
   const droolIntervalRef = useRef(null);
   const sweatIntervalRef = useRef(null);
@@ -64,6 +67,9 @@ function App() {
   const tearLeft = useRef()
   const sensitivityRef = useRef()
   const maxArousalRef = useRef(maxArousal);
+  const wipeButton = useRef()
+  const mouthButton = useRef()
+  const dickSvg = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -87,6 +93,9 @@ function App() {
     body.current = document.getElementById("bodyGroup");
     tearRight.current = document.getElementById("tearRight")
     tearLeft.current = document.getElementById("tearLeft")
+    wipeButton.current = document.getElementById("wipeOrderButton")
+    mouthButton.current = document.getElementById("mouthOrderButton")
+    dickSvg.current = document.getElementById("dick")
   }, [])
 
   useEffect(() => {
@@ -136,9 +145,37 @@ function App() {
 
   }, [ivesMode])
 
+  useEffect(() => {
+    if (armsUp) {
+      wipeButton.current.innerText = '"Now now, don\'t be shy."'
+      mouthButton.current.classList.add("inactive")
+      dickSvg.current.style.zIndex = 100
+    } else {
+      wipeButton.current.innerText = '"Wipe the mess off your face."'
+      mouthButton.current.classList.remove("inactive")
+      dickSvg.current.style.zIndex = "auto"
+    }
+
+    function lowerArms() {
+      gsap.to(["#armRight", "#armLeft"], {
+        y: 1000,
+        duration: 6,
+        ease: "power1.in",
+        onComplete: () => setArmsUp(false)
+      })
+    }
+    wipeButton.current.addEventListener("click", lowerArms)
+  }, [armsUp])
+
 
   useEffect(() => { // Elements that change based on approach state
-    if (holdMouthOpen === true) return
+
+    if (holdMouthOpen === false) mouthButton.current.innerText = '"Open your mouth."'
+
+    if (holdMouthOpen === true) {
+      mouthButton.current.innerText = '"Close your mouth."'
+      return
+    }
 
     if (
       !containerSize.current ||
@@ -257,8 +294,7 @@ function App() {
   }
 
   useEffect(() => {
-    document.getElementById("beard").addEventListener("dblclick", mouthOpenClose)
-    document.getElementById("tongue").addEventListener("dblclick", mouthOpenClose)
+    document.getElementById("mouthOrderButton").addEventListener("click", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
     const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
@@ -619,6 +655,7 @@ function App() {
         <Mouth />
         <Dick />
         <Head />
+        <Arms />
         <HairPullHand />
       </div>
       <div className='buffer'></div>
@@ -668,6 +705,10 @@ function App() {
           }
         }
       />
+      <div id='ordersDiv'>
+        <button id='mouthOrderButton'>"Open your mouth."</button>
+        <button id='wipeOrderButton'>"Wipe your face."</button>
+      </div>
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import * as React from "react";
 
 const Dick = () => (
-  <div className="noInteract">
+  <div id="fullDickAndHandSvg" className="noInteract">
     <svg
       viewBox="0 0 987.679 1234.713"
       xmlns="http://www.w3.org/2000/svg"

@@ -21,9 +21,9 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="1.83676"
-     inkscape:cx="424.11639"
-     inkscape:cy="423.02751"
+     inkscape:zoom="0.45919"
+     inkscape:cx="577.10316"
+     inkscape:cy="572.74766"
      inkscape:window-width="1920"
      inkscape:window-height="991"
      inkscape:window-x="2391"
@@ -484,4 +484,36 @@
          id="rect14" />
     </clipPath>
   </defs>
+  <g
+     id="g3"
+     inkscape:label="armLeft">
+    <path
+       style="fill:#ffe6d5;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.11276592025"
+       d="M 443.331 710.956 L 447.166 648.323 L 447.257 591.23 L 432.012 517.678 L 447.127 493.855 L 456.398 455.891 L 439.38 426.118 L 419.07 423.815 L 423.705 404.833 L 405.034 383.385 L 385.727 384.743 L 382.052 374.927 L 362.052 355.811 L 340.089 361.833 L 327.749 345.537 L 296.295 349.241 L 206.666 417.106 L 196.731 456.236 L 267.651 589.305 L 270.91 662.207 L 281.374 711.747 Z"
+       id="handLeft" />
+    <path
+       style="fill:#5f8dd3;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.11276592025"
+       d="M 470.095 711.897 L 534.622 774.526 L 500.46 1334.39 L 215.781 1332.5 L 251.841 759.343 L 278.411 723.284 Z"
+       id="sleeveLeft" />
+    <path
+       style="fill:#999999;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.38854581075"
+       d="M 471.709 586.638 L 449.271 634.033 L 377.88 665.63 L 302.409 661.116 L 257.534 625.005 L 259.574 722.053 L 318.727 753.649 L 396.238 744.622 L 475.788 708.511 Z"
+       id="cuffLeft" />
+  </g>
+  <g
+     id="armRight"
+     inkscape:label="armRight">
+    <path
+       style="fill:#ffe6d5;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.11276592025"
+       d="M 480.49 704.476 L 462.373 643.993 L 459.245 586.985 L 470.555 512.726 L 454.194 489.741 L 442.916 452.325 L 458.326 421.689 L 478.485 418.308 L 472.846 399.6 L 490.35 377.189 L 509.702 377.517 L 512.849 367.52 L 531.804 347.367 L 554.057 352.212 L 565.512 335.282 L 597.119 337.308 L 690.231 400.309 L 702.234 438.855 L 638.494 575.508 L 639.118 648.48 L 613.062 715.597 Z"
+       id="handRight" />
+    <path
+       style="fill:#5f8dd3;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.11276592025"
+       d="M 451.822 725.182 L 387.295 787.811 L 421.456 1347.68 L 706.135 1345.78 L 670.076 772.628 L 643.506 736.569 Z"
+       id="sleeveRight" />
+    <path
+       style="fill:#999999;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.3039687325"
+       d="M 449.924 599.923 L 470.801 647.318 L 537.226 678.915 L 607.447 674.401 L 649.199 638.29 L 647.302 735.338 L 592.264 766.934 L 520.145 757.907 L 446.128 721.796 Z"
+       id="cuffRight" />
+  </g>
 </svg>

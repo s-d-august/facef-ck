@@ -5,6 +5,43 @@
   animation: blink 10s linear infinite
 }
 
+#ordersDiv {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+}
+
+#ordersDiv>button {
+  background-color: #a00;
+  color: white;
+  font-weight: bold;
+  opacity: 85%;
+  border: none
+}
+
+#ordersDiv>button.inactive {
+  background-color: grey;
+  color: white;
+  font-weight: bold;
+  opacity: 75%;
+  border: none;
+  pointer-events: none;
+}
+
+#ordersDiv>button:hover {
+  border: none;
+  opacity: 100;
+}
+
+#mouthOrderButton {
+  margin: 15px
+}
+
+#wipeOrderButton {
+  margin: 0px 15px
+}
+
 #mouth {
   transform-origin: center;
   animation: breathMouth ease-in-out infinite alternate;
@@ -39,8 +76,11 @@ svg {
   display: none;
 }
 
+#dick {
+  position: relative
+}
+
 #tongueGroup {
-  pointer-events: all;
   transform-origin: top center;
   transform: scaleY(0)
 }
@@ -80,11 +120,6 @@ svg {
 
 .interact {
   pointer-events: all;
-}
-
-#beard,
-#tongue {
-  cursor: pointer;
 }
 
 #positioning {
