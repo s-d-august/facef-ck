@@ -28,19 +28,17 @@ const HairPullHand = () => (
             viewBox="0 0 987.679 1234.713"
         >
             <defs>
-                <linearGradient id="hairpullA">
-                    <stop offset="0" stopColor="#a00" stopOpacity="1"></stop>
-                    <stop offset="1" stopColor="#a00" stopOpacity="0"></stop>
-                </linearGradient>
                 <linearGradient
-                    xlinkHref="#hairpullA"
                     id="hairpullB"
-                    x1="1201.882"
-                    x2="1238.807"
-                    y1="649.633"
-                    y2="748.892"
+                    x1="95%"
+                    x2="100%"
+                    y1="30%"
+                    y2="40%"
                     gradientUnits="userSpaceOnUse"
-                ></linearGradient>
+                >
+                    <stop offset="0" stopColor="#a00" stopOpacity="1" />
+                    <stop offset="1" stopColor="#a00" stopOpacity="0" />
+                </linearGradient>
             </defs>
             <g stroke="none">
                 <path

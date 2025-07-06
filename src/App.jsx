@@ -648,7 +648,7 @@ function App() {
             setter: value => {
               setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
             },
-            label: !ivesMode ? "Blue max: " : "Boyd max: ",
+            label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
             value: maxArousal.boyd
           },
           {
@@ -656,7 +656,7 @@ function App() {
             setter: value => {
               setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
             },
-            label: !ivesMode ? "Red max: " : "Ives max: ",
+            label: !ivesMode ? "Red Max: " : "Ives Max: ",
             value: maxArousal.ives
           }
         ]}
