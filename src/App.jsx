@@ -47,11 +47,11 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 500,
+    ives: 1000,
     boyd: 1000,
   })
   const [sensitivity, setSensitivity] = useState({
-    ives: 5,
+    ives: 2.5,
     boyd: 2.5,
   })
 
