@@ -1,11 +1,26 @@
-const arrayEligibleMap = [{}]
+var arrayEligibleMap = {}
 import { getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 import { cumAnimation } from "../animations/cum.js"
+import { faceWipe } from "../animations/face-wipe.js"
 import gsap from "gsap"
 
+export const isFaceClean = (set) => {
+    if (set === "yes") {
+        var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
+        cumArray.forEach(el => {
+            if (typeof el === "string") el = document.getElementById(el);
+            if (el) gsap.set(el, { opacity: 0 })
+        })
+        arrayEligibleMap = {}
+    }
+    if (arrayEligibleMap.faceCum && arrayEligibleMap.faceCum.length > 0)
+        return false
+    else return true
+}
+
 export const callCumshot = async (args) => {
-    const { cumType, untilEmpty, origin, shotDuration, moveDuration } = args
+    const { cumType, untilEmpty, origin, shotDuration, moveDuration, faceWipeArgs } = args
 
     if (typeof cumType === "string") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
@@ -49,8 +64,8 @@ export const callCumshot = async (args) => {
 
     await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
 
-    if (arrayEligibleMap[typeKey].length === 0) {
-        //   wipeFaceAnimation
+    if (arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0) {
+        faceWipe
         cumArray.forEach(el => {
             if (typeof el === "string") el = document.getElementById(el);
             if (el) gsap.set(el, { opacity: 0 })

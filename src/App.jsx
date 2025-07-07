@@ -47,11 +47,11 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 1000,
+    ives: 500,
     boyd: 1000,
   })
   const [sensitivity, setSensitivity] = useState({
-    ives: 2.5,
+    ives: 5,
     boyd: 2.5,
   })
 
@@ -70,6 +70,10 @@ function App() {
   const wipeButton = useRef()
   const mouthButton = useRef()
   const dickSvg = useRef()
+  const armRight = useRef()
+  const armLeft = useRef()
+  const cloth = useRef()
+  const chain = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -96,6 +100,10 @@ function App() {
     wipeButton.current = document.getElementById("wipeOrderButton")
     mouthButton.current = document.getElementById("mouthOrderButton")
     dickSvg.current = document.getElementById("dick")
+    armRight.current = document.getElementById("armRight")
+    armLeft.current = document.getElementById("armLeft")
+    cloth.current = document.getElementById("cloth")
+    chain.current = document.getElementById("chain")
   }, [])
 
   useEffect(() => {
@@ -136,7 +144,6 @@ function App() {
   }, [ivesModeActive])
 
   useEffect(() => {
-    console.log(ivesMode)
     var elements = gsap.utils.toArray(".ivesMode")
 
     elements.forEach((el) => {
@@ -148,34 +155,56 @@ function App() {
   useEffect(() => {
     if (armsUp) {
       wipeButton.current.innerText = '"Now now, don\'t be shy."'
-      mouthButton.current.classList.add("inactive")
+      mouthButton.current.style.display = "none"
       dickSvg.current.style.zIndex = 100
     } else {
       wipeButton.current.innerText = '"Wipe the mess off your face."'
-      mouthButton.current.classList.remove("inactive")
+      wipeButton.current.classList.add("inactive")
+      mouthButton.current.style.display = "block"
       dickSvg.current.style.zIndex = "auto"
+
+      if (kkht.isFaceClean() === false) {
+        wipeButton.current.classList.remove("inactive")
+        wipeButton.current.addEventListener("click", () => {
+          wipeButton.current.classList.add("inactive")
+          kkht.faceWipe(
+            {
+              scale: [armRight.current, armLeft.current],
+              noScale: chain.current,
+              cloth: cloth.current,
+              setter: setArmsUp
+            }
+          )
+        })
+      } else {
+        wipeButton.current.classList.add("inactive")
+      }
     }
 
-    function lowerArms() {
-      gsap.to(["#armRight", "#armLeft"], {
-        y: 1000,
-        duration: 6,
-        ease: "power1.in",
-        onComplete: () => setArmsUp(false)
-      })
-    }
-    wipeButton.current.addEventListener("click", lowerArms)
-  }, [armsUp])
+    wipeButton.current.addEventListener("click", () => kkht.lowerArms({
+      scale: [armRight.current, armLeft.current],
+      noScale: [chain.current, cloth.current],
+      setter: setArmsUp
+    }))
+
+  }, [armsUp, arousal.ives])
 
 
   useEffect(() => { // Elements that change based on approach state
 
+
     if (holdMouthOpen === false) mouthButton.current.innerText = '"Open your mouth."'
 
     if (holdMouthOpen === true) {
-      mouthButton.current.innerText = '"Close your mouth."'
+      var tongueCumArray = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+      if (allOpacityZero(tongueCumArray)) {
+        mouthButton.current.innerText = '"Close your mouth."'
+      } else mouthButton.current.innerText = '"Swallow for me."'
+
       return
     }
+
+
 
     if (
       !containerSize.current ||
@@ -202,7 +231,15 @@ function App() {
     }
   }, [approach, holdMouthOpen])
 
+  function allOpacityZero(array) {
+    return array.every(el => {
+      const opacity = window.getComputedStyle(el).opacity;
+      return Number(opacity) === 0;
+    });
+  }
+
   function mouthOpenClose() {
+    console.log("mouthOpenClose called")
     const mouthArgs = {
       moveBy: containerSize.current * 0.045,
       mouthGroup: mouthGroup.current,
@@ -210,11 +247,18 @@ function App() {
       tongueDrool: tongueDrool.current,
       mouthOpenSetter: setMouthOpen
     }
+    var tongueCumArray = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
 
-    if (mouthOpenRef.current === false) { // if mouth is closed
+    if (mouthOpenRef.current === false) { // if setting mouth to open
       kkht.mouthOpenFunction(mouthArgs);
       setHoldMouthOpen(true)
-    } else if (mouthOpenRef.current === true) {
+
+      if (allOpacityZero(tongueCumArray)) {
+        mouthButton.current.innerText = '"Close your mouth."'
+      } else mouthButton.current.innerText = '"Swallow for me."'
+
+    } else if (mouthOpenRef.current === true) { // if setting mouth to closed
+      mouthButton.current.innerText = '"Open your mouth."'
       kkht.mouthCloseFunction(mouthArgs);
       setHoldMouthOpen(false)
     }
@@ -294,7 +338,7 @@ function App() {
   }
 
   useEffect(() => {
-    document.getElementById("mouthOrderButton").addEventListener("click", mouthOpenClose)
+    mouthButton.current.addEventListener("click", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
     const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
@@ -368,7 +412,19 @@ function App() {
         // Plays cum on tongue animation
       }
       if (!mouthOn && !mouthOpen) {
-        kkht.callCumshot({ cumType: "faceCum", untilEmpty: true, origin: "top", shotDuration: 0.5, moveDuration: 2.5 })
+        kkht.callCumshot({
+          cumType: "faceCum",
+          untilEmpty: true,
+          origin: "top",
+          shotDuration: 0.5,
+          moveDuration: 2.5,
+          faceWipeArgs: {
+            scale: [armRight.current, armLeft.current],
+            noScale: chain.current,
+            cloth: cloth.current,
+            setter: setArmsUp
+          }
+        })
         disableAndEnableDraggables(1.5)
         // Plays cum on face animation
       }
@@ -379,7 +435,6 @@ function App() {
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
         hairPullHandGrab.classList.remove("interact")
-        console.log(hairPullHandGrab)
         // Disable all dick hand parts
         gsap.utils.toArray(".dickHandParts").forEach(el => {
           Draggable.get(el)?.disable();

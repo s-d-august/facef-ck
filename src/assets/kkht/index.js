@@ -9,6 +9,8 @@ export * from './animations/drip';
 export * from './animations/eye-flutter';
 export * from './animations/mouth-open-close';
 export * from './animations/tears';
+export * from './animations/face-wipe';
+
 
 export * from './utils/array';
 export * from './utils/dom';

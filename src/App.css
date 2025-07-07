@@ -17,7 +17,9 @@
   color: white;
   font-weight: bold;
   opacity: 85%;
-  border: none
+  border: none;
+  margin: 15px;
+  margin-bottom: 0
 }
 
 #ordersDiv>button.inactive {
@@ -32,14 +34,6 @@
 #ordersDiv>button:hover {
   border: none;
   opacity: 100;
-}
-
-#mouthOrderButton {
-  margin: 15px
-}
-
-#wipeOrderButton {
-  margin: 0px 15px
 }
 
 #mouth {
