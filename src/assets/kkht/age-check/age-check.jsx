@@ -5,13 +5,10 @@ import Eyecatch from "../eyecatch/eyecatch";
 import cover from "../../fonts-etc/cover.svg"
 import gsap from "gsap";
 
-const AgeCheck = ({ ageChecked, setAgeChecked }) => {
-    if (localStorage.getItem("ageChecked")) {
-        console.log("age previously verified!")
-        setAgeChecked(true);
-    }
-
+const AgeCheck = ({ setAgeChecked }) => {
     useEffect(() => {
+        const div = document.getElementById("ageCheckDiv");
+        if (div) div.classList.add("ready");
 
         const btn = document.getElementById("ageCheckButton");
         if (!btn) return;
@@ -29,13 +26,10 @@ const AgeCheck = ({ ageChecked, setAgeChecked }) => {
             { x: 0, duration: 1, ease: "power4.in" }, "-=0.5"
         );
 
-
         return () => {
             btn.removeEventListener("click", handler);
         }
-    }, []);
-
-
+    }, [setAgeChecked]);
 
     return (
         <div id="ageCheckDiv">

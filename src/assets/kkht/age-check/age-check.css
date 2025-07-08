@@ -16,6 +16,12 @@
     flex-direction: column;
     justify-content: space-between;
     font-family: "Benguiat";
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+#ageCheckDiv.ready {
+    opacity: 1
 }
 
 #ageCheckDiv>* {

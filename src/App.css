@@ -5,6 +5,16 @@
   animation: blink 10s linear infinite
 }
 
+#ageCheckDiv,
+#mainDiv {
+  display: none
+}
+
+#ageCheckDiv.ready,
+#mainDiv.ready {
+  display: block
+}
+
 #ordersDiv {
   display: flex;
   flex-direction: column;

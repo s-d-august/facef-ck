@@ -21,7 +21,7 @@ function App() {
   const slowMorphRef = useRef(slowMorph)
   const fastMorphRef = useRef(fastMorph)
 
-  const [ageChecked, setAgeChecked] = useState(false)
+  const [ageChecked, setAgeChecked] = useState(() => localStorage.getItem("ageChecked") === "true");
   const ageCheckedRef = useRef(ageChecked)
 
   const [ivesModeActive, setIvesModeActive] = useState(false)
@@ -702,12 +702,15 @@ function App() {
   }, [mouthOn, armsUp]);
 
   useEffect(() => {
-    const checked = localStorage.getItem("ageChecked");
-    setAgeChecked(checked === "true");
-
+    // You can keep the rest of your logic here, but you don't need to setAgeChecked again.
+    if (ageChecked) {
+      document.getElementById("mainDiv").classList.add("ready")
+    } else {
+      document.getElementById("ageCheckDiv")?.classList.add("ready")
+    }
     const ivesModeActive = localStorage.getItem("ivesModeActive")
     setIvesModeActive(ivesModeActive === "true")
-  }, []);
+  }, [ageChecked]);
 
 
 
@@ -715,70 +718,72 @@ function App() {
     <div id='container'>
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
         setAgeChecked={setAgeChecked} /> : <></>}
-      <Outputs id="outputs"
-        boyd={arousal.boyd}
-        ives={arousal.ives}
-        maxBoyd={maxArousal.boyd}
-        maxIves={maxArousal.ives} />
-      <div className='buffer'></div>
-      <div id='positioning'>
-        <Body />
-        <Mouth />
-        <Dick />
-        <Head />
-        <Arms />
-        <HairPullHand />
-      </div>
-      <div className='buffer'></div>
-      <Setters
-        sensitivity={[
-          {
-            id: "boydSet",
-            setter: value => {
-              setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+      <div id='mainDiv'>
+        <Outputs id="outputs"
+          boyd={arousal.boyd}
+          ives={arousal.ives}
+          maxBoyd={maxArousal.boyd}
+          maxIves={maxArousal.ives} />
+        <div className='buffer'></div>
+        <div id='positioning'>
+          <Body />
+          <Mouth />
+          <Dick />
+          <Head />
+          <Arms />
+          <HairPullHand />
+        </div>
+        <div className='buffer'></div>
+        <Setters
+          sensitivity={[
+            {
+              id: "boydSet",
+              setter: value => {
+                setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+              },
+              label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
+              value: sensitivity.boyd
             },
-            label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
-            value: sensitivity.boyd
-          },
-          {
-            id: "ivesSet",
-            setter: value => {
-              setSensitivity(prev => ({ ...prev, ives: Number(value) }))
-            },
-            label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
-            value: sensitivity.ives
+            {
+              id: "ivesSet",
+              setter: value => {
+                setSensitivity(prev => ({ ...prev, ives: Number(value) }))
+              },
+              label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
+              value: sensitivity.ives
+            }
+          ]
           }
-        ]
-        }
-        max={[
-          {
-            id: "boydMax",
-            setter: value => {
-              setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
+          max={[
+            {
+              id: "boydMax",
+              setter: value => {
+                setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
+              },
+              label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
+              value: maxArousal.boyd
             },
-            label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
-            value: maxArousal.boyd
-          },
-          {
-            id: "ivesMax",
-            setter: value => {
-              setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
-            },
-            label: !ivesMode ? "Red Max: " : "Ives Max: ",
-            value: maxArousal.ives
+            {
+              id: "ivesMax",
+              setter: value => {
+                setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
+              },
+              label: !ivesMode ? "Red Max: " : "Ives Max: ",
+              value: maxArousal.ives
+            }
+          ]}
+          secret={
+            {
+              id: "ivesModeSwitch",
+              setter: setIvesMode,
+              label: "Ravenous"
+            }
           }
-        ]}
-        secret={
-          {
-            id: "ivesModeSwitch",
-            setter: setIvesMode,
-            label: "Ravenous"
-          }
-        }
-      />
-      <div id='ordersDiv'>
-        <button id='mouthOrderButton'>"Open your mouth."</button>
-        <button id='wipeOrderButton'>"Wipe your face."</button>
+        />
+        <div id='ordersDiv'>
+          <button id='mouthOrderButton'>"Open your mouth."</button>
+          <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
+        </div>
       </div>
     </div>
   )
