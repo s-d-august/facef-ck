@@ -74,6 +74,8 @@ function App() {
   const armLeft = useRef()
   const cloth = useRef()
   const chain = useRef()
+  const hairPullHandGrab = useRef()
+  const dickHandGrab = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -104,6 +106,8 @@ function App() {
     armLeft.current = document.getElementById("armLeft")
     cloth.current = document.getElementById("cloth")
     chain.current = document.getElementById("chain")
+    hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
+    dickHandGrab.current = document.getElementById("dickHandGrab");
   }, [])
 
   useEffect(() => {
@@ -157,11 +161,16 @@ function App() {
       wipeButton.current.innerText = '"Now now, don\'t be shy."'
       mouthButton.current.style.display = "none"
       dickSvg.current.style.zIndex = 100
+      hairPullHandGrab.current.classList.remove("interact")
+      dickHandGrab.current.classList.remove("interact")
+
     } else {
       wipeButton.current.innerText = '"Wipe the mess off your face."'
       wipeButton.current.classList.add("inactive")
       mouthButton.current.style.display = "block"
       dickSvg.current.style.zIndex = "auto"
+      hairPullHandGrab.current.classList.add("interact")
+      dickHandGrab.current.classList.add("interact")
 
       if (kkht.isFaceClean() === false) {
         wipeButton.current.classList.remove("inactive")
@@ -267,6 +276,7 @@ function App() {
   function createMainDraggable() {
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
+      cursor: "ns-resize",
       onDrag: function () {
 
         gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
@@ -430,11 +440,10 @@ function App() {
       }
 
       function disableAndEnableDraggables(sec) {
-        const hairPullHandGrab = document.getElementById("hairPullHandGrab");
 
         // Disable hair pull hand
         Draggable.get("#hairPullHand")?.disable();
-        hairPullHandGrab.classList.remove("interact")
+        hairPullHandGrab.current.classList.remove("interact")
         // Disable all dick hand parts
         gsap.utils.toArray(".dickHandParts").forEach(el => {
           Draggable.get(el)?.disable();
@@ -444,7 +453,7 @@ function App() {
         setTimeout(() => {
           Draggable.get("#hairPullHand")?.enable();
           Draggable.get("#hairPullHand")?.update(); // <-- Add this line
-          hairPullHandGrab.classList.add("interact")
+          hairPullHandGrab.current.classList.add("interact")
 
           gsap.utils.toArray(".dickHandParts").forEach(el => {
             Draggable.get(el)?.enable();
@@ -621,9 +630,9 @@ function App() {
     const hairPullHand = document.getElementById("hairPullHand");
     const hideHand = gsap.utils.toArray(".hideHand");
 
-    let hairEnter, hairLeave, dickEnter, dickLeave, dickHandle, dickHand;
+    let hairEnter, hairLeave, dickEnter, dickLeave, dickHand;
 
-    if (hairPullHandGrab && hideHand && hairPullHand) {
+    if (hairPullHandGrab && hideHand && hairPullHand && (armsUp === false)) {
       hairEnter = () => {
         gsap.to(hideHand, { opacity: 1, duration: 0.2 });
       };
@@ -640,9 +649,8 @@ function App() {
 
     // Only set up dickHand hover listeners when mouthOn === false
     dickHand = gsap.utils.toArray(".dickHandParts");
-    dickHandle = document.getElementById("dickHandGrab");
 
-    if (mouthOn === false && dickHandle && dickHand.length) {
+    if (mouthOn === false && dickHandGrab.current && dickHand.length && (armsUp === false)) {
       dickHand.forEach((el) => {
         el.style.display = "inline";
       });
@@ -651,7 +659,7 @@ function App() {
         gsap.to(dickHand, { opacity: 1, duration: 0.2 });
       };
       dickLeave = () => {
-        if (Draggable.get(dickHandle)?.isDragging) {
+        if (Draggable.get(dickHandGrab.current)?.isDragging) {
           return;
         } else {
           gsap.to(dickHand, {
@@ -663,8 +671,8 @@ function App() {
           });
         }
       };
-      dickHandle.addEventListener("mouseenter", dickEnter);
-      dickHandle.addEventListener("mouseleave", dickLeave);
+      dickHandGrab.current.addEventListener("mouseenter", dickEnter);
+      dickHandGrab.current.addEventListener("mouseleave", dickLeave);
     }
 
     // Cleanup
@@ -673,9 +681,9 @@ function App() {
         hairPullHandGrab.removeEventListener("mouseenter", hairEnter);
         hairPullHandGrab.removeEventListener("mouseleave", hairLeave);
       }
-      if (dickHandle) {
-        dickHandle.removeEventListener("mouseenter", dickEnter);
-        dickHandle.removeEventListener("mouseleave", dickLeave);
+      if (dickHandGrab.current) {
+        dickHandGrab.current.removeEventListener("mouseenter", dickEnter);
+        dickHandGrab.current.removeEventListener("mouseleave", dickLeave);
       }
       if (droolIntervalRef.current) {
         clearInterval(droolIntervalRef.current);
@@ -683,7 +691,7 @@ function App() {
       }
     };
 
-  }, [mouthOn]);
+  }, [mouthOn, armsUp]);
 
   useEffect(() => {
     const checked = localStorage.getItem("ageChecked");
