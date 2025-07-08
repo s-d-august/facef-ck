@@ -1,8 +1,9 @@
 #settersDiv {
-    position: fixed;
+    position: absolute;
     left: 80px;
     margin: 10px 15px;
-    color: white
+    color: white;
+    top: 0;
 }
 
 #sensitivitySettersDiv {

@@ -712,19 +712,24 @@ function App() {
     setIvesModeActive(ivesModeActive === "true")
   }, [ageChecked]);
 
+  useEffect(() => {
+    const container = document.getElementById("container");
+    if (container) container.classList.add("ready");
+  })
 
 
   return (
     <div id='container'>
+
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
         setAgeChecked={setAgeChecked} /> : <></>}
+
       <div id='mainDiv'>
         <Outputs id="outputs"
           boyd={arousal.boyd}
           ives={arousal.ives}
           maxBoyd={maxArousal.boyd}
           maxIves={maxArousal.ives} />
-        <div className='buffer'></div>
         <div id='positioning'>
           <Body />
           <Mouth />
@@ -733,7 +738,6 @@ function App() {
           <Arms />
           <HairPullHand />
         </div>
-        <div className='buffer'></div>
         <Setters
           sensitivity={[
             {
@@ -785,6 +789,8 @@ function App() {
           <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
         </div>
       </div>
+
+
     </div>
   )
 }
