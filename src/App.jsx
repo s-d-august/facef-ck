@@ -47,8 +47,8 @@ function App() {
     boyd: 0,
   })
   const [maxArousal, setmaxArousal] = useState({
-    ives: 1000,
-    boyd: 1000,
+    ives: 5000,
+    boyd: 5000,
   })
   const [sensitivity, setSensitivity] = useState({
     ives: 2.5,
@@ -723,7 +723,6 @@ function App() {
   }, [mouthOn, armsUp, ageChecked]);
 
   useEffect(() => {
-    // You can keep the rest of your logic here, but you don't need to setAgeChecked again.
     if (ageChecked) {
       document.getElementById("mainDiv").classList.add("ready")
     } else {
@@ -744,6 +743,7 @@ function App() {
 
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
         setAgeChecked={setAgeChecked} /> : <></>}
+
       {ageChecked && (
         <div id='mainDiv' className="ready">
           <Outputs id="outputs"

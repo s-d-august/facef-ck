@@ -46,7 +46,7 @@ const Arms = () => (
             ></path>
             <path
                 id="sleeveRight"
-                fill="#5f8dd3"
+                fill="#4B7FCE"
                 stroke="none"
                 strokeWidth="2.113"
                 d="m463.481 697.377-40.263 64.839 2.593 582.194 284.679-1.9-36.058-573.149-30.926-65.458Z"
@@ -92,7 +92,7 @@ const Arms = () => (
             ></path>
             <path
                 id="sleeveLeft"
-                fill="#5f8dd3"
+                fill="#4B7FCE"
                 stroke="none"
                 strokeWidth="2.113"
                 d="m439.32 713.997 42.759 65.345-2.593 582.198-284.679-1.9 36.059-573.153 38.548-73.625Z"

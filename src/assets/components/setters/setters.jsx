@@ -3,6 +3,7 @@ import './setters.css';
 
 const Setters = ({ sensitivity, max, secret }) => (
     <div id='settersDiv'>
+        <p>Sensitivity:</p>
         <div id="sensitivitySettersDiv">
             {sensitivity.map(({ id, label, setter, value, ...inputProps }) => (
                 <input
