@@ -39,7 +39,7 @@ const Eyecatch = ({ mode, size }) => {
             function kikaiAnimation() {
                 return (
                     gsap.to(kikaiRef.current, {
-                        duration: mode === "linear" ? 1.75 : 3.5,
+                        duration: mode === "linear" ? 0.75 : 2.5,
                         scrambleText: "KIKAI"
                     })
                 )
@@ -51,7 +51,7 @@ const Eyecatch = ({ mode, size }) => {
                     type: "chars",
                     onSplit(self) {
                         tl = gsap.timeline().fromTo(self.chars, { scale: 0, rotation: "random([-30, 30])" }, {
-                            duration: mode === "linear" ? 1.5 : 3,
+                            duration: mode === "linear" ? 0.5 : 2,
                             scale: 1,
                             stagger: 0.2,
                             rotation: 0,

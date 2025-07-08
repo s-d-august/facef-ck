@@ -89,6 +89,8 @@ function App() {
   gsap.defaults({ overwrite: "auto" })
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     containerSize.current = document.getElementById("container").getBoundingClientRect().height
     mouthGroup.current = document.getElementById("mouthGroup")
     tongueGroup.current = document.getElementById("tongueGroup")
@@ -111,6 +113,8 @@ function App() {
   }, [])
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     mouthOpenRef.current = mouthOpen;
   }, [mouthOpen]);
 
@@ -119,18 +123,26 @@ function App() {
   }, [ageChecked]);
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     slowMorphRef.current = slowMorph;
   }, [slowMorph]);
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     fastMorphRef.current = fastMorph;
   }, [fastMorph]);
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     sensitivityRef.current = sensitivity
   }, [sensitivity])
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     maxArousalRef.current = maxArousal;
     if (Object.values(maxArousal).includes(1999)
       || Object.values(maxArousal).includes(1847)) {
@@ -140,6 +152,8 @@ function App() {
   }, [maxArousal]);
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     if (ivesModeActive) {
       document.getElementById("secret").style.display = "block"
     } else {
@@ -148,6 +162,8 @@ function App() {
   }, [ivesModeActive])
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     var elements = gsap.utils.toArray(".ivesMode")
 
     elements.forEach((el) => {
@@ -157,6 +173,8 @@ function App() {
   }, [ivesMode])
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     if (armsUp) {
       wipeButton.current.innerText = '"Now now, don\'t be shy."'
       mouthButton.current.style.display = "none"
@@ -209,6 +227,7 @@ function App() {
 
   useEffect(() => { // Elements that change based on approach state
 
+    if (!ageChecked) return;
 
     if (holdMouthOpen === false) mouthButton.current.innerText = '"Open your mouth."'
 
@@ -356,6 +375,8 @@ function App() {
   }
 
   useEffect(() => {
+    if (!ageChecked) return;
+
     mouthButton.current.addEventListener("click", mouthOpenClose)
     gsap.set(tongueGroup.current, { scaleY: 0 });
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
@@ -364,6 +385,7 @@ function App() {
   }, []);
 
   useEffect(() => { // Sets up draggables
+    if (!ageChecked) return;
 
     Draggable.create(".dickHandParts", {
       trigger: "#dickHandGrab",
@@ -390,6 +412,7 @@ function App() {
   }, [])
 
   useEffect(() => { // Nut function
+    if (!ageChecked) return;
 
     if (arousal.ives >= maxArousal.ives) {
 
@@ -476,6 +499,7 @@ function App() {
   }, [arousal.ives, mouthOn, mouthOpenRef])
 
   useEffect(() => {    // Elements that change based on arousal.boyd
+    if (!ageChecked) return;
 
     const arousalRatio = arousal.boyd / maxArousal.boyd
 
@@ -523,6 +547,7 @@ function App() {
   }, [arousal.boyd]);
 
   useEffect(() => {
+    if (!ageChecked) return;
     const eyeCenterRight = document.getElementById("eyeCenterRight");
     const eyeCenterLeft = document.getElementById("eyeCenterLeft");
     let cleanup;
@@ -583,6 +608,7 @@ function App() {
   }, [arousalTier, fastMorph])
 
   useEffect(() => { // Sweat, eye movement
+    if (!ageChecked) return;
     let running = true;
 
     sweatIntervalRef.current = setInterval(() => kkht.randomizeArray({
@@ -615,6 +641,7 @@ function App() {
 
 
   useEffect(() => { // Elements that change based on mouthOn (including JOHand listeners)
+    if (!ageChecked) return;
 
     var dickHandDraggable = Draggable.get("#dickHandGrab")
 
@@ -723,73 +750,73 @@ function App() {
 
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
         setAgeChecked={setAgeChecked} /> : <></>}
-
-      <div id='mainDiv'>
-        <Outputs id="outputs"
-          boyd={arousal.boyd}
-          ives={arousal.ives}
-          maxBoyd={maxArousal.boyd}
-          maxIves={maxArousal.ives} />
-        <div id='positioning'>
-          <Body />
-          <Mouth />
-          <Dick />
-          <Head />
-          <Arms />
-          <HairPullHand />
+      {ageChecked && (
+        <div id='mainDiv' className="ready">
+          <Outputs id="outputs"
+            boyd={arousal.boyd}
+            ives={arousal.ives}
+            maxBoyd={maxArousal.boyd}
+            maxIves={maxArousal.ives} />
+          <div id='positioning'>
+            <Body />
+            <Mouth />
+            <Dick />
+            <Head />
+            <Arms />
+            <HairPullHand />
+          </div>
+          <Setters
+            sensitivity={[
+              {
+                id: "boydSet",
+                setter: value => {
+                  setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+                },
+                label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
+                value: sensitivity.boyd
+              },
+              {
+                id: "ivesSet",
+                setter: value => {
+                  setSensitivity(prev => ({ ...prev, ives: Number(value) }))
+                },
+                label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
+                value: sensitivity.ives
+              }
+            ]
+            }
+            max={[
+              {
+                id: "boydMax",
+                setter: value => {
+                  setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
+                },
+                label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
+                value: maxArousal.boyd
+              },
+              {
+                id: "ivesMax",
+                setter: value => {
+                  setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
+                },
+                label: !ivesMode ? "Red Max: " : "Ives Max: ",
+                value: maxArousal.ives
+              }
+            ]}
+            secret={
+              {
+                id: "ivesModeSwitch",
+                setter: setIvesMode,
+                label: "Ravenous"
+              }
+            }
+          />
+          <div id='ordersDiv'>
+            <button id='mouthOrderButton'>"Open your mouth."</button>
+            <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
+          </div>
         </div>
-        <Setters
-          sensitivity={[
-            {
-              id: "boydSet",
-              setter: value => {
-                setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
-              },
-              label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
-              value: sensitivity.boyd
-            },
-            {
-              id: "ivesSet",
-              setter: value => {
-                setSensitivity(prev => ({ ...prev, ives: Number(value) }))
-              },
-              label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
-              value: sensitivity.ives
-            }
-          ]
-          }
-          max={[
-            {
-              id: "boydMax",
-              setter: value => {
-                setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
-              },
-              label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
-              value: maxArousal.boyd
-            },
-            {
-              id: "ivesMax",
-              setter: value => {
-                setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
-              },
-              label: !ivesMode ? "Red Max: " : "Ives Max: ",
-              value: maxArousal.ives
-            }
-          ]}
-          secret={
-            {
-              id: "ivesModeSwitch",
-              setter: setIvesMode,
-              label: "Ravenous"
-            }
-          }
-        />
-        <div id='ordersDiv'>
-          <button id='mouthOrderButton'>"Open your mouth."</button>
-          <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
-        </div>
-      </div>
-
+      )}
 
     </div>
   )

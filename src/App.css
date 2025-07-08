@@ -10,9 +10,12 @@
   display: none
 }
 
-#ageCheckDiv.ready,
 #mainDiv.ready {
   display: block
+}
+
+#ageCheckDiv.ready {
+  display: flex
 }
 
 #ordersDiv {
