@@ -110,13 +110,13 @@ function App() {
     chain.current = document.getElementById("chain")
     hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
     dickHandGrab.current = document.getElementById("dickHandGrab");
-  }, [])
+  }, [ageChecked])
 
   useEffect(() => {
     if (!ageChecked) return;
 
     mouthOpenRef.current = mouthOpen;
-  }, [mouthOpen]);
+  }, [mouthOpen, ageChecked]);
 
   useEffect(() => {
     ageCheckedRef.current = ageChecked;
@@ -126,19 +126,19 @@ function App() {
     if (!ageChecked) return;
 
     slowMorphRef.current = slowMorph;
-  }, [slowMorph]);
+  }, [slowMorph, ageChecked]);
 
   useEffect(() => {
     if (!ageChecked) return;
 
     fastMorphRef.current = fastMorph;
-  }, [fastMorph]);
+  }, [fastMorph, ageChecked]);
 
   useEffect(() => {
     if (!ageChecked) return;
 
     sensitivityRef.current = sensitivity
-  }, [sensitivity])
+  }, [sensitivity, ageChecked])
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -149,7 +149,7 @@ function App() {
       setIvesModeActive(true)
       localStorage.setItem("ivesModeActive", "true")
     }
-  }, [maxArousal]);
+  }, [maxArousal, ageChecked]);
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -159,7 +159,7 @@ function App() {
     } else {
       document.getElementById("secret").style.display = "none"
     }
-  }, [ivesModeActive])
+  }, [ivesModeActive, ageChecked])
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -170,7 +170,7 @@ function App() {
       el.style.display = ivesMode ? "block" : "none"
     })
 
-  }, [ivesMode])
+  }, [ivesMode, ageChecked])
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -189,8 +189,6 @@ function App() {
       dickSvg.current.style.zIndex = "auto"
       hairPullHandGrab.current.classList.add("interact")
       dickHandGrab.current.classList.add("interact")
-
-
 
       if (kkht.isFaceClean() === false) {
         wipeButton.current.classList.remove("inactive");
@@ -222,8 +220,7 @@ function App() {
 
     };
 
-  }, [armsUp, arousal.ives])
-
+  }, [armsUp, arousal.ives, ageChecked])
 
   useEffect(() => { // Elements that change based on approach state
 
@@ -239,8 +236,6 @@ function App() {
 
       return
     }
-
-
 
     if (
       !containerSize.current ||
@@ -265,7 +260,7 @@ function App() {
     } else {
       kkht.mouthCloseFunction(mouthArgs)
     }
-  }, [approach, holdMouthOpen])
+  }, [approach, holdMouthOpen, ageChecked])
 
   function allOpacityZero(array) {
     return array.every(el => {
@@ -382,7 +377,7 @@ function App() {
     gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
     const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
     return () => clearInterval(interval); // Cleanup interval on unmount
-  }, []);
+  }, [ageChecked]);
 
   useEffect(() => { // Sets up draggables
     if (!ageChecked) return;
@@ -409,7 +404,7 @@ function App() {
 
     createMainDraggable()
 
-  }, [])
+  }, [ageChecked])
 
   useEffect(() => { // Nut function
     if (!ageChecked) return;
@@ -496,13 +491,12 @@ function App() {
 
       setArousal(prev => ({ ...prev, ives: 0 }))
     }
-  }, [arousal.ives, mouthOn, mouthOpenRef])
+  }, [arousal.ives, mouthOn, mouthOpenRef, ageChecked])
 
   useEffect(() => {    // Elements that change based on arousal.boyd
     if (!ageChecked) return;
 
     const arousalRatio = arousal.boyd / maxArousal.boyd
-
 
     if (depthMethod.current === "arousal") {
       const draggable = Draggable.get("#hairPullHand");
@@ -544,7 +538,7 @@ function App() {
 
     return () => {
     };
-  }, [arousal.boyd]);
+  }, [arousal.boyd, ageChecked]);
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -605,7 +599,7 @@ function App() {
       if (cleanup) cleanup();
 
     };
-  }, [arousalTier, fastMorph])
+  }, [arousalTier, fastMorph, ageChecked])
 
   useEffect(() => { // Sweat, eye movement
     if (!ageChecked) return;
@@ -637,7 +631,7 @@ function App() {
         sweatIntervalRef.current = null;
       }
     };
-  }, []);
+  }, [ageChecked]);
 
 
   useEffect(() => { // Elements that change based on mouthOn (including JOHand listeners)
@@ -726,7 +720,7 @@ function App() {
       }
     };
 
-  }, [mouthOn, armsUp]);
+  }, [mouthOn, armsUp, ageChecked]);
 
   useEffect(() => {
     // You can keep the rest of your logic here, but you don't need to setAgeChecked again.
@@ -742,7 +736,7 @@ function App() {
   useEffect(() => {
     const container = document.getElementById("container");
     if (container) container.classList.add("ready");
-  })
+  }, [ageChecked]);
 
 
   return (
