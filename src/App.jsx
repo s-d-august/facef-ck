@@ -77,6 +77,7 @@ function App() {
   const hairPullHandGrab = useRef()
   const dickHandGrab = useRef()
   const depthMethodRef = useRef()
+  const arousalTierRef = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -118,6 +119,12 @@ function App() {
 
     mouthOpenRef.current = mouthOpen;
   }, [mouthOpen, ageChecked]);
+
+  useEffect(() => {
+    if (!ageChecked) return;
+
+    arousalTierRef.current = arousalTier;
+  }, [arousalTier, ageChecked]);
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -299,6 +306,9 @@ function App() {
 
     } else if (mouthOpenRef.current === true) { // if setting mouth to closed
       mouthButton.current.innerText = '"Open your mouth."'
+      if (!allOpacityZero(tongueCumArray) && (arousalTierRef.current < 4)) {
+        kkht.tearsAnimation(tearLeft.current, tearRight.current)
+      }
       kkht.mouthCloseFunction(mouthArgs);
       setHoldMouthOpen(false)
     }
@@ -545,10 +555,6 @@ function App() {
     return () => {
     };
   }, [arousal.boyd, ageChecked, depthMethod]);
-
-  useEffect(() => {
-    console.log(depthMethod)
-  }, [depthMethod])
 
   useEffect(() => {
     if (!ageChecked) return;
