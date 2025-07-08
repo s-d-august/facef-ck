@@ -5,6 +5,7 @@ const Arms = () => (
         id="armsSvg"
         viewBox="0 0 988 1235"
     >
+
         <path
             id="cloth"
             fill="#fff"
@@ -15,6 +16,16 @@ const Arms = () => (
             d="m237.375 328.84 149.352-53.355 82.536 23.955 96.948-11.977 83.847 32.666 37.09 79.963-168.1 240.166-145.423 13.066L201.37 403.106z"
         ></path>
         <g id="armRight" strokeLinecap="round" strokeLinejoin="round">
+            <path
+                id="handShadow"
+                fill="#c8b7b7"
+                fillOpacity="0.559"
+                stroke="none"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2.646"
+                d="m448.111 461.2 15.014-16.169 49.277 27.333-12.32 192.873-116.262-5.005 21.559-191.717z"
+            ></path>
             <path
                 id="path11"
                 fill="#999"

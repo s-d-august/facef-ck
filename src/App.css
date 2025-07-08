@@ -84,13 +84,7 @@ svg {
   display: none;
 }
 
-#handLeft {
-  filter: drop-shadow(5px 5px #c8b7b7d7)
-}
 
-#handRight {
-  filter: drop-shadow(-5px 5px #c8b7b7d7)
-}
 
 #tongueGroup {
   transform-origin: top center;

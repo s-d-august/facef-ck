@@ -22,8 +22,8 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:zoom="0.64939273"
-     inkscape:cx="230.98503"
-     inkscape:cy="642.13839"
+     inkscape:cx="332.61844"
+     inkscape:cy="632.89899"
      inkscape:window-width="1920"
      inkscape:window-height="991"
      inkscape:window-x="2391"
@@ -232,7 +232,8 @@
         <path
            id="faceShadowOpen"
            d="m 217.672,245.987 -10.135,207.637 52.344,-0.262 41.785,-11.819 38.063,-10.765 c 10.251,2.371 18.081,3.955 24.588,7.479 6.528,3.535 17.939,13.982 25.275,19.453 l 96.707,-5.483 30.889,-21.576 18.738,-6.429 36.295,9.951 51.404,17.369 51.873,-0.26 34.153,-202.189 z"
-           fill="#c8b7b7" />
+           fill="#c8b7b7"
+           style="fill:#c8b7b7;fill-opacity:1" />
       </g>
       <g
          id="browsGroup">
@@ -485,9 +486,14 @@
     </clipPath>
   </defs>
   <path
-     style="fill:#ffffff;stroke-width:2.90202;stroke-linecap:round;stroke-linejoin:round"
+     style="display:none;fill:#ffffff;stroke-width:2.90202;stroke-linecap:round;stroke-linejoin:round"
      d="m 237.37451,328.8399 149.35202,-53.35482 82.53665,23.95523 96.94779,-11.97761 83.84675,32.66621 37.0909,79.96284 -168.10144,240.16608 -145.42171,13.06649 -172.25603,-250.218 z"
      id="cloth" />
+  <path
+     style="fill:#c8b7b7;fill-opacity:0.55888653;stroke:none;stroke-width:2.64567;stroke-linecap:round;stroke-linejoin:round"
+     d="m 448.11096,461.20011 15.01403,-16.16895 49.2768,27.33323 -12.3192,192.8725 -116.26246,-5.00468 21.5586,-191.71757 z"
+     id="handShadow"
+     inkscape:label="handShadow" />
   <g
      id="armRight"
      inkscape:label="armRight">
