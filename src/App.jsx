@@ -172,29 +172,37 @@ function App() {
       hairPullHandGrab.current.classList.add("interact")
       dickHandGrab.current.classList.add("interact")
 
+
+
       if (kkht.isFaceClean() === false) {
-        wipeButton.current.classList.remove("inactive")
-        wipeButton.current.addEventListener("click", () => {
-          wipeButton.current.classList.add("inactive")
-          kkht.faceWipe(
-            {
-              scale: [armRight.current, armLeft.current],
-              noScale: chain.current,
-              cloth: cloth.current,
-              setter: setArmsUp
-            }
-          )
-        })
+        wipeButton.current.classList.remove("inactive");
+        wipeButton.current.addEventListener("click", handleFaceWipeClick);
       } else {
-        wipeButton.current.classList.add("inactive")
+        wipeButton.current.classList.add("inactive");
       }
     }
 
-    wipeButton.current.addEventListener("click", () => kkht.lowerArms({
-      scale: [armRight.current, armLeft.current],
-      noScale: [chain.current, cloth.current],
+    function handleFaceWipeClick() {
+      wipeButton.current.classList.add("inactive");
+      kkht.faceWipe({
+        elements: [chain.current, armRight.current, armLeft.current],
+        cloth: cloth.current,
+        setter: setArmsUp
+      });
+    }
+    const lowerArmsHandler = () => kkht.lowerArms({
+      elements: [chain.current, cloth.current, armRight.current, armLeft.current],
       setter: setArmsUp
-    }))
+    });
+
+    wipeButton.current.addEventListener("click", lowerArmsHandler)
+
+    // Cleanup function to remove listeners
+    return () => {
+      wipeButton.current.removeEventListener("click", lowerArmsHandler);
+      wipeButton.current.removeEventListener("click", handleFaceWipeClick);
+
+    };
 
   }, [armsUp, arousal.ives])
 
@@ -419,6 +427,7 @@ function App() {
           cumType: "tongueCum"
         })
         disableAndEnableDraggables(1.5)
+        mouthButton.current.innerText = '"Swallow for me."'
         // Plays cum on tongue animation
       }
       if (!mouthOn && !mouthOpen) {
@@ -429,8 +438,7 @@ function App() {
           shotDuration: 0.5,
           moveDuration: 2.5,
           faceWipeArgs: {
-            scale: [armRight.current, armLeft.current],
-            noScale: chain.current,
+            elements: [chain.current, armRight.current, armLeft.current],
             cloth: cloth.current,
             setter: setArmsUp
           }
