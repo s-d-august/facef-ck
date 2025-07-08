@@ -60,6 +60,7 @@ const Setters = ({ sensitivity, max, secret, modes }) => (
             <p>{secret.label}</p>
             <label className='switch'>
                 <input
+                    checked={secret.value}
                     id={secret.id}
                     type="checkbox"
                     onChange={e => secret.setter(e.target.checked)} />

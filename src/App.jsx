@@ -163,8 +163,10 @@ function App() {
 
     if (ivesModeActive) {
       document.getElementById("secret").style.display = "block"
+      setIvesMode(true)
     } else {
       document.getElementById("secret").style.display = "none"
+      setIvesMode(false)
     }
   }, [ivesModeActive, ageChecked])
 
@@ -815,7 +817,8 @@ function App() {
               {
                 id: "ivesModeSwitch",
                 setter: setIvesMode,
-                label: "Ravenous"
+                label: "Ravenous",
+                value: ivesMode
               }
             }
           />
