@@ -81,10 +81,6 @@ svg {
   display: none;
 }
 
-#dick {
-  top: 0
-}
-
 #tongueGroup {
   transform-origin: top center;
   transform: scaleY(0)
