@@ -63,8 +63,14 @@
     margin-bottom: 10px
 }
 
-.maxSetterWrap>input {
+.maxSetterWrap>input,
+#depthModeSet,
+#sensitivitySettersDiv {
     width: 75px;
+}
+
+#depthModeSet {
+    margin-bottom: 10px;
 }
 
 .switch {

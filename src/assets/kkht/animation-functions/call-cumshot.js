@@ -6,9 +6,7 @@ import { faceWipe } from "../animations/face-wipe.js"
 import gsap from "gsap"
 
 export const isFaceClean = (set) => {
-    console.log("isFaceClean called", set)
     if (set === "yes") {
-        console.log("face set clean")
         var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
         cumArray.forEach(el => {
             if (typeof el === "string") el = document.getElementById(el);

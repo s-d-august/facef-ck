@@ -27,7 +27,7 @@ function App() {
   const [ivesModeActive, setIvesModeActive] = useState(false)
   const [ivesMode, setIvesMode] = useState(false)
 
-  const depthMethod = useRef("")
+  const [depthMethod, setDepthMethod] = useState("none")
 
   const [holdMouthOpen, setHoldMouthOpen] = useState(false)
   const [mouthOpen, setMouthOpen] = useState(false)
@@ -76,6 +76,7 @@ function App() {
   const chain = useRef()
   const hairPullHandGrab = useRef()
   const dickHandGrab = useRef()
+  const depthMethodRef = useRef()
 
   const morphArgsTemplate = {
     expressionsArray: ["Wide", "Open", "Half"],
@@ -117,6 +118,12 @@ function App() {
 
     mouthOpenRef.current = mouthOpen;
   }, [mouthOpen, ageChecked]);
+
+  useEffect(() => {
+    if (!ageChecked) return;
+
+    depthMethodRef.current = depthMethod;
+  }, [depthMethod, ageChecked]);
 
   useEffect(() => {
     ageCheckedRef.current = ageChecked;
@@ -295,7 +302,39 @@ function App() {
     }
   }
 
-  function createMainDraggable() {
+  useEffect(() => {
+    if (!ageChecked) return;
+
+    mouthButton.current.addEventListener("click", mouthOpenClose)
+    gsap.set(tongueGroup.current, { scaleY: 0 });
+    gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
+    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
+    return () => clearInterval(interval); // Cleanup interval on unmount
+  }, [ageChecked]);
+
+  useEffect(() => { // Sets up draggables
+    if (!ageChecked) return;
+
+    Draggable.create(".dickHandParts", {
+      trigger: "#dickHandGrab",
+      zIndexBoost: false,
+      type: "y",
+      cursor: "ns-resize",
+      bounds: {
+        minY: containerSize.current * -0.07,
+        maxY: containerSize.current * 0.07,
+      },
+      inertia: {
+        y: {
+          end: 0,
+        }
+      },
+      edgeResistance: 0.9,
+      onDrag: function () {
+        kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+      }
+    })
+
     Draggable.create("#hairPullHand", {
       trigger: "#hairPullHandGrab",
       cursor: "ns-resize",
@@ -344,7 +383,7 @@ function App() {
 
         this.dragResistance = kkht.isApproachOrOn(args)
 
-        if (depthMethod.current === "training") {
+        if (depthMethodRef.current === "Training") {
           this.applyBounds({
             minX: containerSize.current * -0.0055,
             maxX: containerSize.current * 0.0055,
@@ -369,42 +408,7 @@ function App() {
     });
   }
 
-  useEffect(() => {
-    if (!ageChecked) return;
-
-    mouthButton.current.addEventListener("click", mouthOpenClose)
-    gsap.set(tongueGroup.current, { scaleY: 0 });
-    gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
-    const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
-    return () => clearInterval(interval); // Cleanup interval on unmount
-  }, [ageChecked]);
-
-  useEffect(() => { // Sets up draggables
-    if (!ageChecked) return;
-
-    Draggable.create(".dickHandParts", {
-      trigger: "#dickHandGrab",
-      zIndexBoost: false,
-      type: "y",
-      cursor: "ns-resize",
-      bounds: {
-        minY: containerSize.current * -0.07,
-        maxY: containerSize.current * 0.07,
-      },
-      inertia: {
-        y: {
-          end: 0,
-        }
-      },
-      edgeResistance: 0.9,
-      onDrag: function () {
-        kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
-      }
-    })
-
-    createMainDraggable()
-
-  }, [ageChecked])
+    , [ageChecked, depthMethod])
 
   useEffect(() => { // Nut function
     if (!ageChecked) return;
@@ -498,7 +502,7 @@ function App() {
 
     const arousalRatio = arousal.boyd / maxArousal.boyd
 
-    if (depthMethod.current === "arousal") {
+    if (depthMethodRef.current === "Arousal") {
       const draggable = Draggable.get("#hairPullHand");
       if (container && draggable) {
         const bounds = containerSize.current * (0.2 + (arousalRatio * 0.2));
@@ -538,7 +542,11 @@ function App() {
 
     return () => {
     };
-  }, [arousal.boyd, ageChecked]);
+  }, [arousal.boyd, ageChecked, depthMethod]);
+
+  useEffect(() => {
+    console.log(depthMethod)
+  }, [depthMethod])
 
   useEffect(() => {
     if (!ageChecked) return;
@@ -797,6 +805,12 @@ function App() {
                 value: maxArousal.ives
               }
             ]}
+            modes={{
+              id: "depthModeSet",
+              modes: ["None", "Training", "Arousal"],
+              label: "Depth Mode:",
+              setter: setDepthMethod
+            }}
             secret={
               {
                 id: "ivesModeSwitch",

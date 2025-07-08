@@ -1,7 +1,7 @@
 import React from 'react';
 import './setters.css';
 
-const Setters = ({ sensitivity, max, secret }) => (
+const Setters = ({ sensitivity, max, secret, modes }) => (
     <div id='settersDiv'>
         <p>Sensitivity:</p>
         <div id="sensitivitySettersDiv">
@@ -38,6 +38,23 @@ const Setters = ({ sensitivity, max, secret }) => (
                     />
                 </div>
             ))}
+        </div>
+        <div id='modeSetterDiv'>
+            <label for={modes.id}>{modes.label}</label>
+            <br />
+            <select
+                name={modes.id}
+                id={modes.id}
+                onChange={e => modes.setter(e.target.value)}>
+                {modes.modes.map((el) => (
+                    <option
+                        key={el}
+                        value={el}
+
+                    >{el}</option>
+                ))}
+
+            </select>
         </div>
         <div id='secret'>
             <p>{secret.label}</p>
