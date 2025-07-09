@@ -12,10 +12,26 @@
     z-index: 100;
 }
 
-#settingsIcon {
-    height: 2.5vw;
-    width: 2.5vw;
+#settersDiv.collapsed {
+    width: 4vw;
+    height: 4vw;
+}
 
+#settingsContents.collapsed,
+#settingsIcon.collapsed {
+    display: none;
+}
+
+#settingsIcon {
+    height: 5vw;
+    width: 5vw;
+    fill: white;
+    position: absolute;
+    top: 0;
+    margin: 0.5vw;
+    z-index: 200;
+    pointer-events: all;
+    cursor: pointer;
 }
 
 h1 {
