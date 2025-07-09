@@ -1,14 +1,3 @@
-:root {
-  --UI-bar-width: 30px;
-  --UI-bar-height: 200px;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 #progressBarsDiv {
   height: calc(100vh - 20px);
   display: inline-grid;
@@ -20,7 +9,7 @@
 
 .gridElement {
   height: 100%;
-  width: 32px;
+  width: 4vw;
   border-radius: 10px;
 }
 
@@ -33,7 +22,7 @@
 .progressBar {
   height: 0;
   width: 30px;
-  margin-left: 1px;
+  margin-left: 0.1vw;
   position: absolute;
   bottom: 0;
   border-radius: 9px
