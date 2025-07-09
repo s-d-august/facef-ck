@@ -1,6 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 
+@font-face {
+  font-family: "Benguiat";
+  src: url("../src/assets/fonts-etc/benguiat.woff");
+}
+
 .blink {
   animation: blink 10s linear infinite
 }
@@ -32,9 +37,10 @@
   color: white;
   font-weight: bold;
   opacity: 85%;
-  border: none;
+  border: white solid 0.25vw;
   margin: 15px;
-  margin-bottom: 0
+  margin-bottom: 0;
+  transition: 0.2s;
 }
 
 #ordersDiv>button.inactive {
@@ -42,12 +48,10 @@
   color: white;
   font-weight: bold;
   opacity: 0;
-  border: none;
   pointer-events: none;
 }
 
 #ordersDiv>button:hover {
-  border: none;
   opacity: 100;
 }
 
@@ -179,11 +183,11 @@ svg {
 
 @keyframes breathTorso {
   from {
-    transform: scale(100%);
+    transform: scale(103%);
   }
 
   to {
-    transform: scale(103%)
+    transform: scale(106%)
   }
 }
 

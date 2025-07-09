@@ -5,12 +5,43 @@
     color: white;
     top: 0;
     font-size: 1.5vw;
+    border: white solid 0.25vw;
+    padding: 1vw;
+    border-radius: 10px;
+    display: grid;
+    z-index: 100;
+}
+
+#settingsIcon {
+    height: 2.5vw;
+    width: 2.5vw;
+
+}
+
+h1 {
+    font-size: 2.5vw;
+    margin: 0;
+    justify-self: center;
+    font-family: "Benguiat";
+}
+
+h1::after,
+#secret::after {
+    display: block;
+    margin: 10px;
+    margin-left: 0;
+    left: 0;
+    height: 0;
+    width: 100%;
+    content: '';
+    border-bottom: 0.2vw solid white;
 }
 
 #sensitivitySettersDiv {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
+    justify-self: center;
 }
 
 .sensitivitySet {

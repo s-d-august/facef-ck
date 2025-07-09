@@ -762,19 +762,13 @@ function App() {
 
       {ageChecked && (
         <div id='mainDiv' className="ready">
+
           <Outputs id="outputs"
             boyd={arousal.boyd}
             ives={arousal.ives}
             maxBoyd={maxArousal.boyd}
             maxIves={maxArousal.ives} />
-          <div id='positioning'>
-            <Body />
-            <Mouth />
-            <Dick />
-            <Head />
-            <Arms />
-            <HairPullHand />
-          </div>
+
           <Setters
             sensitivity={[
               {
@@ -828,6 +822,16 @@ function App() {
               }
             }
           />
+
+          <div id='positioning'>
+            <Body />
+            <Mouth />
+            <Dick />
+            <Head />
+            <Arms />
+            <HairPullHand />
+          </div>
+
           <div id='ordersDiv'>
             <button id='mouthOrderButton'>"Open your mouth."</button>
             <button id='wipeOrderButton'>"Wipe the mess off your face."</button>

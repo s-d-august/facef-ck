@@ -5,6 +5,7 @@
   gap: 0.75vw;
   position: relative;
   margin: 1.25vh;
+  z-index: 100;
 }
 
 .gridElement {
