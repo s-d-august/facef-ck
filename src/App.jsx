@@ -357,7 +357,7 @@ function App() {
           itemsArray: [headParts.current, body.current],
           x: this.x,
           y: this.y,
-          ease: "power2",
+          ease: "back",
           init: 0.25,
           increase: 0.2
         })

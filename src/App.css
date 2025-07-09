@@ -41,7 +41,7 @@
   background-color: grey;
   color: white;
   font-weight: bold;
-  opacity: 75%;
+  opacity: 0;
   border: none;
   pointer-events: none;
 }
@@ -70,7 +70,7 @@ body {
 }
 
 svg {
-  height: 100vh;
+  height: 95vh;
   position: absolute;
   max-width: 100vw;
   pointer-events: none;
@@ -179,11 +179,11 @@ svg {
 
 @keyframes breathTorso {
   from {
-    transform: scale(97%);
+    transform: scale(100%);
   }
 
   to {
-    transform: scale(99%)
+    transform: scale(103%)
   }
 }
 
