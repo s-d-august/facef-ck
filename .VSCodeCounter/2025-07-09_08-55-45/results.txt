@@ -1,0 +1,112 @@
+Date : 2025-07-09 08:55:45
+Directory : c:\Users\sincl\boydOral
+Total : 65 files,  16157 codes, 54 comments, 498 blanks, all 16709 lines
+
+Languages
++----------------+------------+------------+------------+------------+------------+
+| language       | files      | code       | comment    | blank      | total      |
++----------------+------------+------------+------------+------------+------------+
+| SVG            |         21 |      9,143 |         18 |         38 |      9,199 |
+| JavaScript JSX |         14 |      3,127 |         16 |        196 |      3,339 |
+| JSON           |          2 |      2,467 |          0 |          1 |      2,468 |
+| JavaScript     |         19 |        851 |         17 |        145 |      1,013 |
+| PostCSS        |          7 |        549 |          3 |        109 |        661 |
+| HTML           |          1 |         13 |          0 |          3 |         16 |
+| Markdown       |          1 |          7 |          0 |          6 |         13 |
++----------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                  | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                     |         65 |     16,157 |         54 |        498 |     16,709 |
+| . (Files)                                                                             |          6 |      2,524 |          1 |         14 |      2,539 |
+| public                                                                                |          2 |         30 |          0 |          4 |         34 |
+| src                                                                                   |         57 |     13,603 |         53 |        480 |     14,136 |
+| src (Files)                                                                           |          4 |        965 |         15 |        179 |      1,159 |
+| src\assets                                                                            |         53 |     12,638 |         38 |        301 |     12,977 |
+| src\assets\components                                                                 |         11 |      2,166 |          4 |         77 |      2,247 |
+| src\assets\components (Files)                                                         |          9 |      1,980 |          1 |         52 |      2,033 |
+| src\assets\components\setters                                                         |          2 |        186 |          3 |         25 |        214 |
+| src\assets\fonts-etc                                                                  |          1 |      1,301 |          1 |          2 |      1,304 |
+| src\assets\kkht                                                                       |         21 |      1,057 |         16 |        184 |      1,257 |
+| src\assets\kkht (Files)                                                               |          1 |         16 |          0 |          3 |         19 |
+| src\assets\kkht\age-check                                                             |          2 |        107 |          0 |         17 |        124 |
+| src\assets\kkht\animation-functions                                                   |          4 |        318 |          7 |         59 |        384 |
+| src\assets\kkht\animations                                                            |          7 |        303 |          2 |         44 |        349 |
+| src\assets\kkht\eyecatch                                                              |          2 |        136 |          0 |         26 |        162 |
+| src\assets\kkht\utils                                                                 |          5 |        177 |          7 |         35 |        219 |
+| src\assets\svgs                                                                       |         20 |      8,114 |         17 |         38 |      8,169 |
++---------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| filename                                                                              | language       | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
+| c:\Users\sincl\boydOral\README.md                                                     | Markdown       |          7 |          0 |          6 |         13 |
+| c:\Users\sincl\boydOral\eslint.config.js                                              | JavaScript     |         32 |          0 |          2 |         34 |
+| c:\Users\sincl\boydOral\index.html                                                    | HTML           |         13 |          0 |          3 |         16 |
+| c:\Users\sincl\boydOral\package-lock.json                                             | JSON           |      2,438 |          0 |          1 |      2,439 |
+| c:\Users\sincl\boydOral\package.json                                                  | JSON           |         29 |          0 |          0 |         29 |
+| c:\Users\sincl\boydOral\public\eyecatch-linear.css                                    | PostCSS        |         29 |          0 |          4 |         33 |
+| c:\Users\sincl\boydOral\public\vite.svg                                               | SVG            |          1 |          0 |          0 |          1 |
+| c:\Users\sincl\boydOral\src\App.css                                                   | PostCSS        |        188 |          0 |         44 |        232 |
+| c:\Users\sincl\boydOral\src\App.jsx                                                   | JavaScript JSX |        707 |         15 |        121 |        843 |
+| c:\Users\sincl\boydOral\src\assets\components\arms.jsx                                | JavaScript JSX |        188 |          0 |          4 |        192 |
+| c:\Users\sincl\boydOral\src\assets\components\body.jsx                                | JavaScript JSX |         34 |          0 |          4 |         38 |
+| c:\Users\sincl\boydOral\src\assets\components\boydOralEditing.jsx                     | JavaScript JSX |        463 |          0 |          3 |        466 |
+| c:\Users\sincl\boydOral\src\assets\components\dick.jsx                                | JavaScript JSX |        223 |          0 |          8 |        231 |
+| c:\Users\sincl\boydOral\src\assets\components\hair-pull-hand.jsx                      | JavaScript JSX |         88 |          0 |          7 |         95 |
+| c:\Users\sincl\boydOral\src\assets\components\head.jsx                                | JavaScript JSX |        830 |          0 |         10 |        840 |
+| c:\Users\sincl\boydOral\src\assets\components\mouth.jsx                               | JavaScript JSX |         87 |          0 |          4 |         91 |
+| c:\Users\sincl\boydOral\src\assets\components\outputs.css                             | PostCSS        |         35 |          0 |          6 |         41 |
+| c:\Users\sincl\boydOral\src\assets\components\outputs.jsx                             | JavaScript JSX |         32 |          1 |          6 |         39 |
+| c:\Users\sincl\boydOral\src\assets\components\setters\setters.css                     | PostCSS        |        117 |          3 |         21 |        141 |
+| c:\Users\sincl\boydOral\src\assets\components\setters\setters.jsx                     | JavaScript JSX |         69 |          0 |          4 |         73 |
+| c:\Users\sincl\boydOral\src\assets\fonts-etc\cover.svg                                | SVG            |      1,301 |          1 |          2 |      1,304 |
+| c:\Users\sincl\boydOral\src\assets\kkht\age-check\age-check.css                       | PostCSS        |         61 |          0 |         10 |         71 |
+| c:\Users\sincl\boydOral\src\assets\kkht\age-check\age-check.jsx                       | JavaScript JSX |         46 |          0 |          7 |         53 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animation-functions\call-cumshot.js           | JavaScript     |         58 |          0 |         12 |         70 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animation-functions\dick-handlers.js          | JavaScript     |         47 |          1 |          6 |         54 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animation-functions\eye-movement.js           | JavaScript     |         87 |          3 |         24 |        114 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animation-functions\morph.js                  | JavaScript     |        126 |          3 |         17 |        146 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\complex-panting.js                 | JavaScript     |         78 |          1 |         14 |         93 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\cum.js                             | JavaScript     |         40 |          0 |          6 |         46 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\drip.js                            | JavaScript     |         25 |          1 |          3 |         29 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\eye-flutter.js                     | JavaScript     |         53 |          0 |          6 |         59 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\face-wipe.js                       | JavaScript     |         43 |          0 |          7 |         50 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\mouth-open-close.js                | JavaScript     |         27 |          0 |          4 |         31 |
+| c:\Users\sincl\boydOral\src\assets\kkht\animations\tears.js                           | JavaScript     |         37 |          0 |          4 |         41 |
+| c:\Users\sincl\boydOral\src\assets\kkht\eyecatch\eyecatch.css                         | PostCSS        |         58 |          0 |         12 |         70 |
+| c:\Users\sincl\boydOral\src\assets\kkht\eyecatch\eyecatch.jsx                         | JavaScript JSX |         78 |          0 |         14 |         92 |
+| c:\Users\sincl\boydOral\src\assets\kkht\index.js                                      | JavaScript     |         16 |          0 |          3 |         19 |
+| c:\Users\sincl\boydOral\src\assets\kkht\utils\array.js                                | JavaScript     |         46 |          7 |         17 |         70 |
+| c:\Users\sincl\boydOral\src\assets\kkht\utils\dom.js                                  | JavaScript     |         77 |          0 |         10 |         87 |
+| c:\Users\sincl\boydOral\src\assets\kkht\utils\gsap.js                                 | JavaScript     |         24 |          0 |          5 |         29 |
+| c:\Users\sincl\boydOral\src\assets\kkht\utils\math.js                                 | JavaScript     |          8 |          0 |          1 |          9 |
+| c:\Users\sincl\boydOral\src\assets\kkht\utils\stats.js                                | JavaScript     |         22 |          0 |          2 |         24 |
+| c:\Users\sincl\boydOral\src\assets\svgs\BoydOralEditingPlain.jsx                      | JavaScript JSX |        273 |          0 |          2 |        275 |
+| c:\Users\sincl\boydOral\src\assets\svgs\arms.svg                                      | SVG            |         40 |          0 |          1 |         41 |
+| c:\Users\sincl\boydOral\src\assets\svgs\beads.svg                                     | SVG            |         67 |          1 |          2 |         70 |
+| c:\Users\sincl\boydOral\src\assets\svgs\body.svg                                      | SVG            |         54 |          1 |          2 |         57 |
+| c:\Users\sincl\boydOral\src\assets\svgs\boydOralEditing 1.svg                         | SVG            |        620 |          0 |          1 |        621 |
+| c:\Users\sincl\boydOral\src\assets\svgs\boydOralEditing.svg                           | SVG            |      1,296 |          1 |          2 |      1,299 |
+| c:\Users\sincl\boydOral\src\assets\svgs\boydOralEditing.svg.2025_05_27_12_59_57.0.svg | SVG            |        884 |          1 |          2 |        887 |
+| c:\Users\sincl\boydOral\src\assets\svgs\cover.svg                                     | SVG            |      1,308 |          1 |          2 |      1,311 |
+| c:\Users\sincl\boydOral\src\assets\svgs\cum.svg                                       | SVG            |        134 |          1 |          2 |        137 |
+| c:\Users\sincl\boydOral\src\assets\svgs\dick.svg                                      | SVG            |        233 |          1 |          2 |        236 |
+| c:\Users\sincl\boydOral\src\assets\svgs\eyeAlt.svg                                    | SVG            |      1,341 |          1 |          2 |      1,344 |
+| c:\Users\sincl\boydOral\src\assets\svgs\face.svg                                      | SVG            |         44 |          1 |          2 |         47 |
+| c:\Users\sincl\boydOral\src\assets\svgs\faces.svg                                     | SVG            |         70 |          1 |          2 |         73 |
+| c:\Users\sincl\boydOral\src\assets\svgs\hand.svg                                      | SVG            |         83 |          1 |          2 |         86 |
+| c:\Users\sincl\boydOral\src\assets\svgs\head.svg                                      | SVG            |        622 |          1 |          2 |        625 |
+| c:\Users\sincl\boydOral\src\assets\svgs\mouth.svg                                     | SVG            |        131 |          1 |          2 |        134 |
+| c:\Users\sincl\boydOral\src\assets\svgs\moveables.svg                                 | SVG            |        162 |          1 |          2 |        165 |
+| c:\Users\sincl\boydOral\src\assets\svgs\openWide.svg                                  | SVG            |        113 |          1 |          2 |        116 |
+| c:\Users\sincl\boydOral\src\assets\svgs\roundedEditing.svg                            | SVG            |        537 |          1 |          2 |        540 |
+| c:\Users\sincl\boydOral\src\assets\svgs\tongue.svg                                    | SVG            |        102 |          1 |          2 |        105 |
+| c:\Users\sincl\boydOral\src\index.css                                                 | PostCSS        |         61 |          0 |         12 |         73 |
+| c:\Users\sincl\boydOral\src\main.jsx                                                  | JavaScript JSX |          9 |          0 |          2 |         11 |
+| c:\Users\sincl\boydOral\vite.config.js                                                | JavaScript     |          5 |          1 |          2 |          8 |
+| Total                                                                                 |                |     16,157 |         54 |        498 |     16,709 |
++---------------------------------------------------------------------------------------+----------------+------------+------------+------------+------------+
