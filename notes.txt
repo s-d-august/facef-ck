@@ -15,7 +15,4 @@
 - reset button
 - make it so training progress is reset when depthMode changes
 - grey out "wipe your face" if mouthOn
-- draggables are still active during faceWipe
 - fix dickDrool widths
-
-- dickHand hover listeners active during faceWipe, dickHand appears below dick after faceWipe

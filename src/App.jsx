@@ -200,6 +200,7 @@ function App() {
             kkht.faceWipe({
                 elements: [chain.current, armRight.current, armLeft.current],
                 cloth: cloth.current,
+                hide: [hairPullHandGrab.current, dickHandGrab.current],
                 setter: setArmsUp
             });
         }
@@ -704,7 +705,6 @@ function App() {
             dickHandGrab.current.addEventListener("mouseleave", dickLeave);
         }
 
-        console.log("dickhandlers")
         // Cleanup
         return () => {
             if (hairPullHandGrab.current) {

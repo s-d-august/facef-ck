@@ -13,8 +13,7 @@ export const lowerArms = (args) => {
 
 }
 
-export const faceWipe = ({ elements, cloth, setter }) => {
-    console.log("faceWipe called", { elements, cloth, setter })
+export const faceWipe = ({ elements, cloth, setter, hide }) => {
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
 
     const targets = [...elements, cloth];
@@ -22,6 +21,12 @@ export const faceWipe = ({ elements, cloth, setter }) => {
 
     var loopDuration = 1
     var wipeDistance = 200
+
+    if (hide) {
+        hide.forEach((el) => {
+            el.classList.remove("interact")
+        })
+    }
 
     return gsap.timeline()
         .to(targets, { y: wipeDistance, duration: 0.5, ease: "power1.inOut" })
@@ -44,6 +49,11 @@ export const faceWipe = ({ elements, cloth, setter }) => {
             ease: "power1.out",
             onComplete: () => {
                 setter(false)
+                if (hide) {
+                    hide.forEach((el) => {
+                        el.classList.add("interact")
+                    })
+                }
             }
         })
 
