@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import './Landing.css'
+import './App.css'
 import * as kkht from './assets/kkht/index'
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
@@ -21,7 +21,7 @@ function App() {
     const slowMorphRef = useRef(slowMorph)
     const fastMorphRef = useRef(fastMorph)
 
-    const [ivesModeActive, setIvesModeActive] = useState(false)
+    const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
     const [ivesMode, setIvesMode] = useState(false)
 
     const [depthMethod, setDepthMethod] = useState("none")
@@ -177,7 +177,6 @@ function App() {
         if (armsUp) {
             wipeButton.current.innerText = '"Now now, don\'t be shy."'
             mouthButton.current.style.display = "none"
-            dickSvg.current.style.zIndex = 100
             hairPullHandGrab.current.classList.remove("interact")
             dickHandGrab.current.classList.remove("interact")
 
@@ -185,7 +184,6 @@ function App() {
             wipeButton.current.innerText = '"Wipe the mess off your face."'
             wipeButton.current.classList.add("inactive")
             mouthButton.current.style.display = "block"
-            dickSvg.current.style.zIndex = "auto"
             hairPullHandGrab.current.classList.add("interact")
             dickHandGrab.current.classList.add("interact")
 

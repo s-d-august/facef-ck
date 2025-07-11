@@ -110,6 +110,22 @@ svg {
   z-index: 10;
 }
 
+#dickHandFingers {
+  z-index: 11;
+}
+
+#dick {
+  z-index: 12;
+}
+
+#dickHandSvg {
+  z-index: 15;
+}
+
+#armsSvg {
+  z-index: 10;
+}
+
 #mainDiv {
   position: relative;
   height: 100vh;
@@ -180,6 +196,8 @@ svg {
 .hidden {
   visibility: hidden;
 }
+
+
 
 @keyframes breathTorso {
   from {

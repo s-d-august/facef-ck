@@ -24,7 +24,6 @@ export const faceWipe = ({ elements, cloth, setter }) => {
     var wipeDistance = 200
 
     return gsap.timeline()
-        .set("#dick", { zIndex: 100 })
         .to(targets, { y: wipeDistance, duration: 0.5, ease: "power1.inOut" })
         .to(targets, { y: 0, duration: loopDuration, ease: "power1.inOut" })
         .to(targets, {
@@ -47,6 +46,5 @@ export const faceWipe = ({ elements, cloth, setter }) => {
                 setter(false)
             }
         })
-        .set("#dick", { zIndex: 9 })
 
 }

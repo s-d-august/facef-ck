@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import './Landing.css'
+import './App.css'
 import App from './App'
 import AgeCheck from './assets/kkht/age-check/age-check'
 
