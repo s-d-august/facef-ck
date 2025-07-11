@@ -614,8 +614,6 @@ function App() {
         };
     }, []);
 
-
-
     useEffect(() => { // Enable/disable draggables
 
         if (mouthOn || fastMorph || layerAnimation || armsUp) {

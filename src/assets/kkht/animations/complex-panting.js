@@ -22,17 +22,18 @@ export const pantingAnimation = (args) => {
 
     console.log(draggable)
 
-    gsap.set(draggable.target, {
-        x: 0, y: 0
-    });
+    gsap.timeline().to(draggable.target, {
+        x: 0, y: 0, duration: 1.2
+    }).to([".hairPullBeads"], {
+        y: 0
+    })
 
-    draggable.update(); // Let Draggable know it moved
+    draggable.update();
+    // Let Draggable know it moved
 
 
     const master = gsap.timeline()
-        .to([".hairPullBeads"], {
-            y: 0
-        })
+
         .to(["#bodyGroup", ".headParts"], {
             delay: 2,
             y: 0,
@@ -42,6 +43,7 @@ export const pantingAnimation = (args) => {
                 setApproach(false)
                 setMouthOn(false)
                 setMouthOpen(false)
+
             }
         })
         .to(obj, {
@@ -55,7 +57,7 @@ export const pantingAnimation = (args) => {
         .to(obj, {
             p: 0.3,
             duration: 0.6,
-            repeat: 5,
+            repeat: 0,
             yoyoEase: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);

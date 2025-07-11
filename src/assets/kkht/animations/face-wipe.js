@@ -7,7 +7,7 @@ export const lowerArms = (args) => {
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 1000,
-        duration: 3,
+        duration: 0.5,
         ease: "power1.in",
         onComplete: () => {
             container.style.cursor = "auto"
