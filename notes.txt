@@ -1,13 +1,11 @@
 - eyeflutter transition looks weird -- revert to previous state sooner? torso transform different? that whole animation needs fixed
 - arousal bars go too high up
-- JOhand appears during BJ
 - reverse breath speeds? faster when arousal lower
 - disable scroll down
 - benguiat font takes FOREVER to load
 - increase boyd arousal when you give orders or cum on him
 - weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts
 - body should move more when dragged
-- arms go up in front of dick on faceWipe
 - hairPullHand appears on hover before it should when you cum in his mouth
 - set it so that if you cum on his tongue and then, without closing his mouth, make him blow you, the cum disappears and the button reverts
 - set it so if mouthOn and holdMouthOpen, it's "You can close your mouth when you're done" or something
@@ -15,8 +13,8 @@
 - wipe doesn't get topmost -- have it go higher
 - some kind of variable for training mode?
 - reset button
-- depthMode arousal breaks when sensitivity === 0
 - make it so training progress is reset when depthMode changes
 - grey out "wipe your face" if mouthOn
 - draggables are still active during faceWipe
 - make it so arousal doesn't decrease if mouthOn
+- fix dickDrool widths

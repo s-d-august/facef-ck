@@ -12,6 +12,10 @@
     z-index: 100;
 }
 
+#settingsContents {
+    display: grid;
+}
+
 #settersDiv.collapsed {
     width: 4vw;
     height: 4vw;
@@ -41,7 +45,7 @@ h1 {
     font-family: "Benguiat";
 }
 
-h1::after,
+#settingsHeader::after,
 #secret::after {
     display: block;
     margin: 10px;
