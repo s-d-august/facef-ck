@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 import * as kkht from './assets/kkht/index'
 import Dick from './assets/components/dick'
@@ -176,32 +176,33 @@ function App() {
 
         if (armsUp) {
             wipeButton.current.innerText = '"Now now, don\'t be shy."'
-            mouthButton.current.style.display = "none"
+            mouthButton.current.classList.add("hide")
             hairPullHandGrab.current.classList.remove("interact")
             dickHandGrab.current.classList.remove("interact")
 
         } else {
             wipeButton.current.innerText = '"Wipe the mess off your face."'
-            wipeButton.current.classList.add("inactive")
-            mouthButton.current.style.display = "block"
+            wipeButton.current.classList.add("hide")
+            mouthButton.current.classList.remove("hide")
             hairPullHandGrab.current.classList.add("interact")
             dickHandGrab.current.classList.add("interact")
 
             if (kkht.isFaceClean() === false) {
-                wipeButton.current.classList.remove("inactive");
+                wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {
-                wipeButton.current.classList.add("inactive");
+                wipeButton.current.classList.add("hide");
             }
         }
 
         function handleFaceWipeClick() {
-            wipeButton.current.classList.add("inactive");
+            wipeButton.current.classList.add("hide");
             kkht.faceWipe({
                 elements: [chain.current, armRight.current, armLeft.current],
                 cloth: cloth.current,
                 hide: [hairPullHandGrab.current, dickHandGrab.current],
-                setter: setArmsUp
+                setter: setArmsUp,
+                animationSetter: setFastMorph
             });
         }
         const lowerArmsHandler = () => kkht.lowerArms({
@@ -641,15 +642,18 @@ function App() {
 
 
         var dickHandDraggable = Draggable.get("#dickHandGrab")
+        var hairPullDraggable = Draggable.get("#hairPullHand")
 
-        if (mouthOn || Draggable.get("#hairPullHand")?.isDragging) {
+        if (mouthOn) {
+            console.log("mouthOn")
             droolIntervalRef.current = setInterval(() => kkht.randomizeArray({
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
             }), 7500)
 
-            dickHandDraggable.disable()
+            wipeButton.current.classList.add("inactive")
+
         } else {
             if (droolIntervalRef.current) {
                 clearInterval(droolIntervalRef.current);
@@ -657,17 +661,15 @@ function App() {
             }
             dickHandDraggable.enable()
         }
-        // Always set up hairPullHand hover listeners
-        const hairPullHand = document.getElementById("hairPullHand");
 
         let hairEnter, hairLeave, dickEnter, dickLeave, dickHand;
 
-        if (hairPullHandGrab.current && hideHand.current && hairPullHand && (armsUp === false)) {
             hairEnter = () => {
                 gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
             };
+
             hairLeave = () => {
-                if (Draggable.get(hairPullHand.current)?.isDragging) {
+                if (hairPullDraggable.isDragging) {
                     return;
                 } else {
                     gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
@@ -704,6 +706,9 @@ function App() {
             dickHandGrab.current.addEventListener("mouseenter", dickEnter);
             dickHandGrab.current.addEventListener("mouseleave", dickLeave);
         }
+        if (armsUp || fastMorph) {
+            dickSvg.current.style.zIndex = 100
+        } else dickSvg.current.style.zIndex = 12
 
         // Cleanup
         return () => {
@@ -721,7 +726,7 @@ function App() {
             }
         };
 
-    }, [mouthOn, armsUp]);
+    }, [mouthOn, armsUp, fastMorph]);
 
 
     return (
