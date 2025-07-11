@@ -16,5 +16,4 @@
 - make it so training progress is reset when depthMode changes
 - grey out "wipe your face" if mouthOn
 - draggables are still active during faceWipe
-- make it so arousal doesn't decrease if mouthOn
 - fix dickDrool widths

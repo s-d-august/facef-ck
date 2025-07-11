@@ -75,6 +75,7 @@ function App() {
     const dickHandGrab = useRef()
     const depthMethodRef = useRef()
     const arousalTierRef = useRef()
+    const mouthOnRef = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -119,7 +120,9 @@ function App() {
     useEffect(() => {
         mouthOpenRef.current = mouthOpen;
     }, [mouthOpen]);
-
+    useEffect(() => {
+        mouthOnRef.current = mouthOn;
+    }, [mouthOn]);
     useEffect(() => {
         arousalTierRef.current = arousalTier;
     }, [arousalTier]);
@@ -298,7 +301,13 @@ function App() {
         mouthButton.current.addEventListener("click", mouthOpenClose)
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
-        const interval = setInterval(() => kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current), 500);
+        function valDownHandler() {
+            if (mouthOnRef.current === false) {
+                kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
+            }
+        }
+        const interval = setInterval(valDownHandler, 500);
+
         return () => clearInterval(interval); // Cleanup interval on unmount
     }, []);
 
