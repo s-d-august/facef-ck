@@ -438,7 +438,7 @@ function App() {
                             setMouthOn: setMouthOn,
                             setMouthOpen: setMouthOpen,
                             setApproach: setApproach,
-                            draggable: Draggable.get("#hairPullHand"),
+                            draggable: hairPullDraggable.current,
                             alsoMove: hairPullBeads.current
                         }]
 

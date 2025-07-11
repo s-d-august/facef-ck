@@ -4,7 +4,7 @@ import { updateFollowers } from "../utils/gsap";
 
 export const pantingAnimation = (args) => {
 
-    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, origin, alsoMove } = args
+    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable } = args
 
     let obj = { p: 0 };
 
@@ -20,8 +20,10 @@ export const pantingAnimation = (args) => {
 
     tearsAnimation(tearLeft, tearRight)
 
-    gsap.to(draggable.target, {
-        x: 0, y: 0, duration: 0.01
+    console.log(draggable)
+
+    gsap.set(draggable.target, {
+        x: 0, y: 0
     });
 
     draggable.update(); // Let Draggable know it moved
