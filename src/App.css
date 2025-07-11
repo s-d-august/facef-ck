@@ -144,6 +144,7 @@ svg {
   height: 100vh;
   display: flex;
   width: 100vw;
+  overflow: hidden;
 }
 
 [id*="tongueCum"],
@@ -214,11 +215,11 @@ svg {
 
 @keyframes breathTorso {
   from {
-    transform: scale(103%);
+    transform: scale(100%);
   }
 
   to {
-    transform: scale(106%)
+    transform: scale(103%)
   }
 }
 

@@ -48,7 +48,7 @@ export const eyeFlutterAnimation = (el, startString, endString) => {
                 onUpdate: () => fullTransition.progress(obj.p)
             })
             .to(el, {
-                delay: 1.5,
+                delay: 1,
                 duration: 0.75,
                 morphSVG: el,
                 y: 0,

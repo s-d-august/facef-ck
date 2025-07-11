@@ -10,8 +10,8 @@ export const pantingAnimation = (args) => {
 
     const pantGroup = gsap.timeline({ paused: true })
         .fromTo(mouthGroup, { y: containerSize * 0.045 }, { y: 0, duration: 1 })
-        .fromTo(bodyMain, { scale: 0.97 }, { scale: 1, duration: 1, transformOrigin: "bottom center" }, 0)
-        .fromTo(tongueGroup, { scaleY: 0.5 }, { y: 0, scaleY: 0, duration: 1 }, 0)
+        .fromTo(bodyMain, { scale: 1 }, { scale: 1.03, duration: 1, transformOrigin: "bottom center" }, 0)
+        .fromTo(tongueGroup, { scaleY: 0.4 }, { y: 0, scaleY: 0, duration: 1 }, 0)
 
     const pantDrool = gsap.timeline({ paused: true })
         .fromTo(tongueDrool, { scaleY: 0 }, { scaleY: 1, duration: 2, transformOrigin: "top center" })
@@ -23,7 +23,7 @@ export const pantingAnimation = (args) => {
     console.log(draggable)
 
     gsap.timeline().to(draggable.target, {
-        x: 0, y: 0, duration: 1.2
+        y: 0, duration: 1.2
     }).to([".hairPullBeads"], {
         y: 0
     })
@@ -35,9 +35,9 @@ export const pantingAnimation = (args) => {
     const master = gsap.timeline()
 
         .to(["#bodyGroup", ".headParts"], {
-            delay: 2,
+            delay: 1.5,
             y: 0,
-            duration: 1.5,
+            duration: 1,
             ease: "power3.in",
             onComplete: () => {
                 setApproach(false)
@@ -48,7 +48,7 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 0.7,
-            duration: 2,
+            duration: 1.5,
             ease: "power2.in",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -56,8 +56,8 @@ export const pantingAnimation = (args) => {
         }, "<")
         .to(obj, {
             p: 0.3,
-            duration: 0.6,
-            repeat: 0,
+            duration: 0.5,
+            repeat: 3,
             yoyoEase: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -65,7 +65,7 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 0.3,
-            duration: 1.5,
+            duration: 0.85,
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -73,7 +73,7 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 1,
-            duration: 1.5,
+            duration: 0.85,
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
