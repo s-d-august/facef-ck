@@ -47,8 +47,11 @@
   background-color: grey;
   color: white;
   font-weight: bold;
-  opacity: 0;
   pointer-events: none;
+}
+
+#ordersDiv>button.hide {
+  display: none;
 }
 
 #ordersDiv>button:hover {
@@ -99,32 +102,42 @@ svg {
 }
 
 #hairPullHand {
-  z-index: 6
+  z-index: 16
 }
 
 .hairPullBeads {
-  z-index: 7
+  z-index: 17
 }
 
 .topmost {
-  z-index: 10;
+  z-index: 20;
+}
+
+
+#dickHandSvg {
+  z-index: 14;
 }
 
 #dickHandFingers {
-  z-index: 11;
+  z-index: 9;
+}
+
+.dickHandParts {
+  opacity: 0;
 }
 
 #dick {
-  z-index: 12;
+  z-index: 10;
 }
 
-#dickHandSvg {
-  z-index: 15;
+#head {
+  z-index: 13;
 }
 
 #armsSvg {
-  z-index: 10;
+  z-index: 20
 }
+
 
 #mainDiv {
   position: relative;

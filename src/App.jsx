@@ -651,10 +651,11 @@ function App() {
                 animation: kkht.drip,
                 areaHeight: 350
             }), 7500)
-
+            dickHandDraggable.disable()
             wipeButton.current.classList.add("inactive")
 
         } else {
+            console.log("mouthOff")
             if (droolIntervalRef.current) {
                 clearInterval(droolIntervalRef.current);
                 droolIntervalRef.current = null;
@@ -664,20 +665,20 @@ function App() {
 
         let hairEnter, hairLeave, dickEnter, dickLeave, dickHand;
 
-            hairEnter = () => {
-                gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
-            };
+        hairEnter = () => {
+            gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
+        };
 
-            hairLeave = () => {
-                if (hairPullDraggable.isDragging) {
-                    return;
-                } else {
-                    gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
-                }
-            };
-            hairPullHandGrab.current.addEventListener("mouseenter", hairEnter);
-            hairPullHandGrab.current.addEventListener("mouseleave", hairLeave);
-        }
+        hairLeave = () => {
+            if (hairPullDraggable.isDragging) {
+                return;
+            } else {
+                gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
+            }
+        };
+        hairPullHandGrab.current.addEventListener("mouseenter", hairEnter);
+        hairPullHandGrab.current.addEventListener("mouseleave", hairLeave);
+
 
         // Only set up dickHand hover listeners when mouthOn === false
         dickHand = gsap.utils.toArray(".dickHandParts");

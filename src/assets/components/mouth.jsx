@@ -2,7 +2,7 @@ import * as React from "react";
 
 const Mouth = () => (
     <svg
-        id="headFull"
+        id="mouthFull"
         className="headParts"
         version="1.1"
         viewBox="0 0 987.679 1234.713"

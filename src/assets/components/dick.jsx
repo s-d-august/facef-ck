@@ -6,7 +6,7 @@ const Dick = () => (
       viewBox="0 0 987.679 1234.713"
       xmlns="http://www.w3.org/2000/svg"
       id="dickHandFingers"
-      className="dickHandParts opacity0"
+      className="dickHandParts"
     >
       <g>
         <path
@@ -216,7 +216,7 @@ const Dick = () => (
       </defs>
       <path
         id="dickHandGrab"
-        className="dickHandParts interact opacity0"
+        className="interact dickHandParts"
         fill="url(#dickhandb)"
         fillOpacity="1"
         strokeWidth="4"
