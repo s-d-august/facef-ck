@@ -2,13 +2,17 @@ import gsap from "gsap"
 import { isFaceClean } from "../animation-functions/call-cumshot"
 
 export const lowerArms = (args) => {
-    const { elements, setter } = args
+    const { elements, setter, container } = args
+    container.style.cursor = "wait"
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 1000,
         duration: 3,
         ease: "power1.in",
-        onComplete: () => setter(false)
+        onComplete: () => {
+            container.style.cursor = "auto"
+            setter(false)
+        }
     })
 
 }

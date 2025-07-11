@@ -2,6 +2,16 @@ import gsap from "gsap"
 import { Draggable } from "gsap/all"
 gsap.registerPlugin(Draggable)
 
+export const callState = (setter, sec) => {
+    setter(true)
+
+    // Wait, then enable
+    setTimeout(() => {
+        setter(false)
+    }, (sec * 1000));
+}
+
+
 export const matchID = (el, startString, endString) => {
     const startID = el.id.toString()
     const stateless = startID.replace(startString, "")

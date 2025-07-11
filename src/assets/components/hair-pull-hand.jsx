@@ -69,7 +69,7 @@ const HairPullHand = () => (
                 ></path>
             </g>
         </svg>
-        <div className="noInteract hideHand opacity0" id="hairPullBeadsDiv">
+        <div className="noInteract" id="hairPullBeadsDiv">
             {beadPaths.map((d, i) => (
                 <svg
                     key={i}

@@ -35,7 +35,12 @@ export const pantingAnimation = (args) => {
             delay: 2,
             y: 0,
             duration: 1.5,
-            ease: "power3.in"
+            ease: "power3.in",
+            onComplete: () => {
+                setApproach(false)
+                setMouthOn(false)
+                setMouthOpen(false)
+            }
         })
         .to(obj, {
             p: 0.7,
@@ -60,11 +65,6 @@ export const pantingAnimation = (args) => {
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
-            },
-            onComplete: () => {
-                setApproach(false)
-                setMouthOn(false)
-                setMouthOpen(false)
             }
         })
         .to(obj, {

@@ -10,9 +10,27 @@
 - set it so that if you cum on his tongue and then, without closing his mouth, make him blow you, the cum disappears and the button reverts
 - set it so if mouthOn and holdMouthOpen, it's "You can close your mouth when you're done" or something
 - make it so reactions are slower when arousal is lower
-- wipe doesn't get topmost -- have it go higher
 - some kind of variable for training mode?
 - reset button
 - make it so training progress is reset when depthMode changes
-- grey out "wipe your face" if mouthOn
 - fix dickDrool widths
+
+
+DISABLE ALL WHEN:
+ - faceWipe
+ - cum in mouth animation
+ - cum animation
+ - armsUp
+
+Dick Hand Draggable
+ - mouthOn
+ - hairPullHand.isDragging
+
+Breath Cycle
+ - cum in mouth animation
+
+"Wipe your face."
+ - mouthOn
+
+"Open your mouth."
+ - mouthOn, approach
