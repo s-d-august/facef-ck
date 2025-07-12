@@ -3,6 +3,11 @@
     src: url("../../fonts-etc/benguiat.woff");
 }
 
+#settingsContents>button {
+    padding: 5px;
+    margin-top: 10px
+}
+
 #settersDiv {
     position: absolute;
     left: 10vw;
@@ -50,8 +55,12 @@ h1 {
     font-family: "Benguiat";
 }
 
-#settingsHeader::after,
-#secret::after {
+h1.collapsed {
+    display: block;
+    opacity: 0;
+}
+
+#settingsHeader::after {
     display: block;
     margin: 10px;
     margin-left: 0;

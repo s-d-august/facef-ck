@@ -88,6 +88,7 @@ function App() {
     const dickHandParts = useRef()
     const tongueCumArray = useRef()
     const mouthArgs = useRef()
+    const hesitation = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -134,8 +135,10 @@ function App() {
             mouthGroup: mouthGroup.current,
             tongueGroup: tongueGroup.current,
             tongueDrool: tongueDrool.current,
-            mouthOpenSetter: setMouthOpen
+            mouthOpenSetter: setMouthOpen,
+            arousalTier: arousalTierRef.current
         }
+        hesitation.current = ((5 - arousalTier) * 250)
     }, [])
 
     useEffect(() => {
@@ -195,8 +198,6 @@ function App() {
     }, [ivesMode])
 
     useEffect(() => { // Face wipe, order buttons
-
-        console.log("isTongueCum: ", isTongueCum)
 
         if (holdMouthOpen) {
             if (isTongueCum) {
@@ -283,19 +284,28 @@ function App() {
     function mouthOpenClose() {
         console.log(isTongueCumRef.current)
         if (mouthOpenRef.current === false) { // if setting mouth to open
-            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 25))
-            kkht.mouthOpenFunction(mouthArgs.current);
-            setHoldMouthOpen(true)
+            console.log(hesitation.current)
+            setTimeout(() => {
+                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 25))
+                kkht.mouthOpenFunction(mouthArgs.current);
+                setHoldMouthOpen(true)
+            }, hesitation.current)
+
 
         } else {
-            kkht.mouthCloseFunction(mouthArgs.current);
-            setHoldMouthOpen(false)
             if (isTongueCumRef.current) {
-                setIsTongueCum(false)
-                console.log("tongueCum detected")
-                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 15))
-                if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
+                setTimeout(() => {
+                    kkht.mouthCloseFunction(mouthArgs.current);
+                    setHoldMouthOpen(false)
+                    setIsTongueCum(false)
+                    console.log("tongueCum detected")
+                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
+                    if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
+                }, hesitation.current)
 
+            } else {
+                kkht.mouthCloseFunction(mouthArgs.current);
+                setHoldMouthOpen(false)
             }
         }
     }
@@ -662,8 +672,8 @@ function App() {
         }
 
         if (fastMorph || layerAnimation) {
-            container.style.cursor = "wait"
-        } else container.style.cursor = "auto"
+            container.classList.add("customCursor")
+        } else container.classList.remove("customCursor")
         console.log("fastMorph: ", fastMorph)
     }, [mouthOn, approach, fastMorph, layerAnimation, armsUp, hairPullDragging])
 

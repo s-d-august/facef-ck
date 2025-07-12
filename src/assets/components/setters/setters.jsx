@@ -1,13 +1,14 @@
 import React from 'react';
 import { useEffect } from 'react';
 import './setters.css';
-import settingsIcon from "../../fonts-etc/settingsIcon.svg"
 
 const Setters = ({ sensitivity, max, secret, modes }) => {
 
     useEffect(() => {
         const settingsIcon = document.getElementById("settingsIcon")
+        const hideSettingsButton = document.getElementById("hideSettingsButton")
         settingsIcon.addEventListener("click", showHideSettings)
+        hideSettingsButton.addEventListener("click", showHideSettings)
 
         function showHideSettings() {
             const elements = ["settersDiv", "settingsContents", "settingsIcon"]
@@ -18,6 +19,7 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
 
         return () => {
             settingsIcon.removeEventListener("click", showHideSettings)
+            hideSettingsButton.removeEventListener("click", showHideSettings)
         }
     }, [])
 
@@ -50,6 +52,7 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                         />
                     ))}
                 </div>
+
                 <div id='maxSettersDiv'>
                     {max.map(({ id, setter, value, label }) => (
                         <div className='maxSetterWrap'>
@@ -67,6 +70,7 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                         </div>
                     ))}
                 </div>
+
                 <div id='modeSetterDiv'>
                     <label for={modes.id}>{modes.label}</label>
                     <br />
@@ -81,9 +85,9 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
 
                             >{el}</option>
                         ))}
-
                     </select>
                 </div>
+
                 <div id='secret'>
                     <p>{secret.label}</p>
                     <label className='switch'>
@@ -95,6 +99,9 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                         <span className="slider round"></span>
                     </label>
                 </div>
+                <button id='hideSettingsButton'>
+                    Hide Settings
+                </button>
             </div>
 
         </div>

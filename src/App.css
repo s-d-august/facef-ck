@@ -6,6 +6,10 @@
   src: url("../src/assets/fonts-etc/benguiat.woff");
 }
 
+.customCursor {
+  cursor: url("../src/assets/fonts-etc/hourglasspng.png"), wait
+}
+
 .blink {
   animation: blink 10s linear infinite
 }
