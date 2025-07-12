@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "Benguiat";
+    src: url("../../fonts-etc/benguiat.woff");
+}
+
 #settersDiv {
     position: absolute;
     left: 10vw;

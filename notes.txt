@@ -1,8 +1,5 @@
 - eyeflutter transition looks weird -- revert to previous state sooner? torso transform different? that whole animation needs fixed
-- benguiat font takes FOREVER to load
-- increase boyd arousal when you give orders or cum on him
 - weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts
-- body should move more when dragged
 - set it so that if you cum on his tongue and then, without closing his mouth, make him blow you, the cum disappears and the button reverts
 - make it so reactions are slower when arousal is lower
 - some kind of variable for training mode?
