@@ -2,6 +2,15 @@ import gsap from "gsap";
 import { Draggable } from "gsap/all";
 gsap.registerPlugin(Draggable)
 
+export const resetDraggable = (draggable, elements) => {
+    console.log(draggable, draggable.target)
+    gsap.set(elements, {
+        x: 0,
+        y: 0,
+        opacity: 0
+    })
+    draggable.update()
+}
 
 export const updateFollowers = ({ itemsArray, x, y, ease, init, increase }) => {
     function follower(target, duration, ease) {

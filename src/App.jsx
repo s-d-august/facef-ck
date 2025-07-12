@@ -442,30 +442,29 @@ function App() {
                         }]
                 })
             }
-            if (!mouthOn && mouthOpen) {
-                kkht.callCumshot({
-                    cumType: "tongueCum"
-                })
-                setIsTongueCum(true)
+            if (!mouthOn) {
                 kkht.callState(setLayerAnimation, 1.5)
-                // Plays cum on tongue animation
-            }
-            if (!mouthOn && !mouthOpen) {
-                kkht.callCumshot({
-                    cumType: "faceCum",
-                    untilEmpty: true,
-                    origin: "top",
-                    shotDuration: 0.5,
-                    moveDuration: 2.5,
-                    faceWipeArgs: {
-                        elements: [chain.current, armRight.current, armLeft.current],
-                        cloth: cloth.current,
-                        setter: setArmsUp,
-                        animationSetter: setLayerAnimation
-                    }
-                })
-                kkht.callState(setLayerAnimation, 1.5)
-                // Plays cum on face animation
+                kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
+                if (mouthOpen) {
+                    kkht.callCumshot({
+                        cumType: "tongueCum"
+                    })
+                    setIsTongueCum(true)
+                } else {
+                    kkht.callCumshot({
+                        cumType: "faceCum",
+                        untilEmpty: true,
+                        origin: "top",
+                        shotDuration: 0.5,
+                        moveDuration: 2.5,
+                        faceWipeArgs: {
+                            elements: [chain.current, armRight.current, armLeft.current],
+                            cloth: cloth.current,
+                            setter: setArmsUp,
+                            animationSetter: setLayerAnimation
+                        }
+                    })
+                }
             }
 
             setArousal(prev => ({ ...prev, ives: 0 }))
@@ -696,7 +695,7 @@ function App() {
             gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
         };
         dickLeave = () => {
-            if (Draggable.get(dickHandGrab.current)?.isDragging) {
+            if (dickHandDraggable.current.isDragging) {
                 return;
             } else {
                 gsap.to(dickHandParts.current, {
