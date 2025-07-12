@@ -1,7 +1,6 @@
 import gsap from "gsap";
 
 export function eyeMovement({ moveEls, bounds, type }) {
-    console.log(type)
     const [el1, el2] = moveEls;
     let tween, duration, delay
 

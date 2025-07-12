@@ -385,13 +385,29 @@ function App() {
                 this.dragResistance = kkht.isApproachOrOn(args)
 
                 if (depthMethodRef.current === "Training") {
+                    console.log(depthMethodRef.current)
                     this.applyBounds({
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
                         minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * kkht.trainingMultiplier("#hairPullHand", this.y, (this.maxY || containerSize.current * 0.1), 0.2, 0.4, 5, 0.001)
+                        maxY: containerSize.current * kkht.trainingMultiplier(
+                            {
+                                id: "#hairPullHand",
+                                y: this.y,
+                                maxY: (this.maxY || containerSize.current * 0.1),
+                                initial: 0.2,
+                                end: 0.4,
+                                hits: 5,
+                                increaseBy: 0.001
+                            })
                     });
                 } else {
+                    console.log(depthMethodRef.current)
+                    kkht.trainingMultiplier(
+                        {
+                            id: "#hairPullHand",
+                            reset: true
+                        })
                     this.applyBounds({
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
@@ -612,13 +628,11 @@ function App() {
     useEffect(() => { // Enable/disable draggables
 
         if (mouthOn || fastMorph || layerAnimation || armsUp) {
-            console.log("dickHand disabled")
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
             })
             dickHandDraggable.current.disable()
         } else {
-            console.log("dickHand enabled")
             dickHandParts.current.forEach((el) => {
                 el.style.display = "block"
             })

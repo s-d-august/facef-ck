@@ -6,4 +6,4 @@
 - make it so training progress is reset when depthMode changes
 - fix dickDrool widths
 - font still taking too long to load >:/
-- JOHand listeners fucky after cum
+- JOHand still appearing when it shouldn't!!!
