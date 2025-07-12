@@ -1,5 +1,13 @@
 import gsap from "gsap";
 
+export const allOpacityZero = (array) => {
+    console.log("allOpacityZero called")
+    return array.every(el => {
+        const opacity = window.getComputedStyle(el).opacity;
+        return Number(opacity) === 0;
+    });
+}
+
 export const pluckRandomFrom = (args) => {
     const { array, typeKey, arrayEligibleMap } = args
 

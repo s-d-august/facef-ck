@@ -26,6 +26,9 @@ function App() {
     const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
     const [ivesMode, setIvesMode] = useState(false)
 
+    const [isTongueCum, setIsTongueCum] = useState(false)
+    const isTongueCumRef = useRef()
+
     const [depthMethod, setDepthMethod] = useState("none")
 
     const [holdMouthOpen, setHoldMouthOpen] = useState(false)
@@ -81,6 +84,8 @@ function App() {
     const dickHandDraggable = useRef()
     const hairPullDraggable = useRef()
     const dickHandParts = useRef()
+    const tongueCumArray = useRef()
+    const mouthArgs = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -120,7 +125,20 @@ function App() {
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
+        tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+        mouthArgs.current = {
+            tongueCum: tongueCumArray.current,
+            moveBy: containerSize.current * 0.045,
+            mouthGroup: mouthGroup.current,
+            tongueGroup: tongueGroup.current,
+            tongueDrool: tongueDrool.current,
+            mouthOpenSetter: setMouthOpen
+        }
     }, [])
+
+    useEffect(() => {
+        isTongueCumRef.current = isTongueCum
+    }, [isTongueCum])
 
     useEffect(() => {
         mouthOpenRef.current = mouthOpen;
@@ -176,6 +194,16 @@ function App() {
 
     useEffect(() => { // Face wipe, order buttons
 
+        console.log("isTongueCum: ", isTongueCum)
+
+        if (holdMouthOpen) {
+            if (isTongueCum) {
+                mouthButton.current.innerText = '"Swallow for me."'
+            } else mouthButton.current.innerText = '"Close your mouth"'
+        } else {
+            mouthButton.current.innerText = '"Open your mouth."'
+        }
+
         if (mouthOn || fastMorph || approach || layerAnimation) {
             mouthButton.current.classList.add("inactive")
             wipeButton.current.classList.add("inactive")
@@ -187,7 +215,6 @@ function App() {
         if (armsUp) {
             wipeButton.current.innerText = '"Now now, don\'t be shy."'
             mouthButton.current.classList.add("hide")
-
         } else {
             wipeButton.current.innerText = '"Wipe the mess off your face."'
             wipeButton.current.classList.add("hide")
@@ -230,21 +257,10 @@ function App() {
 
         };
 
-    }, [armsUp, mouthOn, fastMorph, layerAnimation, approach])
+    }, [armsUp, mouthOn, fastMorph, layerAnimation, approach, mouthOpen, isTongueCum])
 
     useEffect(() => { // Elements that change based on approach state
-
-        if (holdMouthOpen === false) mouthButton.current.innerText = '"Open your mouth."'
-
-        if (holdMouthOpen === true) {
-            var tongueCumArray = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
-            if (allOpacityZero(tongueCumArray)) {
-                mouthButton.current.innerText = '"Close your mouth."'
-            } else mouthButton.current.innerText = '"Swallow for me."'
-
-            return
-        }
-
+        if (holdMouthOpen) return
         if (
             !containerSize.current ||
             !mouthGroup.current ||
@@ -255,64 +271,35 @@ function App() {
             return;
         }
 
-        const mouthArgs = {
-            moveBy: containerSize.current * 0.045,
-            mouthGroup: mouthGroup.current,
-            tongueGroup: tongueGroup.current,
-            tongueDrool: tongueDrool.current,
-            mouthOpenSetter: setMouthOpen
-        }
-
         if (approach) {
-            kkht.mouthOpenFunction(mouthArgs)
+            kkht.mouthOpenFunction(mouthArgs.current)
         } else {
-            kkht.mouthCloseFunction(mouthArgs)
+            kkht.mouthCloseFunction(mouthArgs.current)
         }
     }, [approach, holdMouthOpen])
 
-    function allOpacityZero(array) {
-        return array.every(el => {
-            const opacity = window.getComputedStyle(el).opacity;
-            return Number(opacity) === 0;
-        });
-    }
-
     function mouthOpenClose() {
-        console.log("mouthOpenClose called")
-        const mouthArgs = {
-            moveBy: containerSize.current * 0.045,
-            mouthGroup: mouthGroup.current,
-            tongueGroup: tongueGroup.current,
-            tongueDrool: tongueDrool.current,
-            mouthOpenSetter: setMouthOpen
-        }
-        var tongueCumArray = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
-
+        console.log(isTongueCumRef.current)
         if (mouthOpenRef.current === false) { // if setting mouth to open
             kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 25))
-            kkht.mouthOpenFunction(mouthArgs);
+            kkht.mouthOpenFunction(mouthArgs.current);
             setHoldMouthOpen(true)
 
-            // if cum on tongue
-            if (allOpacityZero(tongueCumArray)) {
-                mouthButton.current.innerText = '"Close your mouth."'
-            } else mouthButton.current.innerText = '"Swallow for me."'
-
-        } else if (mouthOpenRef.current === true) { // if setting mouth to closed
-            mouthButton.current.innerText = '"Open your mouth."'
-
-            // if cum on tongue and arousalTier below 4
-            if (!allOpacityZero(tongueCumArray)) {
+        } else {
+            kkht.mouthCloseFunction(mouthArgs.current);
+            setHoldMouthOpen(false)
+            if (isTongueCumRef.current) {
+                setIsTongueCum(false)
+                console.log("tongueCum detected")
                 kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 15))
                 if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
 
             }
-            kkht.mouthCloseFunction(mouthArgs);
-            setHoldMouthOpen(false)
         }
     }
 
     useEffect(() => { // initializing, valDown
+
         mouthButton.current.addEventListener("click", mouthOpenClose)
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
@@ -453,17 +440,14 @@ function App() {
                             draggable: hairPullDraggable.current,
                             alsoMove: hairPullBeads.current
                         }]
-
                 })
-
-                // Plays expression change animation and resets arousal
             }
             if (!mouthOn && mouthOpen) {
                 kkht.callCumshot({
                     cumType: "tongueCum"
                 })
+                setIsTongueCum(true)
                 kkht.callState(setLayerAnimation, 1.5)
-                mouthButton.current.innerText = '"Swallow for me."'
                 // Plays cum on tongue animation
             }
             if (!mouthOn && !mouthOpen) {
@@ -661,7 +645,7 @@ function App() {
     }, [mouthOn, approach, fastMorph, layerAnimation, armsUp])
 
 
-    useEffect(() => { // Drool
+    useEffect(() => { // Drool, clear tongueCum when mouthOn
         if (mouthOn) {
             console.log("mouthOn")
             droolIntervalRef.current = setInterval(() => kkht.randomizeArray({
@@ -676,13 +660,19 @@ function App() {
                 droolIntervalRef.current = null;
             }
         }
+
+        if (mouthOn && isTongueCum) {
+            kkht.clearVisible(tongueCumArray.current)
+            setIsTongueCum(false)
+        }
+
         return () => {
             if (droolIntervalRef.current) {
                 clearInterval(droolIntervalRef.current);
                 droolIntervalRef.current = null;
             }
         }
-    }, [mouthOn])
+    }, [mouthOn, isTongueCum])
 
     useEffect(() => { // Sets up hover listeners for draggables
 
