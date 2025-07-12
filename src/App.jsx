@@ -446,11 +446,11 @@ function App() {
                     toState: "Wide",
                     animations: [{
                         name: kkht.callEyeFlutter,
-                        args: { fromState: "Open", toState: "Wide" },
-                        prePostMorph: "pre"
+                        args: { fromState: "Open", toState: "Wide" }
                     }, {
                         name: kkht.pantingAnimation,
                         args: {
+                            ...morphArgsTemplate,
                             containerSize: containerSize.current,
                             toMove: [body.current, headParts.current],
                             mouthGroup: mouthGroup.current,
@@ -464,8 +464,7 @@ function App() {
                             setApproach: setApproach,
                             draggable: hairPullDraggable.current,
                             alsoMove: hairPullBeads.current
-                        },
-                        prePostMorph: "post"
+                        }
                     }]
                 })
             }

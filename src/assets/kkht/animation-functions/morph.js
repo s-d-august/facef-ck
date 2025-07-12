@@ -31,30 +31,13 @@ export const callFastMorph = (args) => {
     const fromArray = Array.from(
         document.querySelectorAll(`[id*="${fromState}"]`)
     );
-    const tl = gsap.timeline({
-        onComplete: () => {
-
-            if (slowMorph) {
-                let obj = { progress: 0 };
-                gsap.to(obj, {
-                    progress: slowMorph.progress,
-                    duration: 0.75,
-                    onUpdate: () => {
-                        renderMorph(slowMorph.from, slowMorph.to, obj.progress, expressionsArray, fastMorph, setSlowMorph);
-                        setFastMorph(false)
-                    }
-                });
-            }
-        },
-    })
+    const tl = gsap.timeline()
 
     if (animations) {
         animations.forEach((anim) => {
             tl.add(anim.name(anim.args));
         });
     }
-
-    var master = gsap.timeline()
 
 }
 

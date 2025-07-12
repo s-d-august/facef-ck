@@ -49,7 +49,7 @@ export const eyeFlutterAnimation = (el, startString, endString) => {
             })
             .to(el, {
                 delay: 1,
-                duration: 0.75,
+                duration: 0.5,
                 morphSVG: el,
                 y: 0,
                 x: 0,

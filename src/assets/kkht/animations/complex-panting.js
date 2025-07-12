@@ -1,17 +1,17 @@
 import gsap from "gsap";
 import { tearsAnimation } from "./tears";
-import { updateFollowers } from "../utils/gsap";
+import { renderMorph } from "../animation-functions/morph";
 
 export const pantingAnimation = (args) => {
 
-    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove } = args
+    const { expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph } = args
 
     let obj = { p: 0 };
 
     const pantGroup = gsap.timeline({ paused: true })
         .fromTo(mouthGroup, { y: containerSize * 0.045 }, { y: 0, duration: 1 })
         .fromTo(bodyMain, { scale: 1 }, { scale: 1.03, duration: 1, transformOrigin: "bottom center" }, 0)
-        .fromTo(tongueGroup, { scaleY: 0.4 }, { y: 0, scaleY: 0, duration: 1 }, 0)
+        .fromTo(tongueGroup, { scaleY: 0.3 }, { y: 0, scaleY: 0, duration: 1 }, 0)
 
     const pantDrool = gsap.timeline({ paused: true })
         .fromTo(tongueDrool, { scaleY: 0 }, { scaleY: 1, duration: 2, transformOrigin: "top center" })
@@ -29,7 +29,6 @@ export const pantingAnimation = (args) => {
     })
 
     draggable.update();
-
 
     function setAllFalse() {
         setApproach(false)
@@ -57,7 +56,7 @@ export const pantingAnimation = (args) => {
         .to(obj, {
             p: 0.3,
             duration: 0.6,
-            repeat: 5,
+            repeat: 3,
             yoyoEase: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -65,7 +64,7 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 0.3,
-            duration: 1.5,
+            duration: 1,
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -73,14 +72,12 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 1,
-            duration: 1.5,
+            duration: 1,
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
             }
         });
-
-
 
     // Animate pantDrool's progress in sync with the master timeline
     let objDrool = { p: 0 };
@@ -91,8 +88,19 @@ export const pantingAnimation = (args) => {
         onUpdate: () => {
             pantDrool.progress(objDrool.p);
         }
-
     }, 0); // Start at the beginning of master
+
+    if (slowMorph) {
+        let objMorph = { progress: 0 };
+        master.to(objMorph, {
+            progress: slowMorph.progress,
+            duration: 5,
+            onUpdate: () => {
+                renderMorph(slowMorph.from, slowMorph.to, objMorph.progress, expressionsArray, fastMorph, setSlowMorph);
+            },
+            onComplete: () => setFastMorph(false)
+        }, 3);
+    }
 
     return master;
 
