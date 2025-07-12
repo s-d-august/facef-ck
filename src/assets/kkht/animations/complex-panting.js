@@ -4,7 +4,7 @@ import { updateFollowers } from "../utils/gsap";
 
 export const pantingAnimation = (args) => {
 
-    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable } = args
+    const { containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove } = args
 
     let obj = { p: 0 };
 
@@ -24,31 +24,31 @@ export const pantingAnimation = (args) => {
 
     gsap.timeline().to(draggable.target, {
         y: 0, duration: 1.2
-    }).to([".hairPullBeads"], {
+    }).to(alsoMove, {
         y: 0
     })
 
     draggable.update();
-    // Let Draggable know it moved
 
+
+    function setAllFalse() {
+        setApproach(false)
+        setMouthOn(false)
+        setMouthOpen(false)
+    }
+
+    setTimeout(setAllFalse, 3000)
 
     const master = gsap.timeline()
-
-        .to(["#bodyGroup", ".headParts"], {
-            delay: 1.5,
+        .to(toMove, {
+            delay: 2,
             y: 0,
-            duration: 1,
-            ease: "power3.in",
-            onComplete: () => {
-                setApproach(false)
-                setMouthOn(false)
-                setMouthOpen(false)
-
-            }
+            duration: 1.5,
+            ease: "power3.in"
         })
         .to(obj, {
             p: 0.7,
-            duration: 1.5,
+            duration: 2,
             ease: "power2.in",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -56,8 +56,8 @@ export const pantingAnimation = (args) => {
         }, "<")
         .to(obj, {
             p: 0.3,
-            duration: 0.5,
-            repeat: 3,
+            duration: 0.6,
+            repeat: 5,
             yoyoEase: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -65,7 +65,7 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 0.3,
-            duration: 0.85,
+            duration: 1.5,
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
@@ -73,12 +73,14 @@ export const pantingAnimation = (args) => {
         })
         .to(obj, {
             p: 1,
-            duration: 0.85,
+            duration: 1.5,
             ease: "power2.out",
             onUpdate: () => {
                 pantGroup.progress(obj.p);
             }
         });
+
+
 
     // Animate pantDrool's progress in sync with the master timeline
     let objDrool = { p: 0 };

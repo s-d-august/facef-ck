@@ -14,7 +14,7 @@ export const callSlowMorph = (args) => {
 }
 
 export const callFastMorph = (args) => {
-    const { fromState, toState, animations, animationArgs, expressionsArray, fastMorph, setFastMorph, slowMorph, setSlowMorph } = args
+    const { fromState, toState, animations, expressionsArray, fastMorph, setFastMorph, slowMorph, setSlowMorph } = args
 
     setFastMorph(true)
     console.log(fastMorph)
@@ -49,10 +49,12 @@ export const callFastMorph = (args) => {
     })
 
     if (animations) {
-        animations.forEach((anim, index) => {
-            tl.add(anim(animationArgs[index]));
+        animations.forEach((anim) => {
+            tl.add(anim.name(anim.args));
         });
     }
+
+    var master = gsap.timeline()
 
 }
 

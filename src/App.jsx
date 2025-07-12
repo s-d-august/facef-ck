@@ -444,10 +444,13 @@ function App() {
                     ...morphArgsTemplate,
                     fromState: "Open",
                     toState: "Wide",
-                    animations: [kkht.callEyeFlutter, kkht.pantingAnimation],
-                    animationArgs:
-                        [{ fromState: "Open", toState: "Wide" },
-                        {
+                    animations: [{
+                        name: kkht.callEyeFlutter,
+                        args: { fromState: "Open", toState: "Wide" },
+                        prePostMorph: "pre"
+                    }, {
+                        name: kkht.pantingAnimation,
+                        args: {
                             containerSize: containerSize.current,
                             toMove: [body.current, headParts.current],
                             mouthGroup: mouthGroup.current,
@@ -461,7 +464,9 @@ function App() {
                             setApproach: setApproach,
                             draggable: hairPullDraggable.current,
                             alsoMove: hairPullBeads.current
-                        }]
+                        },
+                        prePostMorph: "post"
+                    }]
                 })
             }
             if (!mouthOn) {
