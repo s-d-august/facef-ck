@@ -3,7 +3,5 @@
 - make it so reactions are slower when arousal is lower
 - some kind of variable for training mode?
 - reset button
-- make it so training progress is reset when depthMode changes
 - fix dickDrool widths
 - font still taking too long to load >:/
-- JOHand still appearing when it shouldn't!!!

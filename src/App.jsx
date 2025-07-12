@@ -31,6 +31,8 @@ function App() {
 
     const [depthMethod, setDepthMethod] = useState("none")
 
+    const [hairPullDragging, setHairPullDragging] = useState(false)
+
     const [holdMouthOpen, setHoldMouthOpen] = useState(false)
     const [mouthOpen, setMouthOpen] = useState(false)
     const [mouthOn, setMouthOn] = useState(false)
@@ -339,6 +341,9 @@ function App() {
         Draggable.create("#hairPullHand", {
             trigger: "#hairPullHandGrab",
             cursor: "ns-resize",
+            onDragStart: function () {
+                setHairPullDragging(true);
+            },
             onDrag: function () {
 
                 gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
@@ -420,6 +425,7 @@ function App() {
             dragResistance: 0,
             zIndexBoost: false,
             onDragEnd: function () {
+                setHairPullDragging(false);
                 gsap.to(hideHand.current, { opacity: 0, duration: 0.2 })
             }
         });
@@ -627,7 +633,7 @@ function App() {
 
     useEffect(() => { // Enable/disable draggables
 
-        if (mouthOn || fastMorph || layerAnimation || armsUp) {
+        if (mouthOn || fastMorph || layerAnimation || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
             })
@@ -655,7 +661,7 @@ function App() {
             container.style.cursor = "wait"
         } else container.style.cursor = "auto"
         console.log("fastMorph: ", fastMorph)
-    }, [mouthOn, approach, fastMorph, layerAnimation, armsUp])
+    }, [mouthOn, approach, fastMorph, layerAnimation, armsUp, hairPullDragging])
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
