@@ -211,11 +211,15 @@ function App() {
                 animationSetter: setLayerAnimation
             });
         }
-        const lowerArmsHandler = () => kkht.lowerArms({
-            elements: [chain.current, cloth.current, armRight.current, armLeft.current],
-            container: container,
-            setter: setArmsUp
-        });
+        function lowerArmsHandler() {
+            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20))
+            kkht.lowerArms({
+                elements: [chain.current, cloth.current, armRight.current, armLeft.current],
+                container: container,
+                setter: setArmsUp
+            }
+            )
+        }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
 
@@ -285,17 +289,23 @@ function App() {
         var tongueCumArray = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
 
         if (mouthOpenRef.current === false) { // if setting mouth to open
+            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 25))
             kkht.mouthOpenFunction(mouthArgs);
             setHoldMouthOpen(true)
 
+            // if cum on tongue
             if (allOpacityZero(tongueCumArray)) {
                 mouthButton.current.innerText = '"Close your mouth."'
             } else mouthButton.current.innerText = '"Swallow for me."'
 
         } else if (mouthOpenRef.current === true) { // if setting mouth to closed
             mouthButton.current.innerText = '"Open your mouth."'
-            if (!allOpacityZero(tongueCumArray) && (arousalTierRef.current < 4)) {
-                kkht.tearsAnimation(tearLeft.current, tearRight.current)
+
+            // if cum on tongue and arousalTier below 4
+            if (!allOpacityZero(tongueCumArray)) {
+                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 15))
+                if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
+
             }
             kkht.mouthCloseFunction(mouthArgs);
             setHoldMouthOpen(false)
