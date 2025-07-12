@@ -35,8 +35,6 @@ var multRef = {};
 
 export const trainingMultiplier = ({ id, y, maxY, initial, end, hits, increaseBy, reset }) => {
 
-    console.log({ id, y, maxY, initial, end, hits, increaseBy, reset })
-
     if (reset) {
         multRef[id] = undefined
         maxYLoggedRef[id] = 0
