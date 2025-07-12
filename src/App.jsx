@@ -567,11 +567,11 @@ function App() {
 
         var breathCycleDuration = (
             (fastMorph) ? 0
-                : (arousalTier === 5) ? 0.5
-                    : (arousalTier === 4) ? 0.625
+                : (arousalTier === 5) ? 1
+                    : (arousalTier === 4) ? 0.875
                         : (arousalTier === 3) ? 0.75
-                            : (arousalTier === 2) ? 0.875
-                                : (arousalTier === 1) ? 1
+                            : (arousalTier === 2) ? 0.625
+                                : (arousalTier === 1) ? 0.5
                                     : null
         );
         if (prevDuration !== (breathCycleDuration + "s")) {
