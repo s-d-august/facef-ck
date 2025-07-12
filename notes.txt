@@ -1,6 +1,4 @@
 - eyeflutter transition looks weird -- revert to previous state sooner? torso transform different? that whole animation needs fixed
-- reverse breath speeds? faster when arousal lower
-- disable scroll down
 - benguiat font takes FOREVER to load
 - increase boyd arousal when you give orders or cum on him
 - weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts

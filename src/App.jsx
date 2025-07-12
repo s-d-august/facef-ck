@@ -418,6 +418,8 @@ function App() {
     useEffect(() => { // Nut function
         if (arousal.ives >= maxArousal.ives) {
 
+            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 10))
+
             if (mouthOn) {
                 kkht.callFastMorph({
                     ...morphArgsTemplate,
