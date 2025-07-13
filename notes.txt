@@ -1,8 +1,6 @@
 - weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts
 - some kind of variable for training mode? based on sensitivity * max or something
 - font STILL loading slow
-- eye flutter/eyes shut when you cum on him -- eye contact
-- mouthClose duration when cum on tongue based on arousalTier
 - arousal bar going too high sometimes?? idk
 - some way of having the hide settings button at the same place as the show settings
 - reset button

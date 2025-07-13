@@ -90,6 +90,8 @@ function App() {
     const hesitation = useRef({ sec: 0, ms: 0 })
     const browLeft = useRef()
     const browRight = useRef()
+    const eyeCenterRight = useRef()
+    const eyeCenterLeft = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -100,7 +102,7 @@ function App() {
     }
 
     gsap.registerPlugin(Draggable, DrawSVGPlugin, InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin);
-    gsap.defaults({ overwrite: "auto" })
+    //   gsap.defaults({ overwrite: "auto" })
 
     useEffect(() => {
 
@@ -132,6 +134,8 @@ function App() {
         tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
         browLeft.current = document.getElementById("browLeftGroup")
         browRight.current = document.getElementById("browRightGroup")
+        eyeCenterRight.current = document.getElementById("eyeCenterRight");
+        eyeCenterLeft.current = document.getElementById("eyeCenterLeft");
     }, [])
 
     useEffect(() => {
@@ -141,10 +145,14 @@ function App() {
     useEffect(() => {
         mouthOpenRef.current = mouthOpen;
     }, [mouthOpen]);
+
     useEffect(() => {
         mouthOnRef.current = mouthOn;
     }, [mouthOn]);
+
     useEffect(() => {
+        arousalTierRef.current = arousalTier;
+
         mouthArgs.current = {
             tongueCum: tongueCumArray.current,
             moveBy: containerSize.current * 0.045,
@@ -154,7 +162,7 @@ function App() {
             mouthOpenSetter: setMouthOpen,
             arousalTier: arousalTierRef.current
         }
-        arousalTierRef.current = arousalTier;
+
     }, [arousalTier]);
 
     useEffect(() => {
@@ -401,7 +409,6 @@ function App() {
 
             },
             onDragEnd: () => {
-                gsap.to(dickHandParts.current, { opacity: 0, duration: 0.2 })
                 container.style.cursor = "auto"
             }
         })
@@ -413,7 +420,11 @@ function App() {
                 setHairPullDragging(true);
             },
             onDrag: function () {
+
+                kkht.valChange(["ives", "boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+
                 container.style.cursor = "ns-resize"
+
                 kkht.updateFollowers({
                     itemsArray: [headParts.current, body.current],
                     x: this.x,
@@ -493,7 +504,7 @@ function App() {
             onDragEnd: function () {
                 container.style.cursor = "auto"
                 setHairPullDragging(false);
-                gsap.to("#hairPullHand", { opacity: 0, duration: 0.2 })
+
             }
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")
@@ -538,10 +549,23 @@ function App() {
                 })
             }
             if (!mouthOn) {
-                // cum on his tongue
+
+                gsap.to([".eyeCenter"], {
+                    x: 0,
+                    y: 0,
+                    duration: 0.2
+                })
+
+                kkht.browRaise({
+                    browLeft: browLeft.current,
+                    browRight: browRight.current,
+                    duration: 1.5
+                })
                 kkht.callState(setLayerAnimation, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
+
                 if (mouthOpen) {
+                    // cum on his tongue
                     kkht.callCumshot({
                         cumType: "tongueCum"
                     })
@@ -612,7 +636,7 @@ function App() {
 
         return () => {
         };
-    }, [arousal.boyd, depthMethod]);
+    }, [arousal.boyd, maxArousal.boyd, depthMethod]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
 
@@ -620,8 +644,6 @@ function App() {
         hesitation.current.sec = ((5 - arousalTier) / 4)
         console.log("hesitation: ", hesitation.current)
 
-        const eyeCenterRight = document.getElementById("eyeCenterRight");
-        const eyeCenterLeft = document.getElementById("eyeCenterLeft");
         let cleanup;
 
         console.log("arousalTier: ", arousalTier)
@@ -629,7 +651,7 @@ function App() {
         if (!fastMorphRef.current) {
             if (arousalTier === (1 || 2)) {
                 cleanup = kkht.eyeMovement({
-                    moveEls: [eyeCenterRight, eyeCenterLeft],
+                    moveEls: [".eyeCenter"],
                     type: "random",
                     bounds: {
                         maxX: 30,
@@ -642,7 +664,7 @@ function App() {
                 document.documentElement.style.setProperty("--breathTorsoScale", "102%");
             } else if (arousalTier === (3 || 4)) {
                 cleanup = kkht.eyeMovement({
-                    moveEls: [eyeCenterRight, eyeCenterLeft],
+                    moveEls: [".eyeCenter"],
                     type: "toFro",
                     bounds: {
                         maxX: 30,
@@ -653,7 +675,7 @@ function App() {
                 });
                 document.documentElement.style.setProperty("--breathTorsoScale", "103%");
             } else if (arousalTier === 5) {
-                gsap.to([eyeCenterRight, eyeCenterLeft], {
+                gsap.to([".eyeCenter"], {
                     x: 0,
                     y: -17,
                     duration: 1
