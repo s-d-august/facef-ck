@@ -313,8 +313,7 @@ function App() {
             console.log("resize noted", containerSize.current)
         })
         mouthButton.current.addEventListener("click", mouthOpenClose)
-        gsap.set(tongueGroup.current, { scaleY: 0 });
-        gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
+
         function valDownHandler() {
             if (mouthOnRef.current === false) {
                 kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
