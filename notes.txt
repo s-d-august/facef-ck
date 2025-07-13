@@ -7,8 +7,7 @@
 - opacity decrease on buttons instead of color change? kinda distracting
 - torso scale increases with arousalTier
 - increase torso scale for panting
-- increase cum opacity slightly?
-- arousal bar going too high again!!
+- arousal bar going too high sometimes?? idk
 - some way of having the hide settings button at the same place as the show settings
 - faceWipe should have different heights for the wipe since it's not a loop anyways
 - reset button
@@ -19,6 +18,7 @@
 - cursor ns-resize while dragging
 - tears play twice when cum in mouth && arousalTier < 3
 - force container size recalculation on resize
+- JO acting weird
 
 - jaw unhinging glitch
 - none and arousal modes broken glitch 

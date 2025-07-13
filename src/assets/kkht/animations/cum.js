@@ -38,7 +38,7 @@ export const cumAnimation = (args) => {
                     drawSVG: "0 100%"
                 }).to(("#cumshot"), { drawSVG: "100% 100%", duration: shot })
             .set(("#cumshot"), { opacity: 0 })
-            .set(cumID, { opacity: .8, scale: 0.2, transformOrigin: transformOrigin })
+            .set(cumID, { opacity: 0.9, scale: 0.2, transformOrigin: transformOrigin })
             .to(cumID, {
                 scale: 1, duration: move, ease: "power1.out"
             })

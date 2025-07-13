@@ -282,7 +282,7 @@ function App() {
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
             setTimeout(() => {
-                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 25 * sensitivityRef.current.boyd))
+                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
                 kkht.mouthOpenFunction(mouthArgs.current);
                 setHoldMouthOpen(true)
             }, hesitation.current)
