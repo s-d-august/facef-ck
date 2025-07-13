@@ -8,7 +8,6 @@
 - torso scale increases with arousalTier
 - increase torso scale for panting
 - increase cum opacity slightly?
-- hesitation needs to scale more; should be 0 when arousalTier 5
 - arousal bar going too high again!!
 - some way of having the hide settings button at the same place as the show settings
 - faceWipe should have different heights for the wipe since it's not a loop anyways
@@ -19,6 +18,7 @@
 - depthMode explanation on hover?
 - cursor ns-resize while dragging
 - tears play twice when cum in mouth && arousalTier < 3
+- force container size recalculation on resize
 
 - jaw unhinging glitch
 - none and arousal modes broken glitch 
