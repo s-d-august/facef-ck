@@ -195,6 +195,7 @@ function App() {
         })
     }, [ivesMode])
 
+
     useEffect(() => { // Face wipe, order buttons
 
         if (holdMouthOpen) {
@@ -307,6 +308,10 @@ function App() {
 
     useEffect(() => { // initializing, valDown
 
+        window.addEventListener("resize", () => {
+            containerSize.current = document.getElementById("container").getBoundingClientRect().height
+            console.log("resize noted", containerSize.current)
+        })
         mouthButton.current.addEventListener("click", mouthOpenClose)
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
@@ -317,7 +322,12 @@ function App() {
         }
         const interval = setInterval(valDownHandler, 500);
 
-        return () => clearInterval(interval); // Cleanup interval on unmount
+        return () => {
+            window.removeEventListener("resize", () => {
+                containerSize.current = document.getElementById("container").getBoundingClientRect().height
+            })
+            clearInterval(interval);
+        }
     }, []);
 
     useEffect(() => { // Sets up draggables
@@ -339,7 +349,8 @@ function App() {
             },
             edgeResistance: 0.9,
             onDrag: function () {
-                kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                container.
+                    kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
             }
         })
 
