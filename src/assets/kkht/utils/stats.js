@@ -4,7 +4,7 @@ export const valChange = (ids, upDown, max, setter, sensitivity, value) => {
         ids = [ids];
     }
     if (sensitivity === 0) sensitivity = 0.0001
-    
+
     ids.forEach((key) => {
         setter((prev) => {
             var newVal
@@ -13,7 +13,7 @@ export const valChange = (ids, upDown, max, setter, sensitivity, value) => {
             } else newVal = upDown === "up" ? prev[key] + sensitivity[key] : prev[key] - sensitivity[key];
 
             if (upDown === "up") {
-                if (newVal - 5 > max[key]) {
+                if (newVal - 2 > max[key]) {
                     return { ...prev, [key]: max[key] };
                 }
                 return { ...prev, [key]: newVal };

@@ -50,11 +50,11 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 2500,
+        ives: 1500,
         boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 2.5,
+        ives: 5,
         boyd: 2.5,
     })
 
@@ -250,13 +250,15 @@ function App() {
             )
         }
 
+        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick)
+
         wipeButton.current.addEventListener("click", lowerArmsHandler)
 
         // Cleanup function to remove listeners
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-
+            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
         };
 
     }, [armsUp, mouthOn, fastMorph, layerAnimation, approach, mouthOpen, isTongueCum])
@@ -348,8 +350,10 @@ function App() {
             },
             edgeResistance: 0.9,
             onDrag: function () {
-                container.
+                if (this.getDirection("start") === ("up" || "down")) {
                     kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                }
+
             }
         })
 
@@ -360,8 +364,6 @@ function App() {
                 setHairPullDragging(true);
             },
             onDrag: function () {
-
-                gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
                 kkht.updateFollowers({
                     itemsArray: [headParts.current, body.current],
                     x: this.x,
@@ -399,7 +401,8 @@ function App() {
                     },
                     maxArousal: maxArousalRef.current,
                     setArousal,
-                    sensitivity: sensitivityRef.current
+                    sensitivity: sensitivityRef.current,
+                    direction: this.getDirection("start")
                 };
 
                 this.dragResistance = kkht.isApproachOrOn(args)
@@ -439,7 +442,6 @@ function App() {
             zIndexBoost: false,
             onDragEnd: function () {
                 setHairPullDragging(false);
-                gsap.to(hideHand.current, { opacity: 0, duration: 0.2 })
             }
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")

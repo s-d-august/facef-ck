@@ -8,7 +8,7 @@ export const isApproachOrOn =
         // Neither approach nor on
         const {
             percent, startApproach, startOn, setApproach, setMouthOn,
-            affectedIDs, lick, maxArousal, setArousal, whileOff, whileApproach, whileOn, sensitivity
+            affectedIDs, lick, maxArousal, setArousal, whileOff, whileApproach, whileOn, sensitivity, direction
         } = args;
         if (percent <= startApproach) {
             setApproach(false)
@@ -25,7 +25,9 @@ export const isApproachOrOn =
         } else { // Dick is in mouth
             setMouthOn(true)
             if (whileOn) whileOn
-            valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
+            if (direction && (direction === ("up" || "down"))) {
+                valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
+            }
             return percent
         }
     }

@@ -1,7 +1,7 @@
 import gsap from "gsap"
 
 export const mouthOpenFunction = ({ moveBy, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter, arousalTier }) => {
-    
+
     gsap.to(mouthGroup, { y: moveBy, duration: 2, ease: "power1.out" })
     gsap.to(tongueGroup, { y: 0, scaleY: 1, duration: 2, ease: "power1.out" })
     gsap.to(tongueDrool, { scaleY: 1, duration: 2, transformOrigin: "top center" })
@@ -14,7 +14,6 @@ export const clearVisible = (array) => {
 }
 
 export const mouthCloseFunction = ({ tongueCum, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter, arousalTier }) => {
-    console.log({ tongueCum, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter })
     const visible = (tongueCum).filter(el => getComputedStyle(el).opacity !== "0");
 
     gsap.to(mouthGroup, { y: 0, duration: 1, ease: "power1.out" })
