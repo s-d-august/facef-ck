@@ -8,7 +8,6 @@
 - increase torso scale for panting
 - arousal bar going too high sometimes?? idk
 - some way of having the hide settings button at the same place as the show settings
-- faceWipe should have different heights for the wipe since it's not a loop anyways
 - reset button
 - hesitation before armsDown, slower animation
 - tinker with faceWipe animation

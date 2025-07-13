@@ -350,10 +350,15 @@ function App() {
             },
             edgeResistance: 0.9,
             onDrag: function () {
+                container.style.cursor = "ns-resize"
                 if (this.getDirection("start") === ("up" || "down")) {
                     kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
                 }
 
+            },
+            onDragEnd: () => {
+                gsap.to(dickHandParts.current, { opacity: 0, duration: 0.2 })
+                container.style.cursor = "auto"
             }
         })
 
@@ -364,6 +369,7 @@ function App() {
                 setHairPullDragging(true);
             },
             onDrag: function () {
+                container.style.cursor = "ns-resize"
                 kkht.updateFollowers({
                     itemsArray: [headParts.current, body.current],
                     x: this.x,
@@ -441,7 +447,9 @@ function App() {
             dragResistance: 0,
             zIndexBoost: false,
             onDragEnd: function () {
+                container.style.cursor = "auto"
                 setHairPullDragging(false);
+                gsap.to("#hairPullHand", { opacity: 0, duration: 0.2 })
             }
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")
