@@ -3,8 +3,6 @@
 - font STILL loading slow
 - eye flutter/eyes shut when you cum on him -- eye contact
 - mouthClose duration when cum on tongue based on arousalTier
-- torso scale increases with arousalTier
-- increase torso scale for panting
 - arousal bar going too high sometimes?? idk
 - some way of having the hide settings button at the same place as the show settings
 - reset button

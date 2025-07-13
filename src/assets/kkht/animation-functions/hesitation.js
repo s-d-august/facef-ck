@@ -1,14 +1,13 @@
 import gsap from "gsap"
 import { callState } from "../utils/dom";
 
-export const hesitation = async ({ duration, callback, setter }) => {
+export const hesitation = async ({ duration, playDuring, playAfter, setter, deepBreath }) => {
 
     if (duration === 0) {
         console.log("duration is 0")
+        if (typeof playAfter === "function") playAfter();
         return
     }
-
-    console.log("hesitation called")
 
     var eyeLeft = document.getElementById("eyeLeft")
     var eyeRight = document.getElementById("eyeRight")
@@ -16,60 +15,49 @@ export const hesitation = async ({ duration, callback, setter }) => {
     var topLineRight = document.getElementById("topLineRightGroup")
     var eyes = [eyeLeft, eyeRight, topLineLeft, topLineRight]
 
-    var browLeft = document.getElementById("browLeftGroup")
-    var browRight = document.getElementById("browRightGroup")
+    console.log(playDuring)
 
-    gsap.timeline()
-        .to(browLeft, {
-            x: 10,
-            rotation: -5,
-            duration: (duration / 700),
-            transformOrigin: "bottom left"
-        })
-        .to(browLeft, {
-            x: 0,
-            rotation: 0,
-            duration: (duration / 500),
-            transformOrigin: "bottom left"
-        })
+    if (playDuring) {
+        if (!Array.isArray(playDuring)) playDuring = [playDuring]
 
-    gsap.timeline()
-        .to(browRight, {
-            x: -10,
-            rotation: 5,
-            duration: (duration / 700),
-            transformOrigin: "bottom right"
+        playDuring.forEach((anim) => {
+            console.log(anim)
+            anim.name({ ...anim.args, duration: duration })
         })
-        .to(browRight, {
-            x: 0,
-            rotation: 0,
-            duration: (duration / 500),
-            transformOrigin: "bottom right"
-        })
+    }
 
-    gsap.timeline()
-        .to("#body", {
-            transformOrigin: "bottom center",
-            scale: 1.05,
-            yoyoEase: true,
-            repeat: 1,
-            duration: duration / 3000
-        })
+    if (deepBreath === "true") {
+        gsap.timeline()
+            .to("#body", {
+                transformOrigin: "bottom center",
+                scale: 1.05,
+                duration: (duration * 0.4),
+                ease: "power1.in"
+            })
+            .to("#body", {
+                delay: 0.1,
+                transformOrigin: "bottom center",
+                scale: 1,
+                duration: (duration * 0.6),
+                ease: "power1.out"
+            })
+    }
+
 
     function toggleBlink(el) {
         var prevDisplay = window.getComputedStyle(el).display
         el.style.display = (prevDisplay === "none") ? "block" : "none"
     }
 
-    callState(setter, duration / 1000)
+    callState(setter, duration)
 
     eyes.forEach(toggleBlink)
     await new Promise(resolve => {
         setTimeout(() => {
             resolve();
-        }, duration);
+        }, (duration * 1000));
     });
 
     eyes.forEach(toggleBlink)
-    if (typeof callback === "function") callback();
+    if (typeof playAfter === "function") playAfter();
 };

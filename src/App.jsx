@@ -87,7 +87,9 @@ function App() {
     const dickHandParts = useRef()
     const tongueCumArray = useRef()
     const mouthArgs = useRef()
-    const hesitation = useRef()
+    const hesitation = useRef({ sec: 0, ms: 0 })
+    const browLeft = useRef()
+    const browRight = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -128,15 +130,8 @@ function App() {
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
         tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
-        mouthArgs.current = {
-            tongueCum: tongueCumArray.current,
-            moveBy: containerSize.current * 0.045,
-            mouthGroup: mouthGroup.current,
-            tongueGroup: tongueGroup.current,
-            tongueDrool: tongueDrool.current,
-            mouthOpenSetter: setMouthOpen,
-            arousalTier: arousalTierRef.current
-        }
+        browLeft.current = document.getElementById("browLeftGroup")
+        browRight.current = document.getElementById("browRightGroup")
     }, [])
 
     useEffect(() => {
@@ -150,6 +145,15 @@ function App() {
         mouthOnRef.current = mouthOn;
     }, [mouthOn]);
     useEffect(() => {
+        mouthArgs.current = {
+            tongueCum: tongueCumArray.current,
+            moveBy: containerSize.current * 0.045,
+            mouthGroup: mouthGroup.current,
+            tongueGroup: tongueGroup.current,
+            tongueDrool: tongueDrool.current,
+            mouthOpenSetter: setMouthOpen,
+            arousalTier: arousalTierRef.current
+        }
         arousalTierRef.current = arousalTier;
     }, [arousalTier]);
 
@@ -285,11 +289,27 @@ function App() {
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
             kkht.hesitation({
+                deepBreath: (arousalTierRef.current === 1) ? "true" : "false",
                 setter: setFastMorph,
-                duration: hesitation.current,
-                callback: () => {
+                duration: hesitation.current.sec,
+                playDuring: {
+                    name: kkht.browRaise,
+                    args: {
+                        browLeft: browLeft.current,
+                        browRight: browRight.current
+                    }
+                },
+                playAfter: () => {
                     kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
-                    kkht.mouthOpenFunction(mouthArgs.current);
+                    kkht.mouthOpenFunction({
+                        tongueCum: tongueCumArray.current,
+                        moveBy: containerSize.current * 0.045,
+                        mouthGroup: mouthGroup.current,
+                        tongueGroup: tongueGroup.current,
+                        tongueDrool: tongueDrool.current,
+                        mouthOpenSetter: setMouthOpen,
+                        arousalTier: arousalTierRef.current
+                    });
                     setHoldMouthOpen(true)
                 }
             })
@@ -297,16 +317,36 @@ function App() {
 
         } else {
             if (isTongueCumRef.current) {
-                setTimeout(() => {
-                    kkht.mouthCloseFunction(mouthArgs.current);
-                    setHoldMouthOpen(false)
-                    setIsTongueCum(false)
-                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
-                    if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
-                }, hesitation.current)
+                kkht.hesitation({
+                    deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
+                    setter: setFastMorph,
+                    duration: (hesitation.current.sec * 3),
+                    playDuring: [{
+                        name: kkht.browRaise,
+                        args: {
+                            browLeft: browLeft.current,
+                            browRight: browRight.current
+                        }
+                    },
+                    {
+                        name: kkht.tearsAnimation,
+                        args: {
+                            tearRight: tearRight.current,
+                            tearLeft: tearLeft.current
+                        }
+                    }],
+                    playAfter: () => {
+                        console.log("hesitation.current.sec: ", hesitation.current.sec)
+                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current.sec * 3) });
+                        setHoldMouthOpen(false)
+                        setIsTongueCum(false)
+                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
+                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ tearLeft: tearLeft.current, tearRight: tearRight.current })
+                    }
+                })
 
             } else {
-                kkht.mouthCloseFunction(mouthArgs.current);
+                kkht.mouthCloseFunction({ ...mouthArgs.current });
                 setHoldMouthOpen(false)
             }
         }
@@ -467,6 +507,7 @@ function App() {
             kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 10 * sensitivityRef.current.boyd))
 
             if (mouthOn) {
+                // cum down his throat
                 kkht.callFastMorph({
                     ...morphArgsTemplate,
                     fromState: "Open",
@@ -497,6 +538,7 @@ function App() {
                 })
             }
             if (!mouthOn) {
+                // cum on his tongue
                 kkht.callState(setLayerAnimation, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
                 if (mouthOpen) {
@@ -504,7 +546,9 @@ function App() {
                         cumType: "tongueCum"
                     })
                     setIsTongueCum(true)
+
                 } else {
+                    // cum on his face
                     kkht.callCumshot({
                         cumType: "faceCum",
                         untilEmpty: true,
@@ -572,7 +616,8 @@ function App() {
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
 
-        hesitation.current = ((5 - arousalTier) * 250)
+        hesitation.current.ms = ((5 - arousalTier) * 250)
+        hesitation.current.sec = ((5 - arousalTier) / 4)
         console.log("hesitation: ", hesitation.current)
 
         const eyeCenterRight = document.getElementById("eyeCenterRight");
