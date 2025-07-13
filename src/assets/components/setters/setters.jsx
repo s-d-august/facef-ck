@@ -42,7 +42,7 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                             type="range"
                             orient="vertical"
                             className="sensitivitySet"
-                            min={0.001}
+                            min={0}
                             max={5}
                             step={0.1}
                             title={label}

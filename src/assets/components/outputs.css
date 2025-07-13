@@ -30,6 +30,8 @@
   position: absolute;
   border-radius: 9px;
   box-sizing: border-box;
+  -webkit-transition: .4s;
+  transition: .4s;
 }
 
 #numberOutputsDiv {

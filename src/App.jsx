@@ -8,7 +8,6 @@ import Head from './assets/components/head'
 import Mouth from './assets/components/mouth'
 import Arms from './assets/components/arms'
 import Outputs from './assets/components/outputs'
-import AgeCheck from './assets/kkht/age-check/age-check'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
@@ -29,7 +28,7 @@ function App() {
     const [isTongueCum, setIsTongueCum] = useState(false)
     const isTongueCumRef = useRef()
 
-    const [depthMethod, setDepthMethod] = useState("none")
+    const [depthMethod, setDepthMethod] = useState("Training")
 
     const [hairPullDragging, setHairPullDragging] = useState(false)
 
@@ -51,11 +50,11 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 500,
-        boyd: 5000,
+        ives: 2500,
+        boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 5,
+        ives: 2.5,
         boyd: 2.5,
     })
 
@@ -242,7 +241,7 @@ function App() {
             });
         }
         function lowerArmsHandler() {
-            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20))
+            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
             kkht.lowerArms({
                 elements: [chain.current, cloth.current, armRight.current, armLeft.current],
                 container: container,
@@ -286,7 +285,7 @@ function App() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
             console.log(hesitation.current)
             setTimeout(() => {
-                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 25))
+                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 25 * sensitivityRef.current.boyd))
                 kkht.mouthOpenFunction(mouthArgs.current);
                 setHoldMouthOpen(true)
             }, hesitation.current)
@@ -299,7 +298,7 @@ function App() {
                     setHoldMouthOpen(false)
                     setIsTongueCum(false)
                     console.log("tongueCum detected")
-                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
+                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
                     if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
                 }, hesitation.current)
 
@@ -447,7 +446,7 @@ function App() {
     useEffect(() => { // Nut function
         if (arousal.ives >= maxArousal.ives) {
 
-            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 10))
+            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 10 * sensitivityRef.current.boyd))
 
             if (mouthOn) {
                 kkht.callFastMorph({
@@ -685,7 +684,7 @@ function App() {
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
-            }), 1000)
+            }), 5000)
         } else {
             console.log("mouthOff")
             if (droolIntervalRef.current) {
@@ -812,7 +811,7 @@ function App() {
                     ]}
                     modes={{
                         id: "depthModeSet",
-                        modes: ["None", "Training", "Arousal"],
+                        modes: ["Training", "Arousal", "None"],
                         label: "Depth Mode:",
                         setter: setDepthMethod
                     }}
