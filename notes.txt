@@ -10,12 +10,9 @@
 - some way of having the hide settings button at the same place as the show settings
 - reset button
 - hesitation before armsDown, slower animation
-- tinker with faceWipe animation
 - mouth wider when mouthOn than when approach
 - depthMode explanation on hover?
-- cursor ns-resize while dragging
 - tears play twice when cum in mouth && arousalTier < 3
-- if you hover over hairPullHand while JOHand is visible, JOHand doesn't disappear
 
 - jaw unhinging glitch
 - none and arousal modes broken glitch 

@@ -2,6 +2,7 @@ export * from './animation-functions/call-cumshot';
 export * from './animation-functions/dick-handlers';
 export * from './animation-functions/morph';
 export * from './animation-functions/eye-movement'
+export * from './animation-functions/hesitation'
 
 export * from './animations/complex-panting';
 export * from './animations/cum';

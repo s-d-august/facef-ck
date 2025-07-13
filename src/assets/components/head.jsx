@@ -1,6 +1,10 @@
 import * as React from "react";
 import svgPath from "svgpath";
 
+function fix(el) {
+    return svgPath(el).translate(-16.217, -15.665).toString()
+}
+
 const Head = () => (
     <svg
         id="head"
@@ -167,7 +171,6 @@ const Head = () => (
                 stroke="none"
                 strokeLinecap="round"
                 display="inline"
-                opacity="1"
             >
                 <path
                     id="eyeFillLeft"
@@ -195,7 +198,6 @@ const Head = () => (
                 stroke="none"
                 strokeLinecap="round"
                 display="inline"
-                opacity="1"
             >
                 <path
                     id="eyeFillRight"
@@ -519,67 +521,7 @@ const Head = () => (
                 display="inline"
                 opacity="1"
             ></path>
-            <g id="browsGroup" strokeLinecap="round" display="inline" opacity="1">
-                <path
-                    id="path20"
-                    fill="none"
-                    stroke="#c87137"
-                    strokeOpacity="1"
-                    strokeWidth="3"
-                    d="m435.284 375.552 9.5 15.092 1.21 15.77"
-                    opacity="1"
-                ></path>
-                <path
-                    id="path21"
-                    fill="none"
-                    stroke="#c87137"
-                    strokeOpacity="1"
-                    strokeWidth="3"
-                    d="m470.394 372.581-10.482 16.92 1.193 14.877"
-                    display="inline"
-                    opacity="1"
-                ></path>
-                <path
-                    id="browLeftOpen"
-                    fill="#cf8700"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeWidth="2.566"
-                    d="m412.653 386.376 18.894 10.662-2.613 20.77-49.725 18.317-77.918 7.624-39.71 12.51L292.414 422l72.159-12.042z"
-                    display="inline"
-                    opacity="1"
-                ></path>
-                <path
-                    id="browRightOpen"
-                    fill="#cf8700"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeWidth="2.521"
-                    d="m495.862 383.237-16.39 10-2.444 20.672 58.72 16.224 71.515 5.525 50.768 15.239-42.792-39.058-70.313-10.173z"
-                    display="inline"
-                    opacity="1"
-                ></path>
-                <path
-                    id="browLeftWide"
-                    fill="#cf8700"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeWidth="2.566"
-                    d="m412.653 379.352 18.894 10.661-2.613 20.77-55.579 9.536-69.137 22.259-40.881 16.022 32.005-37.771 63.378-26.677Z"
-                    display="inline"
-                    opacity="1"
-                ></path>
-                <path
-                    id="browRightWide"
-                    fill="#cf8700"
-                    fillOpacity="1"
-                    stroke="none"
-                    strokeWidth="2.521"
-                    d="m495.862 376.212-16.39 9.999-2.444 20.673 58.72 9.785 69.173 20.16 52.524 14.068-44.547-37.887-67.972-24.808Z"
-                    display="inline"
-                    opacity="1"
-                ></path>
-            </g>
+
             <g
                 id="sweatGroup"
                 fill="#fff"
@@ -830,6 +772,73 @@ const Head = () => (
                     id="faceCum1"
                     strokeWidth="0.566"
                     d="M308.722 503.95c-8.47 0-13.365 7.934-13.366 22.287 1.153 6.223 3.77 16.543 5.675 25.31 1.358 6.25.961 23.902 1.62 32.339.668 8.567 1.384 11.24 3.253 12.157 2.502 1.226 4.067-20.565 3.32 4.184.306 1.385.436 2.67.82 8.07.904 12.744.402 39.249 3.486 39.192 4.13-.076 3.74-43.688 7.674-33.135 1.424 5.338 2.768 6.342 3.666 2.735.845-3.396.425-34.682-1.391-48.538-1.561-11.907-5.075-18.567-4.197-24.917.864-6.25 1.74-9.78 2.383-16.376-.002-10.4-6.395-23.43-12.943-23.308"
+                ></path>
+            </g>
+        </g>
+        <g id="browsGroup" strokeLinecap="round" display="inline" opacity="1">
+
+            <g id="browLeftGroup">
+                <path
+                    id="browLeftOpen"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.566"
+                    d={fix("m412.653 386.376 18.894 10.662-2.613 20.77-49.725 18.317-77.918 7.624-39.71 12.51L292.414 422l72.159-12.042z")}
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browLeftWide"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.566"
+                    d={fix("m412.653 379.352 18.894 10.661-2.613 20.77-55.579 9.536-69.137 22.259-40.881 16.022 32.005-37.771 63.378-26.677Z")}
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browLeftCrease"
+                    fill="none"
+                    stroke="#c87137"
+                    strokeOpacity="1"
+                    strokeWidth="3"
+                    d={svgPath(fix("m435.284 375.552 9.5 15.092 1.21 15.77")).translate(-3, 3).toString()}
+                    opacity="1"
+                ></path>
+            </g>
+
+            <g id="browRightGroup">
+                <path
+                    id="browRightOpen"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.521"
+                    d={fix("m495.862 383.237-16.39 10-2.444 20.672 58.72 16.224 71.515 5.525 50.768 15.239-42.792-39.058-70.313-10.173z")}
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browRightWide"
+                    fill="#cf8700"
+                    fillOpacity="1"
+                    stroke="none"
+                    strokeWidth="2.521"
+                    d={fix("m495.862 376.212-16.39 9.999-2.444 20.673 58.72 9.785 69.173 20.16 52.524 14.068-44.547-37.887-67.972-24.808Z")}
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="browRightCrease"
+                    fill="none"
+                    stroke="#c87137"
+                    strokeOpacity="1"
+                    strokeWidth="3"
+                    d={svgPath(fix("m470.394 372.581-10.482 16.92 1.193 14.877")).translate(3, 3).toString()}
+                    display="inline"
+                    opacity="1"
                 ></path>
             </g>
         </g>
