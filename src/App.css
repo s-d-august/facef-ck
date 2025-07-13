@@ -72,6 +72,16 @@
   animation-duration: var(--animation-duration);
 }
 
+@keyframes breathTorso {
+  from {
+    transform: scale(100%);
+  }
+
+  to {
+    transform: scale(var(--breathTorsoScale))
+  }
+}
+
 body {
   background-color: #93ac93;
   background-color: rgb(0, 0, 0);
@@ -214,15 +224,7 @@ svg {
 
 
 
-@keyframes breathTorso {
-  from {
-    transform: scale(100%);
-  }
 
-  to {
-    transform: scale(103%)
-  }
-}
 
 @keyframes breathMouth {
   from {

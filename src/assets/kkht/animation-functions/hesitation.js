@@ -50,7 +50,7 @@ export const hesitation = async ({ duration, callback, setter }) => {
     gsap.timeline()
         .to("#body", {
             transformOrigin: "bottom center",
-            scale: 1.04,
+            scale: 1.05,
             yoyoEase: true,
             repeat: 1,
             duration: duration / 3000

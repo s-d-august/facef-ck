@@ -1,7 +1,6 @@
 - weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts
 - some kind of variable for training mode? based on sensitivity * max or something
 - font STILL loading slow
-- some kind of visual indicator for hesitation -- eyes close?
 - eye flutter/eyes shut when you cum on him -- eye contact
 - mouthClose duration when cum on tongue based on arousalTier
 - torso scale increases with arousalTier

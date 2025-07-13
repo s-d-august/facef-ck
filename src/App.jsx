@@ -582,7 +582,7 @@ function App() {
         console.log("arousalTier: ", arousalTier)
 
         if (!fastMorphRef.current) {
-            if (arousalTier === 1 || arousalTier === 2) {
+            if (arousalTier === (1 || 2)) {
                 cleanup = kkht.eyeMovement({
                     moveEls: [eyeCenterRight, eyeCenterLeft],
                     type: "random",
@@ -593,7 +593,9 @@ function App() {
                         minY: 0
                     }
                 });
-            } else if (arousalTier === 3 || arousalTier === 4) {
+
+                document.documentElement.style.setProperty("--breathTorsoScale", "102%");
+            } else if (arousalTier === (3 || 4)) {
                 cleanup = kkht.eyeMovement({
                     moveEls: [eyeCenterRight, eyeCenterLeft],
                     type: "toFro",
@@ -604,12 +606,14 @@ function App() {
                         minY: -17
                     }
                 });
+                document.documentElement.style.setProperty("--breathTorsoScale", "103%");
             } else if (arousalTier === 5) {
                 gsap.to([eyeCenterRight, eyeCenterLeft], {
                     x: 0,
                     y: -17,
                     duration: 1
                 })
+                document.documentElement.style.setProperty("--breathTorsoScale", "104%");
             }
         }
 
