@@ -4,7 +4,7 @@ import { renderMorph } from "../animation-functions/morph";
 
 export const pantingAnimation = (args) => {
 
-    const { expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph } = args
+    const { setHoldMouthOpen, expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph } = args
 
     let obj = { p: 0 };
 
@@ -34,6 +34,7 @@ export const pantingAnimation = (args) => {
         setApproach(false)
         setMouthOn(false)
         setMouthOpen(false)
+        setHoldMouthOpen(false)
     }
 
     setTimeout(setAllFalse, 3000)

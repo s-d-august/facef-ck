@@ -472,7 +472,8 @@ function App() {
                             setMouthOpen: setMouthOpen,
                             setApproach: setApproach,
                             draggable: hairPullDraggable.current,
-                            alsoMove: hairPullBeads.current
+                            alsoMove: hairPullBeads.current,
+                            setHoldMouthOpen: setHoldMouthOpen
                         }
                     }]
                 })

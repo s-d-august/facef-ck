@@ -5,7 +5,6 @@
 - eye flutter/eyes shut when you cum on him -- eye contact
 - mouthClose duration when cum on tongue based on arousalTier
 - opacity decrease on buttons instead of color change? kinda distracting
-- breaks when you cum in mouth when holdMouthOpen
 - torso scale increases with arousalTier
 - increase torso scale for panting
 - increase cum opacity slightly?
@@ -20,4 +19,6 @@
 - depthMode explanation on hover?
 - cursor ns-resize while dragging
 - tears play twice when cum in mouth && arousalTier < 3
+
 - jaw unhinging glitch
+- none and arousal modes broken glitch 
