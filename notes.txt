@@ -1,2 +1,23 @@
 - weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts
-- some kind of variable for training mode?
+- some kind of variable for training mode? based on sensitivity * max or something
+- font STILL loading slow
+- some kind of visual indicator for hesitation -- eyes close?
+- eye flutter/eyes shut when you cum on him -- eye contact
+- mouthClose duration when cum on tongue based on arousalTier
+- opacity decrease on buttons instead of color change? kinda distracting
+- breaks when you cum in mouth when holdMouthOpen
+- torso scale increases with arousalTier
+- increase torso scale for panting
+- increase cum opacity slightly?
+- hesitation needs to scale more; should be 0 when arousalTier 5
+- arousal bar going too high again!!
+- some way of having the hide settings button at the same place as the show settings
+- faceWipe should have different heights for the wipe since it's not a loop anyways
+- reset button
+- hesitation before armsDown, slower animation
+- tinker with faceWipe animation
+- mouth wider when mouthOn than when approach
+- depthMode explanation on hover?
+- cursor ns-resize while dragging
+- tears play twice when cum in mouth && arousalTier < 3
+- jaw unhinging glitch
