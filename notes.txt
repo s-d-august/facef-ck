@@ -4,7 +4,6 @@
 - some kind of visual indicator for hesitation -- eyes close?
 - eye flutter/eyes shut when you cum on him -- eye contact
 - mouthClose duration when cum on tongue based on arousalTier
-- opacity decrease on buttons instead of color change? kinda distracting
 - torso scale increases with arousalTier
 - increase torso scale for panting
 - arousal bar going too high sometimes?? idk
@@ -17,7 +16,6 @@
 - depthMode explanation on hover?
 - cursor ns-resize while dragging
 - tears play twice when cum in mouth && arousalTier < 3
-- force container size recalculation on resize
 - JO acting weird
 
 - jaw unhinging glitch
