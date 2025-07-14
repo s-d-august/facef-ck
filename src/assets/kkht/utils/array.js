@@ -1,5 +1,11 @@
 import gsap from "gsap";
 
+export const setAllTo = ({ state, setter, value }) => {
+    setter(
+        Object.fromEntries(Object.keys(state).map(key => [key, value]))
+    );
+}
+
 export const allOpacityZero = (array) => {
     console.log("allOpacityZero called")
     return array.every(el => {

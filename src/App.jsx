@@ -8,6 +8,7 @@ import Head from './assets/components/head'
 import Mouth from './assets/components/mouth'
 import Arms from './assets/components/arms'
 import Outputs from './assets/components/outputs'
+import Orders from './assets/components/handler-functions/buttons-handler'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
@@ -39,9 +40,6 @@ function App() {
     const [approach, setApproach] = useState(false)
 
     const [armsUp, setArmsUp] = useState(true)
-
-    const droolIntervalRef = useRef(null);
-    const sweatIntervalRef = useRef(null);
 
     const [arousalTier, setArousalTier] = useState(1)
 
@@ -92,6 +90,8 @@ function App() {
     const browRight = useRef()
     const eyeCenterRight = useRef()
     const eyeCenterLeft = useRef()
+    const droolIntervalRef = useRef(null);
+    const sweatIntervalRef = useRef(null);
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
