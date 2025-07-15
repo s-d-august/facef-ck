@@ -40,7 +40,7 @@ function App() {
     const [holdMouthOpen, setHoldMouthOpen] = useState(false)
     const [mouthOpen, setMouthOpen] = useState(false)
     const [mouthOn, setMouthOn] = useState(false)
-    const mouthOpenRef = useRef(mouthOpen);
+
     const [approach, setApproach] = useState(false)
 
     const [armsUp, setArmsUp] = useState(true)
@@ -65,14 +65,17 @@ function App() {
         mouthButton: "hide"
     });
 
+    const approachRef = useRef()
     const armLeft = useRef()
     const armRight = useRef()
     const armsButton = useRef()
     const armsSvg = useRef()
+    const armsUpRef = useRef()
     const arousalTierRef = useRef()
     const body = useRef()
     const browLeft = useRef()
     const browRight = useRef()
+    const buttonStatesRef = useRef()
     const chain = useRef()
     const cloth = useRef()
     const containerSize = useRef()
@@ -96,6 +99,7 @@ function App() {
     const mouthButton = useRef()
     const mouthGroup = useRef()
     const mouthOnRef = useRef()
+    const mouthOpenRef = useRef()
     const sensitivityRef = useRef()
     const sweatIntervalRef = useRef(null);
     const tearLeft = useRef()
@@ -150,6 +154,15 @@ function App() {
         tongueGroup.current = document.getElementById("tongueGroup")
     }, [])
 
+
+    useEffect(() => {
+        approachRef.current = approach
+    }, [approach])
+
+    useEffect(() => {
+        buttonStatesRef.current = buttonStates
+    }, [buttonStates])
+
     useEffect(() => {
         cumOnTongueRef.current = cumOnTongue
     }, [cumOnTongue])
@@ -203,6 +216,10 @@ function App() {
     }, [holdMouthOpen])
 
     useEffect(() => {
+        armsUpRef.current = armsUp
+    }, [armsUp])
+
+    useEffect(() => {
         maxArousalRef.current = maxArousal;
         if (Object.values(maxArousal).includes(1999)
             || Object.values(maxArousal).includes(1847)) {
@@ -229,7 +246,49 @@ function App() {
 
     }, [ivesMode])
 
-    useEffect(() => {
+    useEffect(() => { // Renders button states
+        buttons.buttonStatesHandler({
+            armsButton: armsButton.current,
+            mouthButton: mouthButton.current,
+            buttonStates: buttonStatesRef.current
+        })
+    }, [buttonStates])
+
+    useEffect(() => { // Handles when buttons become inactive
+        buttons.buttonsInactive({
+            approach: approachRef.current,
+            buttonStates: buttonStatesRef.current,
+            mouthOn: mouthOnRef.current,
+            setButtonStates
+        })
+    }, [approach, mouthOn, buttonStates])
+
+    useEffect(() => { // Handles states for armsButton
+        buttons.armsButtonHandler({
+            armsButton: armsButton.current,
+            armsSvg: armsSvg.current,
+            armsUp: armsUpRef.current,
+            cloth: cloth.current,
+            cumOnFace: cumOnFaceRef.current,
+            setArmsUp,
+            setButtonStates,
+            setInterruptUI
+        })
+    }, [armsUp, cumOnFace])
+
+    useEffect(() => { // Handles states for mouthButton
+        buttons.mouthButtonHandler({
+            armsUp: armsUpRef.current,
+            cumOnTongue: cumOnTongueRef.current,
+            holdMouthOpen: holdMouthOpenRef.current,
+            mouthArgs: mouthArgs.current,
+            mouthButton: mouthButton.current,
+            mouthOpen: mouthOpenRef.current,
+            setButtonStates
+        })
+    }, [armsUp, cumOnTongue, holdMouthOpen, mouthArgs, mouthOpen])
+
+    useEffect(() => { // Sets up listener for mouthButton
         function openCloseListener() {
             buttons.openCloseHandler({
                 arousalTier: arousalTierRef.current,
@@ -250,54 +309,6 @@ function App() {
         mouthButton.current.addEventListener("click", openCloseListener)
         return () => mouthButton.current.removeEventListener("click", openCloseListener)
     }, [arousalTier, cumOnTongue, hesitation, holdMouthOpen, maxArousal, mouthArgs, sensitivity])
-
-    useEffect(() => { // Renders button states
-        buttons.buttonStatesHandler(armsButton.current, mouthButton.current, buttonStates)
-    }, [buttonStates])
-
-    useEffect(() => { // Handles when buttons become inactive
-        buttons.buttonsInactive({
-            approach,
-            buttonStates,
-            mouthOn,
-            setButtonStates
-        })
-    }, [approach, mouthOn])
-
-    useEffect(() => { // Handles states for armsButton
-        buttons.armsButtonHandler({
-            armsButton: armsButton.current,
-            armsSvg: armsSvg.current,
-            armsUp,
-            cloth: cloth.current,
-            cumOnFace,
-            setArmsUp,
-            setButtonStates,
-            setInterruptUI
-        })
-    }, [armsUp, cumOnFace])
-
-    useEffect(() => { // Handles states for mouthButton
-        buttons.mouthButtonHandler({
-            armsUp,
-            arousalTier,
-            browLeft: browLeft.current,
-            browRight: browRight.current,
-            cumOnTongue,
-            hesitation: hesitation.current.sec,
-            holdMouthOpen,
-            maxArousal,
-            mouthArgs: mouthArgs.current,
-            mouthButton: mouthButton.current,
-            mouthOpen,
-            sensitivity,
-            setArousal,
-            setButtonStates,
-            setHoldMouthOpen,
-            setInterruptBreath,
-            setInterruptUI
-        })
-    }, [armsUp, arousalTier, cumOnTongue, hesitation, holdMouthOpen, maxArousal, mouthArgs, mouthOpen, sensitivity])
 
     useEffect(() => { // Mouth open/shut when approach
         console.log("holdMouthOpen: ", holdMouthOpen)
