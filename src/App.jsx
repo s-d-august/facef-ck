@@ -90,6 +90,7 @@ function App() {
     const headParts = useRef()
     const hesitation = useRef({ sec: 0, ms: 0 })
     const hideHand = useRef()
+    const holdMouthOpenRef = useRef()
     const maxArousalRef = useRef(maxArousal);
     const mouthArgs = useRef()
     const mouthButton = useRef()
@@ -198,6 +199,10 @@ function App() {
     }, [sensitivity])
 
     useEffect(() => {
+        holdMouthOpenRef.current = holdMouthOpen
+    }, [holdMouthOpen])
+
+    useEffect(() => {
         maxArousalRef.current = maxArousal;
         if (Object.values(maxArousal).includes(1999)
             || Object.values(maxArousal).includes(1847)) {
@@ -224,6 +229,27 @@ function App() {
 
     }, [ivesMode])
 
+    useEffect(() => {
+        function openCloseListener() {
+            buttons.openCloseHandler({
+                arousalTier: arousalTierRef.current,
+                browLeft: browLeft.current,
+                browRight: browRight.current,
+                cumOnTongue: cumOnTongueRef.current,
+                hesitation: hesitation.current.sec,
+                holdMouthOpen: holdMouthOpenRef.current,
+                maxArousal: maxArousalRef.current,
+                mouthArgs: mouthArgs.current,
+                sensitivity: sensitivityRef.current,
+                setArousal,
+                setHoldMouthOpen,
+                setInterruptBreath,
+                setInterruptUI,
+            })
+        }
+        mouthButton.current.addEventListener("click", openCloseListener)
+        return () => mouthButton.current.removeEventListener("click", openCloseListener)
+    }, [arousalTier, cumOnTongue, hesitation, holdMouthOpen, maxArousal, mouthArgs, sensitivity])
 
     useEffect(() => { // Renders button states
         buttons.buttonStatesHandler(armsButton.current, mouthButton.current, buttonStates)
@@ -258,21 +284,23 @@ function App() {
             browLeft: browLeft.current,
             browRight: browRight.current,
             cumOnTongue,
-            hesitation,
+            hesitation: hesitation.current.sec,
             holdMouthOpen,
             maxArousal,
-            mouthArgs,
-            mouthButton,
+            mouthArgs: mouthArgs.current,
+            mouthButton: mouthButton.current,
             mouthOpen,
             sensitivity,
             setArousal,
             setButtonStates,
+            setHoldMouthOpen,
             setInterruptBreath,
             setInterruptUI
         })
     }, [armsUp, arousalTier, cumOnTongue, hesitation, holdMouthOpen, maxArousal, mouthArgs, mouthOpen, sensitivity])
 
     useEffect(() => { // Mouth open/shut when approach
+        console.log("holdMouthOpen: ", holdMouthOpen)
         if (holdMouthOpen) return
         if (
             !containerSize.current ||

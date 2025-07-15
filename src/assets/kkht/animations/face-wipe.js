@@ -3,8 +3,7 @@ import { isFaceClean } from "../animation-functions/call-cumshot"
 
 export const lowerArms = (args) => {
     const { elements, setter } = args
-    const targets = [...elements]
-    gsap.timeline().to(targets, {
+    gsap.timeline().to(elements, {
         y: 1000,
         duration: 0.5,
         ease: "power1.in",

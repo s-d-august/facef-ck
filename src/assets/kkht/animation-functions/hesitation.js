@@ -1,7 +1,7 @@
 import gsap from "gsap"
 import { callState } from "../utils/dom";
 
-export const hesitation = async ({ duration, playDuring, playAfter, setter, deepBreath }) => {
+export const hesitation = async ({ duration, playDuring, playAfter, animationSetter, deepBreath }) => {
 
     if (duration === 0) {
         console.log("duration is 0")
@@ -15,13 +15,10 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
     var topLineRight = document.getElementById("topLineRightGroup")
     var eyes = [eyeLeft, eyeRight, topLineLeft, topLineRight]
 
-    console.log(playDuring)
-
     if (playDuring) {
         if (!Array.isArray(playDuring)) playDuring = [playDuring]
 
         playDuring.forEach((anim) => {
-            console.log(anim)
             anim.name({ ...anim.args, duration: duration })
         })
     }
@@ -44,12 +41,19 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
     }
 
 
+    if (Array.isArray(animationSetter)) {
+        animationSetter.forEach((set) => {
+            callState(set, duration)
+
+        })
+    } else {
+        callState(animationSetter, duration)
+    }
+
     function toggleBlink(el) {
         var prevDisplay = window.getComputedStyle(el).display
         el.style.display = (prevDisplay === "none") ? "block" : "none"
     }
-
-    callState(setter, duration)
 
     eyes.forEach(toggleBlink)
     await new Promise(resolve => {
@@ -59,5 +63,7 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
     });
 
     eyes.forEach(toggleBlink)
+
+    console.log(typeof playAfter === "function")
     if (typeof playAfter === "function") playAfter();
 };

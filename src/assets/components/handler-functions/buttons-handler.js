@@ -31,6 +31,7 @@ export const armsButtonHandler = ({ armsUp, armsButton, cumOnFace, armsSvg, clot
     }
     // After having him lower his arms the first time
     else {
+        setButtonStates(prev => ({ ...prev, armsButton: "hide" }))
         armsButton.removeEventListener("click", lowerArmsHandler)
         armsButton.addEventListener("click", faceWipeHandler)
         armsButton.innerText = '"Wipe the mess off your face."'
@@ -65,13 +66,18 @@ export const armsButtonHandler = ({ armsUp, armsButton, cumOnFace, armsSvg, clot
 }
 
 export const mouthButtonHandler = ({ arousalTier, setInterruptBreath, setInterruptUI, browLeft, browRight,
-    maxArousal, setArousal, sensitivity, mouthArgs, hesitation, armsUp, mouthButton, mouthOpen, cumOnTongue, holdMouthOpen, setButtonStates
+    maxArousal, setArousal, sensitivity, mouthArgs, hesitation, armsUp, mouthButton, mouthOpen, cumOnTongue, holdMouthOpen, setButtonStates, setHoldMouthOpen
 }) => {
+
+    console.log(mouthArgs)
+
     // When the page loads, mouthButton is hidden
     if (armsUp) {
         console.log("armsUp noted")
         setButtonStates(prev => ({ ...prev, mouthButton: "hide" }))
-    } else mouthButton.addEventListener("click", openCloseHandler)
+    } else {
+        setButtonStates(prev => ({ ...prev, mouthButton: "active" }))
+    }
 
     // If mouth isn't set to hold open
     if (!holdMouthOpen) mouthButton.innerText = '"Open your mouth."'
@@ -87,16 +93,19 @@ export const mouthButtonHandler = ({ arousalTier, setInterruptBreath, setInterru
     }
 
     function openCloseHandler() {
+
+        console.log("holdMouthOpen: ", holdMouthOpen, "cumOnTongue: ", cumOnTongue)
         if (!holdMouthOpen) { // if setting mouth to open
             kkht.hesitation({
                 deepBreath: (arousalTier === 1) ? "true" : "false",
                 animationSetter: [setInterruptUI, setInterruptBreath],
-                duration: hesitation.sec,
+                duration: hesitation,
                 playDuring: {
                     name: kkht.browRaise,
                     args: {
                         browLeft,
-                        browRight
+                        browRight,
+                        duration: hesitation
                     }
                 },
                 playAfter: () => {
@@ -115,8 +124,9 @@ export const mouthButtonHandler = ({ arousalTier, setInterruptBreath, setInterru
                     playDuring: [{
                         name: kkht.browRaise,
                         args: {
-                            browLeft: browLeft,
-                            browRight: browRight
+                            browLeft,
+                            browRight,
+                            duration: hesitation
                         }
                     },
                     {
@@ -137,15 +147,13 @@ export const mouthButtonHandler = ({ arousalTier, setInterruptBreath, setInterru
                 })
                 // if mouth is open, but no cum is on tongue
             } else {
+                console.log("test")
                 kkht.mouthCloseFunction({ ...mouthArgs });
                 setHoldMouthOpen(false)
             }
         }
     }
 
-    return () => {
-        mouthButton.removeEventListener("click", openCloseHandler);
-    };
 }
 
 
@@ -166,22 +174,26 @@ export const lowerArmsHandler = ({ armsSvg, setArmsUp, setInterruptUI }) => {
     )
 }
 
-export const OpenCloseHandler = ({ holdMouthOpen, arousalTier, setInterruptBreath, setInterruptUI, browLeft, browRight,
-    maxArousal, setArousal, sensitivity, mouthArgs, cumOnTongue, hesitation
+export const openCloseHandler = ({ holdMouthOpen, arousalTier, setInterruptBreath, setInterruptUI, browLeft, browRight,
+    maxArousal, setArousal, sensitivity, mouthArgs, cumOnTongue, hesitation, setHoldMouthOpen
 }) => {
+    console.log("holdMouthOpen: ", holdMouthOpen, "cumOnTongue: ", cumOnTongue)
     if (!holdMouthOpen) { // if setting mouth to open
+        console.log("holdMouthTest: ", holdMouthOpen)
         kkht.hesitation({
             deepBreath: (arousalTier === 1) ? "true" : "false",
             animationSetter: [setInterruptUI, setInterruptBreath],
-            duration: hesitation.sec,
+            duration: hesitation,
             playDuring: {
                 name: kkht.browRaise,
                 args: {
                     browLeft,
-                    browRight
+                    browRight,
+                    duration: hesitation
                 }
             },
             playAfter: () => {
+                console.log("playAfter test")
                 kkht.valChange(["boyd"], "up", maxArousal, setArousal, sensitivity, (maxArousal.boyd / 100 * sensitivity.boyd))
                 kkht.mouthOpenFunction({ ...mouthArgs });
                 setHoldMouthOpen(true)
@@ -190,15 +202,17 @@ export const OpenCloseHandler = ({ holdMouthOpen, arousalTier, setInterruptBreat
     } else {
         // if mouth is open and cum is on tongue
         if (cumOnTongue) {
+            console.log("cumTest: ", cumOnTongue)
             kkht.hesitation({
                 deepBreath: (arousalTier < 4) ? "true" : "false",
                 animationSetter: [setInterruptUI, setInterruptBreath],
-                duration: (hesitation.sec * 3),
+                duration: (hesitation * 3),
                 playDuring: [{
                     name: kkht.browRaise,
                     args: {
-                        browLeft: browLeft,
-                        browRight: browRight
+                        browLeft,
+                        browRight,
+                        duration: hesitation
                     }
                 },
                 {
@@ -209,7 +223,7 @@ export const OpenCloseHandler = ({ holdMouthOpen, arousalTier, setInterruptBreat
                     }
                 }],
                 playAfter: () => {
-                    console.log("hesitation.sec: ", hesitation.sec)
+                    console.log("hesitation.sec: ", hesitation)
                     kkht.mouthCloseFunction({ ...mouthArgs, duration: (hesitation.sec * 3) });
                     setHoldMouthOpen(false)
                     setIsTongueCum(false)
@@ -219,11 +233,13 @@ export const OpenCloseHandler = ({ holdMouthOpen, arousalTier, setInterruptBreat
             })
             // if mouth is open, but no cum is on tongue
         } else {
+            console.log("test")
             kkht.mouthCloseFunction({ ...mouthArgs });
             setHoldMouthOpen(false)
         }
     }
 }
+
 
 export default {
     buttonStatesHandler,
@@ -232,5 +248,5 @@ export default {
     mouthButtonHandler,
     faceWipeHandler,
     lowerArmsHandler,
-    OpenCloseHandler
+    openCloseHandler
 };

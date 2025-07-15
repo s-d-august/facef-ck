@@ -2,8 +2,6 @@ import gsap from "gsap"
 
 export const browRaise = ({ browLeft, browRight, duration }) => {
 
-    console.log("browRaise args", { browLeft, browRight, duration })
-
     gsap.timeline()
         .to(browLeft, {
             x: 10,
