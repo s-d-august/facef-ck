@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 import * as kkht from './assets/kkht/index'
+import buttons from './assets/components/handler-functions/buttons-handler'
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
 import Body from './assets/components/body'
@@ -8,7 +9,6 @@ import Head from './assets/components/head'
 import Mouth from './assets/components/mouth'
 import Arms from './assets/components/arms'
 import Outputs from './assets/components/outputs'
-import Orders from './assets/components/handler-functions/buttons-handler'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
@@ -21,13 +21,17 @@ function App() {
     const slowMorphRef = useRef(slowMorph)
     const fastMorphRef = useRef(fastMorph)
 
-    const [layerAnimation, setLayerAnimation] = useState(false)
+    const [interruptUI, setInterruptUI] = useState(false)
+    const [interruptBreath, setInterruptBreath] = useState(false)
 
     const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
     const [ivesMode, setIvesMode] = useState(false)
 
-    const [isTongueCum, setIsTongueCum] = useState(false)
-    const isTongueCumRef = useRef()
+    const [cumOnTongue, setCumOnTongue] = useState(false)
+    const cumOnTongueRef = useRef()
+
+    const [cumOnFace, setCumOnFace] = useState(false)
+    const cumOnFaceRef = useRef()
 
     const [depthMethod, setDepthMethod] = useState("Training")
 
@@ -56,42 +60,48 @@ function App() {
         boyd: 2.5,
     })
 
-    const containerSize = useRef()
-    const mouthGroup = useRef()
-    const tongueGroup = useRef()
-    const tongueDrool = useRef()
-    const hideHand = useRef()
-    const headParts = useRef()
-    const hairPullBeads = useRef()
-    const body = useRef()
-    const tearRight = useRef()
-    const tearLeft = useRef()
-    const sensitivityRef = useRef()
-    const maxArousalRef = useRef(maxArousal);
-    const wipeButton = useRef()
-    const mouthButton = useRef()
-    const dickSvg = useRef()
-    const armRight = useRef()
+    const [buttonStates, setButtonStates] = useState({
+        armsButton: "active",
+        mouthButton: "hide"
+    });
+
     const armLeft = useRef()
-    const cloth = useRef()
-    const chain = useRef()
-    const hairPullHandGrab = useRef()
-    const dickHandGrab = useRef()
-    const depthMethodRef = useRef()
+    const armRight = useRef()
+    const armsButton = useRef()
+    const armsSvg = useRef()
     const arousalTierRef = useRef()
-    const mouthOnRef = useRef()
-    const dickHandDraggable = useRef()
-    const hairPullDraggable = useRef()
-    const dickHandParts = useRef()
-    const tongueCumArray = useRef()
-    const mouthArgs = useRef()
-    const hesitation = useRef({ sec: 0, ms: 0 })
+    const body = useRef()
     const browLeft = useRef()
     const browRight = useRef()
-    const eyeCenterRight = useRef()
-    const eyeCenterLeft = useRef()
+    const chain = useRef()
+    const cloth = useRef()
+    const containerSize = useRef()
+    const depthMethodRef = useRef()
+    const dickHandDraggable = useRef()
+    const dickHandGrab = useRef()
+    const dickHandParts = useRef()
+    const dickSvg = useRef()
     const droolIntervalRef = useRef(null);
+    const eyeCenterLeft = useRef()
+    const eyeCenterRight = useRef()
+    const hairPullBeads = useRef()
+    const hairPullDraggable = useRef()
+    const hairPullHandGrab = useRef()
+    const headParts = useRef()
+    const hesitation = useRef({ sec: 0, ms: 0 })
+    const hideHand = useRef()
+    const maxArousalRef = useRef(maxArousal);
+    const mouthArgs = useRef()
+    const mouthButton = useRef()
+    const mouthGroup = useRef()
+    const mouthOnRef = useRef()
+    const sensitivityRef = useRef()
     const sweatIntervalRef = useRef(null);
+    const tearLeft = useRef()
+    const tearRight = useRef()
+    const tongueCumArray = useRef()
+    const tongueDrool = useRef()
+    const tongueGroup = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -111,36 +121,41 @@ function App() {
             console.log("container not rendered")
             return
         }; // Prevents error if not rendered
-        containerSize.current = document.getElementById("container").getBoundingClientRect().height
-        mouthGroup.current = document.getElementById("mouthGroup")
-        tongueGroup.current = document.getElementById("tongueGroup")
-        tongueDrool.current = document.getElementById("tongueDrool")
-        hideHand.current = gsap.utils.toArray(".hideHand")
-        headParts.current = gsap.utils.toArray(".headParts");
-        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
-        body.current = document.getElementById("bodyGroup");
-        tearRight.current = document.getElementById("tearRight")
-        tearLeft.current = document.getElementById("tearLeft")
-        wipeButton.current = document.getElementById("wipeOrderButton")
-        mouthButton.current = document.getElementById("mouthOrderButton")
-        dickSvg.current = document.getElementById("dick")
-        armRight.current = document.getElementById("armRight")
         armLeft.current = document.getElementById("armLeft")
-        cloth.current = document.getElementById("cloth")
-        chain.current = document.getElementById("chain")
-        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
-        dickHandGrab.current = document.getElementById("dickHandGrab");
-        dickHandParts.current = gsap.utils.toArray(".dickHandParts")
-        tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+        armRight.current = document.getElementById("armRight")
+        armsButton.current = document.getElementById("wipeOrderButton")
+        armsSvg.current = document.getElementById("armsSvg")
+        body.current = document.getElementById("bodyGroup");
         browLeft.current = document.getElementById("browLeftGroup")
         browRight.current = document.getElementById("browRightGroup")
-        eyeCenterRight.current = document.getElementById("eyeCenterRight");
+        chain.current = document.getElementById("chain")
+        cloth.current = document.getElementById("cloth")
+        containerSize.current = document.getElementById("container").getBoundingClientRect().height
+        dickHandGrab.current = document.getElementById("dickHandGrab");
+        dickHandParts.current = gsap.utils.toArray(".dickHandParts")
+        dickSvg.current = document.getElementById("dick")
         eyeCenterLeft.current = document.getElementById("eyeCenterLeft");
+        eyeCenterRight.current = document.getElementById("eyeCenterRight");
+        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
+        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
+        headParts.current = gsap.utils.toArray(".headParts");
+        hideHand.current = gsap.utils.toArray(".hideHand")
+        mouthButton.current = document.getElementById("mouthOrderButton")
+        mouthGroup.current = document.getElementById("mouthGroup")
+        tearLeft.current = document.getElementById("tearLeft")
+        tearRight.current = document.getElementById("tearRight")
+        tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+        tongueDrool.current = document.getElementById("tongueDrool")
+        tongueGroup.current = document.getElementById("tongueGroup")
     }, [])
 
     useEffect(() => {
-        isTongueCumRef.current = isTongueCum
-    }, [isTongueCum])
+        cumOnTongueRef.current = cumOnTongue
+    }, [cumOnTongue])
+
+    useEffect(() => {
+        cumOnFaceRef.current = cumOnFace
+    }, [cumOnFace])
 
     useEffect(() => {
         mouthOpenRef.current = mouthOpen;
@@ -154,13 +169,14 @@ function App() {
         arousalTierRef.current = arousalTier;
 
         mouthArgs.current = {
-            tongueCum: tongueCumArray.current,
-            moveBy: containerSize.current * 0.045,
+            arousalTier: arousalTierRef.current,
+            duration: (9 - arousalTierRef.current) / 4,
             mouthGroup: mouthGroup.current,
-            tongueGroup: tongueGroup.current,
-            tongueDrool: tongueDrool.current,
             mouthOpenSetter: setMouthOpen,
-            arousalTier: arousalTierRef.current
+            moveBy: containerSize.current * 0.045,
+            tongueCum: tongueCumArray.current,
+            tongueDrool: tongueDrool.current,
+            tongueGroup: tongueGroup.current
         }
 
     }, [arousalTier]);
@@ -205,77 +221,58 @@ function App() {
         elements.forEach((el) => {
             el.style.display = ivesMode ? "block" : "none"
         })
+
     }, [ivesMode])
 
 
-    useEffect(() => { // Face wipe, order buttons
+    useEffect(() => { // Renders button states
+        buttons.buttonStatesHandler(armsButton.current, mouthButton.current, buttonStates)
+    }, [buttonStates])
 
-        if (holdMouthOpen) {
-            if (isTongueCum) {
-                mouthButton.current.innerText = '"Swallow for me."'
-            } else mouthButton.current.innerText = '"Close your mouth"'
-        } else {
-            mouthButton.current.innerText = '"Open your mouth."'
-        }
+    useEffect(() => { // Handles when buttons become inactive
+        buttons.buttonsInactive({
+            approach,
+            buttonStates,
+            mouthOn,
+            setButtonStates
+        })
+    }, [approach, mouthOn])
 
-        if (mouthOn || fastMorph || approach || layerAnimation) {
-            mouthButton.current.classList.add("inactive")
-            wipeButton.current.classList.add("inactive")
-        } else {
-            mouthButton.current.classList.remove("inactive")
-            wipeButton.current.classList.remove("inactive")
-        }
+    useEffect(() => { // Handles states for armsButton
+        buttons.armsButtonHandler({
+            armsButton: armsButton.current,
+            armsSvg: armsSvg.current,
+            armsUp,
+            cloth: cloth.current,
+            cumOnFace,
+            setArmsUp,
+            setButtonStates,
+            setInterruptUI
+        })
+    }, [armsUp, cumOnFace])
 
-        if (armsUp) {
-            wipeButton.current.innerText = '"Now now, don\'t be shy."'
-            mouthButton.current.classList.add("hide")
-        } else {
-            wipeButton.current.innerText = '"Wipe the mess off your face."'
-            wipeButton.current.classList.add("hide")
-            mouthButton.current.classList.remove("hide")
+    useEffect(() => { // Handles states for mouthButton
+        buttons.mouthButtonHandler({
+            armsUp,
+            arousalTier,
+            browLeft: browLeft.current,
+            browRight: browRight.current,
+            cumOnTongue,
+            hesitation,
+            holdMouthOpen,
+            maxArousal,
+            mouthArgs,
+            mouthButton,
+            mouthOpen,
+            sensitivity,
+            setArousal,
+            setButtonStates,
+            setInterruptBreath,
+            setInterruptUI
+        })
+    }, [armsUp, arousalTier, cumOnTongue, hesitation, holdMouthOpen, maxArousal, mouthArgs, mouthOpen, sensitivity])
 
-            if (kkht.isFaceClean() === false) {
-                wipeButton.current.classList.remove("hide");
-                wipeButton.current.addEventListener("click", handleFaceWipeClick);
-            } else {
-                wipeButton.current.classList.add("hide");
-            }
-        }
-
-        function handleFaceWipeClick() {
-            wipeButton.current.classList.add("hide");
-            kkht.faceWipe({
-                elements: [chain.current, armRight.current, armLeft.current],
-                cloth: cloth.current,
-                hide: [hairPullHandGrab.current, dickHandGrab.current],
-                setter: setArmsUp,
-                animationSetter: setLayerAnimation
-            });
-        }
-        function lowerArmsHandler() {
-            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
-            kkht.lowerArms({
-                elements: [chain.current, cloth.current, armRight.current, armLeft.current],
-                container: container,
-                setter: setArmsUp
-            }
-            )
-        }
-
-        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick)
-
-        wipeButton.current.addEventListener("click", lowerArmsHandler)
-
-        // Cleanup function to remove listeners
-        return () => {
-            wipeButton.current.removeEventListener("click", lowerArmsHandler);
-            wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
-        };
-
-    }, [armsUp, mouthOn, fastMorph, layerAnimation, approach, mouthOpen, isTongueCum])
-
-    useEffect(() => { // Elements that change based on approach state
+    useEffect(() => { // Mouth open/shut when approach
         if (holdMouthOpen) return
         if (
             !containerSize.current ||
@@ -294,79 +291,12 @@ function App() {
         }
     }, [approach, holdMouthOpen])
 
-    function mouthOpenClose() {
-        if (mouthOpenRef.current === false) { // if setting mouth to open
-            kkht.hesitation({
-                deepBreath: (arousalTierRef.current === 1) ? "true" : "false",
-                setter: setFastMorph,
-                duration: hesitation.current.sec,
-                playDuring: {
-                    name: kkht.browRaise,
-                    args: {
-                        browLeft: browLeft.current,
-                        browRight: browRight.current
-                    }
-                },
-                playAfter: () => {
-                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
-                    kkht.mouthOpenFunction({
-                        tongueCum: tongueCumArray.current,
-                        moveBy: containerSize.current * 0.045,
-                        mouthGroup: mouthGroup.current,
-                        tongueGroup: tongueGroup.current,
-                        tongueDrool: tongueDrool.current,
-                        mouthOpenSetter: setMouthOpen,
-                        arousalTier: arousalTierRef.current
-                    });
-                    setHoldMouthOpen(true)
-                }
-            })
-
-
-        } else {
-            if (isTongueCumRef.current) {
-                kkht.hesitation({
-                    deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
-                    setter: setFastMorph,
-                    duration: (hesitation.current.sec * 3),
-                    playDuring: [{
-                        name: kkht.browRaise,
-                        args: {
-                            browLeft: browLeft.current,
-                            browRight: browRight.current
-                        }
-                    },
-                    {
-                        name: kkht.tearsAnimation,
-                        args: {
-                            tearRight: tearRight.current,
-                            tearLeft: tearLeft.current
-                        }
-                    }],
-                    playAfter: () => {
-                        console.log("hesitation.current.sec: ", hesitation.current.sec)
-                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current.sec * 3) });
-                        setHoldMouthOpen(false)
-                        setIsTongueCum(false)
-                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
-                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ tearLeft: tearLeft.current, tearRight: tearRight.current })
-                    }
-                })
-
-            } else {
-                kkht.mouthCloseFunction({ ...mouthArgs.current });
-                setHoldMouthOpen(false)
-            }
-        }
-    }
-
-    useEffect(() => { // initializing, valDown
+    useEffect(() => { // handles valDown and resize
 
         window.addEventListener("resize", () => {
             containerSize.current = document.getElementById("container").getBoundingClientRect().height
             console.log("resize noted", containerSize.current)
         })
-        mouthButton.current.addEventListener("click", mouthOpenClose)
 
         function valDownHandler() {
             if (mouthOnRef.current === false) {
@@ -561,7 +491,7 @@ function App() {
                     browRight: browRight.current,
                     duration: 1.5
                 })
-                kkht.callState(setLayerAnimation, 1.5)
+                kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
 
                 if (mouthOpen) {
@@ -569,7 +499,7 @@ function App() {
                     kkht.callCumshot({
                         cumType: "tongueCum"
                     })
-                    setIsTongueCum(true)
+                    setCumOnTongue(true)
 
                 } else {
                     // cum on his face
@@ -583,7 +513,7 @@ function App() {
                             elements: [chain.current, armRight.current, armLeft.current],
                             cloth: cloth.current,
                             setter: setArmsUp,
-                            animationSetter: setLayerAnimation
+                            animationSetter: setInterruptUI
                         }
                     })
                 }
@@ -739,7 +669,7 @@ function App() {
 
     useEffect(() => { // Enable/disable draggables
 
-        if (mouthOn || fastMorph || layerAnimation || armsUp || hairPullDragging) {
+        if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
             })
@@ -751,7 +681,7 @@ function App() {
             dickHandDraggable.current.enable()
         }
 
-        if (fastMorph || layerAnimation || armsUp) {
+        if (fastMorph || interruptUI || armsUp) {
             hairPullDraggable.current.disable()
             hideHand.current.forEach((el) => {
                 el.style.display = "none"
@@ -763,10 +693,10 @@ function App() {
             })
         }
 
-        if (fastMorph || layerAnimation) {
+        if (fastMorph || interruptUI) {
             container.classList.add("customCursor")
         } else container.classList.remove("customCursor")
-    }, [mouthOn, approach, fastMorph, layerAnimation, armsUp, hairPullDragging])
+    }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
@@ -783,9 +713,9 @@ function App() {
             }
         }
 
-        if (mouthOn && isTongueCum) {
+        if (mouthOn && cumOnTongue) {
             kkht.clearVisible(tongueCumArray.current)
-            setIsTongueCum(false)
+            setCumOnTongue(false)
         }
 
         return () => {
@@ -794,7 +724,7 @@ function App() {
                 droolIntervalRef.current = null;
             }
         }
-    }, [mouthOn, isTongueCum])
+    }, [mouthOn, cumOnTongue])
 
     useEffect(() => { // Sets up hover listeners for draggables
 
@@ -846,10 +776,10 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (armsUp || layerAnimation) {
+        if (armsUp || interruptUI) {
             dickSvg.current.style.zIndex = 100
         } else dickSvg.current.style.zIndex = 12
-    }, [armsUp, layerAnimation])
+    }, [armsUp, interruptUI])
 
 
     return (
@@ -923,7 +853,6 @@ function App() {
                     <Arms />
                     <HairPullHand />
                 </div>
-
                 <div id='ordersDiv'>
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>

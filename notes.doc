@@ -54,8 +54,10 @@
     - interruptUI // the UI cannot be interacted with while the animation is playing
     - interruptBreath // the breath cycle is paused while the animation is playing
     - noInterrupt // the animation plays without affecting anything else
-    - reposition // the animation moves elements without resetting them
+    - reposition // the animation moves elements without resetting them to their original state
 */
+
+custom cursor when interruptUI
 
 BUTTONS HANDLER
 

@@ -2,22 +2,21 @@ import gsap from "gsap"
 import { isFaceClean } from "../animation-functions/call-cumshot"
 
 export const lowerArms = (args) => {
-    const { elements, setter, container } = args
-    container.classList.add("customCursor")
+    const { elements, setter } = args
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 1000,
         duration: 0.5,
         ease: "power1.in",
         onComplete: () => {
-            container.classList.remove("customCursor")
+            // sets armsUp to false
             setter(false)
         }
     })
 
 }
 
-export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => {
+export const faceWipe = ({ elements, cloth, animationSetter }) => {
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
 
     const targets = [...elements, cloth];
@@ -25,12 +24,6 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
 
     var loopDuration = 0.75
     var wipeDistance = 200
-
-    if (hide) {
-        hide.forEach((el) => {
-            el.classList.remove("interact")
-        })
-    }
 
     animationSetter(true)
 
@@ -54,13 +47,7 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
             duration: 0.75,
             ease: "power1.out",
             onComplete: () => {
-                setter(false)
                 animationSetter(false)
-                if (hide) {
-                    hide.forEach((el) => {
-                        el.classList.add("interact")
-                    })
-                }
             }
         })
 
