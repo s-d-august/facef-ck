@@ -4,6 +4,8 @@ export const buttonStatesHandler = (args) => {
     const { armsButton, mouthButton, buttonStates } = args
     const buttons = [armsButton, mouthButton]
 
+    console.log("buttonStates: ", buttonStates)
+
     buttons.forEach((button) => {
         button.classList.remove("inactive", "hide")
     })
@@ -16,14 +18,14 @@ export const buttonStatesHandler = (args) => {
 
 }
 
-export const buttonsInactive = ({ mouthOn, approach, buttonStates, setButtonStates }) => {
+export const buttonsInactive = ({ mouthOn, approach, setButtonStates }) => {
     // If mouth is on, all buttons are inactive
     if (mouthOn || approach) {
-        kkht.setAllTo({ state: buttonStates, setter: setButtonStates, value: "inactive" })
+        kkht.setAllTo({ setter: setButtonStates, value: "inactive", skipValue: "hide" })
     }
 }
 
-export const armsButtonHandler = ({ armsUp, armsButton, cumOnFace, armsSvg, cloth, setArmsUp, setInterruptUI, setButtonStates }) => {
+export const armsButtonHandler = ({ armsUp, armsButton, cumOnFace, armsSvg, cloth, setArmsUp, setButtonStates, setCumOnFace, setInterruptUI }) => {
     // When the page loads
     if (armsUp) {
         console.log(armsButton)
@@ -39,15 +41,22 @@ export const armsButtonHandler = ({ armsUp, armsButton, cumOnFace, armsSvg, clot
     }
 
     // Hides wipe button when face is clean
+
     if (!cumOnFace && !armsUp) {
+        console.log("cumOnFace, armsUp", cumOnFace, armsUp)
         setButtonStates(prev => ({ ...prev, armsButton: "hide" }))
+    }
+
+    if (cumOnFace) {
+        setButtonStates(prev => ({ ...prev, armsButton: "active" }))
     }
 
     function faceWipeHandler() {
         kkht.faceWipe({
             elements: armsSvg,
             cloth: cloth,
-            animationSetter: setInterruptUI
+            animationSetter: setInterruptUI,
+            setCumOnFace
         });
     }
 
@@ -99,7 +108,8 @@ export const faceWipeHandler = ({ armsSvg, cloth, setInterruptUI }) => {
     kkht.faceWipe({
         elements: armsSvg,
         cloth: cloth,
-        animationSetter: setInterruptUI
+        animationSetter: setInterruptUI,
+        setCumOnFace
     });
 }
 

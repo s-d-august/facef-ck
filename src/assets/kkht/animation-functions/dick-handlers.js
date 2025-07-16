@@ -1,36 +1,8 @@
 import gsap from "gsap"
 import { Draggable } from "gsap/all"
-import { valChange } from "../utils/stats"
+
 gsap.registerPlugin(Draggable)
 
-export const isApproachOrOn =
-    (args) => {
-        // Neither approach nor on
-        const {
-            percent, startApproach, startOn, setApproach, setMouthOn,
-            affectedIDs, lick, maxArousal, setArousal, whileOff, whileApproach, whileOn, sensitivity, direction
-        } = args;
-        if (percent <= startApproach) {
-            setApproach(false)
-            if (whileOff) whileOff
-        } else setApproach(true)
-
-        if (percent <= startOn) { // Dick isn't in mouth
-            setMouthOn(false)
-            if (whileApproach) whileApproach
-            if (Draggable.hitTest(lick.tongue, lick.tip, lick.percent)) {
-                valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
-            }
-            return 0
-        } else { // Dick is in mouth
-            setMouthOn(true)
-            if (whileOn) whileOn
-            if (direction && (direction === ("up" || "down"))) {
-                valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
-            }
-            return percent
-        }
-    }
 
 var maxYLoggedRef = {};
 var multRef = {};

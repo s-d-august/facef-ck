@@ -15,10 +15,14 @@ export const lowerArms = (args) => {
 
 }
 
-export const faceWipe = ({ elements, cloth, animationSetter }) => {
+export const faceWipe = ({ elements, cloth, animationSetter, setCumOnFace }) => {
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
+    var targets
 
-    const targets = [...elements, cloth];
+    if (Array.isArray(elements)) {
+        targets = [...elements, cloth];
+    } else targets = [elements, cloth]
+
     gsap.set(targets, { y: 1000, scaleY: 1 }); // Start at y: 1000
 
     var loopDuration = 0.75
@@ -47,6 +51,7 @@ export const faceWipe = ({ elements, cloth, animationSetter }) => {
             ease: "power1.out",
             onComplete: () => {
                 animationSetter(false)
+                setCumOnFace(false)
             }
         })
 

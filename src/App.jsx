@@ -81,7 +81,7 @@ function App() {
     const cloth = useRef()
     const containerSize = useRef()
     const depthMethodRef = useRef()
-    const dickHandDraggable = useRef()
+    const dickHandDraggable = useRef("test")
     const dickHandGrab = useRef()
     const dickHandParts = useRef()
     const dickSvg = useRef()
@@ -261,9 +261,10 @@ function App() {
             mouthOn: mouthOnRef.current,
             setButtonStates
         })
-    }, [approach, mouthOn, buttonStates])
+    }, [approach, mouthOn])
 
     useEffect(() => { // Handles states for armsButton
+        console.log("cumOnFace: ", cumOnFace, cumOnFaceRef.current)
         buttons.armsButtonHandler({
             armsButton: armsButton.current,
             armsSvg: armsSvg.current,
@@ -272,6 +273,7 @@ function App() {
             cumOnFace: cumOnFaceRef.current,
             setArmsUp,
             setButtonStates,
+            setCumOnFace,
             setInterruptUI
         })
     }, [armsUp, cumOnFace])
@@ -353,7 +355,7 @@ function App() {
     }, []);
 
     useEffect(() => {
-        drags.setUpJODrag({
+        dickHandDraggable.current = drags.setUpJODrag({
             dickHandParts: dickHandParts.current,
             container,
             containerSize: containerSize.current,
@@ -361,106 +363,27 @@ function App() {
             setArousal,
             sensitivity: sensitivityRef.current
         })
+
+        console.log(Draggable.get(".dickHandParts"))
+
     }, [sensitivity, containerSize])
 
     useEffect(() => { // Sets up draggables
 
-        Draggable.create("#hairPullHand", {
-            trigger: "#hairPullHandGrab",
-            cursor: "ns-resize",
-            onDragStart: function () {
-                setHairPullDragging(true);
-            },
-            onDrag: function () {
-
-                kkht.valChange(["ives", "boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current)
-
-                container.style.cursor = "ns-resize"
-
-                kkht.updateFollowers({
-                    itemsArray: [headParts.current, body.current],
-                    x: this.x,
-                    y: this.y,
-                    ease: "back",
-                    init: 0.25,
-                    increase: 0.2
-                })
-                kkht.updateFollowers({
-                    itemsArray: hairPullBeads.current,
-                    x: this.x,
-                    y: this.y,
-                    ease: "back",
-                    init: 0.1,
-                    increase: 0.05
-                })
-                // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
-                const dickRect = document.getElementById("dickArea").getBoundingClientRect();
-                const headRect = document.getElementById("faceArea").getBoundingClientRect();
-                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
-
-                //    var resistance
-
-                const args = {
-                    percent: percent,
-                    startApproach: 0.05,
-                    startOn: 0.3,
-                    setApproach,
-                    setMouthOn,
-                    affectedIDs: ["ives", "boyd"],
-                    lick: {
-                        tongue: "#tongue",
-                        tip: "#dickTip",
-                        percent: "20%"
-                    },
-                    maxArousal: maxArousalRef.current,
-                    setArousal,
-                    sensitivity: sensitivityRef.current,
-                    direction: this.getDirection("start")
-                };
-
-                this.dragResistance = kkht.isApproachOrOn(args)
-
-                if (depthMethodRef.current === "Training") {
-                    this.applyBounds({
-                        minX: containerSize.current * -0.0055,
-                        maxX: containerSize.current * 0.0055,
-                        minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * kkht.trainingMultiplier(
-                            {
-                                id: "#hairPullHand",
-                                y: this.y,
-                                maxY: (this.maxY || containerSize.current * 0.1),
-                                initial: 0.2,
-                                end: 0.4,
-                                hits: 5,
-                                increaseBy: 0.001
-                            })
-                    });
-                } else {
-                    kkht.trainingMultiplier(
-                        {
-                            id: "#hairPullHand",
-                            reset: true
-                        })
-                    this.applyBounds({
-                        minX: containerSize.current * -0.0055,
-                        maxX: containerSize.current * 0.0055,
-                        minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * 0.4
-                    }
-                    )
-                }
-            },
-            dragResistance: 0,
-            zIndexBoost: false,
-            onDragEnd: function () {
-                container.style.cursor = "auto"
-                setHairPullDragging(false);
-
-            }
-        });
-        hairPullDraggable.current = Draggable.get("#hairPullHand")
-        dickHandDraggable.current = Draggable.get(dickHandParts.current)
+        hairPullDraggable.current = drags.setUpHairPullDrag({
+            body: body.current,
+            container: container,
+            containerSize: containerSize.current,
+            depthMethod: depthMethodRef.current,
+            hairPullBeads: hairPullBeads.current,
+            headParts: headParts.current,
+            maxArousal: maxArousalRef.current,
+            sensitivity: sensitivityRef.current,
+            setApproach,
+            setArousal,
+            setHairPullDragging,
+            setMouthOn
+        })
 
     }, [depthMethod])
 
@@ -516,6 +439,7 @@ function App() {
                 kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
 
+
                 if (mouthOpen) {
                     // cum on his tongue
                     kkht.callCumshot({
@@ -540,7 +464,7 @@ function App() {
                     })
                 }
             }
-
+            setCumOnFace(true)
             setArousal(prev => ({ ...prev, ives: 0 }))
         }
     }, [arousal.ives, mouthOn, mouthOpenRef])
@@ -695,21 +619,25 @@ function App() {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
             })
-            dickHandDraggable.current.disable()
+
+
         } else {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "block"
             })
-            dickHandDraggable.current.enable()
+
         }
 
         if (fastMorph || interruptUI || armsUp) {
-            hairPullDraggable.current.disable()
+
+            console.log(hairPullDraggable.current)
+
+
             hideHand.current.forEach((el) => {
                 el.style.display = "none"
             })
         } else {
-            hairPullDraggable.current.enable()
+
             hideHand.current.forEach((el) => {
                 el.style.display = "block"
             })

@@ -1,8 +1,14 @@
 import gsap from "gsap";
 
-export const setAllTo = ({ state, setter, value }) => {
-    setter(
-        Object.fromEntries(Object.keys(state).map(key => [key, value]))
+export const setAllTo = ({ setter, value, skipValue }) => {
+    setter(prev =>
+        Object.fromEntries(
+            Object.keys(prev).map(key =>
+                prev[key] === skipValue
+                    ? [key, skipValue]
+                    : [key, value]
+            )
+        )
     );
 }
 
