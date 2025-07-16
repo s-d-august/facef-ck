@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 import * as kkht from './assets/kkht/index'
 import buttons from './assets/components/handler-functions/buttons-handler'
+import drags from './assets/components/handler-functions/draggables-handler'
 import Dick from './assets/components/dick'
 import HairPullHand from './assets/components/hair-pull-hand'
 import Body from './assets/components/body'
@@ -219,7 +220,7 @@ function App() {
         armsUpRef.current = armsUp
     }, [armsUp])
 
-    useEffect(() => {
+    useEffect(() => { // Handles unlocking Ravenous Mode
         maxArousalRef.current = maxArousal;
         if (Object.values(maxArousal).includes(1999)
             || Object.values(maxArousal).includes(1847)) {
@@ -228,7 +229,7 @@ function App() {
         }
     }, [maxArousal]);
 
-    useEffect(() => {
+    useEffect(() => { // Displays switch for Ravenous Mode if unlocked
         if (ivesModeActive) {
             document.getElementById("secret").style.display = "block"
             setIvesMode(true)
@@ -238,12 +239,11 @@ function App() {
         }
     }, [ivesModeActive])
 
-    useEffect(() => {
+    useEffect(() => { // Activates Ravenous Mode
         var elements = gsap.utils.toArray(".ivesMode")
         elements.forEach((el) => {
             el.style.display = ivesMode ? "block" : "none"
         })
-
     }, [ivesMode])
 
     useEffect(() => { // Renders button states
@@ -352,35 +352,18 @@ function App() {
         }
     }, []);
 
-    useEffect(() => { // Sets up draggables
-
-
-        Draggable.create(dickHandParts.current, {
-            trigger: "#dickHandGrab",
-            zIndexBoost: false,
-            type: "y",
-            cursor: "ns-resize",
-            bounds: {
-                minY: containerSize.current * -0.07,
-                maxY: containerSize.current * 0.07,
-            },
-            inertia: {
-                y: {
-                    end: 0,
-                }
-            },
-            edgeResistance: 0.9,
-            onDrag: function () {
-                container.style.cursor = "ns-resize"
-                if (this.getDirection("start") === ("up" || "down")) {
-                    kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
-                }
-
-            },
-            onDragEnd: () => {
-                container.style.cursor = "auto"
-            }
+    useEffect(() => {
+        drags.setUpJODrag({
+            dickHandParts: dickHandParts.current,
+            container,
+            containerSize: containerSize.current,
+            maxArousal: maxArousalRef.current,
+            setArousal,
+            sensitivity: sensitivityRef.current
         })
+    }, [sensitivity, containerSize])
+
+    useEffect(() => { // Sets up draggables
 
         Draggable.create("#hairPullHand", {
             trigger: "#hairPullHandGrab",
