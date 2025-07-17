@@ -288,7 +288,7 @@ function App() {
             mouthOpen: mouthOpenRef.current,
             setButtonStates
         })
-    }, [armsUp, cumOnTongue, holdMouthOpen, mouthArgs, mouthOpen])
+    }, [armsUp, cumOnTongue, holdMouthOpen, mouthArgs, mouthOpen, mouthOn])
 
     useEffect(() => { // Sets up listener for mouthButton
         function openCloseListener() {

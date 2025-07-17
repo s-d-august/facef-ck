@@ -94,6 +94,9 @@ export const mouthButtonHandler = ({ mouthArgs, armsUp, mouthButton, mouthOpen, 
     // If mouth isn't set to hold open, but currently is open due to position
     if (!holdMouthOpen && mouthOpen) setButtonStates(prev => ({ ...prev, mouthButton: "inactive" }))
 
+    // If mouth is set to holdOpen and mouth is open, but not on
+    if (holdMouthOpen && mouthOpen) setButtonStates(prev => ({ ...prev, mouthButton: "active" }))
+
     if (holdMouthOpen) {
         // if mouth is set to hold open and cum is on tongue
         if (cumOnTongue) { mouthButton.innerText = '"Swallow for me."' }
