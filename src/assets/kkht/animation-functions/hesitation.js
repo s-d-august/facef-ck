@@ -49,7 +49,12 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
         el.style.display = (prevDisplay === "none") ? "block" : "none"
     }
 
-    callState(setter, duration)
+    if (Array.isArray(setter)) {
+        setter.forEach((set) => {
+            callState(set, duration)
+        })
+    } else callState(setter, duration)
+
 
     eyes.forEach(toggleBlink)
     await new Promise(resolve => {

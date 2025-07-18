@@ -21,7 +21,10 @@ function App() {
     const slowMorphRef = useRef(slowMorph)
     const fastMorphRef = useRef(fastMorph)
 
-    const [layerAnimation, setLayerAnimation] = useState(false)
+    const [interruptBreath, setInterruptBreath] = useState()
+    const interruptBreathRef = useRef(interruptBreath)
+    const [interruptUI, setInterruptUI] = useState()
+    const interruptUIRef = useRef(interruptUI)
 
     const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
     const [ivesMode, setIvesMode] = useState(false)
@@ -182,6 +185,14 @@ function App() {
     }, [sensitivity])
 
     useEffect(() => {
+        interruptBreathRef.current = interruptBreath
+    }, [interruptBreath])
+
+    useEffect(() => {
+        interruptUIRef.current = interruptUI
+    }, [interruptUI])
+
+    useEffect(() => {
         maxArousalRef.current = maxArousal;
         if (Object.values(maxArousal).includes(1999)
             || Object.values(maxArousal).includes(1847)) {
@@ -218,7 +229,7 @@ function App() {
             mouthButton.current.innerText = '"Open your mouth."'
         }
 
-        if (mouthOn || fastMorph || approach || layerAnimation) {
+        if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
             wipeButton.current.classList.add("inactive")
         } else {
@@ -249,7 +260,7 @@ function App() {
                 cloth: cloth.current,
                 hide: [hairPullHandGrab.current, dickHandGrab.current],
                 setter: setArmsUp,
-                animationSetter: setLayerAnimation
+                animationSetter: setInterruptUI
             });
         }
         function lowerArmsHandler() {
@@ -261,8 +272,7 @@ function App() {
             }
             )
         }
-
-        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick)
+        // document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick)
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
 
@@ -270,10 +280,10 @@ function App() {
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
+            //  document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
         };
 
-    }, [armsUp, mouthOn, fastMorph, layerAnimation, approach, mouthOpen, isTongueCum])
+    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum])
 
     useEffect(() => { // Elements that change based on approach state
         if (holdMouthOpen) return
@@ -298,7 +308,7 @@ function App() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
             kkht.hesitation({
                 deepBreath: (arousalTierRef.current === 1) ? "true" : "false",
-                setter: setFastMorph,
+                setter: [setInterruptBreath, setInterruptUI],
                 duration: hesitation.current.sec,
                 playDuring: {
                     name: kkht.browRaise,
@@ -327,7 +337,7 @@ function App() {
             if (isTongueCumRef.current) {
                 kkht.hesitation({
                     deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
-                    setter: setFastMorph,
+                    setter: [setInterruptBreath, setInterruptUI],
                     duration: (hesitation.current.sec * 3),
                     playDuring: [{
                         name: kkht.browRaise,
@@ -385,6 +395,8 @@ function App() {
 
     useEffect(() => { // Sets up draggables
 
+        const container = document.getElementById("container")
+        console.log(container)
 
         Draggable.create(dickHandParts.current, {
             trigger: "#dickHandGrab",
@@ -561,7 +573,7 @@ function App() {
                     browRight: browRight.current,
                     duration: 1.5
                 })
-                kkht.callState(setLayerAnimation, 1.5)
+                kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
 
                 if (mouthOpen) {
@@ -583,7 +595,7 @@ function App() {
                             elements: [chain.current, armRight.current, armLeft.current],
                             cloth: cloth.current,
                             setter: setArmsUp,
-                            animationSetter: setLayerAnimation
+                            animationSetter: setInterruptUI
                         }
                     })
                 }
@@ -648,8 +660,8 @@ function App() {
 
         console.log("arousalTier: ", arousalTier)
 
-        if (!fastMorphRef.current) {
-            if (arousalTier === (1 || 2)) {
+        if (!fastMorph && !interruptUI) {
+            if ((arousalTier === 1) || (arousalTier === 2)) {
                 cleanup = kkht.eyeMovement({
                     moveEls: [".eyeCenter"],
                     type: "random",
@@ -662,7 +674,7 @@ function App() {
                 });
 
                 document.documentElement.style.setProperty("--breathTorsoScale", "102%");
-            } else if (arousalTier === (3 || 4)) {
+            } else if ((arousalTier === 3) || (arousalTier === 4)) {
                 cleanup = kkht.eyeMovement({
                     moveEls: [".eyeCenter"],
                     type: "toFro",
@@ -687,7 +699,7 @@ function App() {
         var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration");
 
         var breathCycleDuration = (
-            (fastMorph) ? 0
+            (fastMorph || interruptBreath) ? 0
                 : (arousalTier === 5) ? 1
                     : (arousalTier === 4) ? 0.875
                         : (arousalTier === 3) ? 0.75
@@ -703,7 +715,7 @@ function App() {
             if (cleanup) cleanup();
 
         };
-    }, [arousalTier, fastMorph])
+    }, [arousalTier, fastMorph, interruptBreath, interruptUI])
 
     useEffect(() => { // Sweat
 
@@ -739,7 +751,7 @@ function App() {
 
     useEffect(() => { // Enable/disable draggables
 
-        if (mouthOn || fastMorph || layerAnimation || armsUp || hairPullDragging) {
+        if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
             })
@@ -751,7 +763,7 @@ function App() {
             dickHandDraggable.current.enable()
         }
 
-        if (fastMorph || layerAnimation || armsUp) {
+        if (fastMorph || interruptUI || armsUp) {
             hairPullDraggable.current.disable()
             hideHand.current.forEach((el) => {
                 el.style.display = "none"
@@ -763,10 +775,10 @@ function App() {
             })
         }
 
-        if (fastMorph || layerAnimation) {
+        if (fastMorph || interruptUI) {
             container.classList.add("customCursor")
         } else container.classList.remove("customCursor")
-    }, [mouthOn, approach, fastMorph, layerAnimation, armsUp, hairPullDragging])
+    }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
@@ -846,10 +858,10 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (armsUp || layerAnimation) {
+        if (armsUp || interruptUI) {
             dickSvg.current.style.zIndex = 100
         } else dickSvg.current.style.zIndex = 12
-    }, [armsUp, layerAnimation])
+    }, [armsUp, interruptUI])
 
 
     return (

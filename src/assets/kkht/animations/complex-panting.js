@@ -4,9 +4,17 @@ import { renderMorph } from "../animation-functions/morph";
 
 export const pantingAnimation = (args) => {
 
-    const { setHoldMouthOpen, expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph } = args
+    const { setHoldMouthOpen, expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove,
+        mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn,
+        setApproach, draggable, alsoMove, setFastMorph } = args
 
     let obj = { p: 0 };
+
+    console.log({
+        setHoldMouthOpen, expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove,
+        mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn,
+        setApproach, draggable, alsoMove, setFastMorph
+    })
 
     const pantGroup = gsap.timeline({ paused: true })
         .fromTo(mouthGroup, { y: containerSize * 0.045 }, { y: 0, duration: 1 })
@@ -18,9 +26,7 @@ export const pantingAnimation = (args) => {
         .to(tongueDrool, { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set(tongueDrool, { scaleX: 1, scaleY: 0 });
 
-    tearsAnimation(tearLeft, tearRight)
-
-    console.log(draggable)
+    tearsAnimation({ tearLeft, tearRight })
 
     gsap.timeline().to(draggable.target, {
         y: 0, duration: 1.2

@@ -3,6 +3,17 @@ import { Draggable } from "gsap/all"
 gsap.registerPlugin(Draggable)
 
 export const callState = (setter, sec) => {
+
+    if (Array.isArray(setter)) {
+        setter.forEach((set) => {
+            set(true)
+
+            // Wait, then enable
+            setTimeout(() => {
+                set(false)
+            }, (sec * 1000));
+        })
+    }
     setter(true)
 
     // Wait, then enable

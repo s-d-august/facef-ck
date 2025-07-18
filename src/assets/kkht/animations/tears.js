@@ -1,6 +1,8 @@
 import gsap from "gsap"
 
 export const tearsAnimation = ({ tearRight, tearLeft }) => {
+
+    console.log(tearRight, tearLeft)
     const tears = [tearRight, tearLeft]
     var tear1, tear2
 
