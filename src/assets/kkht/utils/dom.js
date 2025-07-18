@@ -40,6 +40,7 @@ export const getSVGParent = (element) => {
 }
 
 export const getXY = (id, origin) => {
+    console.log(id)
     if (typeof (id) === 'object') {
         var element = id
     } else var element = document.getElementById(id)

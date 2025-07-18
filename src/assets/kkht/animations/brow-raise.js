@@ -8,13 +8,13 @@ export const browRaise = ({ browLeft, browRight, duration }) => {
         .to(browLeft, {
             x: 10,
             rotation: -5,
-            duration: (duration / 700),
+            duration: (duration / 0.7),
             transformOrigin: "bottom left"
         })
         .to(browLeft, {
             x: 0,
             rotation: 0,
-            duration: (duration / 250),
+            duration: (duration / 0.25),
             transformOrigin: "bottom left"
         })
 
@@ -22,13 +22,13 @@ export const browRaise = ({ browLeft, browRight, duration }) => {
         .to(browRight, {
             x: -10,
             rotation: 5,
-            duration: (duration / 700),
+            duration: (duration / 0.7),
             transformOrigin: "bottom right"
         })
         .to(browRight, {
             x: 0,
             rotation: 0,
-            duration: (duration / 250),
+            duration: (duration / 0.25),
             transformOrigin: "bottom right"
         })
 
