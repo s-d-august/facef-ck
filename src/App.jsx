@@ -250,33 +250,36 @@ function App() {
         buttons.buttonStatesHandler({
             armsButton: armsButton.current,
             mouthButton: mouthButton.current,
-            buttonStates: buttonStatesRef.current
+            buttonStates: buttonStates
         })
     }, [buttonStates])
-
-    useEffect(() => { // Handles when buttons become inactive
-        buttons.buttonsInactive({
-            approach: approachRef.current,
-            buttonStates: buttonStatesRef.current,
-            mouthOn: mouthOnRef.current,
-            setButtonStates
-        })
-    }, [approach, mouthOn])
-
+    /*
+        useEffect(() => { // Handles when buttons become inactive
+            buttons.buttonsInactive({
+                approach: approachRef.current,
+                buttonStates: buttonStatesRef.current,
+                mouthOn: mouthOnRef.current,
+                setButtonStates
+            })
+        }, [approach, mouthOn])
+    */
     useEffect(() => { // Handles states for armsButton
         console.log("cumOnFace: ", cumOnFace, cumOnFaceRef.current)
         buttons.armsButtonHandler({
+            approach: approachRef.current,
             armsButton: armsButton.current,
             armsSvg: armsSvg.current,
             armsUp: armsUpRef.current,
+            buttonStates: buttonStatesRef.current,
             cloth: cloth.current,
             cumOnFace: cumOnFaceRef.current,
+            mouthOn: mouthOnRef.current,
             setArmsUp,
             setButtonStates,
             setCumOnFace,
             setInterruptUI
         })
-    }, [armsUp, cumOnFace])
+    }, [armsUp, cumOnFace, mouthOn, buttonStates])
 
     useEffect(() => { // Handles states for mouthButton
         buttons.mouthButtonHandler({
@@ -354,7 +357,7 @@ function App() {
         }
     }, []);
 
-    useEffect(() => {
+    useEffect(() => { // Sets up dickHandDraggable
         dickHandDraggable.current = drags.setUpJODrag({
             dickHandParts: dickHandParts.current,
             container,
@@ -364,11 +367,9 @@ function App() {
             sensitivity: sensitivityRef.current
         })
 
-        console.log(Draggable.get(".dickHandParts"))
-
     }, [sensitivity, containerSize])
 
-    useEffect(() => { // Sets up draggables
+    useEffect(() => { // Sets up hairPullDraggable
 
         hairPullDraggable.current = drags.setUpHairPullDrag({
             body: body.current,
@@ -655,7 +656,7 @@ function App() {
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
-            }), 5000)
+            }), 15000)
         } else {
             if (droolIntervalRef.current) {
                 clearInterval(droolIntervalRef.current);
