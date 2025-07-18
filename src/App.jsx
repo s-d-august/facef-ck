@@ -56,42 +56,42 @@ function App() {
         boyd: 2.5,
     })
 
-    const containerSize = useRef()
-    const mouthGroup = useRef()
-    const tongueGroup = useRef()
-    const tongueDrool = useRef()
-    const hideHand = useRef()
-    const headParts = useRef()
-    const hairPullBeads = useRef()
-    const body = useRef()
-    const tearRight = useRef()
-    const tearLeft = useRef()
-    const sensitivityRef = useRef()
-    const maxArousalRef = useRef(maxArousal);
-    const wipeButton = useRef()
-    const mouthButton = useRef()
-    const dickSvg = useRef()
-    const armRight = useRef()
     const armLeft = useRef()
-    const cloth = useRef()
-    const chain = useRef()
-    const hairPullHandGrab = useRef()
-    const dickHandGrab = useRef()
-    const depthMethodRef = useRef()
+    const armRight = useRef()
     const arousalTierRef = useRef()
-    const mouthOnRef = useRef()
-    const dickHandDraggable = useRef()
-    const hairPullDraggable = useRef()
-    const dickHandParts = useRef()
-    const tongueCumArray = useRef()
-    const mouthArgs = useRef()
-    const hesitation = useRef({ sec: 0, ms: 0 })
+    const body = useRef()
     const browLeft = useRef()
     const browRight = useRef()
-    const eyeCenterRight = useRef()
-    const eyeCenterLeft = useRef()
+    const chain = useRef()
+    const cloth = useRef()
+    const containerSize = useRef()
+    const depthMethodRef = useRef()
+    const dickHandDraggable = useRef()
+    const dickHandGrab = useRef()
+    const dickHandParts = useRef()
+    const dickSvg = useRef()
     const droolIntervalRef = useRef(null);
+    const eyeCenterLeft = useRef()
+    const eyeCenterRight = useRef()
+    const hairPullBeads = useRef()
+    const hairPullDraggable = useRef()
+    const hairPullHandGrab = useRef()
+    const headParts = useRef()
+    const hesitation = useRef({ sec: 0, ms: 0 })
+    const hideHand = useRef()
+    const maxArousalRef = useRef(maxArousal);
+    const mouthArgs = useRef()
+    const mouthButton = useRef()
+    const mouthGroup = useRef()
+    const mouthOnRef = useRef()
+    const sensitivityRef = useRef()
     const sweatIntervalRef = useRef(null);
+    const tearLeft = useRef()
+    const tearRight = useRef()
+    const tongueCumArray = useRef()
+    const tongueDrool = useRef()
+    const tongueGroup = useRef()
+    const wipeButton = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -111,31 +111,31 @@ function App() {
             console.log("container not rendered")
             return
         }; // Prevents error if not rendered
-        containerSize.current = document.getElementById("container").getBoundingClientRect().height
-        mouthGroup.current = document.getElementById("mouthGroup")
-        tongueGroup.current = document.getElementById("tongueGroup")
-        tongueDrool.current = document.getElementById("tongueDrool")
-        hideHand.current = gsap.utils.toArray(".hideHand")
-        headParts.current = gsap.utils.toArray(".headParts");
-        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
-        body.current = document.getElementById("bodyGroup");
-        tearRight.current = document.getElementById("tearRight")
-        tearLeft.current = document.getElementById("tearLeft")
-        wipeButton.current = document.getElementById("wipeOrderButton")
-        mouthButton.current = document.getElementById("mouthOrderButton")
-        dickSvg.current = document.getElementById("dick")
-        armRight.current = document.getElementById("armRight")
         armLeft.current = document.getElementById("armLeft")
-        cloth.current = document.getElementById("cloth")
-        chain.current = document.getElementById("chain")
-        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
-        dickHandGrab.current = document.getElementById("dickHandGrab");
-        dickHandParts.current = gsap.utils.toArray(".dickHandParts")
-        tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+        armRight.current = document.getElementById("armRight")
+        body.current = document.getElementById("bodyGroup");
         browLeft.current = document.getElementById("browLeftGroup")
         browRight.current = document.getElementById("browRightGroup")
-        eyeCenterRight.current = document.getElementById("eyeCenterRight");
+        chain.current = document.getElementById("chain")
+        cloth.current = document.getElementById("cloth")
+        containerSize.current = document.getElementById("container").getBoundingClientRect().height
+        dickHandGrab.current = document.getElementById("dickHandGrab");
+        dickHandParts.current = gsap.utils.toArray(".dickHandParts")
+        dickSvg.current = document.getElementById("dick")
         eyeCenterLeft.current = document.getElementById("eyeCenterLeft");
+        eyeCenterRight.current = document.getElementById("eyeCenterRight");
+        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
+        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
+        headParts.current = gsap.utils.toArray(".headParts");
+        hideHand.current = gsap.utils.toArray(".hideHand")
+        mouthButton.current = document.getElementById("mouthOrderButton")
+        mouthGroup.current = document.getElementById("mouthGroup")
+        tearLeft.current = document.getElementById("tearLeft")
+        tearRight.current = document.getElementById("tearRight")
+        tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+        tongueDrool.current = document.getElementById("tongueDrool")
+        tongueGroup.current = document.getElementById("tongueGroup")
+        wipeButton.current = document.getElementById("wipeOrderButton")
     }, [])
 
     useEffect(() => {

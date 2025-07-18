@@ -24,10 +24,10 @@
      inkscape:zoom="0.64939273"
      inkscape:cx="332.61844"
      inkscape:cy="632.89899"
-     inkscape:window-width="1920"
+     inkscape:window-width="1902"
      inkscape:window-height="991"
-     inkscape:window-x="-32000"
-     inkscape:window-y="-32000"
+     inkscape:window-x="-29600"
+     inkscape:window-y="-31896"
      inkscape:window-maximized="0"
      inkscape:current-layer="svg14"
      showgrid="false" />
@@ -494,7 +494,7 @@
     </clipPath>
   </defs>
   <path
-     style="display:none;fill:#ffffff;stroke-width:2.90202;stroke-linecap:round;stroke-linejoin:round"
+     style="display:inline;fill:#ffffff;stroke-width:2.90202;stroke-linecap:round;stroke-linejoin:round"
      d="m 237.37451,328.8399 149.35202,-53.35482 82.53665,23.95523 96.94779,-11.97761 83.84675,32.66621 37.0909,79.96284 -168.10144,240.16608 -145.42171,13.06649 -172.25603,-250.218 z"
      id="cloth" />
   <path
@@ -505,7 +505,7 @@
   <g
      id="armRight"
      inkscape:label="armRight"
-     style="display:none">
+     style="display:inline">
     <path
        style="fill:#999999;stroke-width:2.64567;stroke-linecap:round;stroke-linejoin:round"
        d="m 453.516,602.692 15.244,-22.867 170.953,9.8 13.067,22.867 -16.878,52.81 -168.231,-19.6 z"
@@ -538,7 +538,7 @@
   <g
      id="armLeft"
      inkscape:label="armLeft"
-     style="display:none">
+     style="display:inline">
     <path
        style="fill:#999999;stroke-width:2.64567;stroke-linecap:round;stroke-linejoin:round"
        d="m 451.782,619.817 -15.245,-22.866 -170.953,9.8 -13.066,22.866 16.877,52.811 168.231,-19.6 z"
