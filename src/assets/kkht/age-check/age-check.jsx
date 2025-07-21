@@ -24,7 +24,10 @@ const AgeCheck = ({ setAgeChecked }) => {
         ).fromTo("#fuckTitle",
             { x: 1000 },
             { x: 0, duration: 1, ease: "power4.in" }, "-=0.5"
-        );
+        ).fromTo("#titleSubheader",
+            { opacity: 0 },
+            { opacity: 1, duration: 1 }
+        )
 
         return () => {
             btn.removeEventListener("click", handler);
@@ -38,6 +41,7 @@ const AgeCheck = ({ setAgeChecked }) => {
                 <h1 id="faceTitle">FACE</h1>
                 <h1 id="fuckTitle">F*CK</h1>
             </div>
+            <h2 id="titleSubheader">*Until He Likes It*</h2>
             <div id="ageCheckImgDiv">
                 <img src={cover} />
             </div>

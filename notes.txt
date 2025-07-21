@@ -5,9 +5,8 @@
 - some way of having the hide settings button at the same place as the show settings
 - reset button
 - hesitation before armsDown, slower animation
-- mouth wider when mouthOn than when approach
 - depthMode explanation on hover?
-- tears play twice when cum in mouth && arousalTier < 3
+
 
 - jaw unhinging glitch
 - none and arousal modes broken glitch 

@@ -389,6 +389,7 @@ function App() {
             window.removeEventListener("resize", () => {
                 containerSize.current = document.getElementById("container").getBoundingClientRect().height
             })
+            mouthButton.current.removeEventListener("click", mouthOpenClose)
             clearInterval(interval);
         }
     }, []);
@@ -492,7 +493,7 @@ function App() {
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.2,
                                 end: 0.4,
-                                hits: 5,
+                                hits: Math.round(5 - sensitivityRef.current.boyd),
                                 increaseBy: 0.001
                             })
                     });
@@ -521,8 +522,11 @@ function App() {
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")
         dickHandDraggable.current = Draggable.get(dickHandParts.current)
-
-    }, [depthMethod])
+        return () => {
+            hairPullDraggable.current.kill()
+            dickHandDraggable.current.kill()
+        };
+    }, [])
 
     useEffect(() => { // Nut function
         if (arousal.ives >= maxArousal.ives) {
@@ -609,7 +613,7 @@ function App() {
         const arousalRatio = arousal.boyd / maxArousal.boyd
 
         if (depthMethodRef.current === "Arousal") {
-            const draggable = Draggable.get("#hairPullHand");
+            const draggable = hairPullDraggable.current
             if (container && draggable) {
                 const bounds = containerSize.current * (0.2 + (arousalRatio * 0.2));
                 draggable.applyBounds({

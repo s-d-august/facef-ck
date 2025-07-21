@@ -69,3 +69,11 @@ img {
     line-height: 1;
     font-size: 15vh;
 }
+
+#ageCheckDiv>h2 {
+    line-height: 1;
+    font-size: 6vh;
+    margin: 0;
+    margin-top: -25px;
+    margin-bottom: 15px
+}
