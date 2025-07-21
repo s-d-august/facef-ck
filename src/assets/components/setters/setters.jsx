@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import './setters.css';
 
-const Setters = ({ sensitivity, max, secret, modes }) => {
+const Setters = ({ sensitivity, max, modes }) => {
 
     useEffect(() => {
         const settingsIcon = document.getElementById("settingsIcon")
@@ -88,17 +88,6 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                     </select>
                 </div>
 
-                <div id='secret'>
-                    <p>{secret.label}</p>
-                    <label className='switch'>
-                        <input
-                            checked={secret.value}
-                            id={secret.id}
-                            type="checkbox"
-                            onChange={e => secret.setter(e.target.checked)} />
-                        <span className="slider round"></span>
-                    </label>
-                </div>
                 <button id='hideSettingsButton'>
                     Hide Settings
                 </button>

@@ -1,18 +1,17 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import './App.css'
 import * as kkht from './assets/kkht/index'
-import Dick from './assets/components/dick'
-import HairPullHand from './assets/components/hair-pull-hand'
-import Body from './assets/components/body'
-import Head from './assets/components/head'
-import Mouth from './assets/components/mouth'
-import Arms from './assets/components/arms'
-import Outputs from './assets/components/outputs'
-import Orders from './assets/components/handler-functions/buttons-handler'
+import JOHand from './assets/components/body-parts/JO-hand'
+import Torso from './assets/components/body-parts/torso'
+import Head from './assets/components/body-parts/head'
+import Jaw from './assets/components/body-parts/jaw'
+import Arms from './assets/components/body-parts/arms'
+import Outputs from './assets/components/outputs/outputs'
+import Setters from './assets/components/setters/setters'
 import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
-import Setters from './assets/components/setters/setters'
+
 
 function App() {
 
@@ -26,15 +25,12 @@ function App() {
     const [interruptUI, setInterruptUI] = useState()
     const interruptUIRef = useRef(interruptUI)
 
-    const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
-    const [ivesMode, setIvesMode] = useState(false)
-
     const [isTongueCum, setIsTongueCum] = useState(false)
     const isTongueCumRef = useRef()
 
     const [depthMethod, setDepthMethod] = useState("Training")
 
-    const [hairPullDragging, setHairPullDragging] = useState(false)
+    const [headDragging, setHeadDragging] = useState(false)
 
     const [holdMouthOpen, setHoldMouthOpen] = useState(false)
     const [mouthOpen, setMouthOpen] = useState(false)
@@ -47,16 +43,16 @@ function App() {
     const [arousalTier, setArousalTier] = useState(1)
 
     const [arousal, setArousal] = useState({
-        ives: 0,
-        boyd: 0,
+        blue: 0,
+        pink: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 1500,
-        boyd: 10000,
+        blue: 1500,
+        pink: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 5,
-        boyd: 2.5,
+        blue: 5,
+        pink: 2.5,
     })
 
     const armLeft = useRef()
@@ -77,11 +73,11 @@ function App() {
     const eyeCenterLeft = useRef()
     const eyeCenterRight = useRef()
     const hairPullBeads = useRef()
-    const hairPullDraggable = useRef()
+    const headDraggable = useRef()
     const hairPullHandGrab = useRef()
     const headParts = useRef()
     const hesitation = useRef({ sec: 0, ms: 0 })
-    const hideHand = useRef()
+    const headHand = useRef()
     const maxArousalRef = useRef(maxArousal);
     const mouthArgs = useRef()
     const mouthButton = useRef()
@@ -114,27 +110,22 @@ function App() {
             console.log("container not rendered")
             return
         }; // Prevents error if not rendered
-        armLeft.current = document.getElementById("armLeft")
-        armRight.current = document.getElementById("armRight")
-        body.current = document.getElementById("bodyGroup");
-        browLeft.current = document.getElementById("browLeftGroup")
-        browRight.current = document.getElementById("browRightGroup")
-        chain.current = document.getElementById("chain")
+        armLeft.current = document.getElementById("armLeftUp")
+        armRight.current = document.getElementById("armRightIp")
+        body.current = document.getElementById("torsoGroup");
+        browLeft.current = document.getElementById("browLeft")
+        browRight.current = document.getElementById("browRight")
         cloth.current = document.getElementById("cloth")
         containerSize.current = document.getElementById("container").getBoundingClientRect().height
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
-        dickSvg.current = document.getElementById("dick")
+        dickSvg.current = document.getElementById("dickGroup")
         eyeCenterLeft.current = document.getElementById("eyeCenterLeft");
         eyeCenterRight.current = document.getElementById("eyeCenterRight");
-        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
-        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
+        headHand.current = document.getElementById("headHand");
         headParts.current = gsap.utils.toArray(".headParts");
-        hideHand.current = gsap.utils.toArray(".hideHand")
         mouthButton.current = document.getElementById("mouthOrderButton")
         mouthGroup.current = document.getElementById("mouthGroup")
-        tearLeft.current = document.getElementById("tearLeft")
-        tearRight.current = document.getElementById("tearRight")
         tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
         tongueDrool.current = document.getElementById("tongueDrool")
         tongueGroup.current = document.getElementById("tongueGroup")
@@ -192,32 +183,6 @@ function App() {
         interruptUIRef.current = interruptUI
     }, [interruptUI])
 
-    useEffect(() => {
-        maxArousalRef.current = maxArousal;
-        if (Object.values(maxArousal).includes(1999)
-            || Object.values(maxArousal).includes(1847)) {
-            setIvesModeActive(true)
-            localStorage.setItem("ivesModeActive", "true")
-        }
-    }, [maxArousal]);
-
-    useEffect(() => {
-        if (ivesModeActive) {
-            document.getElementById("secret").style.display = "block"
-            setIvesMode(true)
-        } else {
-            document.getElementById("secret").style.display = "none"
-            setIvesMode(false)
-        }
-    }, [ivesModeActive])
-
-    useEffect(() => {
-        var elements = gsap.utils.toArray(".ivesMode")
-        elements.forEach((el) => {
-            el.style.display = ivesMode ? "block" : "none"
-        })
-    }, [ivesMode])
-
 
     useEffect(() => { // Face wipe, order buttons
 
@@ -258,13 +223,13 @@ function App() {
             kkht.faceWipe({
                 elements: [chain.current, armRight.current, armLeft.current],
                 cloth: cloth.current,
-                hide: [hairPullHandGrab.current, dickHandGrab.current],
+                hide: [headHand.current, dickHandGrab.current],
                 setter: setArmsUp,
                 animationSetter: setInterruptUI
             });
         }
         function lowerArmsHandler() {
-            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
+            kkht.valChange(["pink"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.pink / 20 * sensitivityRef.current.pink))
             kkht.lowerArms({
                 elements: [chain.current, cloth.current, armRight.current, armLeft.current],
                 container: container,
@@ -272,7 +237,7 @@ function App() {
             }
             )
         }
-        // document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick)
+        // document.getElementById("pinkBarWrap").addEventListener("dblclick", handleFaceWipeClick)
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
 
@@ -280,7 +245,7 @@ function App() {
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            //  document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
+            //  document.getElementById("pinkBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
         };
 
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum])
@@ -318,7 +283,7 @@ function App() {
                     }
                 },
                 playAfter: () => {
-                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
+                    kkht.valChange(["pink"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.pink / 100 * sensitivityRef.current.pink))
                     kkht.mouthOpenFunction({
                         tongueCum: tongueCumArray.current,
                         moveBy: containerSize.current * 0.045,
@@ -358,7 +323,7 @@ function App() {
                         kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current.sec * 3) });
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
-                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
+                        kkht.valChange(["pink"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.pink / 15 * sensitivityRef.current.pink))
                         if (arousalTierRef.current < 4) kkht.tearsAnimation({ tearLeft: tearLeft.current, tearRight: tearRight.current })
                     }
                 })
@@ -380,7 +345,7 @@ function App() {
 
         function valDownHandler() {
             if (mouthOnRef.current === false) {
-                kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
+                kkht.valChange(["pink", "blue"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
             }
         }
         const interval = setInterval(valDownHandler, 500);
@@ -394,144 +359,158 @@ function App() {
         }
     }, []);
 
-    useEffect(() => { // Sets up draggables
+    useEffect(() => {
+        let intervalId = null;
 
-        const container = document.getElementById("container")
-        console.log(container)
+        function trySetupDraggables() {
+            const container = document.getElementById("container");
+            const dickHandPartsEls = dickHandParts.current;
+            const headHandEl = document.getElementById("headHand");
 
-        Draggable.create(dickHandParts.current, {
-            trigger: "#dickHandGrab",
-            zIndexBoost: false,
-            type: "y",
-            cursor: "ns-resize",
-            bounds: {
-                minY: containerSize.current * -0.07,
-                maxY: containerSize.current * 0.07,
-            },
-            inertia: {
-                y: {
-                    end: 0,
-                }
-            },
-            edgeResistance: 0.9,
-            onDrag: function () {
-                container.style.cursor = "ns-resize"
-                if (this.getDirection("start") === ("up" || "down")) {
-                    kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
-                }
-
-            },
-            onDragEnd: () => {
-                container.style.cursor = "auto"
-            }
-        })
-
-        Draggable.create("#hairPullHand", {
-            trigger: "#hairPullHandGrab",
-            cursor: "ns-resize",
-            onDragStart: function () {
-                setHairPullDragging(true);
-            },
-            onDrag: function () {
-
-                kkht.valChange(["ives", "boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current)
-
-                container.style.cursor = "ns-resize"
-
-                kkht.updateFollowers({
-                    itemsArray: [headParts.current, body.current],
-                    x: this.x,
-                    y: this.y,
-                    ease: "back",
-                    init: 0.25,
-                    increase: 0.2
-                })
-                kkht.updateFollowers({
-                    itemsArray: hairPullBeads.current,
-                    x: this.x,
-                    y: this.y,
-                    ease: "back",
-                    init: 0.1,
-                    increase: 0.05
-                })
-                // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
-                const dickRect = document.getElementById("dickArea").getBoundingClientRect();
-                const headRect = document.getElementById("faceArea").getBoundingClientRect();
-                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
-
-                //    var resistance
-
-                const args = {
-                    percent: percent,
-                    startApproach: 0.05,
-                    startOn: 0.3,
-                    setApproach,
-                    setMouthOn,
-                    affectedIDs: ["ives", "boyd"],
-                    lick: {
-                        tongue: "#tongue",
-                        tip: "#dickTip",
-                        percent: "20%"
+            // Check if all required elements exist
+            if (
+                container &&
+                dickHandPartsEls &&
+                dickHandPartsEls.length > 0 &&
+                headHandEl
+            ) {
+                // Setup draggables
+                const dickDrags = Draggable.create(dickHandPartsEls, {
+                    trigger: "#dickHandGrab",
+                    zIndexBoost: false,
+                    type: "y",
+                    cursor: "ns-resize",
+                    bounds: {
+                        minY: containerSize.current * -0.07,
+                        maxY: containerSize.current * 0.07,
                     },
-                    maxArousal: maxArousalRef.current,
-                    setArousal,
-                    sensitivity: sensitivityRef.current,
-                    direction: this.getDirection("start")
-                };
-
-                this.dragResistance = kkht.isApproachOrOn(args)
-
-                if (depthMethodRef.current === "Training") {
-                    this.applyBounds({
-                        minX: containerSize.current * -0.0055,
-                        maxX: containerSize.current * 0.0055,
-                        minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * kkht.trainingMultiplier(
-                            {
-                                id: "#hairPullHand",
-                                y: this.y,
-                                maxY: (this.maxY || containerSize.current * 0.1),
-                                initial: 0.2,
-                                end: 0.4,
-                                hits: Math.round(5 - sensitivityRef.current.boyd),
-                                increaseBy: 0.001
-                            })
-                    });
-                } else {
-                    kkht.trainingMultiplier(
-                        {
-                            id: "#hairPullHand",
-                            reset: true
-                        })
-                    this.applyBounds({
-                        minX: containerSize.current * -0.0055,
-                        maxX: containerSize.current * 0.0055,
-                        minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * 0.4
+                    inertia: {
+                        y: {
+                            end: 0,
+                        }
+                    },
+                    edgeResistance: 0.9,
+                    onDrag: function () {
+                        container.style.cursor = "ns-resize"
+                        if (this.getDirection("start") === ("up" || "down")) {
+                            kkht.valChange("blue", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                        }
+                    },
+                    onDragEnd: () => {
+                        container.style.cursor = "auto"
                     }
-                    )
-                }
-            },
-            dragResistance: 0,
-            zIndexBoost: false,
-            onDragEnd: function () {
-                container.style.cursor = "auto"
-                setHairPullDragging(false);
+                });
 
+                const headDrags = Draggable.create("#headHand", {
+                    cursor: "ns-resize",
+                    onDragStart: function () {
+                        setHeadDragging(true);
+                    },
+                    onDrag: function () {
+                        kkht.valChange(["blue", "pink"], "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                        container.style.cursor = "ns-resize"
+                        kkht.updateFollowers({
+                            itemsArray: [headParts.current, body.current],
+                            x: this.x,
+                            y: this.y,
+                            ease: "back",
+                            init: 0.25,
+                            increase: 0.2
+                        });
+                        const dickRect = document.getElementById("dickArea").getBoundingClientRect();
+                        const headRect = document.getElementById("faceArea").getBoundingClientRect();
+                        const percent = kkht.getOverlapPercent(headRect, dickRect, 50);
+
+                        const args = {
+                            percent: percent,
+                            startApproach: 0.05,
+                            startOn: 0.3,
+                            setApproach,
+                            setMouthOn,
+                            affectedIDs: ["blue", "pink"],
+                            lick: {
+                                tongue: "#tongue",
+                                tip: "#dickTip",
+                                percent: "20%"
+                            },
+                            maxArousal: maxArousalRef.current,
+                            setArousal,
+                            sensitivity: sensitivityRef.current,
+                            direction: this.getDirection("start")
+                        };
+
+                        this.dragResistance = kkht.isApproachOrOn(args)
+
+                        if (depthMethodRef.current === "Training") {
+                            this.applyBounds({
+                                minX: containerSize.current * -0.0055,
+                                maxX: containerSize.current * 0.0055,
+                                minY: containerSize.current * -0.07,
+                                maxY: containerSize.current * kkht.trainingMultiplier(
+                                    {
+                                        id: "#headHand",
+                                        y: this.y,
+                                        maxY: (this.maxY || containerSize.current * 0.1),
+                                        initial: 0.2,
+                                        end: 0.4,
+                                        hits: Math.round(5 - sensitivityRef.current.pink),
+                                        increaseBy: 0.001
+                                    })
+                            });
+                        } else {
+                            kkht.trainingMultiplier(
+                                {
+                                    id: "#headHand",
+                                    reset: true
+                                })
+                            this.applyBounds({
+                                minX: containerSize.current * -0.0055,
+                                maxX: containerSize.current * 0.0055,
+                                minY: containerSize.current * -0.07,
+                                maxY: containerSize.current * 0.4
+                            }
+                            )
+                        }
+                    },
+                    dragResistance: 0,
+                    zIndexBoost: false,
+                    onDragEnd: function () {
+                        container.style.cursor = "auto"
+                        setHeadDragging(false);
+                    }
+                });
+
+                headDraggable.current = headDrags[0]
+                dickHandDraggable.current = dickDrags[0]
+                console.log(dickDrags)
+
+                // Clear the interval so setup only runs once
+                clearInterval(intervalId);
+
+                // Cleanup function for draggables
+                return () => {
+                    if (headDraggable.current) headDraggable.current.kill()
+                    if (dickHandDraggable.current) dickHandDraggable.current.kill()
+                };
             }
-        });
-        hairPullDraggable.current = Draggable.get("#hairPullHand")
-        dickHandDraggable.current = Draggable.get(dickHandParts.current)
+        }
+
+        // Start polling every 50ms
+        intervalId = setInterval(trySetupDraggables, 50);
+
+        // Cleanup polling interval on unmount
         return () => {
-            hairPullDraggable.current.kill()
-            dickHandDraggable.current.kill()
+            clearInterval(intervalId);
+            // Also cleanup draggables if they were created
+            if (headDraggable.current) headDraggable.current.kill()
+            if (dickHandDraggable.current) dickHandDraggable.current.kill()
         };
-    }, [])
+    }, []);
 
     useEffect(() => { // Nut function
-        if (arousal.ives >= maxArousal.ives) {
+        if (arousal.blue >= maxArousal.blue) {
 
-            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 10 * sensitivityRef.current.boyd))
+            kkht.valChange("pink", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.pink / 10 * sensitivityRef.current.pink))
 
             if (mouthOn) {
                 // cum down his throat
@@ -557,8 +536,7 @@ function App() {
                             setMouthOn: setMouthOn,
                             setMouthOpen: setMouthOpen,
                             setApproach: setApproach,
-                            draggable: hairPullDraggable.current,
-                            alsoMove: hairPullBeads.current,
+                            draggable: headDraggable.current,
                             setHoldMouthOpen: setHoldMouthOpen
                         }
                     }]
@@ -605,15 +583,15 @@ function App() {
                 }
             }
 
-            setArousal(prev => ({ ...prev, ives: 0 }))
+            setArousal(prev => ({ ...prev, blue: 0 }))
         }
-    }, [arousal.ives, mouthOn, mouthOpenRef])
+    }, [arousal.blue, mouthOn, mouthOpenRef])
 
-    useEffect(() => { // Elements that change based on arousal.boyd
-        const arousalRatio = arousal.boyd / maxArousal.boyd
+    useEffect(() => { // Elements that change based on arousal.pink
+        const arousalRatio = arousal.pink / maxArousal.pink
 
         if (depthMethodRef.current === "Arousal") {
-            const draggable = hairPullDraggable.current
+            const draggable = headDraggable.current
             if (container && draggable) {
                 const bounds = containerSize.current * (0.2 + (arousalRatio * 0.2));
                 draggable.applyBounds({
@@ -640,8 +618,10 @@ function App() {
                     : (arousalRatio > 0.2) ? setArousalTier(2)
                         : setArousalTier(1)
 
-        const blush = document.getElementById("blush")
-        kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
+        const blushOpacity = gsap.timeline({ paused: true })
+            .fromTo(".blush",
+                { opacity: 0, transformOrigin: "center" },
+                { opacity: 1, duration: 1 })
 
         const pupilSize = gsap.timeline({ paused: true })
             .fromTo(".pupil",
@@ -649,10 +629,11 @@ function App() {
                 { scale: 1.2, duration: 1 })
 
         pupilSize.progress(arousalRatio)
+        blushOpacity.progress(arousalRatio)
 
         return () => {
         };
-    }, [arousal.boyd, maxArousal.boyd, depthMethod]);
+    }, [arousal.pink, maxArousal.pink, depthMethod]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
 
@@ -720,69 +701,95 @@ function App() {
 
         };
     }, [arousalTier, fastMorph, interruptBreath, interruptUI])
+    /*
+        useEffect(() => { // Sweat
+    
+            let running = true;
+    
+            sweatIntervalRef.current = setInterval(() => kkht.randomizeArray({
+                idString: "sweat",
+                animation: kkht.drip,
+                areaHeight: 322
+            }), 10000);
+    
+            // Get all sweat elements
+            const sweatsParent = document.getElementById(`sweatGroup`)
+            const sweats = [...sweatsParent.children]
+            // Get all .eyeCenter elements
+            const eyes = gsap.utils.toArray('.eyeCenter');
+    
+            kkht.hideOnOverlap({
+                running: running,
+                element1: sweats,
+                element2: eyes
+            })
+    
+            return () => {
+                running = false;
+    
+                if (sweatIntervalRef.current) {
+                    clearInterval(sweatIntervalRef.current);
+                    sweatIntervalRef.current = null;
+                }
+            };
+        }, []);
+    */
+    useEffect(() => {
+        let intervalId = null;
 
-    useEffect(() => { // Sweat
+        function tryEnableDisableDraggables() {
+            // Check for required DOM elements and draggables
+            const container = document.getElementById("container");
+            const dickHandPartsEls = dickHandParts.current;
+            const dickHandDraggableInstance = dickHandDraggable.current;
+            const headDraggableInstance = headDraggable.current;
 
-        let running = true;
+            if (
+                container &&
+                dickHandPartsEls &&
+                dickHandPartsEls.length > 0 &&
+                dickHandDraggableInstance &&
+                headDraggableInstance
+            ) {
+                // Enable/disable logic
+                if (mouthOn || fastMorph || interruptUI || armsUp || headDragging) {
+                    dickHandPartsEls.forEach((el) => {
+                        el.style.display = "none"
+                    })
+                    dickHandDraggableInstance.disable()
+                } else {
+                    dickHandPartsEls.forEach((el) => {
+                        el.style.display = "block"
+                    })
+                    dickHandDraggableInstance.enable()
+                }
 
-        sweatIntervalRef.current = setInterval(() => kkht.randomizeArray({
-            idString: "sweat",
-            animation: kkht.drip,
-            areaHeight: 322
-        }), 10000);
+                if (fastMorph || interruptUI || armsUp) {
+                    headDraggableInstance.disable()
+                    headHand.current.style.display = "none"
 
-        // Get all sweat elements
-        const sweatsParent = document.getElementById(`sweatGroup`)
-        const sweats = [...sweatsParent.children]
-        // Get all .eyeCenter elements
-        const eyes = gsap.utils.toArray('.eyeCenter');
+                } else {
+                    headDraggableInstance.enable()
+                    headHand.current.style.display = "none"
+                }
 
-        kkht.hideOnOverlap({
-            running: running,
-            element1: sweats,
-            element2: eyes
-        })
+                if (fastMorph || interruptUI) {
+                    container.classList.add("customCursor")
+                } else container.classList.remove("customCursor")
 
-        return () => {
-            running = false;
-
-            if (sweatIntervalRef.current) {
-                clearInterval(sweatIntervalRef.current);
-                sweatIntervalRef.current = null;
+                // Clear interval after setup
+                clearInterval(intervalId);
             }
+        }
+
+        // Start polling every 50ms
+        intervalId = setInterval(tryEnableDisableDraggables, 50);
+
+        // Cleanup polling interval on unmount
+        return () => {
+            clearInterval(intervalId);
         };
-    }, []);
-
-    useEffect(() => { // Enable/disable draggables
-
-        if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
-            dickHandParts.current.forEach((el) => {
-                el.style.display = "none"
-            })
-            dickHandDraggable.current.disable()
-        } else {
-            dickHandParts.current.forEach((el) => {
-                el.style.display = "block"
-            })
-            dickHandDraggable.current.enable()
-        }
-
-        if (fastMorph || interruptUI || armsUp) {
-            hairPullDraggable.current.disable()
-            hideHand.current.forEach((el) => {
-                el.style.display = "none"
-            })
-        } else {
-            hairPullDraggable.current.enable()
-            hideHand.current.forEach((el) => {
-                el.style.display = "block"
-            })
-        }
-
-        if (fastMorph || interruptUI) {
-            container.classList.add("customCursor")
-        } else container.classList.remove("customCursor")
-    }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
+    }, [mouthOn, approach, fastMorph, interruptUI, armsUp, headDragging]);
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
@@ -812,107 +819,145 @@ function App() {
         }
     }, [mouthOn, isTongueCum])
 
-    useEffect(() => { // Sets up hover listeners for draggables
+    useEffect(() => {
+        let intervalId = null;
 
-        let hairEnter, hairLeave, dickEnter, dickLeave;
+        function trySetupHoverListeners() {
+            const headHandEl = headHand.current;
+            const dickHandGrabEl = dickHandGrab.current;
+            const dickHandPartsEls = dickHandParts.current;
+            const headDraggableInstance = headDraggable.current;
+            const dickHandDraggableInstance = dickHandDraggable.current;
 
-        hairEnter = () => {
-            gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
-        };
+            // Check if all required elements and draggables exist
+            if (
+                headHandEl &&
+                dickHandGrabEl &&
+                dickHandPartsEls &&
+                headDraggableInstance &&
+                dickHandDraggableInstance
+            ) {
+                let hairEnter = () => {
+                    gsap.to(headHandEl, { opacity: 1, duration: 0.2 });
+                };
 
-        hairLeave = () => {
-            if (hairPullDraggable.current.isDragging) {
-                return;
-            } else {
-                gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
+                let hairLeave = () => {
+                    if (headDraggableInstance.isDragging) {
+                        return;
+                    } else {
+                        gsap.to(headHandEl, { opacity: 0, duration: 0.2 });
+                    }
+                };
+
+                headHandEl.addEventListener("mouseenter", hairEnter);
+                headHandEl.addEventListener("mouseleave", hairLeave);
+
+                let dickEnter = () => {
+                    gsap.to(dickHandPartsEls, { opacity: 1, duration: 0.2 });
+                };
+                let dickLeave = () => {
+                    if (dickHandDraggableInstance.isDragging) {
+                        return;
+                    } else {
+                        gsap.to(dickHandPartsEls, {
+                            opacity: 0,
+                            duration: 0.2
+                        });
+                    }
+                };
+                dickHandGrabEl.addEventListener("mouseenter", dickEnter);
+                dickHandGrabEl.addEventListener("mouseleave", dickLeave);
+
+                // Clear interval after setup
+                clearInterval(intervalId);
+
+                // Cleanup
+                return () => {
+                    hairPullHandGrabEl.removeEventListener("mouseenter", hairEnter);
+                    hairPullHandGrabEl.removeEventListener("mouseleave", hairLeave);
+                    dickHandGrabEl.removeEventListener("mouseenter", dickEnter);
+                    dickHandGrabEl.removeEventListener("mouseleave", dickLeave);
+                };
             }
-        };
-        hairPullHandGrab.current.addEventListener("mouseenter", hairEnter);
-        hairPullHandGrab.current.addEventListener("mouseleave", hairLeave);
+        }
 
-        dickEnter = () => {
-            gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
-        };
-        dickLeave = () => {
-            if (dickHandDraggable.current.isDragging) {
-                return;
-            } else {
-                gsap.to(dickHandParts.current, {
-                    opacity: 0,
-                    duration: 0.2
-                });
-            }
-        };
-        dickHandGrab.current.addEventListener("mouseenter", dickEnter);
-        dickHandGrab.current.addEventListener("mouseleave", dickLeave);
+        // Start polling every 50ms
+        intervalId = setInterval(trySetupHoverListeners, 50);
 
-        // Cleanup
+        // Cleanup polling interval on unmount
         return () => {
-            if (hairPullHandGrab.current) {
-                hairPullHandGrab.current.removeEventListener("mouseenter", hairEnter);
-                hairPullHandGrab.current.removeEventListener("mouseleave", hairLeave);
-            }
-            if (dickHandGrab.current) {
-                dickHandGrab.current.removeEventListener("mouseenter", dickEnter);
-                dickHandGrab.current.removeEventListener("mouseleave", dickLeave);
-            }
-
+            clearInterval(intervalId);
         };
-
     }, []);
 
     useEffect(() => {
-        if (armsUp || interruptUI) {
-            dickSvg.current.style.zIndex = 100
-        } else dickSvg.current.style.zIndex = 12
-    }, [armsUp, interruptUI])
+        let intervalId = null;
+
+        function trySetZIndex() {
+            const dickSvgEl = dickSvg.current;
+            if (dickSvgEl) {
+                if (armsUp || interruptUI) {
+                    dickSvgEl.style.zIndex = 100;
+                } else {
+                    dickSvgEl.style.zIndex = 12;
+                }
+                clearInterval(intervalId);
+            }
+        }
+
+        intervalId = setInterval(trySetZIndex, 50);
+
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [armsUp, interruptUI]);
 
 
     return (
         <div>
             <div id='mainDiv' className="ready">
                 <Outputs id="outputs"
-                    boyd={arousal.boyd}
-                    ives={arousal.ives}
-                    maxBoyd={maxArousal.boyd}
-                    maxIves={maxArousal.ives} />
+                    pink={arousal.pink}
+                    blue={arousal.blue}
+                    maxpink={maxArousal.pink}
+                    maxblue={maxArousal.blue} />
 
                 <Setters
                     sensitivity={[
                         {
-                            id: "boydSet",
+                            id: "pinkSet",
                             setter: value => {
-                                setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+                                setSensitivity(prev => ({ ...prev, pink: Number(value) }))
                             },
-                            label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
-                            value: sensitivity.boyd
+                            label: "Set pink's sensitivity.",
+                            value: sensitivity.pink
                         },
                         {
-                            id: "ivesSet",
+                            id: "blueSet",
                             setter: value => {
-                                setSensitivity(prev => ({ ...prev, ives: Number(value) }))
+                                setSensitivity(prev => ({ ...prev, blue: Number(value) }))
                             },
-                            label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
-                            value: sensitivity.ives
+                            label: "Set blue's sensitivity.",
+                            value: sensitivity.blue
                         }
                     ]
                     }
                     max={[
                         {
-                            id: "boydMax",
+                            id: "pinkMax",
                             setter: value => {
-                                setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
+                                setmaxArousal(prev => ({ ...prev, pink: Number(value) }))
                             },
-                            label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
-                            value: maxArousal.boyd
+                            label: "Pink Max: ",
+                            value: maxArousal.pink
                         },
                         {
-                            id: "ivesMax",
+                            id: "blueMax",
                             setter: value => {
-                                setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
+                                setmaxArousal(prev => ({ ...prev, blue: Number(value) }))
                             },
-                            label: !ivesMode ? "Red Max: " : "Ives Max: ",
-                            value: maxArousal.ives
+                            label: "Blue Max: ",
+                            value: maxArousal.blue
                         }
                     ]}
                     modes={{
@@ -921,23 +966,15 @@ function App() {
                         label: "Depth Mode:",
                         setter: setDepthMethod
                     }}
-                    secret={
-                        {
-                            id: "ivesModeSwitch",
-                            setter: setIvesMode,
-                            label: "Ravenous",
-                            value: ivesMode
-                        }
-                    }
+
                 />
 
                 <div id='positioning'>
-                    <Body />
-                    <Mouth />
-                    <Dick />
+                    <Torso />
+                    <Jaw />
+                    <JOHand />
                     <Head />
                     <Arms />
-                    <HairPullHand />
                 </div>
 
                 <div id='ordersDiv'>

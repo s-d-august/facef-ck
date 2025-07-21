@@ -80,6 +80,7 @@ export const getOverlapPercent = (rectA, rectB, extraY) => {
 }
 
 export const renderProgress = (element, attr, stat, max) => {
+    console.log(element)
     const newVal = function (stat) {
         if (stat >= max) { return 100 }
         else return stat / max * 100
