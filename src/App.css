@@ -60,13 +60,14 @@
   opacity: 100;
 }
 
-#mouth {
-  transform-origin: center;
+mouth {
+  transform-origin: top center;
+  transform-box: fill-box;
   animation: breathMouth ease-in-out infinite alternate;
   animation-duration: var(--animation-duration);
 }
 
-#bodyMain {
+#torso {
   transform-origin: bottom center;
   animation: breathTorso ease-in-out infinite alternate;
   animation-duration: var(--animation-duration);
@@ -228,11 +229,11 @@ svg {
 
 @keyframes breathMouth {
   from {
-    transform: scaleY(100%);
+    transform: scale(100%);
   }
 
   to {
-    transform: scaleY(115%)
+    transform: scale(110%)
   }
 }
 

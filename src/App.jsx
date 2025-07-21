@@ -38,8 +38,6 @@ function App() {
     const mouthOpenRef = useRef(mouthOpen);
     const [approach, setApproach] = useState(false)
 
-    const [armsUp, setArmsUp] = useState(true)
-
     const [arousalTier, setArousalTier] = useState(1)
 
     const [arousal, setArousal] = useState({
@@ -149,7 +147,7 @@ function App() {
 
         mouthArgs.current = {
             tongueCum: tongueCumArray.current,
-            moveBy: containerSize.current * 0.045,
+            moveBy: containerSize.current * 0.02,
             mouthGroup: mouthGroup.current,
             tongueGroup: tongueGroup.current,
             tongueDrool: tongueDrool.current,
@@ -202,21 +200,18 @@ function App() {
             wipeButton.current.classList.remove("inactive")
         }
 
-        if (armsUp) {
-            wipeButton.current.innerText = '"Now now, don\'t be shy."'
-            mouthButton.current.classList.add("hide")
-        } else {
-            wipeButton.current.innerText = '"Wipe the mess off your face."'
-            wipeButton.current.classList.add("hide")
-            mouthButton.current.classList.remove("hide")
 
-            if (kkht.isFaceClean() === false) {
-                wipeButton.current.classList.remove("hide");
-                wipeButton.current.addEventListener("click", handleFaceWipeClick);
-            } else {
-                wipeButton.current.classList.add("hide");
-            }
+        wipeButton.current.innerText = '"Wipe the mess off your face."'
+        wipeButton.current.classList.add("hide")
+        mouthButton.current.classList.remove("hide")
+
+        if (kkht.isFaceClean() === false) {
+            wipeButton.current.classList.remove("hide");
+            wipeButton.current.addEventListener("click", handleFaceWipeClick);
+        } else {
+            wipeButton.current.classList.add("hide");
         }
+
 
         function handleFaceWipeClick() {
             wipeButton.current.classList.add("hide");
@@ -224,7 +219,7 @@ function App() {
                 elements: [chain.current, armRight.current, armLeft.current],
                 cloth: cloth.current,
                 hide: [headHand.current, dickHandGrab.current],
-                setter: setArmsUp,
+
                 animationSetter: setInterruptUI
             });
         }
@@ -233,7 +228,7 @@ function App() {
             kkht.lowerArms({
                 elements: [chain.current, cloth.current, armRight.current, armLeft.current],
                 container: container,
-                setter: setArmsUp
+
             }
             )
         }
@@ -248,7 +243,7 @@ function App() {
             //  document.getElementById("pinkBarWrap").removeEventListener("dblclick", handleFaceWipeClick)
         };
 
-    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum])
+    }, [mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum])
 
     useEffect(() => { // Elements that change based on approach state
         if (holdMouthOpen) return
@@ -337,6 +332,10 @@ function App() {
 
     useEffect(() => { // initializing, valDown
 
+        gsap.set("#tongueGroup", {
+            scaleY: 0,
+            y: 10
+        })
         window.addEventListener("resize", () => {
             containerSize.current = document.getElementById("container").getBoundingClientRect().height
             console.log("resize noted", containerSize.current)
@@ -407,6 +406,7 @@ function App() {
                         setHeadDragging(true);
                     },
                     onDrag: function () {
+
                         kkht.valChange(["blue", "pink"], "up", maxArousalRef.current, setArousal, sensitivityRef.current)
                         container.style.cursor = "ns-resize"
                         kkht.updateFollowers({
@@ -417,14 +417,16 @@ function App() {
                             init: 0.25,
                             increase: 0.2
                         });
-                        const dickRect = document.getElementById("dickArea").getBoundingClientRect();
-                        const headRect = document.getElementById("faceArea").getBoundingClientRect();
+                        const dickRect = document.getElementById("dickGroup").getBoundingClientRect();
+                        const headRect = document.getElementById("faceTop").getBoundingClientRect();
                         const percent = kkht.getOverlapPercent(headRect, dickRect, 50);
+
+                        console.log(percent)
 
                         const args = {
                             percent: percent,
-                            startApproach: 0.05,
-                            startOn: 0.3,
+                            startApproach: 0.001,
+                            startOn: 0.13,
                             setApproach,
                             setMouthOn,
                             affectedIDs: ["blue", "pink"],
@@ -576,7 +578,6 @@ function App() {
                         faceWipeArgs: {
                             elements: [chain.current, armRight.current, armLeft.current],
                             cloth: cloth.current,
-                            setter: setArmsUp,
                             animationSetter: setInterruptUI
                         }
                     })
@@ -752,7 +753,7 @@ function App() {
                 headDraggableInstance
             ) {
                 // Enable/disable logic
-                if (mouthOn || fastMorph || interruptUI || armsUp || headDragging) {
+                if (mouthOn || fastMorph || interruptUI || headDragging) {
                     dickHandPartsEls.forEach((el) => {
                         el.style.display = "none"
                     })
@@ -764,13 +765,13 @@ function App() {
                     dickHandDraggableInstance.enable()
                 }
 
-                if (fastMorph || interruptUI || armsUp) {
+                if (fastMorph || interruptUI) {
                     headDraggableInstance.disable()
                     headHand.current.style.display = "none"
 
                 } else {
                     headDraggableInstance.enable()
-                    headHand.current.style.display = "none"
+                    headHand.current.style.display = "block"
                 }
 
                 if (fastMorph || interruptUI) {
@@ -789,7 +790,7 @@ function App() {
         return () => {
             clearInterval(intervalId);
         };
-    }, [mouthOn, approach, fastMorph, interruptUI, armsUp, headDragging]);
+    }, [mouthOn, approach, fastMorph, interruptUI, headDragging]);
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
@@ -896,7 +897,7 @@ function App() {
         function trySetZIndex() {
             const dickSvgEl = dickSvg.current;
             if (dickSvgEl) {
-                if (armsUp || interruptUI) {
+                if (interruptUI) {
                     dickSvgEl.style.zIndex = 100;
                 } else {
                     dickSvgEl.style.zIndex = 12;
@@ -910,7 +911,7 @@ function App() {
         return () => {
             clearInterval(intervalId);
         };
-    }, [armsUp, interruptUI]);
+    }, [interruptUI]);
 
 
     return (

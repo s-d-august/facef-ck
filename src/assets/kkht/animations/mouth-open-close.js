@@ -5,8 +5,9 @@ export const mouthOpenFunction = ({ moveBy, mouthGroup, tongueGroup, tongueDrool
     var duration = (9 - arousalTier) / 4
     console.log("mouthOpen duration: ", duration, "arousalTier: ", arousalTier)
 
-    gsap.to(mouthGroup, { y: moveBy, duration: duration, ease: "power1.out" })
-    gsap.to(tongueGroup, { y: 0, scaleY: 1, duration: duration, ease: "power1.out" })
+    gsap.to("#jaw", { y: moveBy, duration: duration, ease: "power1.out" })
+    gsap.to("#mouth", { scale: 2, duration: duration, transformOrigin: "top center" })
+    gsap.to(tongueGroup, { y: 25, scaleY: 1, duration: duration, ease: "power1.out" })
     gsap.to(tongueDrool, { scaleY: 1, duration: duration, transformOrigin: "top center" })
     mouthOpenSetter(true)
 }
@@ -21,8 +22,9 @@ export const mouthCloseFunction = ({ tongueCum, mouthGroup, tongueGroup, tongueD
     console.log("mouthClose duration: ", duration)
     const visible = (tongueCum).filter(el => getComputedStyle(el).opacity !== "0");
 
-    gsap.to(mouthGroup, { y: 0, duration: (duration || 1), ease: "power1.out" })
+    gsap.to("#jaw", { y: 0, duration: (duration || 1), ease: "power1.out" })
     gsap.to(tongueGroup, { y: 0, scaleY: 0, duration: (duration || 1), ease: "power1.out" })
+    gsap.to("#mouth", { scale: 1, duration: (duration || 1), transformOrigin: "top center" })
     gsap.timeline()
         .to(tongueDrool, { scaleX: 0, duration: (duration || 1), ease: "power1.in", transformOrigin: "top center" })
         .set(tongueDrool, { scaleX: 1, scaleY: 0 })
