@@ -2,7 +2,8 @@
 import React, { useEffect } from "react"
 import "./age-check.css"
 import Eyecatch from "../eyecatch/eyecatch";
-import cover from "../../fonts-etc/cover.svg"
+import cover from "../../fonts-etc/reskinCover.svg"
+import Cover from './cover'
 import gsap from "gsap";
 
 const AgeCheck = ({ setAgeChecked }) => {
@@ -41,7 +42,7 @@ const AgeCheck = ({ setAgeChecked }) => {
                 <h1 id="faceTitle">FACE</h1>
                 <h1 id="fuckTitle">F*CK</h1>
             </div>
-            <h2 id="titleSubheader">*Until He Likes It*</h2>
+            <h2 id="titleSubheader">*Be Gentle, I'm Shy*</h2>
             <div id="ageCheckImgDiv">
                 <img src={cover} />
             </div>
