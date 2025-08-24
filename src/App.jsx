@@ -22,6 +22,9 @@ function App() {
 
     const [layerAnimation, setLayerAnimation] = useState(false)
 
+    const [interruptBreath, setInterruptBreath] = useState()
+    const [interruptUI, setInterruptUI] = useState()
+
     const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
     const [ivesMode, setIvesMode] = useState(false)
 
@@ -58,6 +61,8 @@ function App() {
         boyd: 2.5,
     })
 
+    const browRight = useRef()
+    const browLeft = useRef()
     const containerSize = useRef()
     const mouthGroup = useRef()
     const tongueGroup = useRef()
@@ -108,6 +113,8 @@ function App() {
             return
         }; // Prevents error if not rendered
         containerSize.current = document.getElementById("container").getBoundingClientRect().height
+        browLeft.current = document.getElementById("browLeft")
+        browRight.current = document.getElementById("browRight")
         mouthGroup.current = document.getElementById("mouthGroup")
         tongueGroup.current = document.getElementById("tongueGroup")
         tongueDrool.current = document.getElementById("tongueDrool")
@@ -201,7 +208,7 @@ function App() {
         if (holdMouthOpen) {
             if (isTongueCum) {
                 mouthButton.current.innerText = '"Swallow for me."'
-            } else mouthButton.current.innerText = '"Close your mouth"'
+            } else mouthButton.current.innerText = '"Close your mouth."'
         } else {
             mouthButton.current.innerText = '"Open your mouth."'
         }
@@ -281,29 +288,75 @@ function App() {
     }, [approach, holdMouthOpen])
 
     function mouthOpenClose() {
-        console.log(isTongueCumRef.current)
         if (mouthOpenRef.current === false) { // if setting mouth to open
-            console.log(hesitation.current)
-            setTimeout(() => {
-                kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 25 * sensitivityRef.current.boyd))
-                kkht.mouthOpenFunction(mouthArgs.current);
-                setHoldMouthOpen(true)
-            }, hesitation.current)
+            kkht.hesitation({
+                deepBreath: (!arousalTierRef.current) ? "true" : "false",
+                setter: [setInterruptUI],
+                duration: (hesitation.current !== 0) ? (hesitation.current / 1000) : 0,
+                playDuring: {
+                    name: kkht.browRaise,
+                    args: {
+                        browLeft: browLeft.current,
+                        browRight: browRight.current
+                    }
+                },
+                playAfter: () => {
+                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
+                    console.log("called mouthOpen")
+                    kkht.mouthOpenFunction({
+                        tongueCum: tongueCumArray.current,
+                        moveBy: containerSize.current * 0.045,
+                        mouthGroup: mouthGroup.current,
+                        tongueGroup: tongueGroup.current,
+                        tongueDrool: tongueDrool.current,
+                        mouthOpenSetter: setMouthOpen,
+                        arousalTier: arousalTierRef.current
+                    });
+                    setHoldMouthOpen(true)
+                }
+            })
 
 
         } else {
             if (isTongueCumRef.current) {
-                setTimeout(() => {
-                    kkht.mouthCloseFunction(mouthArgs.current);
-                    setHoldMouthOpen(false)
-                    setIsTongueCum(false)
-                    console.log("tongueCum detected")
-                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
-                    if (arousalTierRef.current < 4) kkht.tearsAnimation(tearLeft.current, tearRight.current)
-                }, hesitation.current)
+                kkht.hesitation({
+                    deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
+                    setter: [setInterruptBreath, setInterruptUI],
+                    duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0,
+                    playDuring: [{
+                        name: kkht.browRaise,
+                        args: {
+                            browLeft: browLeft.current,
+                            browRight: browRight.current
+                        }
+                    },
+                    {
+                        name: kkht.tearsAnimation,
+                        args: {
+                            tearRight: tearRight.current,
+                            tearLeft: tearLeft.current,
+
+                        }
+                    }],
+                    playAfter: () => {
+                        console.log("hesitation.current: ", hesitation.current)
+                        console.log("called mouthClose")
+                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current.sec * 3 / 1000) : 0.5 });
+                        setHoldMouthOpen(false)
+                        setIsTongueCum(false)
+                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
+                        if (arousalTierRef.current < 4) kkht.tearsAnimation({
+                            tearRight: tearRight.current,
+                            tearLeft: tearLeft.current,
+
+                        })
+                    }
+                })
 
             } else {
-                kkht.mouthCloseFunction(mouthArgs.current);
+                console.log("called mouthClose")
+
+                kkht.mouthCloseFunction({ ...mouthArgs.current });
                 setHoldMouthOpen(false)
             }
         }
@@ -381,7 +434,7 @@ function App() {
 
                 const args = {
                     percent: percent,
-                    startApproach: 0.05,
+                    startApproach: 0.1,
                     startOn: 0.3,
                     setApproach,
                     setMouthOn,
@@ -584,7 +637,7 @@ function App() {
             } else if (arousalTier === 5) {
                 gsap.to([eyeCenterRight, eyeCenterLeft], {
                     x: 0,
-                    y: -17,
+                    y: 0,
                     duration: 1
                 })
             }
