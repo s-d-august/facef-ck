@@ -461,7 +461,7 @@ function App() {
                                 y: this.y,
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.2,
-                                end: 0.4,
+                                end: 0.37,
                                 hits: 5,
                                 increaseBy: 0.001
                             })
@@ -477,7 +477,7 @@ function App() {
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
                         minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * 0.4
+                        maxY: containerSize.current * 0.37
                     }
                     )
                 }
@@ -529,6 +529,24 @@ function App() {
                 })
             }
             if (!mouthOn) {
+                gsap.to([".eyeCenter"], {
+                    x: 0,
+                    y: 0,
+                    duration: 0.2
+                })
+
+                kkht.browRaise({
+                    browLeft: browLeft.current,
+                    browRight: browRight.current,
+                    duration: 1.5
+                })
+
+                kkht.callFastMorph({
+                    ...morphArgsTemplate,
+                    fromState: "Open",
+                    toState: "Wide"
+                })
+
                 kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
                 if (mouthOpen) {
@@ -616,9 +634,9 @@ function App() {
                     type: "random",
                     bounds: {
                         maxX: 30,
-                        maxY: 15,
+                        maxY: 20,
                         minX: -30,
-                        minY: 0
+                        minY: 5
                     }
                 });
             } else if (arousalTier === 3 || arousalTier === 4) {
@@ -629,7 +647,7 @@ function App() {
                         maxX: 30,
                         maxY: 10,
                         minX: -30,
-                        minY: -17
+                        minY: -20
                     }
                 });
             } else if (arousalTier === 5) {
