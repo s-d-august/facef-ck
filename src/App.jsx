@@ -395,6 +395,15 @@ function App() {
             edgeResistance: 0.9,
             onDrag: function () {
                 kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+            },
+            onDragEnd: function () {
+                setHairPullDragging(false);
+                // Check if still hovering
+                if (dickHandGrab.current.matches(':hover')) {
+                    gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
+                } else {
+                    gsap.to(dickHandParts.current, { opacity: 0, duration: 0.2 });
+                }
             }
         })
 
@@ -486,7 +495,11 @@ function App() {
             zIndexBoost: false,
             onDragEnd: function () {
                 setHairPullDragging(false);
-                gsap.to(hideHand.current, { opacity: 0, duration: 0.2 })
+                if (hairPullHandGrab.current.matches(':hover')) {
+                    gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
+                } else {
+                    gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
+                }
             }
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")
