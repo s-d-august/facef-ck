@@ -68,7 +68,7 @@
   animation-duration: var(--animation-duration);
 }
 
-#bodyMain {
+#bodyScaleGroup {
   transform-origin: bottom center;
   animation: breathTorso ease-in-out infinite alternate;
   animation-duration: var(--animation-duration);
