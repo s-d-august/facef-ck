@@ -20,8 +20,6 @@ function App() {
     const slowMorphRef = useRef(slowMorph)
     const fastMorphRef = useRef(fastMorph)
 
-    const [layerAnimation, setLayerAnimation] = useState(false)
-
     const [interruptBreath, setInterruptBreath] = useState()
     const [interruptUI, setInterruptUI] = useState()
 
@@ -213,7 +211,7 @@ function App() {
             mouthButton.current.innerText = '"Open your mouth."'
         }
 
-        if (mouthOn || fastMorph || approach || layerAnimation) {
+        if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
             wipeButton.current.classList.add("inactive")
         } else {
@@ -244,7 +242,7 @@ function App() {
                 cloth: cloth.current,
                 hide: [hairPullHandGrab.current, dickHandGrab.current],
                 setter: setArmsUp,
-                animationSetter: setLayerAnimation
+                animationSetter: setInterruptUI
             });
         }
         function lowerArmsHandler() {
@@ -266,7 +264,7 @@ function App() {
 
         };
 
-    }, [armsUp, mouthOn, fastMorph, layerAnimation, approach, mouthOpen, isTongueCum])
+    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum])
 
     useEffect(() => { // Elements that change based on approach state
         if (holdMouthOpen) return
@@ -290,8 +288,8 @@ function App() {
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
             kkht.hesitation({
-                deepBreath: (!arousalTierRef.current) ? "true" : "false",
-                setter: [setInterruptUI],
+                deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
+                setter: [setInterruptUI, setInterruptBreath],
                 duration: (hesitation.current !== 0) ? (hesitation.current / 1000) : 0,
                 playDuring: {
                     name: kkht.browRaise,
@@ -531,7 +529,7 @@ function App() {
                 })
             }
             if (!mouthOn) {
-                kkht.callState(setLayerAnimation, 1.5)
+                kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
                 if (mouthOpen) {
                     kkht.callCumshot({
@@ -549,7 +547,7 @@ function App() {
                             elements: [chain.current, armRight.current, armLeft.current],
                             cloth: cloth.current,
                             setter: setArmsUp,
-                            animationSetter: setLayerAnimation
+                            animationSetter: setInterruptUI
                         }
                     })
                 }
@@ -647,7 +645,7 @@ function App() {
         console.log(prevDuration)
 
         var breathCycleDuration = (
-            (fastMorph) ? 0
+            (fastMorph || interruptBreath) ? 0
                 : (arousalTier === 5) ? 1
                     : (arousalTier === 4) ? 0.875
                         : (arousalTier === 3) ? 0.75
@@ -663,7 +661,7 @@ function App() {
             if (cleanup) cleanup();
 
         };
-    }, [arousalTier, fastMorph])
+    }, [arousalTier, fastMorph, interruptBreath])
 
     useEffect(() => { // Sweat
 
@@ -699,7 +697,7 @@ function App() {
 
     useEffect(() => { // Enable/disable draggables
 
-        if (mouthOn || fastMorph || layerAnimation || armsUp || hairPullDragging) {
+        if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
             })
@@ -711,7 +709,7 @@ function App() {
             dickHandDraggable.current.enable()
         }
 
-        if (fastMorph || layerAnimation || armsUp) {
+        if (fastMorph || interruptUI || armsUp) {
             hairPullDraggable.current.disable()
             hideHand.current.forEach((el) => {
                 el.style.display = "none"
@@ -723,11 +721,11 @@ function App() {
             })
         }
 
-        if (fastMorph || layerAnimation) {
+        if (fastMorph || interruptUI) {
             container.classList.add("customCursor")
         } else container.classList.remove("customCursor")
         console.log("fastMorph: ", fastMorph)
-    }, [mouthOn, approach, fastMorph, layerAnimation, armsUp, hairPullDragging])
+    }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
@@ -809,10 +807,10 @@ function App() {
     }, []);
 
     useEffect(() => {
-        if (armsUp || layerAnimation) {
+        if (armsUp || interruptUI) {
             dickSvg.current.style.zIndex = 100
         } else dickSvg.current.style.zIndex = 12
-    }, [armsUp, layerAnimation])
+    }, [armsUp, interruptUI])
 
 
     return (

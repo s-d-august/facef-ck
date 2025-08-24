@@ -286,9 +286,9 @@ const Head = (props) => (
                 </g>
             </g>
             <g id="expressionsGroup" display="inline" opacity="1">
-                <g id="expressionShutGroup" display="inline">
+                <g id="expressionHalfGroup" display="inline">
                     <path
-                        id="faceShut"
+                        id="faceHalf"
                         fill="#ffe6d5"
                         strokeLinecap="round"
                         strokeWidth="3"
@@ -296,17 +296,7 @@ const Head = (props) => (
                         display="inline"
                         opacity="1"
                     ></path>
-                    <path
-                        id="mustacheShut"
-                        fill="#fc0"
-                        fillOpacity="1"
-                        stroke="none"
-                        strokeLinecap="round"
-                        strokeWidth="2.751"
-                        d="M478.487 632.493s-40.896 24.311-49.85 42.776c-3.106 6.404-1.23 14.907-1.23 14.907s28.892 21.721 33.733 8.297c1.229-3.411 3.143-6.987 4.916-10.324 3.241-6.096 8.209-9.021 14.666-6.578 8.621 3.261 19.663 5.169 28.674 6.646 14.348 2.352 29.293 2.935 43.615.435 9.947-1.736 18.098-3.727 26.762-7.558 7.619-3.369 15.399 3.475 18.395 11.697.843 2.315 2.985 8.655 3.588 12.065 1.781 10.083 32.84-1.96 33.212-15.654.148-5.459-.127-9.039-2.359-12.734-11.683-19.35-53.334-50.786-53.253-41.979-2.812 14.169-17.203 26.603-31.499 34.232-9.695 2.479-19.39 1.565-29.085-.616-18.456-5.815-29.641-21.196-40.285-35.612"
-                        display="inline"
-                        opacity="0"
-                    ></path>
+
                     <path
                         fill="#c8b7b7"
                         fillOpacity="1"
@@ -321,7 +311,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
                     <path
-                        id="faceShadowShut"
+                        id="faceShadowHalf"
                         fill="url(#pattern4)"
                         fillOpacity="1"
                         stroke="none"
@@ -332,21 +322,21 @@ const Head = (props) => (
                         opacity="0"
                     ></path>
                     <path
-                        id="browRightShut"
+                        id="browRightHalf"
                         fill="#cf8700"
                         d="M557.821 438.56c-3.772-2.549-3.572-9.075-3.303-13.369.433-6.925 8.139-17.259 15.045-16.583 11.511 1.127 26.433 13.176 40.259 18.277 22.117 8.16 42.914 15.028 67.952 19.597 17.086 3.117 43.358 4.546 43.358 4.546-20.169 8.489-35.414 12.493-43.485 12.846-24.752 1.082-49.974-4.15-74.302-9.838-15.607-3.648-43.404-14.043-45.524-15.476"
                         display="inline"
                         opacity="1"
                     ></path>
                     <path
-                        id="browLeftShut"
+                        id="browLeftHalf"
                         fill="#cf8700"
                         d="M491.762 438.592c3.773-2.55 3.572-9.076 3.304-13.369-.434-6.925-8.14-17.259-15.046-16.583-11.51 1.127-26.432 13.176-40.259 18.277-22.116 8.16-42.913 15.028-67.951 19.597-17.086 3.117-43.358 4.546-43.358 4.546 20.169 8.489 35.414 12.493 43.484 12.846 24.753 1.081 49.975-4.15 74.302-9.838 15.607-3.649 43.404-14.043 45.524-15.476"
                         display="inline"
                         opacity="1"
                     ></path>
                     <path
-                        id="bottomLineRightShut"
+                        id="bottomLineRightHalf"
                         fill="none"
                         stroke="#deaa87"
                         strokeLinecap="round"
@@ -357,7 +347,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
                     <path
-                        id="topLineRightShut"
+                        id="topLineRightHalf"
                         fill="none"
                         stroke="#d38d5f"
                         strokeLinecap="round"
@@ -368,7 +358,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
                     <path
-                        id="eyelinesRightShut"
+                        id="eyelinesRightHalf"
                         fill="none"
                         stroke="#deaa87"
                         strokeLinecap="round"
@@ -378,7 +368,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
                     <path
-                        id="bottomLineLeftShut"
+                        id="bottomLineLeftHalf"
                         fill="none"
                         stroke="#deaa87"
                         strokeLinecap="round"
@@ -389,7 +379,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
                     <path
-                        id="topLineLeftShut"
+                        id="topLineLeftHalf"
                         fill="none"
                         stroke="#d38d5f"
                         strokeLinecap="round"
@@ -400,7 +390,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
                     <path
-                        id="eyelinesLeftShut"
+                        id="eyelinesLeftHalf"
                         fill="none"
                         stroke="#deaa87"
                         strokeLinecap="round"
@@ -538,17 +528,7 @@ const Head = (props) => (
                         display="inline"
                         opacity="1"
                     ></path>
-                    <path
-                        id="mustacheWide"
-                        fill="#fc0"
-                        fillOpacity="1"
-                        stroke="none"
-                        strokeLinecap="round"
-                        strokeWidth="2.751"
-                        d="M478.487 632.493s-40.897 24.311-49.85 42.776c-3.106 6.404-1.23 14.907-1.23 14.907s28.892 21.721 33.732 8.297c1.23-3.411 2.093-7.25 3.866-10.587 3.241-6.096 11.452-7.747 18.344-8.154 9.278-.548 17.036 7.008 26.047 8.485 14.347 2.352 29.292 2.935 43.615.435 9.947-1.736 17.835-8.587 27.812-7.032 8.232 1.282 15.399 3.474 18.395 11.696.844 2.316 1.935 8.13 2.537 11.54 1.781 10.083 33.769-2.146 34.142-15.84.148-5.459-2.174-14.778-2.174-14.778-5.808-9.33-54.367-39.749-54.367-39.749-2.812 14.169-17.203 26.603-31.5 34.232-9.695 2.479-19.389 1.565-29.084-.616-18.457-5.815-29.642-21.196-40.285-35.612"
-                        display="inline"
-                        opacity="0"
-                    ></path>
+
                 </g>
                 <g id="expressionOpenGroup" display="inline" opacity="1">
                     <path
