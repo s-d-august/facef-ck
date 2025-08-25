@@ -264,7 +264,7 @@ function App() {
 
         };
 
-    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum])
+    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])
 
     useEffect(() => { // Elements that change based on approach state
         if (holdMouthOpen) return
@@ -536,7 +536,8 @@ function App() {
                             setMouthOpen: setMouthOpen,
                             setApproach: setApproach,
                             draggable: hairPullDraggable.current,
-                            alsoMove: hairPullBeads.current
+                            alsoMove: hairPullBeads.current,
+                            setHoldMouthOpen: setHoldMouthOpen
                         }
                     }]
                 })

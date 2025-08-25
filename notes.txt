@@ -1,6 +1,5 @@
 - add reset arousal button
 - fix dickDrool
-- jumps from end of fastMorph to current slowMorph
 - eye movement parameters need adjusted
 - dickHandFingers misaligned
 - automatic face wipe breaks when called repeatedly - dismount issue
@@ -10,6 +9,5 @@
 - dick base not aligned with bottom of screen
 - doesn't register cum on tongue if mouth is open based on approach
 - adjust face shadow pattern
-- if mouthOpen when cum in mouth, doesn't reset to !mouthOpen
 - right side of face moves weirdly when cum on face, but NOT cum on tongue
 - can still interact with buttons while faceWipe
