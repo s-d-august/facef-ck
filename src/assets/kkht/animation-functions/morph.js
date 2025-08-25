@@ -57,9 +57,25 @@ export const callFastMorph = (args) => {
 
         tl.call(() => {
             setFastMorph(false);
-            // Revert to current slowMorph state if available
             if (slowMorph) {
-                renderMorph(slowMorph.from, slowMorph.to, slowMorph.progress, expressionsArray, false, setSlowMorph);
+                const stateName = slowMorph.from + "-" + slowMorph.to;
+                // Ensure tweens exist
+                if (!tweensRef[stateName]) {
+                    generateMorphTweens(slowMorph.from, slowMorph.to);
+                }
+                Object.values(tweensRef[stateName]).forEach((tween) => {
+                    if (tween && typeof tween.progress === "function") {
+                        gsap.to(tween, {
+                            duration: 1,
+                            progress: slowMorph.progress,
+                            ease: "power1.inOut"
+                        });
+                    }
+                });
+                // Optionally update slowMorph state after transition
+                setTimeout(() => {
+                    renderMorph(slowMorph.from, slowMorph.to, slowMorph.progress, expressionsArray, false, setSlowMorph);
+                }, 1000);
             }
         });
     }

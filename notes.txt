@@ -13,4 +13,3 @@
 - if mouthOpen when cum in mouth, doesn't reset to !mouthOpen
 - right side of face moves weirdly when cum on face, but NOT cum on tongue
 - can still interact with buttons while faceWipe
-- adjust brows for eyeFlutter
