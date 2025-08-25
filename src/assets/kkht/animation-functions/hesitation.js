@@ -11,8 +11,8 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
 
     var eyeLeft = document.getElementById("eyeLeft")
     var eyeRight = document.getElementById("eyeRight")
-    var topLineLeft = document.getElementById("topLineLeftGroup")
-    var topLineRight = document.getElementById("topLineRightGroup")
+    var topLineLeft = document.getElementById("topLineLeftOpen")
+    var topLineRight = document.getElementById("topLineRightOpen")
     var eyes = [eyeLeft, eyeRight, topLineLeft, topLineRight]
 
     console.log(playDuring)
@@ -49,7 +49,12 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
         el.style.display = (prevDisplay === "none") ? "block" : "none"
     }
 
-    callState(setter, duration)
+    if (Array.isArray(setter)) {
+        setter.forEach((set) => {
+            callState(set, duration)
+        })
+    } else callState(setter, duration)
+
 
     eyes.forEach(toggleBlink)
     await new Promise(resolve => {

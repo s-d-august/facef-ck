@@ -7,7 +7,7 @@ export const lowerArms = (args) => {
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 1000,
-        duration: 0.5,
+        duration: 2.5,
         ease: "power1.in",
         onComplete: () => {
             container.classList.remove("customCursor")
@@ -35,23 +35,23 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
     animationSetter(true)
 
     return gsap.timeline()
-        .to(targets, { y: wipeDistance, duration: 0.75, ease: "power2.in" })
-        .to(targets, { y: -50, duration: 0.5, ease: "power2.out" })
+        .to(targets, { y: wipeDistance, duration: 0.5, ease: "power1.inOut" })
+        .to(targets, { y: -50, duration: loopDuration, ease: "power1.inOut" })
         .to(targets, {
-            y: (wipeDistance), duration: 0.5, ease: "power2.inOut"
+            y: wipeDistance, duration: loopDuration, ease: "power1.inOut"
         })
         .to(targets, {
-            y: 0, duration: 0.5, ease: "power1.inOut",
+            y: -100, duration: loopDuration, ease: "power1.inOut",
             onComplete: () => {
                 isFaceClean("yes")
             }
         })
         .to(targets, {
-            y: wipeDistance, duration: 0.75, ease: "power1.in"
+            y: wipeDistance, duration: 1, ease: "power1.inOut"
         })
         .to(targets, {
             y: 1000,
-            duration: 0.75,
+            duration: 1,
             ease: "power1.out",
             onComplete: () => {
                 setter(false)

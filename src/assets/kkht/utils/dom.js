@@ -3,6 +3,7 @@ import { Draggable } from "gsap/all"
 gsap.registerPlugin(Draggable)
 
 export const callState = (setter, sec) => {
+    console.log(setter)
     setter(true)
 
     // Wait, then enable
@@ -29,6 +30,7 @@ export const getSVGParent = (element) => {
 }
 
 export const getXY = (id, origin) => {
+    console.log(origin)
     if (typeof (id) === 'object') {
         var element = id
     } else var element = document.getElementById(id)

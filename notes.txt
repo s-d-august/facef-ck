@@ -1,13 +1,5 @@
-- weird flashes of something over the main svgs, getting worse the longer I play -- check dismounts
-- some kind of variable for training mode? based on sensitivity * max or something
-- font STILL loading slow
-- arousal bar going too high sometimes?? idk
-- some way of having the hide settings button at the same place as the show settings
-- reset button
-- hesitation before armsDown, slower animation
-- mouth wider when mouthOn than when approach
-- depthMode explanation on hover?
-- tears play twice when cum in mouth && arousalTier < 3
-
-- jaw unhinging glitch
-- none and arousal modes broken glitch 
+- add reset arousal button
+- adjust face shadow pattern
+- right side of face moves weirdly when cum on face, but NOT cum on tongue
+- fix left eye wide shape
+- benguiat loading slow

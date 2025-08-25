@@ -3,6 +3,7 @@ import { getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 import { cumAnimation } from "../animations/cum.js"
 import { faceWipe } from "../animations/face-wipe.js"
+import { callState } from "../utils/dom.js"
 import gsap from "gsap"
 
 export const isFaceClean = (set) => {
@@ -20,7 +21,7 @@ export const isFaceClean = (set) => {
 }
 
 export const callCumshot = async (args) => {
-    const { cumType, untilEmpty, origin, shotDuration, moveDuration, faceWipeArgs } = args
+    const { cumType, untilEmpty, origin, shotDuration, moveDuration, faceWipeArgs, setInterruptUI } = args
 
     if (typeof cumType === "string") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="${cumType}"]`));
@@ -49,6 +50,7 @@ export const callCumshot = async (args) => {
         transformOrigin = origin
     } else transformOrigin = "center"
 
+    console.log(transformOrigin)
     var shot, move
     if (shotDuration) {
         shot = shotDuration
@@ -62,9 +64,16 @@ export const callCumshot = async (args) => {
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
+    if (arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0) {
+        setInterruptUI(true)
+    } else callState(setInterruptUI, 1.5)
+
     await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
 
     if (arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0) {
-        faceWipe(faceWipeArgs)
+        if (faceWipeArgs && typeof faceWipeArgs.animationSetter === "function") {
+            faceWipe(faceWipeArgs);
+        }
+
     }
 }

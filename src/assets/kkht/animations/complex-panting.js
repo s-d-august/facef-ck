@@ -4,13 +4,13 @@ import { renderMorph } from "../animation-functions/morph";
 
 export const pantingAnimation = (args) => {
 
-    const { setHoldMouthOpen, expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph } = args
-
+    const { expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph, setHoldMouthOpen } = args
+console.log(setHoldMouthOpen)
     let obj = { p: 0 };
 
     const pantGroup = gsap.timeline({ paused: true })
         .fromTo(mouthGroup, { y: containerSize * 0.045 }, { y: 0, duration: 1 })
-        .fromTo(bodyMain, { scale: 1 }, { scale: 1.05, duration: 1, transformOrigin: "bottom center" }, 0)
+        .fromTo(bodyMain, { scale: 1 }, { scale: 1.03, duration: 1, transformOrigin: "bottom center" }, 0)
         .fromTo(tongueGroup, { scaleY: 0.3 }, { y: 0, scaleY: 0, duration: 1 }, 0)
 
     const pantDrool = gsap.timeline({ paused: true })

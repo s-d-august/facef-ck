@@ -48,7 +48,9 @@
 }
 
 #ordersDiv>button.inactive {
-  opacity: 50%;
+  background-color: grey;
+  color: white;
+  font-weight: bold;
   pointer-events: none;
 }
 
@@ -66,20 +68,10 @@
   animation-duration: var(--animation-duration);
 }
 
-#bodyMain {
+#bodyScaleGroup {
   transform-origin: bottom center;
   animation: breathTorso ease-in-out infinite alternate;
   animation-duration: var(--animation-duration);
-}
-
-@keyframes breathTorso {
-  from {
-    transform: scale(100%);
-  }
-
-  to {
-    transform: scale(var(--breathTorsoScale))
-  }
 }
 
 body {
@@ -224,7 +216,15 @@ svg {
 
 
 
+@keyframes breathTorso {
+  from {
+    transform: scale(100%);
+  }
 
+  to {
+    transform: scale(102%)
+  }
+}
 
 @keyframes breathMouth {
   from {
@@ -232,7 +232,7 @@ svg {
   }
 
   to {
-    transform: scaleY(115%)
+    transform: scaleY(110%)
   }
 }
 

@@ -37,6 +37,47 @@ export const callFastMorph = (args) => {
         animations.forEach((anim) => {
             tl.add(anim.name(anim.args));
         });
+    } else {
+        // Fast morph from fromState to toState
+        fromArray.forEach((el) => {
+            const match = matchID(el, fromState, toState);
+            if (!match) return;
+            tl.to(el, {
+                duration: 0.5,
+                morphSVG: match,
+                ease: "power1.In"
+            }, 0);
+            // Morph back to fromState
+            tl.to(el, {
+                duration: 0.75,
+                morphSVG: el,
+                ease: "power1.Out"
+            }, 0.5);
+        });
+
+        tl.call(() => {
+            setFastMorph(false);
+            if (slowMorph) {
+                const stateName = slowMorph.from + "-" + slowMorph.to;
+                // Ensure tweens exist
+                if (!tweensRef[stateName]) {
+                    generateMorphTweens(slowMorph.from, slowMorph.to);
+                }
+                Object.values(tweensRef[stateName]).forEach((tween) => {
+                    if (tween && typeof tween.progress === "function") {
+                        gsap.to(tween, {
+                            duration: 1,
+                            progress: slowMorph.progress,
+                            ease: "power1.inOut"
+                        });
+                    }
+                });
+                // Optionally update slowMorph state after transition
+                setTimeout(() => {
+                    renderMorph(slowMorph.from, slowMorph.to, slowMorph.progress, expressionsArray, false, setSlowMorph);
+                }, 1000);
+            }
+        });
     }
 
 }
@@ -105,12 +146,14 @@ export const renderMorph = (fromState, toState, progress, expressionsArray, fast
 
 
     Object.values(tweensRef[stateName]).forEach((tween) => {
+
         const initialState = Array.from(
             document.querySelectorAll(`[id*=${fromState || "Open"}]`)
         );
         initialState.forEach((el) => {
             el.style.visibility = "visible";
         });
+
         if (tween && typeof tween.progress === "function") {
             tween.progress(progress);
         }

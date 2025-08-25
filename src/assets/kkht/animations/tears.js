@@ -5,37 +5,42 @@ export const tearsAnimation = ({ tearRight, tearLeft }) => {
     var tear1, tear2
 
     if (Math.random() > 0.5) {
-        tear1 = tearRight
-        tear2 = tearLeft
+        tear1 = "#tearRight"
+        tear2 = "#tearLeft"
     } else {
-        tear1 = tearLeft
-        tear2 = tearRight
+        tear1 = "#tearLeft"
+        tear2 = "#tearRight"
     }
 
     return (
         gsap.timeline()
-            .set(tears, { opacity: 0.8, y: 0, scale: 0 })
-            .to(tears, {
+            .set("#tearRight", { opacity: 0.8, y: 0, scale: 0, morphSVG: "#tearRight" })
+            .set("#tearLeft", { opacity: 0.8, y: 0, scale: 0, morphSVG: "#tearLeft" })
+            .to(["#tearRight", "#tearLeft"], {
                 scale: 1,
                 duration: 2,
                 ease: "power1.out"
             })
-            .to(tears, {
-                scaleY: 2,
-                scaleX: 0.3,
+            .to("#tearRight", {
                 duration: 1,
-                ease: "power1.in"
-            })
+                ease: "power1.in",
+                morphSVG: "#tearDownRight"
+            }, 1)
+            .to("#tearLeft", {
+                duration: 1,
+                ease: "power1.in",
+                morphSVG: "#tearDownLeft"
+            }, 1)
             .to(tear1, {
-                y: 1000,
-                duration: "random(3, 5)",
+                y: 1500,
+                duration: "random(2, 3)",
                 ease: "power4.in"
-            }, "<-1.2")
+            }, "<0")
             .to(tear2, {
-                y: 1000,
-                duration: "random(3, 5)",
+                y: 1500,
+                duration: "random(2, 3)",
                 ease: "power4.in"
-            }, "<0.4")
+            }, "<0.2")
     )
 
 }
