@@ -441,7 +441,7 @@ function App() {
 
                 const args = {
                     percent: percent,
-                    startApproach: 0.1,
+                    startApproach: 0.15,
                     startOn: 0.3,
                     setApproach,
                     setMouthOn,
