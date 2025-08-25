@@ -282,10 +282,10 @@ function App() {
 
         if (approach) {
             kkht.mouthOpenFunction(mouthArgs.current)
-        } else {
+        } else if (!approach || !mouthOn) {
             kkht.mouthCloseFunction(mouthArgs.current)
         }
-    }, [approach, holdMouthOpen])
+    }, [approach, holdMouthOpen, mouthOn])
 
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
@@ -380,7 +380,7 @@ function App() {
     useEffect(() => { // Sets up draggables
 
 
-        Draggable.create(dickHandParts.current, {
+        Draggable.create(".dickHandParts", {
             trigger: "#dickHandGrab",
             zIndexBoost: false,
             type: "y",
@@ -496,6 +496,31 @@ function App() {
             dragResistance: 0,
             zIndexBoost: false,
             onDragEnd: function () {
+                const dickRect = document.getElementById("dickArea").getBoundingClientRect();
+                const headRect = document.getElementById("faceArea").getBoundingClientRect();
+                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
+
+                //    var resistance
+
+                const args = {
+                    percent: percent,
+                    startApproach: 0.15,
+                    startOn: 0.3,
+                    setApproach,
+                    setMouthOn,
+                    affectedIDs: ["ives", "boyd"],
+                    lick: {
+                        tongue: "#tongue",
+                        tip: "#dickTip",
+                        percent: "20%"
+                    },
+                    maxArousal: maxArousalRef.current,
+                    setArousal,
+                    sensitivity: sensitivityRef.current
+                };
+
+                kkht.isApproachOrOn(args)
+
                 setHairPullDragging(false);
                 if (hairPullHandGrab.current.matches(':hover')) {
                     gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
@@ -666,7 +691,7 @@ function App() {
                         maxX: 30,
                         maxY: 10,
                         minX: -30,
-                        minY: -20
+                        minY: -15
                     }
                 });
             } else if (arousalTier === 5) {

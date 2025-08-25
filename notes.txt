@@ -1,11 +1,5 @@
 - add reset arousal button
-- fix dickDrool
-- eye movement parameters need adjusted
-- dickHandFingers misaligned
-- still the stupid flashes (production environment issue)
-- arousal bars going too high again
-- dick base not aligned with bottom of screen
 - adjust face shadow pattern
 - right side of face moves weirdly when cum on face, but NOT cum on tongue
-- make arms longer
 - fix left eye wide shape
+- benguiat loading slow

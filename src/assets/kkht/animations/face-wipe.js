@@ -36,12 +36,12 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
 
     return gsap.timeline()
         .to(targets, { y: wipeDistance, duration: 0.5, ease: "power1.inOut" })
-        .to(targets, { y: -100, duration: loopDuration, ease: "power1.inOut" })
+        .to(targets, { y: -50, duration: loopDuration, ease: "power1.inOut" })
         .to(targets, {
             y: wipeDistance, duration: loopDuration, ease: "power1.inOut"
         })
         .to(targets, {
-            y: -150, duration: loopDuration, ease: "power1.inOut",
+            y: -100, duration: loopDuration, ease: "power1.inOut",
             onComplete: () => {
                 isFaceClean("yes")
             }
