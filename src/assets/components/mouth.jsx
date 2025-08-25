@@ -14,12 +14,13 @@ const Mouth = () => (
                 xlinkHref="#linearGradient29"
                 id="linearGradient30"
                 x1="466.629"
-                x2="469.441"
+                x2="469.607"
                 y1="764.794"
-                y2="653.028"
+                y2="712.359"
                 gradientTransform="matrix(.99913 -.04604 .03757 .99913 -31.841 -31.278)"
                 gradientUnits="userSpaceOnUse"
-            ></linearGradient> </defs>
+            ></linearGradient>
+        </defs>
         <g id="mouthGroup" strokeLinecap="round" display="inline">
             <path
                 id="faceBack"
