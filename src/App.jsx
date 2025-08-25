@@ -51,12 +51,12 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 250,
+        ives: 2500,
         boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 2.5,
-        boyd: 2.5,
+        ives: 3.5,
+        boyd: 1.5,
     })
 
     const browRight = useRef()
