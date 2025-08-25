@@ -2,11 +2,10 @@
 - fix dickDrool
 - eye movement parameters need adjusted
 - dickHandFingers misaligned
-- automatic face wipe breaks when called repeatedly - dismount issue
 - still the stupid flashes (production environment issue)
 - arousal bars going too high again
-- mouthOpen/cum swallow hesitation even when arousal maxed
 - dick base not aligned with bottom of screen
 - adjust face shadow pattern
 - right side of face moves weirdly when cum on face, but NOT cum on tongue
-- can still interact with buttons while faceWipe
+- make arms longer
+- fix left eye wide shape

@@ -51,7 +51,7 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 2500,
+        ives: 250,
         boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
@@ -563,11 +563,12 @@ function App() {
                     toState: "Wide"
                 })
 
-                kkht.callState(setInterruptUI, 1.5)
+                //         kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
                 if (mouthOpen) {
                     kkht.callCumshot({
-                        cumType: "tongueCum"
+                        cumType: "tongueCum",
+                        setInterruptUI
                     })
                     setIsTongueCum(true)
                     setHoldMouthOpen(true)
@@ -578,6 +579,7 @@ function App() {
                         origin: "top",
                         shotDuration: 0.5,
                         moveDuration: 2.5,
+                        setInterruptUI,
                         faceWipeArgs: {
                             elements: [chain.current, armRight.current, armLeft.current],
                             cloth: cloth.current,
