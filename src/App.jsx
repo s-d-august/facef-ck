@@ -142,7 +142,7 @@ function App() {
             mouthOpenSetter: setMouthOpen,
             arousalTier: arousalTierRef.current
         }
-        hesitation.current = ((5 - arousalTier) * 250)
+
     }, [])
 
     useEffect(() => {
@@ -155,8 +155,10 @@ function App() {
     useEffect(() => {
         mouthOnRef.current = mouthOn;
     }, [mouthOn]);
+
     useEffect(() => {
         arousalTierRef.current = arousalTier;
+        hesitation.current = ((5 - arousalTier) * 250)
     }, [arousalTier]);
 
     useEffect(() => {
