@@ -1,10 +1,11 @@
 import gsap from "gsap"
 
 export const mouthOpenFunction = ({ moveBy, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter, arousalTier }) => {
-    
+
     gsap.to(mouthGroup, { y: moveBy, duration: 2, ease: "power1.out" })
     gsap.to(tongueGroup, { y: 0, scaleY: 1, duration: 2, ease: "power1.out" })
-    gsap.to(tongueDrool, { scaleY: 1, duration: 2, transformOrigin: "top center" })
+    gsap.timeline().set(tongueDrool, { opacity: 0.75 })
+        .to(tongueDrool, { scaleY: 1, duration: 2, transformOrigin: "top center" })
     mouthOpenSetter(true)
 }
 

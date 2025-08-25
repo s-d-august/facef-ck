@@ -1,6 +1,5 @@
 - add reset arousal button
 - fix dickDrool
-- tongueDrool doesn't disappear when mouthOn
 - jumps from end of fastMorph to current slowMorph
 - eye movement parameters need adjusted
 - dickHandFingers misaligned
@@ -14,7 +13,6 @@
 - dick base not aligned with bottom of screen
 - doesn't register cum on tongue if mouth is open based on approach
 - adjust tongue gradient, face shadow pattern, hairPull shape
-- tongue stays out if you pull up too fast when mouth fully open
 - if mouthOpen when cum in mouth, doesn't reset to !mouthOpen
 - right side of face moves weirdly when cum on face, but NOT cum on tongue
 - can still interact with buttons while faceWipe

@@ -762,6 +762,7 @@ function App() {
     useEffect(() => { // Drool, clear tongueCum when mouthOn
         if (mouthOn) {
             console.log("mouthOn")
+            gsap.set(tongueDrool.current, { opacity: 0 })
             droolIntervalRef.current = setInterval(() => kkht.randomizeArray({
                 idString: "dickDrool",
                 animation: kkht.drip,
