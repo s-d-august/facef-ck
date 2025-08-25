@@ -248,7 +248,7 @@ function App() {
             });
         }
         function lowerArmsHandler() {
-            kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
+            //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
             kkht.lowerArms({
                 elements: [chain.current, cloth.current, armRight.current, armLeft.current],
                 container: container,
@@ -301,7 +301,7 @@ function App() {
                     }
                 },
                 playAfter: () => {
-                    kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
+                    //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
                     console.log("called mouthOpen")
                     kkht.mouthOpenFunction({
                         tongueCum: tongueCumArray.current,
@@ -537,7 +537,7 @@ function App() {
     useEffect(() => { // Nut function
         if (arousal.ives >= maxArousal.ives) {
 
-            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 10 * sensitivityRef.current.boyd))
+            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
 
             if (mouthOn) {
                 kkht.callFastMorph({
