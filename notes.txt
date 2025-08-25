@@ -7,7 +7,6 @@
 - arousal bars going too high again
 - mouthOpen/cum swallow hesitation even when arousal maxed
 - dick base not aligned with bottom of screen
-- doesn't register cum on tongue if mouth is open based on approach
 - adjust face shadow pattern
 - right side of face moves weirdly when cum on face, but NOT cum on tongue
 - can still interact with buttons while faceWipe

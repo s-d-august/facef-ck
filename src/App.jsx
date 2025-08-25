@@ -568,6 +568,7 @@ function App() {
                         cumType: "tongueCum"
                     })
                     setIsTongueCum(true)
+                    setHoldMouthOpen(true)
                 } else {
                     kkht.callCumshot({
                         cumType: "faceCum",
