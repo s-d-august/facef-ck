@@ -341,7 +341,7 @@ function App() {
                     playAfter: () => {
                         console.log("hesitation.current: ", hesitation.current)
                         console.log("called mouthClose")
-                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current.sec * 3 / 1000) : 0.5 });
+                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5 });
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
