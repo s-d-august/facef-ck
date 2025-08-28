@@ -22,14 +22,12 @@
     padding-bottom: 0;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
-
 
 #tutorialLine {
     font-size: 2vw;
 }
-
-
 
 #tutorialArrow {
     font-size: 3vw;
@@ -56,8 +54,9 @@
     font-weight: 700;
 }
 
-#tutorialBox {
+#tutorialContents>#tutorialBox {
     background-color: #a00;
+    padding-bottom: 0;
 }
 
 p.right {

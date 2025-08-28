@@ -9,7 +9,7 @@ const Tutorial = () => {
         ]
 
         const tutorialSteps = [
-            { line: '"Shall I explain how this is going to work?"' },
+
             {
                 line: '"If I tell you to do something, you will do it."',
                 visible: ["ordersDiv"]
@@ -58,14 +58,36 @@ const Tutorial = () => {
 
         var index
 
-        function startTutorial() {
+        function startTutorial(line, yesNo) {
+
+            if (!yesNo) {
+                document.getElementById("tutorialYes").style.display = "none"
+                document.getElementById("tutorialNo").style.display = "none"
+
+                tutorialBox.addEventListener("click", advanceTutorial)
+            } else {
+                document.getElementById("tutorialArrow").style.display = "none"
+
+                document.getElementById("tutorialNo").addEventListener("click", () => {
+                    document.getElementById("tutorialArrow").style.display = "block"
+                    skipTutorial()
+                })
+
+                document.getElementById("tutorialYes").addEventListener("click", () => {
+                    document.getElementById("tutorialArrow").style.display = "block"
+                    tutorialBox.addEventListener("click", advanceTutorial)
+                    document.getElementById("tutorialYes").style.display = "none"
+                    document.getElementById("tutorialNo").style.display = "none"
+                    advanceTutorial()
+                })
+            }
+
+
             document.getElementById("tutorial").style.display = "block"
 
             document.getElementById("armsSvg").style.display = "none"
 
-            tutorialLine.innerHTML = tutorialSteps[0].line
-
-            document.getElementById("tutorialArrow").style.display = "none"
+            tutorialLine.innerHTML = line
 
             bodyVisible.forEach((el) => {
                 document.getElementById(el).classList.add("tutorialVisible")
@@ -75,6 +97,7 @@ const Tutorial = () => {
         }
 
         function advanceTutorial() {
+
             // sets elements from previous step as invisible
 
             console.log(index)
@@ -136,13 +159,22 @@ const Tutorial = () => {
             opacityVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 1
             })
+
+            tutorialBox.removeEventListener("click", endTutorial)
         }
 
-        startTutorial()
+        startTutorial('"Shall I explain how this is going to work?"', true)
 
-        tutorialBox.addEventListener("click", advanceTutorial)
+        function skipTutorial() {
+            tutorialLine.innerHTML = '"My, aren\'t you eager ❤"'
+            document.getElementById("tutorialYes").style.display = "none"
+            document.getElementById("tutorialNo").style.display = "none"
+            tutorialBox.addEventListener("click", endTutorial)
+        }
 
-        document.getElementById("tutorialButton").addEventListener("click", startTutorial)
+        document.getElementById("tutorialButton").addEventListener("click", () => {
+            startTutorial('"What, do you need a reminder?"')
+        })
 
     }, [])
 
