@@ -75,38 +75,51 @@ const Tutorial = () => {
         ];
 
         const tutorialBox = document.getElementById("tutorialBox")
-
+        const tutorialYes = document.getElementById("tutorialYes")
+        const tutorialNo = document.getElementById("tutorialNo")
         const tutorialLine = document.getElementById("tutorialLine")
+        const tutorialArrow = document.getElementById("tutorialArrow")
 
         var index
 
+        function tutorialNoHandler() {
+            tutorialNo.removeEventListener("click", tutorialNoHandler)
+            tutorialBox.style.paddingBottom = "0"
+            tutorialArrow.style.display = "block"
+            skipTutorial()
+        }
+
+        function tutorialYesHandler() {
+            tutorialBox.addEventListener("click", runTutorial)
+            tutorialYes.removeEventListener("click", tutorialYesHandler)
+            tutorialBox.style.paddingBottom = "0"
+            tutorialArrow.style.display = "block"
+            tutorialYes.style.display = "none"
+            tutorialNo.style.display = "none"
+            runTutorial()
+        }
+
+        function tutorialButtonHandler() {
+            startTutorial('"What, do you need a reminder?"', false)
+        }
+
         function startTutorial(line, yesNo) {
 
+            console.log(yesNo)
 
             if (!yesNo) {
-                document.getElementById("tutorialYes").style.display = "none"
-                document.getElementById("tutorialNo").style.display = "none"
+                tutorialYes.style.display = "none"
+                tutorialNo.style.display = "none"
 
-                tutorialBox.addEventListener("click", advanceTutorial)
+                tutorialBox.addEventListener("click", runTutorialReset)
             } else {
-                document.getElementById("tutorialArrow").style.display = "none"
+                tutorialArrow.style.display = "none"
 
-                document.getElementById("tutorialBox").style.paddingBottom = "10px"
+                tutorialBox.style.paddingBottom = "10px"
 
-                document.getElementById("tutorialNo").addEventListener("click", () => {
-                    document.getElementById("tutorialBox").style.paddingBottom = "0"
-                    document.getElementById("tutorialArrow").style.display = "block"
-                    skipTutorial()
-                })
+                tutorialNo.addEventListener("click", tutorialNoHandler)
 
-                document.getElementById("tutorialYes").addEventListener("click", () => {
-                    document.getElementById("tutorialBox").style.paddingBottom = "0"
-                    document.getElementById("tutorialArrow").style.display = "block"
-                    tutorialBox.addEventListener("click", advanceTutorial)
-                    document.getElementById("tutorialYes").style.display = "none"
-                    document.getElementById("tutorialNo").style.display = "none"
-                    advanceTutorial()
-                })
+                tutorialYes.addEventListener("click", tutorialYesHandler)
             }
 
             document.getElementById("tutorial").style.display = "block"
@@ -124,9 +137,28 @@ const Tutorial = () => {
             index = 0
         }
 
-        function advanceTutorial() {
+        function runTutorialReset() {
+            dismountTutorial()
+            if (tutorialSteps[index]) {
+                advanceTutorial()
+            } else {
+                endTutorial()
+                resetToBlock()
+                tutorialBox.removeEventListener("click", runTutorialReset)
+            }
+        }
 
-            // sets elements from previous step as invisible
+        function runTutorial() {
+            dismountTutorial()
+            if (tutorialSteps[index]) {
+                advanceTutorial()
+            } else {
+                endTutorial()
+                tutorialBox.removeEventListener("click", runTutorial)
+            }
+        }
+
+        function dismountTutorial() {
 
             if (tutorialSteps[index].visible) {
                 tutorialSteps[index].visible.forEach((el) => {
@@ -154,57 +186,58 @@ const Tutorial = () => {
                     el.style.opacity = 1
                 })
             }
-
-            // increases index to current step
             index++
+        }
 
-            // updates line and makes elements visible
-            if (tutorialSteps[index]) {
-                tutorialLine.innerHTML = tutorialSteps[index].line
+        function advanceTutorial() {
+            tutorialLine.innerHTML = tutorialSteps[index].line
 
-                if (tutorialSteps[index].type) {
-                    document.getElementById("depthModeSet").value = tutorialSteps[index].type
-                }
-
-                if (tutorialSteps[index].collapseOn) {
-                    tutorialSteps[index].collapseOn.forEach((el) => {
-                        document.getElementById(el).classList.add("collapsed")
-                    })
-                }
-                if (tutorialSteps[index].collapseOff) {
-                    tutorialSteps[index].collapseOff.forEach((el) => {
-                        document.getElementById(el).classList.remove("collapsed")
-                    })
-                }
-
-                if (tutorialSteps[index].shade) {
-                    tutorialSteps[index].shade.forEach((el) => {
-                        if (!el.style) return
-                        el.style.opacity = 0.2
-                    })
-                }
-
-                if (tutorialSteps[index].visible) {
-                    tutorialSteps[index].visible.forEach((el) => {
-                        var element = document.getElementById(el)
-                        element.classList.add("tutorialVisible")
-                        if (tutorialSteps[index].display) element.style.display = "block"
-                        if (tutorialSteps[index].opacity) element.style.opacity = 1
-                    })
-                }
-
-                if (tutorialSteps[index].zBoost) {
-                    tutorialSteps[index].zBoost.forEach((el) => {
-                        var element = document.getElementById(el)
-                        element.classList.add("tutorialZBoost")
-                        if (tutorialSteps[index].display) element.style.display = "block"
-                        if (tutorialSteps[index].opacity) element.style.opacity = 1
-                    })
-                }
+            if (tutorialSteps[index].type) {
+                document.getElementById("depthModeSet").value = tutorialSteps[index].type
             }
-            else {
-                endTutorial()
+
+            if (tutorialSteps[index].collapseOn) {
+                tutorialSteps[index].collapseOn.forEach((el) => {
+                    document.getElementById(el).classList.add("collapsed")
+                })
             }
+            if (tutorialSteps[index].collapseOff) {
+                tutorialSteps[index].collapseOff.forEach((el) => {
+                    document.getElementById(el).classList.remove("collapsed")
+                })
+            }
+
+            if (tutorialSteps[index].shade) {
+                tutorialSteps[index].shade.forEach((el) => {
+                    if (!el.style) return
+                    el.style.opacity = 0.2
+                })
+            }
+
+            if (tutorialSteps[index].visible) {
+                tutorialSteps[index].visible.forEach((el) => {
+                    var element = document.getElementById(el)
+                    element.classList.add("tutorialVisible")
+                    if (tutorialSteps[index].display) element.style.display = "block"
+                    if (tutorialSteps[index].opacity) element.style.opacity = 1
+                })
+            }
+
+            if (tutorialSteps[index].zBoost) {
+                tutorialSteps[index].zBoost.forEach((el) => {
+                    var element = document.getElementById(el)
+                    element.classList.add("tutorialZBoost")
+                    if (tutorialSteps[index].display) element.style.display = "block"
+                    if (tutorialSteps[index].opacity) element.style.opacity = 1
+                })
+            }
+        }
+
+        function resetToBlock() {
+            const toBlock = ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6"]
+            toBlock.forEach(el => {
+                document.getElementById(el).style.display = "block"
+            })
         }
 
         function endTutorial() {
@@ -226,26 +259,29 @@ const Tutorial = () => {
                 document.getElementById(el).style.opacity = 1
             })
 
-            tutorialBox.removeEventListener("click", endTutorial)
-
             gsap.to("#armsSvg", {
                 y: 0,
                 duration: 1
             })
+
+            tutorialBox.removeEventListener("click", endTutorial)
         }
 
         startTutorial('"Shall I explain how this is going to work?"', true)
 
         function skipTutorial() {
             tutorialLine.innerHTML = '"My, aren\'t you eager ❤"'
-            document.getElementById("tutorialYes").style.display = "none"
-            document.getElementById("tutorialNo").style.display = "none"
+            tutorialYes.style.display = "none"
+            tutorialNo.style.display = "none"
             tutorialBox.addEventListener("click", endTutorial)
         }
 
-        document.getElementById("tutorialButton").addEventListener("click", () => {
-            startTutorial('"What, do you need a reminder?"')
-        })
+        document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
+
+        return () => {
+            document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
+
+        };
 
     }, [])
 
