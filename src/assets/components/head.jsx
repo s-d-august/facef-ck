@@ -723,17 +723,7 @@ const Head = (props) => (
                 strokeWidth="3"
                 d="M548.72 668.155s11.404-6.057 21.728-15.719c5.148-4.817 10.602-15.222 7.495-20.017-2.088-3.221-4.642-16.169-4.642-16.169"
             ></path>
-            <path
-                id="cheekboneRight"
-                fill="none"
-                stroke="#deaa87"
-                strokeLinecap="round"
-                strokeOpacity="1"
-                strokeWidth="3"
-                d="m745.518 553.932-8.279 25.665-19.87 13.246"
-                display="inline"
-                opacity="1"
-            ></path>
+
             <g
                 id="sweatGroup"
                 fill="#fff"
@@ -811,17 +801,7 @@ const Head = (props) => (
                     opacity="1"
                 ></path>
             </g>
-            <path
-                id="cheekboneLeft"
-                fill="none"
-                stroke="#deaa87"
-                strokeLinecap="round"
-                strokeOpacity="1"
-                strokeWidth="3"
-                d="m332.172 578.485 9.107 15.73 23.181 9.107"
-                display="inline"
-                opacity="1"
-            ></path>
+
             <g id="hairGroup" fillOpacity="1" stroke="none" strokeLinecap="round">
                 <path
                     id="path7"

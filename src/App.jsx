@@ -954,6 +954,9 @@ function App() {
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
+                <div id='tutorialButton'>
+                    <p id='tutorialButtonText'>?</p>
+                </div>
             </div>
 
         </div>

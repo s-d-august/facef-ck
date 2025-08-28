@@ -1,4 +1,4 @@
-#tutorialDiv {
+#tutorialBackground {
     height: 100vh;
     width: 100vw;
     opacity: 0.8;
@@ -11,18 +11,56 @@
     z-index: 120 !important
 }
 
-#tutorialLine {
+#tutorialContents {
     position: fixed;
     z-index: 9999 !important;
-    height: 20vh;
+    height: fit-content;
     width: 40vw;
     left: 50%;
     top: 70%;
     transform: translateX(-50%);
-    background-color: #a00;
+    padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+
+#tutorialLine {
+    font-size: 2vw;
+}
+
+
+
+#tutorialArrow {
+    font-size: 3vw;
+}
+
+#tutorialContents>div {
     color: white;
     font-weight: bold;
     border: white solid 0.25vw;
     border-radius: 8px;
-    font-size: 2vw;
+    padding: 10px;
+    margin-bottom: 0.25vw;
+    font-size: 2vh;
+}
+
+#tutorialLine {
+    font-size: 2.5vh;
+}
+
+.tutorialReply>p,
+.tutorialReply {
+    background-color: #87aade;
+    color: rgb(16, 16, 77);
+    font-weight: 700;
+}
+
+#tutorialBox {
+    background-color: #a00;
+}
+
+p.right {
+    text-align: right;
+    font-weight: 400;
 }

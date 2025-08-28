@@ -36,16 +36,31 @@
     display: none;
 }
 
-#settingsIcon {
+#settingsIcon,
+#tutorialButton {
     height: 5vw;
     width: 5vw;
     fill: white;
     position: absolute;
-    top: 0;
     margin: 0.5vw;
     z-index: 200;
     pointer-events: all;
     cursor: pointer;
+}
+
+#tutorialButton {
+    bottom: 0.5vw;
+    right: 0.5vw;
+    border: white solid 0.25vw;
+    border-radius: 10px;
+}
+
+#tutorialButtonText {
+    color: white;
+    font-size: 4vw;
+    margin: 0.7vw 1.2vw;
+    line-height: 1;
+    font-weight: 900;
 }
 
 h1 {
