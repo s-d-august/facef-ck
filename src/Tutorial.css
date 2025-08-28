@@ -11,6 +11,10 @@
     z-index: 120 !important
 }
 
+.tutorialZBoost {
+    z-index: 130 !important
+}
+
 #tutorialContents {
     position: fixed;
     z-index: 9999 !important;

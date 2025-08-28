@@ -1,11 +1,12 @@
 import './Tutorial.css'
 import { useEffect } from 'react';
+import gsap from 'gsap';
 
 const Tutorial = () => {
 
     useEffect(() => {
         const bodyVisible = [
-            "body", "head", "mouthFull"
+            "body", "head", "mouthFull", "armsSvg"
         ]
 
         const tutorialSteps = [
@@ -22,7 +23,7 @@ const Tutorial = () => {
             },
             {
                 line: '"If I bring myself off on your face, you will leave it there until I say otherwise."',
-                visible: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
+                zBoost: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
                 display: "none",
                 opacity: "0"
             },
@@ -87,10 +88,11 @@ const Tutorial = () => {
                 })
             }
 
-
             document.getElementById("tutorial").style.display = "block"
 
-            document.getElementById("armsSvg").style.display = "none"
+            gsap.set("#armsSvg", {
+                y: 75
+            })
 
             tutorialLine.innerHTML = line
 
@@ -109,6 +111,16 @@ const Tutorial = () => {
                 tutorialSteps[index].visible.forEach((el) => {
                     var element = document.getElementById(el)
                     element.classList.remove("tutorialVisible")
+                    if (tutorialSteps[index].display) element.style.display = "none"
+                    if (tutorialSteps[index].opacity) element.style.opacity = 0
+
+                })
+            }
+
+            if (tutorialSteps[index].zBoost) {
+                tutorialSteps[index].zBoost.forEach((el) => {
+                    var element = document.getElementById(el)
+                    element.classList.remove("tutorialZBoost")
                     if (tutorialSteps[index].display) element.style.display = "none"
                     if (tutorialSteps[index].opacity) element.style.opacity = 0
 
@@ -141,6 +153,15 @@ const Tutorial = () => {
                         if (tutorialSteps[index].opacity) element.style.opacity = 1
                     })
                 }
+
+                if (tutorialSteps[index].zBoost) {
+                    tutorialSteps[index].zBoost.forEach((el) => {
+                        var element = document.getElementById(el)
+                        element.classList.add("tutorialZBoost")
+                        if (tutorialSteps[index].display) element.style.display = "block"
+                        if (tutorialSteps[index].opacity) element.style.opacity = 1
+                    })
+                }
             }
             else {
                 endTutorial()
@@ -165,6 +186,11 @@ const Tutorial = () => {
             })
 
             tutorialBox.removeEventListener("click", endTutorial)
+
+            gsap.to("#armsSvg", {
+                y: 0,
+                duration: 1
+            })
         }
 
         startTutorial('"Shall I explain how this is going to work?"', true)
