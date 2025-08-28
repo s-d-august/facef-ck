@@ -16,7 +16,7 @@ const Tutorial = () => {
             },
             {
                 line: '"If move you around, you will stay where I put you."',
-                visible: ["hairPullHand"],
+                visible: ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6"],
                 display: "none",
                 opacity: "0"
             },
@@ -60,6 +60,7 @@ const Tutorial = () => {
 
         function startTutorial(line, yesNo) {
 
+
             if (!yesNo) {
                 document.getElementById("tutorialYes").style.display = "none"
                 document.getElementById("tutorialNo").style.display = "none"
@@ -68,12 +69,16 @@ const Tutorial = () => {
             } else {
                 document.getElementById("tutorialArrow").style.display = "none"
 
+                document.getElementById("tutorialBox").style.paddingBottom = "10px"
+
                 document.getElementById("tutorialNo").addEventListener("click", () => {
+                    document.getElementById("tutorialBox").style.paddingBottom = "0"
                     document.getElementById("tutorialArrow").style.display = "block"
                     skipTutorial()
                 })
 
                 document.getElementById("tutorialYes").addEventListener("click", () => {
+                    document.getElementById("tutorialBox").style.paddingBottom = "0"
                     document.getElementById("tutorialArrow").style.display = "block"
                     tutorialBox.addEventListener("click", advanceTutorial)
                     document.getElementById("tutorialYes").style.display = "none"
@@ -100,7 +105,6 @@ const Tutorial = () => {
 
             // sets elements from previous step as invisible
 
-            console.log(index)
             if (tutorialSteps[index].visible) {
                 tutorialSteps[index].visible.forEach((el) => {
                     var element = document.getElementById(el)

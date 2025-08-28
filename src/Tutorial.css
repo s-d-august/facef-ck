@@ -33,7 +33,9 @@
     font-size: 3vw;
 }
 
-#tutorialContents>div {
+#tutorialBox,
+#tutorialYes,
+#tutorialNo {
     color: white;
     font-weight: bold;
     border: white solid 0.25vw;
@@ -54,7 +56,7 @@
     font-weight: 700;
 }
 
-#tutorialContents>#tutorialBox {
+#tutorialBox {
     background-color: #a00;
     padding-bottom: 0;
 }
