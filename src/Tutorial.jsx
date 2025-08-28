@@ -5,6 +5,24 @@ import gsap from 'gsap';
 const Tutorial = () => {
 
     useEffect(() => {
+
+        function getAllSettingsChildren() {
+            const settingsContents = document.getElementById("settingsContents");
+            if (!settingsContents) return [];
+
+            const result = [];
+
+            settingsContents.childNodes.forEach((child) => {
+                if (child.id !== "modeSetterDiv") {
+                    result.push(child);
+                }
+            });
+
+            return result;
+        }
+
+        const settingsChildren = getAllSettingsChildren()
+
         const bodyVisible = [
             "body", "head", "mouthFull", "armsSvg"
         ]
@@ -29,17 +47,19 @@ const Tutorial = () => {
             },
             {
                 line: '"You may not be able to <em>take</em> me very far at first, but I\'m sure you\'ll get better with some training."',
-                visible: ["modeSetterDiv"],
+                visible: ["settersDiv"],
+                shade: settingsChildren,
                 collapseOff: ["settersDiv", "settingsContents"],
                 collapseOn: ["settingsIcon"],
-                value: "Training",
+                type: "Training",
                 display: "none",
                 opacity: "0"
             },
             {
                 line: '"Or maybe as you come to enjoy it."',
-                visible: ["modeSetterDiv"],
-                value: "Arousal",
+                shade: settingsChildren,
+                visible: ["settersDiv"],
+                type: "Arousal",
                 display: "none",
                 opacity: "0"
             },
@@ -47,7 +67,8 @@ const Tutorial = () => {
                 line: '"Because you <em>will</em> come to enjoy it, in your own way."',
                 visible: ["boydBarWrap", "progressBarsDiv"],
                 collapseOn: ["settersDiv", "settingsContents"],
-                collapseOff: ["settingsIcon"]
+                collapseOff: ["settingsIcon"],
+                type: "Training",
             },
             { line: '"So don\'t look so scared, alright?"' },
             { line: '"This is going to be fun ❤"' }
@@ -127,12 +148,23 @@ const Tutorial = () => {
                 })
             }
 
+            if (tutorialSteps[index].shade) {
+                tutorialSteps[index].shade.forEach((el) => {
+                    if (!el.style) return
+                    el.style.opacity = 1
+                })
+            }
+
             // increases index to current step
             index++
 
             // updates line and makes elements visible
             if (tutorialSteps[index]) {
                 tutorialLine.innerHTML = tutorialSteps[index].line
+
+                if (tutorialSteps[index].type) {
+                    document.getElementById("depthModeSet").value = tutorialSteps[index].type
+                }
 
                 if (tutorialSteps[index].collapseOn) {
                     tutorialSteps[index].collapseOn.forEach((el) => {
@@ -142,6 +174,13 @@ const Tutorial = () => {
                 if (tutorialSteps[index].collapseOff) {
                     tutorialSteps[index].collapseOff.forEach((el) => {
                         document.getElementById(el).classList.remove("collapsed")
+                    })
+                }
+
+                if (tutorialSteps[index].shade) {
+                    tutorialSteps[index].shade.forEach((el) => {
+                        if (!el.style) return
+                        el.style.opacity = 0.2
                     })
                 }
 
@@ -180,7 +219,9 @@ const Tutorial = () => {
                 document.getElementById(el).style.display = "block"
             })
 
-            const opacityVisible = ["dickHandSvg", "dick"]
+            document.getElementById("settersDiv").style.display = "grid"
+
+            const opacityVisible = ["dickHandSvg", "dick", "settersDiv"]
             opacityVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 1
             })
