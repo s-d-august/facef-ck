@@ -40,7 +40,7 @@ const Tutorial = () => {
                 opacity: "0"
             },
             {
-                line: '"If I bring myself off on your face, you will leave it there until I say otherwise."',
+                line: '"That includes if I bring myself off on your face."',
                 zBoost: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
                 display: "none",
                 opacity: "0"
