@@ -60,38 +60,39 @@ function App() {
         boyd: 1.5,
     })
 
-    const browRight = useRef()
-    const browLeft = useRef()
-    const containerSize = useRef()
-    const mouthGroup = useRef()
-    const tongueGroup = useRef()
-    const tongueDrool = useRef()
-    const hideHand = useRef()
-    const headParts = useRef()
-    const hairPullBeads = useRef()
-    const body = useRef()
-    const tearRight = useRef()
-    const tearLeft = useRef()
-    const sensitivityRef = useRef()
-    const maxArousalRef = useRef(maxArousal);
-    const wipeButton = useRef()
-    const mouthButton = useRef()
-    const dickSvg = useRef()
-    const armRight = useRef()
     const armLeft = useRef()
-    const cloth = useRef()
-    const chain = useRef()
-    const hairPullHandGrab = useRef()
-    const dickHandGrab = useRef()
-    const depthMethodRef = useRef()
+    const armRight = useRef()
     const arousalTierRef = useRef()
-    const mouthOnRef = useRef()
+    const body = useRef()
+    const browLeft = useRef()
+    const browRight = useRef()
+    const chain = useRef()
+    const cloth = useRef()
+    const containerSize = useRef()
+    const depthMethodRef = useRef()
     const dickHandDraggable = useRef()
-    const hairPullDraggable = useRef()
+    const dickHandGrab = useRef()
     const dickHandParts = useRef()
-    const tongueCumArray = useRef()
-    const mouthArgs = useRef()
+    const dickSvg = useRef()
+    const hairPullBeads = useRef()
+    const hairPullDraggable = useRef()
+    const hairPullHandGrab = useRef()
+    const headParts = useRef()
     const hesitation = useRef()
+    const hideHand = useRef()
+    const maxArousalRef = useRef(maxArousal);
+    const mouthArgs = useRef()
+    const mouthButton = useRef()
+    const mouthCloseBlockRef = useRef(false);
+    const mouthGroup = useRef()
+    const mouthOnRef = useRef()
+    const sensitivityRef = useRef()
+    const tearLeft = useRef()
+    const tearRight = useRef()
+    const tongueCumArray = useRef()
+    const tongueDrool = useRef()
+    const tongueGroup = useRef()
+    const wipeButton = useRef()
 
     const morphArgsTemplate = {
         expressionsArray: ["Wide", "Open", "Half"],
@@ -111,29 +112,29 @@ function App() {
             console.log("container not rendered")
             return
         }; // Prevents error if not rendered
-        containerSize.current = document.getElementById("container").getBoundingClientRect().height
+        armLeft.current = document.getElementById("armLeft")
+        armRight.current = document.getElementById("armRight")
+        body.current = document.getElementById("bodyGroup");
         browLeft.current = document.getElementById("browLeft")
         browRight.current = document.getElementById("browRight")
-        mouthGroup.current = document.getElementById("mouthGroup")
-        tongueGroup.current = document.getElementById("tongueGroup")
-        tongueDrool.current = document.getElementById("tongueDrool")
-        hideHand.current = gsap.utils.toArray(".hideHand")
-        headParts.current = gsap.utils.toArray(".headParts");
-        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
-        body.current = document.getElementById("bodyGroup");
-        tearRight.current = document.getElementById("tearRight")
-        tearLeft.current = document.getElementById("tearLeft")
-        wipeButton.current = document.getElementById("wipeOrderButton")
-        mouthButton.current = document.getElementById("mouthOrderButton")
-        dickSvg.current = document.getElementById("dick")
-        armRight.current = document.getElementById("armRight")
-        armLeft.current = document.getElementById("armLeft")
-        cloth.current = document.getElementById("cloth")
         chain.current = document.getElementById("chain")
-        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
+        cloth.current = document.getElementById("cloth")
+        containerSize.current = document.getElementById("container").getBoundingClientRect().height
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
+        dickSvg.current = document.getElementById("dick")
+        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
+        hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
+        headParts.current = gsap.utils.toArray(".headParts");
+        hideHand.current = gsap.utils.toArray(".hideHand")
+        mouthButton.current = document.getElementById("mouthOrderButton")
+        mouthGroup.current = document.getElementById("mouthGroup")
+        tearLeft.current = document.getElementById("tearLeft")
+        tearRight.current = document.getElementById("tearRight")
         tongueCumArray.current = Array.from(document.querySelectorAll(`[id^="tongueCum"]`))
+        tongueDrool.current = document.getElementById("tongueDrool")
+        tongueGroup.current = document.getElementById("tongueGroup")
+        wipeButton.current = document.getElementById("wipeOrderButton")
         mouthArgs.current = {
             tongueCum: tongueCumArray.current,
             moveBy: containerSize.current * 0.045,
@@ -271,6 +272,11 @@ function App() {
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])
 
     useEffect(() => { // Elements that change based on approach state
+
+        if (mouthCloseBlockRef.current) {
+            mouthCloseBlockRef.current = false; // Reset for next time
+            return;
+        }
         console.log("holdMouthOpen: ", holdMouthOpen)
         if (holdMouthOpen) return
         if (
@@ -287,7 +293,7 @@ function App() {
             kkht.mouthOpenFunction(mouthArgs.current)
         } else if (!approach || !mouthOn || !holdMouthOpen) {
             console.log("mouthClose called")
-            kkht.mouthCloseFunction(mouthArgs.current)
+            kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
         }
     }, [approach, holdMouthOpen, mouthOn])
 
@@ -348,6 +354,7 @@ function App() {
                         console.log("called mouthClose")
                         kkht.mouthCloseFunction({ ...mouthArgs.current });
                         kkht.callState(setInterruptUI, (hesitation.current !== 0) ? (hesitation.current * 3.2 / 1000) : 0)
+                        mouthCloseBlockRef.current = true;
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
@@ -362,7 +369,7 @@ function App() {
             } else {
                 console.log("called mouthClose")
 
-                kkht.mouthCloseFunction({ ...mouthArgs.current });
+                kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 });
                 setHoldMouthOpen(false)
             }
         }
