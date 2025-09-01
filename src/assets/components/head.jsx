@@ -724,6 +724,77 @@ const Head = (props) => (
                 d="M548.72 668.155s11.404-6.057 21.728-15.719c5.148-4.817 10.602-15.222 7.495-20.017-2.088-3.221-4.642-16.169-4.642-16.169"
             ></path>
 
+
+
+
+            <g id="moveablesLayer" strokeLinecap="round" display="inline">
+                <g id="blush">
+                    <path
+                        id="blushRight"
+                        className="blush"
+                        fill="url(#pattern66)"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M721.168 564.415a58.367 29.804 0 0 1-58.366 29.804 58.367 29.804 0 0 1-58.367-29.804 58.367 29.804 0 0 1 58.367-29.805 58.367 29.804 0 0 1 58.366 29.805"
+                        display="inline"
+                    ></path>
+                    <path
+                        id="blushLeft"
+                        className="blush"
+                        fill="url(#pattern63)"
+                        strokeLinejoin="round"
+                        strokeWidth="1.5"
+                        d="M454.586 564.818a58.367 29.804 0 0 1-58.367 29.804 58.367 29.804 0 0 1-58.367-29.804 58.367 29.804 0 0 1 58.367-29.805 58.367 29.804 0 0 1 58.367 29.805"
+                        display="inline"
+                    ></path>
+                </g>
+                <path
+                    id="tearDownRight"
+                    fill="#fff"
+                    fillOpacity="0.75"
+                    stroke="#fff"
+                    strokeDasharray="none"
+                    strokeOpacity="0.9"
+                    strokeWidth="2.488"
+                    d="M685.8 509.589c1.861 35.541 13.197 56.357-1.118 55.069-13.719-1.235-.121-26.959 1.118-55.069z"
+                    display="inline"
+                ></path>
+                <path
+                    id="tearRight"
+                    className="tear"
+                    fill="#fcfdff"
+                    fillOpacity="0.75"
+                    stroke="#fff"
+                    strokeOpacity="0.9"
+                    strokeWidth="3"
+                    d="M702.955 516.021a16.972 7.037 0 0 1-16.972 7.037 16.972 7.037 0 0 1-16.972-7.037 16.972 7.037 0 0 1 16.972-7.037 16.972 7.037 0 0 1 16.972 7.037z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+                <path
+                    id="tearDownLeft"
+                    fill="#fff"
+                    fillOpacity="0.75"
+                    stroke="#fff"
+                    strokeDasharray="none"
+                    strokeOpacity="0.9"
+                    strokeWidth="2.488"
+                    d="M368.506 510.332c1.86 35.541 13.196 56.357-1.118 55.069-13.72-1.235-.121-26.959 1.118-55.069z"
+                    display="inline"
+                ></path>
+                <path
+                    id="tearLeft"
+                    className="tear"
+                    fill="#fcfdff"
+                    fillOpacity="0.75"
+                    stroke="#fff"
+                    strokeOpacity="0.9"
+                    strokeWidth="3"
+                    d="M385.66 516.764a16.972 7.037 0 0 1-16.972 7.038 16.972 7.037 0 0 1-16.972-7.038 16.972 7.037 0 0 1 16.972-7.037 16.972 7.037 0 0 1 16.972 7.037z"
+                    display="inline"
+                    opacity="1"
+                ></path>
+            </g>
             <g
                 id="sweatGroup"
                 fill="#fff"
@@ -801,7 +872,6 @@ const Head = (props) => (
                     opacity="1"
                 ></path>
             </g>
-
             <g id="hairGroup" fillOpacity="1" stroke="none" strokeLinecap="round">
                 <path
                     id="path7"
@@ -857,74 +927,6 @@ const Head = (props) => (
                     fill="url(#pattern72)"
                     strokeWidth="3.026"
                     d="m690.967 842.096 14.153-102.027 139.283-45.448 10.634 81.171z"
-                    opacity="1"
-                ></path>
-            </g>
-            <g id="moveablesLayer" strokeLinecap="round" display="inline">
-                <g id="blush">
-                    <path
-                        id="blushRight"
-                        className="blush"
-                        fill="url(#pattern66)"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M721.168 564.415a58.367 29.804 0 0 1-58.366 29.804 58.367 29.804 0 0 1-58.367-29.804 58.367 29.804 0 0 1 58.367-29.805 58.367 29.804 0 0 1 58.366 29.805"
-                        display="inline"
-                    ></path>
-                    <path
-                        id="blushLeft"
-                        className="blush"
-                        fill="url(#pattern63)"
-                        strokeLinejoin="round"
-                        strokeWidth="1.5"
-                        d="M454.586 564.818a58.367 29.804 0 0 1-58.367 29.804 58.367 29.804 0 0 1-58.367-29.804 58.367 29.804 0 0 1 58.367-29.805 58.367 29.804 0 0 1 58.367 29.805"
-                        display="inline"
-                    ></path>
-                </g>
-                <path
-                    id="tearDownRight"
-                    fill="#fff"
-                    fillOpacity="0.75"
-                    stroke="#fff"
-                    strokeDasharray="none"
-                    strokeOpacity="0.9"
-                    strokeWidth="2.488"
-                    d="M685.8 509.589c1.861 35.541 13.197 56.357-1.118 55.069-13.719-1.235-.121-26.959 1.118-55.069z"
-                    display="inline"
-                ></path>
-                <path
-                    id="tearRight"
-                    className="tear"
-                    fill="#fcfdff"
-                    fillOpacity="0.75"
-                    stroke="#fff"
-                    strokeOpacity="0.9"
-                    strokeWidth="3"
-                    d="M702.955 516.021a16.972 7.037 0 0 1-16.972 7.037 16.972 7.037 0 0 1-16.972-7.037 16.972 7.037 0 0 1 16.972-7.037 16.972 7.037 0 0 1 16.972 7.037z"
-                    display="inline"
-                    opacity="1"
-                ></path>
-                <path
-                    id="tearDownLeft"
-                    fill="#fff"
-                    fillOpacity="0.75"
-                    stroke="#fff"
-                    strokeDasharray="none"
-                    strokeOpacity="0.9"
-                    strokeWidth="2.488"
-                    d="M368.506 510.332c1.86 35.541 13.196 56.357-1.118 55.069-13.72-1.235-.121-26.959 1.118-55.069z"
-                    display="inline"
-                ></path>
-                <path
-                    id="tearLeft"
-                    className="tear"
-                    fill="#fcfdff"
-                    fillOpacity="0.75"
-                    stroke="#fff"
-                    strokeOpacity="0.9"
-                    strokeWidth="3"
-                    d="M385.66 516.764a16.972 7.037 0 0 1-16.972 7.038 16.972 7.037 0 0 1-16.972-7.038 16.972 7.037 0 0 1 16.972-7.037 16.972 7.037 0 0 1 16.972 7.037z"
-                    display="inline"
                     opacity="1"
                 ></path>
             </g>
