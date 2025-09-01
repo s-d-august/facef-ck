@@ -369,7 +369,7 @@ function App() {
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
         function valDownHandler() {
-            if (mouthOnRef.current === false) {
+            if ((mouthOnRef.current === false) && document.hasFocus()) {
                 kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
             }
         }
@@ -801,7 +801,7 @@ function App() {
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
-            }), 5000)
+            }), 15000)
         } else {
             console.log("mouthOff")
             if (droolIntervalRef.current) {

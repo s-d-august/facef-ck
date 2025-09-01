@@ -1,2 +1,1 @@
-- no arousal decrease while mouthOn
- 
+- adjust hairPull 
