@@ -1,4 +1,5 @@
 var arrayEligibleMap = {}
+var faceWipeCalled = false
 import { getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 import { cumAnimation } from "../animations/cum.js"
@@ -73,11 +74,16 @@ export const callCumshot = async (args) => {
 
     await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
 
-    if (arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0) {
+    if (
+        arrayEligibleMap[typeKey] &&
+        arrayEligibleMap[typeKey].length === 0 &&
+        !faceWipeCalled
+    ) {
+        faceWipeCalled = true;
         if (faceWipeArgs && typeof faceWipeArgs.animationSetter === "function") {
             console.log("faceWipe called external")
-            faceWipe(faceWipeArgs);
+            await faceWipe(faceWipeArgs);
         }
-
+        faceWipeCalled = false
     }
 }
