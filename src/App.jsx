@@ -143,6 +143,7 @@ function App() {
             tongueDrool: tongueDrool.current,
             mouthOpenSetter: setMouthOpen,
             arousalTier: arousalTierRef.current,
+            hesitation: hesitation.current,
             duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5
         }
 
