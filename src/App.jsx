@@ -52,7 +52,7 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 250,
+        ives: 2500,
         boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
@@ -808,7 +808,7 @@ function App() {
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
-            }), 15000)
+            }), 10000)
         } else {
             console.log("mouthOff")
             if (droolIntervalRef.current) {
