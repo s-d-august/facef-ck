@@ -928,7 +928,7 @@ const Head = (props) => (
                     opacity="1"
                 ></path>
             </g>
-            <g id="face-CumGroup" fill="#fff" display="inline" opacity="0.782">
+            <g id="face-CumGroup" fill="#fff" display="inline" opacity="0.85">
                 <path
                     id="faceCum6"
                     strokeWidth="0.617"

@@ -1,1 +1,2 @@
-- adjust hairPull 
+- adjust hairPull
+- adjust faceShadow 
