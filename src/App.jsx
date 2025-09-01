@@ -62,7 +62,7 @@ function App() {
 
     const armLeft = useRef()
     const armRight = useRef()
-    const arousalTierRef = useRef()
+    const arousalTierRef = useRef(arousalTier)
     const body = useRef()
     const browLeft = useRef()
     const browRight = useRef()
