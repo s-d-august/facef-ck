@@ -78,7 +78,7 @@ function App() {
     const hairPullDraggable = useRef()
     const hairPullHandGrab = useRef()
     const headParts = useRef()
-    const hesitation = useRef()
+    const hesitation = useRef((5 - arousalTier) * 250)
     const hideHand = useRef()
     const maxArousalRef = useRef(maxArousal);
     const mouthArgs = useRef()
