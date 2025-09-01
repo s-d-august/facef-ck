@@ -36,11 +36,11 @@
 }
 
 #tutorialLine {
-    font-size: 2vw;
+    font-size: 2vh;
 }
 
 #tutorialArrow {
-    font-size: 3vw;
+    font-size: 3vh;
 }
 
 #tutorialBox,
@@ -48,10 +48,10 @@
 #tutorialNo {
     color: white;
     font-weight: bold;
-    border: white solid 0.25vw;
+    border: white solid 0.25vh;
     border-radius: 8px;
     padding: 10px;
-    margin-bottom: 0.25vw;
+    margin-bottom: 0.25vh;
     font-size: 2vh;
 }
 
