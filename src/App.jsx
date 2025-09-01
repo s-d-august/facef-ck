@@ -314,16 +314,8 @@ function App() {
                 },
                 playAfter: () => {
                     //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
-                    console.log("called mouthOpen")
-                    kkht.mouthOpenFunction({
-                        tongueCum: tongueCumArray.current,
-                        moveBy: containerSize.current * 0.045,
-                        mouthGroup: mouthGroup.current,
-                        tongueGroup: tongueGroup.current,
-                        tongueDrool: tongueDrool.current,
-                        mouthOpenSetter: setMouthOpen,
-                        arousalTier: arousalTierRef.current
-                    });
+                    console.log("called mouthOpen", mouthArgs.current)
+                    kkht.mouthOpenFunction(mouthArgs.current);
                     setHoldMouthOpen(true)
                 }
             })
