@@ -68,7 +68,7 @@ export const callFastMorph = (args) => {
                         gsap.to(tween, {
                             duration: 1,
                             progress: slowMorph.progress,
-                            ease: "power1.inOut"
+                            ease: "power1.Out"
                         });
                     }
                 });

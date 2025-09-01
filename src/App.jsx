@@ -699,9 +699,9 @@ function App() {
                     type: "toFro",
                     bounds: {
                         maxX: 30,
-                        maxY: 10,
+                        maxY: 15,
                         minX: -30,
-                        minY: -15
+                        minY: -5
                     }
                 });
             } else if (arousalTier === 5) {
