@@ -7,7 +7,7 @@ export const lowerArms = (args) => {
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 1000,
-        duration: 0.5,
+        duration: 3,
         ease: "power1.in",
         onComplete: () => {
             container.classList.remove("customCursor")
