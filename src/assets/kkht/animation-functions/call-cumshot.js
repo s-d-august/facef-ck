@@ -7,6 +7,7 @@ import { callState } from "../utils/dom.js"
 import gsap from "gsap"
 
 export const isFaceClean = (set) => {
+    console.log("isFaceClean fired", set)
     if (set === "yes") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
         cumArray.forEach(el => {
@@ -14,7 +15,9 @@ export const isFaceClean = (set) => {
             if (el) gsap.set(el, { opacity: 0 })
         })
         arrayEligibleMap = {}
+        return true
     }
+
     if (arrayEligibleMap.faceCum && arrayEligibleMap.faceCum.length > 0)
         return false
     else return true
