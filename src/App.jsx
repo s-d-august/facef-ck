@@ -889,7 +889,7 @@ function App() {
     return (
         <div>
             <div id='mainDiv' className="ready">
-                <Tutorial></Tutorial>
+                {/* <Tutorial></Tutorial> */}
                 <Outputs id="outputs"
                     boyd={arousal.boyd}
                     ives={arousal.ives}
