@@ -72,6 +72,7 @@ export const callCumshot = async (args) => {
 
     if (arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0) {
         if (faceWipeArgs && typeof faceWipeArgs.animationSetter === "function") {
+            console.log("faceWipe called external")
             faceWipe(faceWipeArgs);
         }
 

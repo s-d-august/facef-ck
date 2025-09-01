@@ -18,6 +18,8 @@ export const lowerArms = (args) => {
 }
 
 export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => {
+
+    console.log("faceWipe called internal")
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
 
     const targets = [...elements, cloth];
