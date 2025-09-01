@@ -1,2 +1,4 @@
 - adjust hairPull
 - adjust faceShadow 
+
+REINSTATE TUTORIAL/ARMS DURATION

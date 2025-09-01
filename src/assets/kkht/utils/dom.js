@@ -44,6 +44,7 @@ export const getXY = (id, origin) => {
         pt.x = rect.x + rect.width
         pt.y = rect.y
     } else if (origin == "top center" || origin == "center top" || origin == "top") {
+        console.log("origin top")
         pt.x = rect.x + rect.width / 2;
         pt.y = rect.y
     } else { // Origin defaults to center
