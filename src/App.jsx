@@ -141,7 +141,8 @@ function App() {
             tongueGroup: tongueGroup.current,
             tongueDrool: tongueDrool.current,
             mouthOpenSetter: setMouthOpen,
-            arousalTier: arousalTierRef.current
+            arousalTier: arousalTierRef.current,
+            duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5
         }
 
     }, [])
@@ -270,6 +271,7 @@ function App() {
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])
 
     useEffect(() => { // Elements that change based on approach state
+        console.log("holdMouthOpen: ", holdMouthOpen)
         if (holdMouthOpen) return
         if (
             !containerSize.current ||
@@ -283,7 +285,8 @@ function App() {
 
         if (approach) {
             kkht.mouthOpenFunction(mouthArgs.current)
-        } else if (!approach || !mouthOn) {
+        } else if (!approach || !mouthOn || !holdMouthOpen) {
+            console.log("mouthClose called")
             kkht.mouthCloseFunction(mouthArgs.current)
         }
     }, [approach, holdMouthOpen, mouthOn])
@@ -320,6 +323,7 @@ function App() {
 
         } else {
             if (isTongueCumRef.current) {
+                console.log(hesitation.current)
                 kkht.hesitation({
                     deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
                     setter: [setInterruptBreath, setInterruptUI],
@@ -342,7 +346,8 @@ function App() {
                     playAfter: () => {
                         console.log("hesitation.current: ", hesitation.current)
                         console.log("called mouthClose")
-                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5 });
+                        kkht.mouthCloseFunction({ ...mouthArgs.current });
+                        kkht.callState(setInterruptUI, (hesitation.current !== 0) ? (hesitation.current * 3.2 / 1000) : 0)
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
@@ -462,6 +467,7 @@ function App() {
                 };
 
                 this.dragResistance = kkht.isApproachOrOn(args)
+
 
                 if (depthMethodRef.current === "Training") {
                     console.log(depthMethodRef.current)
