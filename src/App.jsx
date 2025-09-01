@@ -290,6 +290,7 @@ function App() {
         }
 
         if (approach) {
+            console.log(mouthArgs.current)
             kkht.mouthOpenFunction(mouthArgs.current)
         } else if (!approach || !mouthOn || !holdMouthOpen) {
             console.log("mouthClose called")
