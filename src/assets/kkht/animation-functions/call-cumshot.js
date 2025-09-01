@@ -64,9 +64,9 @@ export const callCumshot = async (args) => {
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
-    if (arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0) {
-        setInterruptUI(true)
-    } else callState(setInterruptUI, 1.5)
+    if (!(arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0)) {
+        callState(setInterruptUI, 1.5)
+    }
 
     await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
 
