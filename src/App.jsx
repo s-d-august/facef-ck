@@ -659,7 +659,7 @@ function App() {
         const pupilSize = gsap.timeline({ paused: true })
             .fromTo(".pupil",
                 { scale: 0.8, transformOrigin: "center" },
-                { scale: 1.2, duration: 1 })
+                { scale: 1.4, duration: 1 })
 
         pupilSize.progress(arousalRatio)
 
