@@ -439,6 +439,7 @@ function App() {
                 const dickRect = document.getElementById("dickArea").getBoundingClientRect();
                 const headRect = document.getElementById("faceArea").getBoundingClientRect();
                 const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
+                const direction = this.getDirection("velocity")
 
                 //    var resistance
 
@@ -456,7 +457,8 @@ function App() {
                     },
                     maxArousal: maxArousalRef.current,
                     setArousal,
-                    sensitivity: sensitivityRef.current
+                    sensitivity: sensitivityRef.current,
+                    direction
                 };
 
                 this.dragResistance = kkht.isApproachOrOn(args)
