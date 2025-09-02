@@ -144,7 +144,7 @@ function App() {
             mouthOpenSetter: setMouthOpen,
             arousalTier: arousalTierRef.current,
             hesitation: hesitation.current,
-            duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5
+            duration: (hesitation.current !== 0) ? (hesitation.current / 1000) : 0.5
         }
 
     }, [])
@@ -317,7 +317,7 @@ function App() {
                 playAfter: () => {
                     //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
                     console.log("called mouthOpen", mouthArgs.current)
-                    kkht.mouthOpenFunction(mouthArgs.current);
+                    kkht.mouthOpenFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current * 2 / 1000) : 1 });
                     setHoldMouthOpen(true)
                 }
             })
@@ -348,12 +348,12 @@ function App() {
                     playAfter: () => {
                         console.log("hesitation.current: ", hesitation.current)
                         console.log("called mouthClose")
-                        kkht.mouthCloseFunction({ ...mouthArgs.current });
-                        kkht.callState(setInterruptUI, (hesitation.current !== 0) ? (hesitation.current * 3.2 / 1000) : 0)
+                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5 });
+                        kkht.callState(setInterruptUI, (hesitation.current !== 0) ? (hesitation.current * 3.2 / 1000) : 0.5)
                         mouthCloseBlockRef.current = true;
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
-                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
+                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
                         if (arousalTierRef.current < 4) kkht.tearsAnimation({ secondary: true })
                     }
                 })
@@ -545,7 +545,7 @@ function App() {
     useEffect(() => { // Nut function
         if (arousal.ives >= maxArousal.ives) {
 
-            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
+            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20))
 
             if (mouthOn) {
                 kkht.callFastMorph({
@@ -806,7 +806,7 @@ function App() {
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
-            }), 7000)
+            }), 5000)
         } else {
             console.log("mouthOff")
             if (droolIntervalRef.current) {
