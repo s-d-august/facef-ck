@@ -262,12 +262,14 @@ function App() {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
+        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
+
 
         // Cleanup function to remove listeners
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-
+            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])
@@ -352,11 +354,7 @@ function App() {
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15 * sensitivityRef.current.boyd))
-                        if (arousalTierRef.current < 4) kkht.tearsAnimation({
-                            tearRight: tearRight.current,
-                            tearLeft: tearLeft.current,
-
-                        })
+                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ secondary: true })
                     }
                 })
 
@@ -889,7 +887,7 @@ function App() {
     return (
         <div>
             <div id='mainDiv' className="ready">
-                <Tutorial></Tutorial>
+                {/* <Tutorial></Tutorial> */}
                 <Outputs id="outputs"
                     boyd={arousal.boyd}
                     ives={arousal.ives}
