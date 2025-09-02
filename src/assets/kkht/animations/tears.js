@@ -1,43 +1,51 @@
 import gsap from "gsap"
 
-export const tearsAnimation = ({ tearRight, tearLeft }) => {
-    const tears = [tearRight, tearLeft]
-    var tear1, tear2
+export const tearsAnimation = ({ secondary }) => {
+
+    var tear1, tear2, tearDown1, tearDown2, t1, t2, num
+
 
     if (Math.random() > 0.5) {
-        tear1 = "#tearRight"
-        tear2 = "#tearLeft"
+        t1 = "Right"
+        t2 = "Left"
     } else {
-        tear1 = "#tearLeft"
-        tear2 = "#tearRight"
+        t1 = "Left"
+        t2 = "Right"
     }
+
+    num = secondary ? "2" : ""
+
+    tear1 = "#tear" + t1 + num
+    tearDown1 = "#tearDown" + t1 + num
+    tear2 = "#tear" + t2 + num
+    tearDown2 = "#tearDown" + t2 + num
 
     return (
         gsap.timeline()
-            .set("#tearRight", { opacity: 0.8, y: 0, scale: 0, morphSVG: "#tearRight" })
-            .set("#tearLeft", { opacity: 0.8, y: 0, scale: 0, morphSVG: "#tearLeft" })
-            .to(["#tearRight", "#tearLeft"], {
+            .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })
+            .set(tear2, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear2 })
+            .to([tear1, tear2], {
                 scale: 1,
                 duration: 2,
                 ease: "power1.out"
             })
-            .to("#tearRight", {
+            .to(tear1, {
                 duration: 1,
                 ease: "power1.in",
-                morphSVG: "#tearDownRight"
+                morphSVG: tearDown1
             }, 1)
-            .to("#tearLeft", {
+            .to(tear2, {
                 duration: 1,
                 ease: "power1.in",
-                morphSVG: "#tearDownLeft"
+                morphSVG: tearDown2
             }, 1)
             .to(tear1, {
-                y: 1500,
+                y: 3000,
                 duration: "random(2, 3)",
                 ease: "power4.in"
             }, "<0")
             .to(tear2, {
-                y: 1500,
+                y: 3000,
                 duration: "random(2, 3)",
                 ease: "power4.in"
             }, "<0.2")
