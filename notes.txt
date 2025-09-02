@@ -1,4 +1,3 @@
 - adjust hairPull
 - adjust faceShadow 
-
-REINSTATE TUTORIAL/ARMS DURATION
+- tears getting called twice causing dismount issues

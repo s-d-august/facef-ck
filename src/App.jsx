@@ -808,7 +808,7 @@ function App() {
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
-            }), 10000)
+            }), 7000)
         } else {
             console.log("mouthOff")
             if (droolIntervalRef.current) {
