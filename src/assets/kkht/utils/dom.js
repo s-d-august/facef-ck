@@ -30,29 +30,91 @@ export const getSVGParent = (element) => {
 }
 
 export const getXY = (id, origin) => {
-    console.log(origin)
-    if (typeof (id) === 'object') {
-        var element = id
-    } else var element = document.getElementById(id)
-    var svg = getSVGParent(element)
+    const element = typeof id === 'object' ? id : document.getElementById(id);
+    if (!element) return { x: 0, y: 0 };
+
+    const svg = getSVGParent(element);
+    if (!svg) return { x: 0, y: 0 };
+
     const rect = element.getBoundingClientRect();
-    const pt = svg.createSVGPoint();
-    if (origin == "top left" || origin == "left top") {
-        pt.x = rect.x
-        pt.y = rect.y
-    } else if (origin == "top right" || origin == "right top") {
-        pt.x = rect.x + rect.width
-        pt.y = rect.y
-    } else if (origin == "top center" || origin == "center top" || origin == "top") {
-        console.log("origin top")
-        pt.x = rect.x + rect.width / 2;
-        pt.y = rect.y
-    } else { // Origin defaults to center
-        pt.x = rect.x + rect.width / 2;
-        pt.y = rect.y + rect.height / 2;
+    const svgRect = svg.getBoundingClientRect();
+
+    // Store initial SVG position and window size only once per session
+    if (!svg._initialRect) {
+        svg._initialRect = { left: svgRect.left, top: svgRect.top };
+        svg._initialWindowSize = { width: window.innerWidth, height: window.innerHeight };
+        window._svgInitialRects = window._svgInitialRects || {};
+        if (svg.id) window._svgInitialRects[svg.id] = svg._initialRect;
+        window._svgInitialWindowSizes = window._svgInitialWindowSizes || {};
+        if (svg.id) window._svgInitialWindowSizes[svg.id] = svg._initialWindowSize;
     }
+
+    const initialWindowSize = window._svgInitialWindowSizes && window._svgInitialWindowSizes[svg.id];
+    let deltaX = 0, deltaY = 0;
+    let windowResized = false;
+
+    if (
+        initialWindowSize &&
+        (initialWindowSize.width !== window.innerWidth ||
+            initialWindowSize.height !== window.innerHeight)
+    ) {
+        // Update initialRect and window size to current values
+        svg._initialRect = { left: svgRect.left, top: svgRect.top };
+        svg._initialWindowSize = { width: window.innerWidth, height: window.innerHeight };
+        if (svg.id) {
+            window._svgInitialRects[svg.id] = svg._initialRect;
+            window._svgInitialWindowSizes[svg.id] = svg._initialWindowSize;
+        }
+        windowResized = true;
+        deltaX = 0;
+        deltaY = 0;
+    } else {
+        deltaX = svgRect.left - svg._initialRect.left;
+        deltaY = svgRect.top - svg._initialRect.top;
+    }
+
+    const pt = svg.createSVGPoint();
+    if (origin === "top left" || origin === "left top") {
+        pt.x = rect.left;
+        pt.y = rect.top;
+    } else if (origin === "top right" || origin === "right top") {
+        pt.x = rect.right;
+        pt.y = rect.top;
+    } else if (origin === "top center" || origin === "center top" || origin === "top") {
+        pt.x = rect.left + rect.width / 2;
+        pt.y = rect.top;
+    } else { // Origin defaults to center
+        pt.x = rect.left + rect.width / 2;
+        pt.y = rect.top + rect.height / 2;
+    }
+
+    // Only add delta if window has NOT been resized
+    if (!windowResized) {
+        pt.x += deltaX;
+        pt.y += deltaY;
+    }
+
     const svgPt = pt.matrixTransform(svg.getScreenCTM().inverse());
-    return { x: svgPt.x, y: svgPt.y }
+    return { x: svgPt.x, y: svgPt.y };
+}
+
+export const getScreenXY = (id, origin) => {
+    const element = typeof id === 'object' ? id : document.getElementById(id);
+    if (!element) return { x: 0, y: 0 };
+
+    const rect = element.getBoundingClientRect();
+
+    console.log(id)
+
+    if (origin === "top left" || origin === "left top") {
+        return { x: rect.left, y: rect.top };
+    } else if (origin === "top right" || origin === "right top") {
+        return { x: rect.right, y: rect.top };
+    } else if (origin === "top center" || origin === "center top" || origin === "top") {
+        return { x: rect.left + rect.width / 2, y: rect.top };
+    } else { // Origin defaults to center
+        return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+    }
 }
 
 export const getOverlapPercent = (rectA, rectB, extraY) => {

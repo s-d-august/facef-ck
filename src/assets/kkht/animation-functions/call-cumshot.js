@@ -1,6 +1,6 @@
 var arrayEligibleMap = {}
 var faceWipeCalled = false
-import { getXY } from "../utils/dom.js"
+import { getScreenXY, getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 import { cumAnimation } from "../animations/cum.js"
 import { faceWipe } from "../animations/face-wipe.js"
