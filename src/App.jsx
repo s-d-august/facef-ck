@@ -52,8 +52,8 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 250,
-        boyd: 5000,
+        ives: 2500,
+        boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
         ives: 3.5,
@@ -300,7 +300,6 @@ function App() {
 
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
-            console.log(hesitation.current)
             kkht.hesitation({
                 deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
                 setter: [setInterruptUI, setInterruptBreath],
@@ -466,8 +465,6 @@ function App() {
                 };
 
                 this.dragResistance = kkht.isApproachOrOn(args)
-                console.log(this.dragResistance)
-
 
                 if (depthMethodRef.current === "Training") {
                     this.applyBounds({
@@ -880,7 +877,7 @@ function App() {
     return (
         <div>
             <div id='mainDiv' className="ready">
-                {/* <Tutorial></Tutorial> */}
+                <Tutorial></Tutorial>
                 <Outputs id="outputs"
                     boyd={arousal.boyd}
                     ives={arousal.ives}

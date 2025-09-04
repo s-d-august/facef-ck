@@ -1,3 +1,9 @@
 - adjust hairPull
 - adjust faceShadow 
-- tears getting called twice causing dismount issues
+- flashes after tears
+- reset arousal?
+- more dickDrool paths
+- faceCum positioning issue due to moving svgs I think!!
+- tears in eyes if cum on face/tongue
+
+- some way to decrease arousal? certain things increase and certain things decrease?
