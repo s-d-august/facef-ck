@@ -2,12 +2,24 @@ import gsap from "gsap"
 
 export const browRaise = ({ browLeft, browRight, duration }) => {
 
-    console.log("browRaise args", { browLeft, browRight, duration })
+    console.log("browRaise duration", duration)
+
+    var xBy, rotate
+
+    if (duration > 1) {
+        xBy = duration * 4
+        rotate = 2.5 + duration
+    } else {
+        xBy = 5
+        rotate = 2.5
+    }
+
+    console.log("browRaise duration", duration, "xBy: ", xBy, "rotate: ", rotate)
 
     gsap.timeline()
         .to(browLeft, {
-            x: 10,
-            rotation: -5,
+            x: xBy,
+            rotation: (rotate * -1),
             duration: (duration / 0.7),
             transformOrigin: "bottom left"
         })
@@ -20,8 +32,8 @@ export const browRaise = ({ browLeft, browRight, duration }) => {
 
     gsap.timeline()
         .to(browRight, {
-            x: -10,
-            rotation: 5,
+            x: (xBy * -1),
+            rotation: rotate,
             duration: (duration / 0.7),
             transformOrigin: "bottom right"
         })
