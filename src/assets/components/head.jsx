@@ -297,19 +297,7 @@ const Head = (props) => (
                         opacity="1"
                     ></path>
 
-                    <path
-                        fill="#c8b7b7"
-                        fillOpacity="1"
-                        stroke="none"
-                        strokeDasharray="none"
-                        strokeLinecap="butt"
-                        strokeLinejoin="round"
-                        strokeOpacity="0.9"
-                        strokeWidth="10"
-                        d="M286.086 251.902h479.909v184.399H286.086z"
-                        display="inline"
-                        opacity="1"
-                    ></path>
+
                     <path
                         id="faceShadowHalf"
                         fill="url(#pattern4)"
@@ -427,19 +415,7 @@ const Head = (props) => (
                         display="inline"
                         opacity="1"
                     ></path>
-                    <path
-                        fill="#c8b7b7"
-                        fillOpacity="1"
-                        stroke="none"
-                        strokeDasharray="none"
-                        strokeLinecap="butt"
-                        strokeLinejoin="round"
-                        strokeOpacity="0.9"
-                        strokeWidth="10"
-                        d="M286.087 251.903h474.521v182.603H286.087z"
-                        display="inline"
-                        opacity="1"
-                    ></path>
+
                     <path
                         id="faceShadowWide"
                         fill="url(#pattern2)"
@@ -573,6 +549,7 @@ const Head = (props) => (
                     ></path>
                     <path
                         fill="#c8b7b7"
+                        transform="translate(0, 5)"
                         fillOpacity="1"
                         stroke="none"
                         strokeDasharray="none"
