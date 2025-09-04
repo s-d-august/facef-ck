@@ -28,7 +28,7 @@ export const isApproachOrOn =
             if (direction && (direction === ("up" || "down"))) {
                 valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
             }
-            return percent
+            return (percent + 0.15)
         }
     }
 

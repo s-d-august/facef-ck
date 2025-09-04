@@ -47,6 +47,7 @@
     z-index: 200;
     pointer-events: all;
     cursor: pointer;
+    bottom: 0
 }
 
 #tutorialButton {
