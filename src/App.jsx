@@ -52,8 +52,8 @@ function App() {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 2500,
-        boyd: 10000,
+        ives: 250,
+        boyd: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
         ives: 3.5,
@@ -144,7 +144,7 @@ function App() {
             mouthOpenSetter: setMouthOpen,
             arousalTier: arousalTierRef.current,
             hesitation: hesitation.current,
-            duration: (hesitation.current !== 0) ? (hesitation.current / 1000) : 0.5
+            duration: Math.max((hesitation.current / 1000), 0.5)
         }
 
     }, [])
@@ -280,7 +280,6 @@ function App() {
             mouthCloseBlockRef.current = false; // Reset for next time
             return;
         }
-        console.log("holdMouthOpen: ", holdMouthOpen)
         if (holdMouthOpen) return
         if (
             !containerSize.current ||
@@ -293,20 +292,19 @@ function App() {
         }
 
         if (approach) {
-            console.log(mouthArgs.current)
             kkht.mouthOpenFunction({ ...mouthArgs.current, duration: 1 })
         } else if (!approach || !mouthOn || !holdMouthOpen) {
-            console.log("mouthClose called")
             kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
         }
     }, [approach, holdMouthOpen, mouthOn])
 
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
+            console.log(hesitation.current)
             kkht.hesitation({
                 deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
                 setter: [setInterruptUI, setInterruptBreath],
-                duration: (hesitation.current !== 0) ? (hesitation.current / 1000) : 0,
+                duration: Math.max((hesitation.current * 2 / 1000), 0),
                 playDuring: {
                     name: kkht.browRaise,
                     args: {
@@ -316,8 +314,7 @@ function App() {
                 },
                 playAfter: () => {
                     //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
-                    console.log("called mouthOpen", mouthArgs.current)
-                    kkht.mouthOpenFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current * 2 / 1000) : 1 });
+                    kkht.mouthOpenFunction({ ...mouthArgs.current, duration: Math.max((hesitation.current * 2 / 1000), 1) });
                     setHoldMouthOpen(true)
                 }
             })
@@ -325,12 +322,11 @@ function App() {
 
         } else {
             if (isTongueCumRef.current) {
-                console.log(hesitation.current)
                 kkht.hesitation({
                     deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
                     setter: [setInterruptBreath, setInterruptUI],
-                    duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0,
-                    playDuring: [{
+                    duration: Math.max((hesitation.current * 3 / 1000), 0),
+                    playDuring: (arousalTierRef.current < 4) ? [{
                         name: kkht.browRaise,
                         args: {
                             browLeft: browLeft.current,
@@ -344,12 +340,16 @@ function App() {
                             tearLeft: tearLeft.current,
 
                         }
+                    }] : [{
+                        name: kkht.browRaise,
+                        args: {
+                            browLeft: browLeft.current,
+                            browRight: browRight.current
+                        }
                     }],
                     playAfter: () => {
-                        console.log("hesitation.current: ", hesitation.current)
-                        console.log("called mouthClose")
-                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: (hesitation.current !== 0) ? (hesitation.current * 3 / 1000) : 0.5 });
-                        kkht.callState(setInterruptUI, (hesitation.current !== 0) ? (hesitation.current * 3.2 / 1000) : 0.5)
+                        kkht.mouthCloseFunction({ ...mouthArgs.current, duration: Math.max((hesitation.current * 3 / 1000), 1) });
+                        kkht.callState(setInterruptUI, (hesitation.current !== 0) ? (hesitation.current * 3.1 / 1000) : 1.1)
                         mouthCloseBlockRef.current = true;
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
@@ -359,7 +359,6 @@ function App() {
                 })
 
             } else {
-                console.log("called mouthClose")
 
                 kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 });
                 setHoldMouthOpen(false)
@@ -417,6 +416,7 @@ function App() {
         Draggable.create("#hairPullHand", {
             trigger: "#hairPullHandGrab",
             cursor: "ns-resize",
+            edgeResistance: 0.9,
             onDragStart: function () {
                 setHairPullDragging(true);
             },
@@ -466,10 +466,10 @@ function App() {
                 };
 
                 this.dragResistance = kkht.isApproachOrOn(args)
+                console.log(this.dragResistance)
 
 
                 if (depthMethodRef.current === "Training") {
-                    console.log(depthMethodRef.current)
                     this.applyBounds({
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
@@ -486,7 +486,6 @@ function App() {
                             })
                     });
                 } else {
-                    console.log(depthMethodRef.current)
                     kkht.trainingMultiplier(
                         {
                             id: "#hairPullHand",
@@ -677,8 +676,6 @@ function App() {
         const eyeCenterLeft = document.getElementById("eyeCenterLeft");
         let cleanup;
 
-        console.log(arousalTier)
-
         if (!fastMorphRef.current) {
             if (arousalTier === 1 || arousalTier === 2) {
                 cleanup = kkht.eyeMovement({
@@ -712,7 +709,6 @@ function App() {
         }
 
         var prevDuration = document.documentElement.style.getPropertyValue("--animation-duration");
-        console.log(prevDuration)
 
         var breathCycleDuration = (
             (fastMorph || interruptBreath) ? 0
@@ -794,21 +790,18 @@ function App() {
         if (fastMorph || interruptUI) {
             container.classList.add("customCursor")
         } else container.classList.remove("customCursor")
-        console.log("fastMorph: ", fastMorph)
     }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
 
     useEffect(() => { // Drool, clear tongueCum when mouthOn
         if (mouthOn) {
-            console.log("mouthOn")
-            gsap.set(tongueDrool.current, { opacity: 0 })
+            //   gsap.set(tongueDrool.current, { opacity: 0 })
             droolIntervalRef.current = setInterval(() => kkht.randomizeArray({
                 idString: "dickDrool",
                 animation: kkht.drip,
                 areaHeight: 350
             }), 5000)
         } else {
-            console.log("mouthOff")
             if (droolIntervalRef.current) {
                 clearInterval(droolIntervalRef.current);
                 droolIntervalRef.current = null;
@@ -887,7 +880,7 @@ function App() {
     return (
         <div>
             <div id='mainDiv' className="ready">
-                <Tutorial></Tutorial>
+                {/* <Tutorial></Tutorial> */}
                 <Outputs id="outputs"
                     boyd={arousal.boyd}
                     ives={arousal.ives}
