@@ -33,8 +33,9 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
             </svg>
             <div id='settingsContents' className='collapsed'>
                 <h1 id='settingsHeader'>SETTINGS</h1>
-                <p>Sensitivity:</p>
+
                 <div id="sensitivitySettersDiv">
+                    <p>Sensitivity:</p>
                     {sensitivity.map(({ id, label, setter, value, ...inputProps }) => (
                         <input
                             key={id}

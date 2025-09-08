@@ -8,24 +8,38 @@
     margin-top: 10px
 }
 
+#secret {
+    grid-area: e;
+}
+
 #settersDiv {
     position: fixed;
     color: white;
-    font-size: 1.5vw;
+    font-size: 2vh;
     padding: 1vw;
-    border-radius: 10px;
+    margin-top: 5px;
     display: grid;
     z-index: 100;
-    max-height: 100vh;
+    width: 100vw;
+    height: 100%;
+    background-color: black;
 }
 
 #settingsContents {
     display: grid;
+    grid-template:
+        "a a a" 5vh
+        "b c d" auto
+        "b c e" auto;
+    align-items: start;
+    justify-content: space-around;
 }
 
 #settersDiv.collapsed {
     width: 4vw;
     height: 4vw;
+    bottom: 5px;
+    left: 5px;
 }
 
 #settingsContents.collapsed,
@@ -52,6 +66,7 @@
 
 #settingsIcon {
     left: 5px;
+    pointer-events: all;
 }
 
 #tutorialButtonText {
@@ -63,10 +78,13 @@
 }
 
 h1 {
-    font-size: 2.5vw;
+    font-size: 5vh;
     margin: 0;
     justify-self: center;
     font-family: "Benguiat";
+    line-height: 1em;
+    height: min-content;
+    grid-area: a;
 }
 
 h1.collapsed {
@@ -74,22 +92,14 @@ h1.collapsed {
     opacity: 0;
 }
 
-#settingsHeader::after {
-    display: block;
-    margin: 10px;
-    margin-left: 0;
-    left: 0;
-    height: 0;
-    width: 100%;
-    content: '';
-    border-bottom: 0.2vw solid white;
-}
+
 
 #sensitivitySettersDiv {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template:
+        "a a"
+        "b c";
     justify-content: space-around;
-    justify-self: center;
     max-height: 100vh;
 }
 
@@ -155,7 +165,8 @@ h1.collapsed {
 }
 
 p {
-    margin: 0
+    margin: 0;
+    grid-area: a
 }
 
 .switch {

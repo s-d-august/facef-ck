@@ -126,7 +126,10 @@ const Tutorial = () => {
                 tutorialYes.addEventListener("click", tutorialYesHandler)
             }
 
-            document.getElementById("tutorial").style.display = "block"
+            Array.from(document.getElementsByClassName("tutorial")).forEach(el => {
+                el.style.display = "block"
+            })
+
 
             gsap.set("#armsSvg", {
                 y: 50
