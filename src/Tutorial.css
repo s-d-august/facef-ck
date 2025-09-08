@@ -1,10 +1,11 @@
 #tutorialBackground {
-    height: 100vh;
+    height: 100%;
     width: 100vw;
     opacity: 0.8;
     background-color: black;
     z-index: 110;
     position: absolute;
+    top: 0
 }
 
 .tutorialVisible {

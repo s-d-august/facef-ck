@@ -1,5 +1,5 @@
 #progressBarsDiv {
-  height: calc(100vh - 20px);
+  height: calc(100% - 20px);
   display: inline-grid;
   grid-template-columns: auto auto;
   gap: 0.75vw;
@@ -17,7 +17,7 @@
 .barWrap {
   position: relative;
   background-color: white;
-  height: 97.5vh;
+  height: 97.5%;
   box-sizing: border-box;
 }
 

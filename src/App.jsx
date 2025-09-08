@@ -875,9 +875,9 @@ function App() {
 
 
     return (
-        <div>
+        <div id='mobileWrapDiv'>
             <div id='mainDiv' className="ready">
-                <Tutorial></Tutorial>
+
                 <Outputs id="outputs"
                     boyd={arousal.boyd}
                     ives={arousal.ives}
@@ -947,14 +947,18 @@ function App() {
                     <HairPullHand />
                 </div>
 
+            </div>
+            <div id='mobile'>
                 <div id='ordersDiv'>
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
+                <Tutorial></Tutorial>
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>
             </div>
+
 
         </div>
     )
