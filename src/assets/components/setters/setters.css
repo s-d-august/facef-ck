@@ -40,8 +40,6 @@
     fill: white;
     position: fixed;
     margin: 0.5vw;
-    z-index: 200;
-    pointer-events: all;
     cursor: pointer;
     border: white solid 0.25vw;
     border-radius: 10px;

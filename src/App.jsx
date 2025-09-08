@@ -288,6 +288,7 @@ function App() {
             !tongueDrool.current
         ) {
             console.error("One or more refs are null!");
+            console.log(containerSize.current, mouthGroup.current, tongueGroup.current, tongueDrool.current)
             return;
         }
 
@@ -894,7 +895,10 @@ function App() {
                     <Arms />
                     <HairPullHand />
                 </div>
-
+                <div className='tutorial' id='tutorialBox'>
+                    <div id='tutorialLine'></div>
+                    <p className='right' id='tutorialArrow'>► </p>
+                </div>
             </div>
             <div id='mobile'>
                 <Setters

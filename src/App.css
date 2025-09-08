@@ -27,15 +27,15 @@
   display: flex
 }
 
-
-
 #ordersDiv {
   display: flex;
   flex-direction: column;
   position: absolute;
-  right: 0;
-  top: 0;
-  font-size: 1.8vw;
+  font-size: 2.5vh;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 15px;
+
 }
 
 #ordersDiv>button {
@@ -43,10 +43,12 @@
   color: white;
   font-weight: bold;
   opacity: 85%;
-  border: white solid 0.25vw;
-  margin: 15px;
+  border: white solid 3px;
+  margin-top: 5px;
   margin-bottom: 0;
   transition: 0.2s;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 #ordersDiv>button.inactive {
@@ -174,6 +176,7 @@ svg {
 #container {
   opacity: 0;
   transition: opacity 0.3s;
+  height: 100vh;
 }
 
 #container.ready {

@@ -94,7 +94,7 @@ const HairPullHand = () => (
                         fillRule="nonzero"
                         stroke="none"
                         strokeWidth="0.016"
-                        d={svgPath(bead.d).translate(-570, 0)}
+                        d={svgPath(bead.d).translate(0, 0)}
                     />
                 </svg>
             ))}

@@ -1,5 +1,5 @@
 #tutorialBackground {
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     opacity: 0.8;
     background-color: black;
@@ -9,7 +9,8 @@
 }
 
 .tutorialVisible {
-    z-index: 120 !important
+    z-index: 120 !important;
+    pointer-events: none;
 }
 
 .tutorialZBoost {
@@ -26,7 +27,6 @@
     padding-top: 20px;
     display: flex;
     flex-direction: column;
-    cursor: pointer;
     -webkit-user-select: none;
     /* Safari */
     -ms-user-select: none;
@@ -45,7 +45,9 @@
 
 #tutorialBox,
 #tutorialYes,
-#tutorialNo {
+#tutorialNo,
+#mouthOrderButton,
+#wipeOrderButton {
     color: white;
     font-weight: bold;
     border: white solid 3px;
@@ -53,6 +55,36 @@
     padding: 10px;
     margin-bottom: 10px;
     font-size: 2vh;
+}
+
+#mouthOrderButton,
+#wipeOrderButton {
+    font-size: 2.5vh;
+}
+
+#tutorialBox {
+    position: absolute;
+    width: calc(100vw - 20px);
+    height: fit-content;
+    bottom: 0;
+    padding: 15px;
+    margin: 10px;
+    box-sizing: border-box;
+    z-index: 200;
+    cursor: auto;
+    -webkit-user-select: none;
+    /* Safari */
+    -ms-user-select: none;
+    /* IE 10 and IE 11 */
+    user-select: none;
+    /* Standard syntax */
+    background-color: #a00;
+    padding-bottom: 0;
+}
+
+#tutorialYes,
+#tutorialNo {
+    cursor: pointer;
 }
 
 #tutorialYes {
@@ -68,11 +100,6 @@
     background-color: #87aade;
     color: rgb(16, 16, 77);
     font-weight: 700;
-}
-
-#tutorialBox {
-    background-color: #a00;
-    padding-bottom: 0;
 }
 
 p.right {

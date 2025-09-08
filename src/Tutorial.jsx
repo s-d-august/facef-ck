@@ -80,9 +80,11 @@ const Tutorial = () => {
         const tutorialLine = document.getElementById("tutorialLine")
         const tutorialArrow = document.getElementById("tutorialArrow")
 
+        console.log(tutorialArrow, tutorialBox, tutorialLine, tutorialYes, tutorialNo)
         var index
 
         function tutorialNoHandler() {
+            tutorialBox.style.cursor = "pointer"
             tutorialNo.removeEventListener("click", tutorialNoHandler)
             tutorialBox.style.paddingBottom = "0"
             tutorialArrow.style.display = "block"
@@ -90,6 +92,7 @@ const Tutorial = () => {
         }
 
         function tutorialYesHandler() {
+            tutorialBox.style.cursor = "pointer"
             tutorialBox.addEventListener("click", runTutorial)
             tutorialYes.removeEventListener("click", tutorialYesHandler)
             tutorialBox.style.paddingBottom = "0"
@@ -112,6 +115,7 @@ const Tutorial = () => {
                 tutorialNo.style.display = "none"
 
                 tutorialBox.addEventListener("click", runTutorialReset)
+                tutorialBox.style.cursor = "pointer"
             } else {
                 tutorialArrow.style.display = "none"
 
@@ -138,9 +142,14 @@ const Tutorial = () => {
         }
 
         function runTutorialReset() {
-            dismountTutorial()
+            console.log(index)
+            if (tutorialSteps[index - 1]) {
+                dismountTutorial()
+                console.log("dismount fired")
+            }
             if (tutorialSteps[index]) {
                 advanceTutorial()
+                index++
             } else {
                 endTutorial()
                 resetToBlock()
@@ -149,9 +158,13 @@ const Tutorial = () => {
         }
 
         function runTutorial() {
-            dismountTutorial()
+            if (tutorialSteps[index - 1]) {
+                dismountTutorial()
+                console.log("dismount fired")
+            }
             if (tutorialSteps[index]) {
                 advanceTutorial()
+                index++
             } else {
                 endTutorial()
                 tutorialBox.removeEventListener("click", runTutorial)
@@ -159,37 +172,40 @@ const Tutorial = () => {
         }
 
         function dismountTutorial() {
-
-            if (tutorialSteps[index].visible) {
-                tutorialSteps[index].visible.forEach((el) => {
+            console.log(index)
+            console.log(tutorialSteps[index - 1])
+            if (tutorialSteps[index - 1].visible) {
+                tutorialSteps[index - 1].visible.forEach((el) => {
                     var element = document.getElementById(el)
+                    console.log(element)
                     element.classList.remove("tutorialVisible")
-                    if (tutorialSteps[index].display) element.style.display = "none"
-                    if (tutorialSteps[index].opacity) element.style.opacity = 0
+                    if (tutorialSteps[index - 1].display) element.style.display = "none"
+                    if (tutorialSteps[index - 1].opacity) element.style.opacity = 0
 
                 })
             }
 
-            if (tutorialSteps[index].zBoost) {
-                tutorialSteps[index].zBoost.forEach((el) => {
+            if (tutorialSteps[index - 1].zBoost) {
+                tutorialSteps[index - 1].zBoost.forEach((el) => {
                     var element = document.getElementById(el)
                     element.classList.remove("tutorialZBoost")
-                    if (tutorialSteps[index].display) element.style.display = "none"
-                    if (tutorialSteps[index].opacity) element.style.opacity = 0
+                    if (tutorialSteps[index - 1].display) element.style.display = "none"
+                    if (tutorialSteps[index - 1].opacity) element.style.opacity = 0
 
                 })
             }
 
-            if (tutorialSteps[index].shade) {
-                tutorialSteps[index].shade.forEach((el) => {
+            if (tutorialSteps[index - 1].shade) {
+                tutorialSteps[index - 1].shade.forEach((el) => {
                     if (!el.style) return
                     el.style.opacity = 1
                 })
             }
-            index++
+
         }
 
         function advanceTutorial() {
+            console.log(tutorialSteps[index].line)
             tutorialLine.innerHTML = tutorialSteps[index].line
 
             if (tutorialSteps[index].type) {
@@ -241,7 +257,10 @@ const Tutorial = () => {
         }
 
         function endTutorial() {
-            document.getElementById("tutorial").style.display = "none"
+
+            Array.from(document.getElementsByClassName("tutorial")).forEach(el => {
+                el.style.display = "none"
+            })
 
             bodyVisible.forEach((el) => {
                 document.getElementById(el).classList.remove("tutorialVisible")
@@ -287,13 +306,10 @@ const Tutorial = () => {
 
 
     return (
-        <div id='tutorial'>
+        <div id='tutorial' className='tutorial'>
 
             <div id='tutorialContents'>
-                <div id='tutorialBox'>
-                    <div id='tutorialLine'></div>
-                    <p className='right' id='tutorialArrow'>► </p>
-                </div>
+
 
                 <div id='tutorialYes' className='tutorialReply'>
                     <p>What...? </p>
