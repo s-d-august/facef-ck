@@ -9,13 +9,9 @@
 }
 
 #settersDiv {
-    position: absolute;
-    left: 10vw;
-    margin: 10px 15px;
+    position: fixed;
     color: white;
-    top: 0;
     font-size: 1.5vw;
-    border: white solid 0.25vw;
     padding: 1vw;
     border-radius: 10px;
     display: grid;
@@ -42,19 +38,22 @@
     height: 5vw;
     width: 5vw;
     fill: white;
-    position: absolute;
+    position: fixed;
     margin: 0.5vw;
     z-index: 200;
     pointer-events: all;
     cursor: pointer;
-    bottom: 0
+    border: white solid 0.25vw;
+    border-radius: 10px;
+    bottom: 5px;
 }
 
 #tutorialButton {
-    bottom: 0.5vw;
-    right: 0.5vw;
-    border: white solid 0.25vw;
-    border-radius: 10px;
+    right: 5px;
+}
+
+#settingsIcon {
+    left: 5px;
 }
 
 #tutorialButtonText {

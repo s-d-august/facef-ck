@@ -125,7 +125,7 @@ const Tutorial = () => {
             document.getElementById("tutorial").style.display = "block"
 
             gsap.set("#armsSvg", {
-                y: 75
+                y: 50
             })
 
             tutorialLine.innerHTML = line

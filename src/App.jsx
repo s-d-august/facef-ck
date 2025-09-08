@@ -884,6 +884,19 @@ function App() {
                     maxBoyd={maxArousal.boyd}
                     maxIves={maxArousal.ives} />
 
+
+
+                <div id='positioning'>
+                    <Body />
+                    <Mouth />
+                    <Dick />
+                    <Head />
+                    <Arms />
+                    <HairPullHand />
+                </div>
+
+            </div>
+            <div id='mobile'>
                 <Setters
                     sensitivity={[
                         {
@@ -937,18 +950,6 @@ function App() {
                         }
                     }
                 />
-
-                <div id='positioning'>
-                    <Body />
-                    <Mouth />
-                    <Dick />
-                    <Head />
-                    <Arms />
-                    <HairPullHand />
-                </div>
-
-            </div>
-            <div id='mobile'>
                 <div id='ordersDiv'>
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>

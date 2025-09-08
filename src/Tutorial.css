@@ -20,11 +20,10 @@
     position: fixed;
     z-index: 9999 !important;
     height: fit-content;
-    width: 40vw;
-    left: 50%;
-    top: 70%;
-    transform: translateX(-50%);
-    padding-bottom: 0;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 15px;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
     cursor: pointer;
@@ -49,11 +48,15 @@
 #tutorialNo {
     color: white;
     font-weight: bold;
-    border: white solid 0.25vh;
+    border: white solid 3px;
     border-radius: 8px;
     padding: 10px;
-    margin-bottom: 0.25vh;
+    margin-bottom: 10px;
     font-size: 2vh;
+}
+
+#tutorialYes {
+    margin-bottom: 5px;
 }
 
 #tutorialLine {
