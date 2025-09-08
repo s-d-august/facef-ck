@@ -3,9 +3,12 @@
     src: url("../../fonts-etc/benguiat.woff");
 }
 
-#settingsContents>button {
+#hideSettingsButton {
     padding: 5px;
-    margin-top: 10px
+    margin-top: 10px;
+    bottom: 0;
+    right: 0;
+    align-self: last baseline;
 }
 
 #secret {
@@ -20,26 +23,29 @@
     margin-top: 5px;
     display: grid;
     z-index: 100;
-    width: 100vw;
+    width: 100%;
     height: 100%;
     background-color: black;
+    box-sizing: border-box;
 }
 
 #settingsContents {
-    display: grid;
-    grid-template:
-        "a a a" 5vh
-        "b c d" auto
-        "b c e" auto;
+    display: flex;
+    flex-direction: column;
     align-items: start;
+
+}
+
+#flexRow {
+    display: flex;
     justify-content: space-around;
+    align-items: center;
+    width: 100%;
 }
 
 #settersDiv.collapsed {
-    width: 4vw;
-    height: 4vw;
-    bottom: 5px;
-    left: 5px;
+    width: 0;
+    height: 0;
 }
 
 #settingsContents.collapsed,
@@ -49,30 +55,30 @@
 
 #settingsIcon,
 #tutorialButton {
-    height: 5vw;
-    width: 5vw;
+    height: 7vw;
+    width: 7vw;
     fill: white;
     position: fixed;
     margin: 0.5vw;
     cursor: pointer;
     border: white solid 0.25vw;
-    border-radius: 10px;
+    border-radius: 5px;
     bottom: 5px;
 }
 
 #tutorialButton {
-    right: 5px;
+    left: 5px;
 }
 
 #settingsIcon {
-    left: 5px;
+    right: 5px;
     pointer-events: all;
 }
 
 #tutorialButtonText {
     color: white;
-    font-size: 4vw;
-    margin: 0.7vw 1.2vw;
+    font-size: 6vw;
+    margin: 0.7vw 1.4vw;
     line-height: 1;
     font-weight: 900;
 }
@@ -85,6 +91,9 @@ h1 {
     line-height: 1em;
     height: min-content;
     grid-area: a;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 10px;
 }
 
 h1.collapsed {
@@ -95,24 +104,28 @@ h1.collapsed {
 
 
 #sensitivitySettersDiv {
-    display: grid;
-    grid-template:
-        "a a"
-        "b c";
-    justify-content: space-around;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
     max-height: 100vh;
+    align-items: start;
+    justify-self: center;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
 }
 
 .sensitivitySet {
     writing-mode: bt-lr;
     -webkit-appearance: slider-vertical;
-    width: 2vw;
-    height: 27vh;
-    padding: 0 5px;
+    width: 100%;
+    height: 100%;
+
     border-radius: 5px;
     background: white;
-    margin: 10px;
+
     border: 0.25vw solid white;
+    box-sizing: border-box;
 }
 
 #ivesSet {
@@ -129,7 +142,7 @@ h1.collapsed {
 #boydSet::-moz-range-thumb {
 
     width: 4vw;
-    height: 20px;
+    height: 24px;
     border-radius: 5px;
     background-color: white;
     cursor: pointer;
@@ -146,6 +159,10 @@ h1.collapsed {
     appearance: none;
 }
 
+#maxSettersDiv {
+    grid-area: c;
+}
+
 .maxSetterWrap {
     color: white;
     display: flex;
@@ -154,14 +171,17 @@ h1.collapsed {
     margin-bottom: 10px
 }
 
-.maxSetterWrap>input,
-#depthModeSet,
 #sensitivitySettersDiv {
-    width: 10vw;
+    grid-area: b
 }
 
-#depthModeSet {
+#modeSetterDiv {
     margin-bottom: 10px;
+    grid-area: d
+}
+
+#depthSecret {
+    align-self: first baseline;
 }
 
 p {
@@ -172,8 +192,8 @@ p {
 .switch {
     position: relative;
     display: inline-block;
-    width: 6vw;
-    height: 2vw;
+    width: 15vw;
+    height: 5vw;
 }
 
 /* Hide default HTML checkbox */
@@ -199,10 +219,10 @@ p {
 .slider:before {
     position: absolute;
     content: "";
-    height: 1.5vw;
-    width: 1.5vw;
-    left: 0.25vw;
-    bottom: 0.25vw;
+    height: 4.25vw;
+    width: 4.25vw;
+    left: 0.4vw;
+    bottom: 0.4vw;
     background-color: white;
     -webkit-transition: .4s;
     transition: transform .4s;
@@ -217,9 +237,9 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-    -webkit-transform: translateX(54vw);
-    -ms-transform: translateX(54vw);
-    transform: translateX(4vw);
+    -webkit-transform: translateX(0.4vw);
+    -ms-transform: translateX(0.4vw);
+    transform: translateX(0.4vw);
 }
 
 /* Rounded sliders */
