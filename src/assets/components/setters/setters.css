@@ -18,7 +18,7 @@
 #settersDiv {
     position: fixed;
     color: white;
-    font-size: 2vh;
+    font-size: 2.5vh;
     padding: 1vw;
     margin-top: 5px;
     display: grid;
@@ -135,6 +135,10 @@ h1.collapsed {
 
 #boydSet {
     background: cornflowerblue
+}
+
+label {
+    text-wrap: nowrap;
 }
 
 #ivesSet::-moz-range-thumb,

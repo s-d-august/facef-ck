@@ -296,7 +296,7 @@ const Tutorial = ({ onComplete }) => {
             tutorialBox.removeEventListener("click", endTutorial)
         }
 
-        startTutorial('"Shall I explain how this is going to work?"', true)
+
 
         function skipTutorial() {
             tutorialLine.innerHTML = '"My, aren\'t you eager ❤"'
@@ -309,6 +309,8 @@ const Tutorial = ({ onComplete }) => {
         if (onComplete) {
             endTutorial()
             onComplete();
+        } else {
+            startTutorial('"Shall I explain how this is going to work?"', true)
         }
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)

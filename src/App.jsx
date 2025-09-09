@@ -896,13 +896,13 @@ function App() {
                     <Arms />
                     <HairPullHand />
                 </div>
-                {!tutorialComplete && (
-                    <div className='tutorial' id='tutorialBox'>
-                        <div id='tutorialLine'></div>
-                        <p className='right' id='tutorialArrow'>► </p>
 
-                    </div>
-                )}
+                <div className='tutorial' id='tutorialBox'>
+                    <div id='tutorialLine'></div>
+                    <p className='right' id='tutorialArrow'>► </p>
+
+                </div>
+
             </div>
             <div id='mobile'>
                 <Setters
@@ -962,7 +962,7 @@ function App() {
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
-                {!tutorialComplete && <Tutorial onComplete={handleTutorialComplete} />}
+                <Tutorial onComplete={handleTutorialComplete} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>
