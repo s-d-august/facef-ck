@@ -264,7 +264,8 @@ function App() {
             kkht.lowerArms({
                 elements: [chain.current, cloth.current, armRight.current, armLeft.current],
                 container: container,
-                setter: setArmsUp
+                setter: setArmsUp,
+                animationSetter: setInterruptUI
             }
             )
         }
@@ -375,6 +376,12 @@ function App() {
     }
 
     useEffect(() => { // initializing, valDown
+
+        gsap.to("#waitIcon", {
+            rotation: 180,
+            duration: 1,
+            repeat: -1
+        })
 
         mouthButton.current.addEventListener("click", mouthOpenClose)
         gsap.set(tongueGroup.current, { scaleY: 0 });
@@ -789,10 +796,15 @@ function App() {
                 el.style.display = "block"
             })
         }
+        const waitIcon = document.getElementById("waitIcon")
 
         if (fastMorph || interruptUI) {
-            container.classList.add("customCursor")
-        } else container.classList.remove("customCursor")
+            gsap.to(waitIcon, {
+                opacity: 1, duration: 0.2
+            })
+
+        } else gsap.to(waitIcon, { opacity: 0, duration: 0.2 })
+
     }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
 
@@ -886,7 +898,21 @@ function App() {
                     maxBoyd={maxArousal.boyd}
                     maxIves={maxArousal.ives} />
 
-
+                <svg
+                    id="waitIcon"
+                    fill="#fff"
+                    version="1.1"
+                    viewBox="0 -960 660 820"
+                >
+                    <path
+                        id="path1"
+                        fill="#fff"
+                        stroke="#000"
+                        strokeDasharray="none"
+                        strokeWidth="20"
+                        d="M170-230h320v-120q0-66-47-113t-113-47-113 47-47 113zm160-360q66 0 113-47t47-113v-120H170v120q0 66 47 113t113 47zM10-150v-80h80v-120q0-61 28.5-114.5T198-550q-51-32-79.5-85.5T90-750v-120H10v-80h640v80h-80v120q0 61-28.5 114.5T462-550q51 32 79.5 85.5T570-350v120h80v80zm320-80zm0-640z"
+                    ></path>
+                </svg>
 
                 <div id='positioning'>
                     <Body />
