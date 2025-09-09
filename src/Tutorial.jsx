@@ -7,16 +7,19 @@ const Tutorial = () => {
     useEffect(() => {
 
         function getAllSettingsChildren() {
-            const settingsContents = document.getElementById("settingsContents");
-            if (!settingsContents) return [];
+
+            const getChildren = ["settingsContents", "flexRow"]
 
             const result = [];
 
-            settingsContents.childNodes.forEach((child) => {
-                if (child.id !== "modeSetterDiv") {
-                    result.push(child);
-                }
-            });
+            getChildren.forEach(el => {
+                document.getElementById(el).childNodes.forEach((child) => {
+                    if ((child.id !== "flexRow") && (child.id !== "depthSecret")) {
+                        result.push(child);
+                    }
+                });
+            })
+
 
             return result;
         }
