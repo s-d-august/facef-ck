@@ -35,8 +35,11 @@ const AgeCheck = ({ setAgeChecked }) => {
         <div id="ageCheckDiv">
             <div id="facefuckTitleDiv">
                 <Eyecatch mode={"linear"} size={"small"} />
-                <h1 id="faceTitle">FACE</h1>
-                <h1 id="fuckTitle">F*CK</h1>
+                <div id="titleOnly">
+                    <h1 id="faceTitle">FACE</h1>
+                    <h1 id="fuckTitle">F*CK</h1>
+                </div>
+
             </div>
             <div id="ageCheckImgDiv">
                 <img src={cover} />

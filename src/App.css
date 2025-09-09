@@ -177,6 +177,7 @@ svg {
   opacity: 0;
   transition: opacity 0.3s;
   height: 100vh;
+  overflow: hidden;
 }
 
 #container.ready {

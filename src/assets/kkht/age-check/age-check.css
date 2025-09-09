@@ -7,12 +7,12 @@
 
 #ageCheckDiv {
     height: 100vh;
-    width: 100vh;
+    width: 100vw;
     background-color: black;
     color: white;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     font-family: "Benguiat";
     opacity: 0;
     transition: opacity 0.3s;
@@ -21,6 +21,7 @@
     transform: translateX(-50%);
     top: 0;
     align-items: center;
+
 }
 
 #ageCheckDiv.ready {
@@ -43,7 +44,7 @@
 }
 
 #ageCheckImgDiv {
-    height: 50vh;
+    height: 45vh;
     margin-bottom: 20px;
 }
 
@@ -53,11 +54,17 @@ img {
 }
 
 #facefuckTitleDiv {
-    display: grid;
-    flex-direction: row;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     margin-top: 20px;
-    grid-template-columns: auto auto;
+}
+
+#titleOnly {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
 }
 
 #kkhtLogoDiv {
@@ -65,7 +72,8 @@ img {
     grid-column-end: 3;
 }
 
-#facefuckTitleDiv>h1 {
+#titleOnly>h1 {
     line-height: 1;
-    font-size: 15vh;
+    font-size: 10vh;
+    margin: 0 !important;
 }
