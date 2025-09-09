@@ -1,0 +1,22 @@
+{
+    "short_name": "FF*K",
+    "name": "FACEF*CK",
+    "icons": [
+        {
+            "src": "icon.ico",
+            "sizes": "48x48",
+            "type": "image/x-icon",
+            "purpose": "maskable"
+        },
+        {
+            "src": "icon.png",
+            "type": "image/png",
+            "sizes": "379x379",
+            "purpose": "any"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "cornflower",
+    "background_color": "black"
+}
