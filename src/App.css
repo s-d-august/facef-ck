@@ -89,6 +89,7 @@ svg {
   pointer-events: none;
   bottom: -1vh;
   justify-self: center;
+  align-self: last baseline;
 }
 
 #body {
