@@ -193,6 +193,10 @@ svg:not(.icon) {
   overflow: hidden;
 }
 
+#settersDiv {
+  overflow: hidden;
+}
+
 #container.ready {
   opacity: 1
 }
