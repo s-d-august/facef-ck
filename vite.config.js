@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react-swc'
 import { VitePWA } from 'vite-plugin-pwa';
 import manifest from './public/manifest.json'
 
-
+console.log(manifest)
 export default defineConfig({
   base: '/',
   plugins: [
