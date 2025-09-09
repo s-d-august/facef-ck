@@ -895,10 +895,10 @@ function App() {
                     <Arms />
                     <HairPullHand />
                 </div>
-                { /* <div className='tutorial' id='tutorialBox'>
+                {<div className='tutorial' id='tutorialBox'>
                     <div id='tutorialLine'></div>
                     <p className='right' id='tutorialArrow'>► </p>
-                </div> */}
+                </div>}
             </div>
             <div id='mobile'>
                 <Setters
@@ -958,7 +958,7 @@ function App() {
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
-                {/* <Tutorial></Tutorial> */}
+                <Tutorial></Tutorial>
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>
