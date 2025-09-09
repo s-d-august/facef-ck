@@ -38,7 +38,7 @@
 
 #flexRow {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
 }
@@ -113,6 +113,7 @@ h1.collapsed {
     width: 100%;
     box-sizing: border-box;
     padding: 10px;
+    padding-top: 0px
 }
 
 .sensitivitySet {
@@ -160,7 +161,8 @@ h1.collapsed {
 }
 
 #maxSettersDiv {
-    grid-area: c;
+    width: 20vw;
+    padding-left: 10px;
 }
 
 .maxSetterWrap {
