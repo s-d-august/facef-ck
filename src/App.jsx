@@ -477,7 +477,7 @@ function App() {
                                 id: "#hairPullHand",
                                 y: this.y,
                                 maxY: (this.maxY || containerSize.current * 0.1),
-                                initial: 0.1,
+                                initial: 0.125,
                                 end: 0.225,
                                 hits: 5,
                                 increaseBy: 0.001
@@ -627,7 +627,7 @@ function App() {
         if (depthMethodRef.current === "Arousal") {
             const draggable = Draggable.get("#hairPullHand");
             if (container && draggable) {
-                const bounds = containerSize.current * (0.1 + (arousalRatio * 0.125));
+                const bounds = containerSize.current * (0.125 + (arousalRatio * 0.1));
                 draggable.applyBounds({
                     minX: containerSize.current * -0.0055,
                     maxX: containerSize.current * 0.0055,
