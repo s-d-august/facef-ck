@@ -26,7 +26,6 @@ export default defineConfig({
         ],
         "start_url": ".",
         "display": "standalone",
-        "lang": "english",
         "orientation": "portrait",
         "theme_color": "CornflowerBlue",
         "background_color": "black"
