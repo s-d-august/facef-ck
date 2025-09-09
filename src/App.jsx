@@ -449,8 +449,8 @@ function App() {
 
                 const args = {
                     percent: percent,
-                    startApproach: 0.15,
-                    startOn: 0.3,
+                    startApproach: 0.2,
+                    startOn: 0.325,
                     setApproach,
                     setMouthOn,
                     affectedIDs: ["ives", "boyd"],
@@ -464,7 +464,7 @@ function App() {
                     sensitivity: sensitivityRef.current,
                     direction
                 };
-
+                console.log(percent)
                 this.dragResistance = kkht.isApproachOrOn(args)
 
                 if (depthMethodRef.current === "Training") {
@@ -477,8 +477,8 @@ function App() {
                                 id: "#hairPullHand",
                                 y: this.y,
                                 maxY: (this.maxY || containerSize.current * 0.1),
-                                initial: 0.2,
-                                end: 0.37,
+                                initial: 0.1,
+                                end: 0.225,
                                 hits: 5,
                                 increaseBy: 0.001
                             })
@@ -493,12 +493,11 @@ function App() {
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
                         minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * 0.37
+                        maxY: containerSize.current * 0.225
                     }
                     )
                 }
             },
-            dragResistance: 0,
             zIndexBoost: false,
             onDragEnd: function () {
                 const dickRect = document.getElementById("dickArea").getBoundingClientRect();
@@ -628,7 +627,7 @@ function App() {
         if (depthMethodRef.current === "Arousal") {
             const draggable = Draggable.get("#hairPullHand");
             if (container && draggable) {
-                const bounds = containerSize.current * (0.2 + (arousalRatio * 0.2));
+                const bounds = containerSize.current * (0.1 + (arousalRatio * 0.125));
                 draggable.applyBounds({
                     minX: containerSize.current * -0.0055,
                     maxX: containerSize.current * 0.0055,
