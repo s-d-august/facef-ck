@@ -8,13 +8,17 @@ const Tutorial = () => {
 
         function getAllSettingsChildren() {
 
-            const getChildren = ["settingsContents", "flexRow"]
+            const getChildren = ["settingsContents", "flexRow", "depthSecret"]
 
             const result = [];
 
             getChildren.forEach(el => {
                 document.getElementById(el).childNodes.forEach((child) => {
-                    if ((child.id !== "flexRow") && (child.id !== "depthSecret")) {
+
+                    if ((child.id !== "flexRow")
+                        && (child.id !== "depthSecret")
+                        && (child.id !== "modeSetterDiv")) {
+                        console.log(child.id)
                         result.push(child);
                     }
                 });
@@ -23,7 +27,7 @@ const Tutorial = () => {
 
             return result;
         }
-
+        getAllSettingsChildren()
         const settingsChildren = getAllSettingsChildren()
 
         const bodyVisible = [
