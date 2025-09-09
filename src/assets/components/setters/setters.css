@@ -15,10 +15,6 @@
     text-wrap: nowrap;
 }
 
-#secret {
-    grid-area: e;
-}
-
 #settersDiv {
     position: fixed;
     color: white;
@@ -32,9 +28,6 @@
     background-color: black;
     box-sizing: border-box;
 }
-
-#maxSettersDiv,
-#depthSecret {}
 
 #settingsContents {
     display: flex;
@@ -151,11 +144,13 @@ h1.collapsed {
 }
 
 #ivesSet {
-    background: #a00
+    background: #a00;
+    accent-color: #a00;
 }
 
 #boydSet {
-    background: cornflowerblue
+    background: cornflowerblue;
+
 }
 
 label {
