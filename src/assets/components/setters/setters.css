@@ -118,8 +118,7 @@ h1.collapsed {
 }
 
 .sensitivitySet {
-    writing-mode: bt-lr;
-    -webkit-appearance: slider-vertical;
+
     width: 100%;
     height: 100%;
 
