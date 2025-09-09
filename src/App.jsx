@@ -119,7 +119,7 @@ function App() {
         browRight.current = document.getElementById("browRight")
         chain.current = document.getElementById("chain")
         cloth.current = document.getElementById("cloth")
-        containerSize.current = document.getElementById("container").getBoundingClientRect().height
+        containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
         dickSvg.current = document.getElementById("dick")
