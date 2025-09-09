@@ -25,7 +25,7 @@ export const isApproachOrOn =
         } else { // Dick is in mouth
             setMouthOn(true)
             if (whileOn) whileOn
-            if (direction && (direction === ("up" || "down"))) {
+            if (direction && ((direction === "up") || (direction === "down"))) {
                 valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
             }
             return (percent + 0.15)
