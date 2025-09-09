@@ -834,8 +834,8 @@ function App() {
                 gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
             }
         };
-        hairPullHandGrab.current.addEventListener("mouseenter", hairEnter);
-        hairPullHandGrab.current.addEventListener("mouseleave", hairLeave);
+        hairPullHandGrab.current.addEventListener("touchstart", hairEnter);
+        hairPullHandGrab.current.addEventListener("touchend", hairLeave);
 
         dickEnter = () => {
             gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
@@ -850,18 +850,18 @@ function App() {
                 });
             }
         };
-        dickHandGrab.current.addEventListener("mouseenter", dickEnter);
-        dickHandGrab.current.addEventListener("mouseleave", dickLeave);
+        dickHandGrab.current.addEventListener("touchstart", dickEnter);
+        dickHandGrab.current.addEventListener("touchend", dickLeave);
 
         // Cleanup
         return () => {
             if (hairPullHandGrab.current) {
-                hairPullHandGrab.current.removeEventListener("mouseenter", hairEnter);
-                hairPullHandGrab.current.removeEventListener("mouseleave", hairLeave);
+                hairPullHandGrab.current.removeEventListener("touchstart", hairEnter);
+                hairPullHandGrab.current.removeEventListener("touchend", hairLeave);
             }
             if (dickHandGrab.current) {
-                dickHandGrab.current.removeEventListener("mouseenter", dickEnter);
-                dickHandGrab.current.removeEventListener("mouseleave", dickLeave);
+                dickHandGrab.current.removeEventListener("touchstart", dickEnter);
+                dickHandGrab.current.removeEventListener("touchend", dickLeave);
             }
 
         };
