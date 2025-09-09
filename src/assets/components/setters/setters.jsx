@@ -101,10 +101,15 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                             </label>
                         </div>
                     </div>
+                    <div id='aboutSettingsButtons'>
+                        <button id='showAboutButton'>
+                            About
+                        </button>
+                        <button id='hideSettingsButton'>
+                            Hide Settings
+                        </button>
+                    </div>
 
-                    <button id='hideSettingsButton'>
-                        Hide Settings
-                    </button>
                 </div>
             </div>
 
