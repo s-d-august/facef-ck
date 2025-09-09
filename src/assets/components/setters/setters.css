@@ -250,7 +250,7 @@ p {
     height: 4.25vw;
     width: 4.25vw;
     left: 0.4vw;
-    bottom: 0.4vw;
+    bottom: 0.35vw;
     background-color: white;
     -webkit-transition: .4s;
     transition: transform .4s;
@@ -265,9 +265,9 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-    -webkit-transform: translateX(0.4vw);
-    -ms-transform: translateX(0.4vw);
-    transform: translateX(0.4vw);
+    -webkit-transform: translateX(9.5vw);
+    -ms-transform: translateX(9.5vw);
+    transform: translateX(9.5vw);
 }
 
 /* Rounded sliders */
