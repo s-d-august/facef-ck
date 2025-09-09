@@ -87,7 +87,7 @@ svg {
   position: absolute;
   max-width: 100vw;
   pointer-events: none;
-  bottom: -5px;
+  bottom: -1vh;
   justify-self: center;
 }
 
