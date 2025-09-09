@@ -131,7 +131,7 @@ svg {
 }
 
 .dickHandParts {
-  opacity: 0;
+  opacity: 0.2;
 }
 
 #dick {
@@ -208,7 +208,7 @@ svg {
 }
 
 .opacity0 {
-  opacity: 0
+  opacity: 0.2
 }
 
 [id*="Half"],

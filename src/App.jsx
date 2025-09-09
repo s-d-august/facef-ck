@@ -400,16 +400,16 @@ function App() {
             },
             edgeResistance: 0.9,
             onDrag: function () {
+                gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
+                gsap.to("#hairPullHand", { opacity: 0, duration: 0.2 });
                 kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
             },
             onDragEnd: function () {
                 setHairPullDragging(false);
                 // Check if still hovering
-                if (dickHandGrab.current.matches(':hover')) {
-                    gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
-                } else {
-                    gsap.to(dickHandParts.current, { opacity: 0, duration: 0.2 });
-                }
+
+                gsap.to(dickHandParts.current, { opacity: 0.2, duration: 0.2 });
+                gsap.to("#hairPullHand", { opacity: 0.2, duration: 0.2 });
             }
         })
 
@@ -527,12 +527,10 @@ function App() {
                 kkht.isApproachOrOn(args)
 
                 setHairPullDragging(false);
-                if (hairPullHandGrab.current.matches(':hover')) {
-                    gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
-                } else {
-                    gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
-                }
+
+                gsap.to(hideHand.current, { opacity: 0.2, duration: 0.2 });
             }
+
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")
         dickHandDraggable.current = Draggable.get(dickHandParts.current)
@@ -828,11 +826,9 @@ function App() {
         };
 
         hairLeave = () => {
-            if (hairPullDraggable.current.isDragging) {
-                return;
-            } else {
-                gsap.to(hideHand.current, { opacity: 0, duration: 0.2 });
-            }
+
+            gsap.to(hideHand.current, { opacity: 0.2, duration: 0.2 });
+
         };
         hairPullHandGrab.current.addEventListener("touchstart", hairEnter);
         hairPullHandGrab.current.addEventListener("touchend", hairLeave);
@@ -841,14 +837,12 @@ function App() {
             gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
         };
         dickLeave = () => {
-            if (dickHandDraggable.current.isDragging) {
-                return;
-            } else {
-                gsap.to(dickHandParts.current, {
-                    opacity: 0,
-                    duration: 0.2
-                });
-            }
+
+            gsap.to(dickHandParts.current, {
+                opacity: 0.2,
+                duration: 0.2
+            });
+
         };
         dickHandGrab.current.addEventListener("touchstart", dickEnter);
         dickHandGrab.current.addEventListener("touchend", dickLeave);
