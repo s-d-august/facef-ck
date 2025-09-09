@@ -1,5 +1,5 @@
 #progressBarsDiv {
-  height: calc(100% - 20px);
+  height: calc(100% - 10px);
   display: inline-grid;
   grid-template-columns: auto auto;
   gap: 0.75vw;
