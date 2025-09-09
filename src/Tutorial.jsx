@@ -306,7 +306,10 @@ const Tutorial = ({ onComplete }) => {
         }
 
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
-        if (onComplete) onComplete();
+        if (onComplete) {
+            endTutorial()
+            onComplete();
+        }
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
 
