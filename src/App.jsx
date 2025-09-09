@@ -190,6 +190,14 @@ function App() {
         }
     }, [maxArousal]);
 
+    const [tutorialComplete, setTutorialComplete] = useState(() => localStorage.getItem("tutorialComplete") === "true");
+
+    // Handler to mark tutorial as complete
+    const handleTutorialComplete = useCallback(() => {
+        localStorage.setItem("tutorialComplete", "true");
+        setTutorialComplete(true);
+    }, []);
+
     useEffect(() => {
         if (ivesModeActive) {
             document.getElementById("secret").style.display = "block"
@@ -262,14 +270,14 @@ function App() {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
-        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
+        //   document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
 
 
         // Cleanup function to remove listeners
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
+            //   document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])
@@ -888,10 +896,13 @@ function App() {
                     <Arms />
                     <HairPullHand />
                 </div>
-                {<div className='tutorial' id='tutorialBox'>
-                    <div id='tutorialLine'></div>
-                    <p className='right' id='tutorialArrow'>► </p>
-                </div>}
+                {!tutorialComplete && (
+                    <div className='tutorial' id='tutorialBox'>
+                        <div id='tutorialLine'></div>
+                        <p className='right' id='tutorialArrow'>► </p>
+
+                    </div>
+                )}
             </div>
             <div id='mobile'>
                 <Setters
@@ -951,7 +962,7 @@ function App() {
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
-                <Tutorial></Tutorial>
+                {!tutorialComplete && <Tutorial onComplete={handleTutorialComplete} />}
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>

@@ -2,7 +2,7 @@ import './Tutorial.css'
 import { useEffect } from 'react';
 import gsap from 'gsap';
 
-const Tutorial = () => {
+const Tutorial = ({ onComplete }) => {
 
     useEffect(() => {
 
@@ -306,7 +306,7 @@ const Tutorial = () => {
         }
 
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
-
+        if (onComplete) onComplete();
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
 
