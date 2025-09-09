@@ -18,7 +18,6 @@ const Tutorial = ({ onComplete }) => {
                     if ((child.id !== "flexRow")
                         && (child.id !== "depthSecret")
                         && (child.id !== "modeSetterDiv")) {
-                        console.log(child.id)
                         result.push(child);
                     }
                 });
@@ -31,7 +30,7 @@ const Tutorial = ({ onComplete }) => {
         const settingsChildren = getAllSettingsChildren()
 
         const bodyVisible = [
-            "body", "head", "mouthFull", "armsSvg"
+            "body", "head", "mouthFull", "armsSvg", "positioning"
         ]
 
         const tutorialSteps = [
