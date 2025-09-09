@@ -24,16 +24,19 @@
     display: grid;
     z-index: 100;
     width: 100%;
-    height: 100%;
+    height: 35vh;
     background-color: black;
     box-sizing: border-box;
 }
 
+#maxSettersDiv,
+#depthSecret {}
+
 #settingsContents {
     display: flex;
     flex-direction: column;
-    align-items: start;
-
+    justify-content: space-between;
+    height: 100%;
 }
 
 #flexRow {
@@ -139,6 +142,7 @@ h1.collapsed {
 
 label {
     text-wrap: nowrap;
+
 }
 
 #ivesSet::-moz-range-thumb,
