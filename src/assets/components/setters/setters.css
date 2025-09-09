@@ -44,7 +44,9 @@
 }
 
 #settersDiv.collapsed {
-    opacity: 0;
+    height: 1px;
+    width: 1px;
+    padding: 0;
 }
 
 #settingsContents.collapsed,
