@@ -203,9 +203,7 @@ function App() {
     useEffect(() => {
         var elements = gsap.utils.toArray(".ivesMode")
         elements.forEach((el) => {
-            if (el.id === "hairPullBeadsDiv") {
-                el.style.display = ivesMode ? "flex" : "none"
-            } else el.style.display = ivesMode ? "block" : "none"
+            el.style.display = ivesMode ? "block" : "none"
 
         })
     }, [ivesMode])

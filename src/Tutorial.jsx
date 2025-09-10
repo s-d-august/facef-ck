@@ -38,7 +38,7 @@ const Tutorial = ({ ivesMode }) => {
         var hairPullVisible
 
         if (ivesMode) {
-            hairPullVisible = ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6", "hairPullBeadsDiv"]
+            hairPullVisible = ["hairPullHand", "hairPullBeadsDiv"]
         } else {
             hairPullVisible = ["hairPullHand"]
         }
@@ -249,9 +249,7 @@ const Tutorial = ({ ivesMode }) => {
                     console.log(element)
                     element.classList.add("tutorialVisible")
                     if (tutorialSteps[index].display) {
-                        if (el === "hairPullBeadsDiv") {
-                            element.style.display = "flex"
-                        } else element.style.display = "block"
+                        element.style.display = "block"
                     }
                     if (tutorialSteps[index].opacity) {
                         console.log("opacity", element)
@@ -266,9 +264,7 @@ const Tutorial = ({ ivesMode }) => {
                     element.classList.add("tutorialZBoost")
                     if (tutorialSteps[index].display) {
                         if (tutorialSteps[index].display) {
-                            if (el === "hairPullBeadsDiv") {
-                                element.style.display = "flex"
-                            } else element.style.display = "block"
+                           element.style.display = "block"
                         }
                     }
                     if (tutorialSteps[index].opacity) element.style.opacity = 1
@@ -278,9 +274,7 @@ const Tutorial = ({ ivesMode }) => {
 
         function resetToBlock() {
             hairPullVisible.forEach(el => {
-                if (el === "hairPullBeadsDiv") {
-                    document.getElementById(el).style.display = "flex"
-                } else document.getElementById(el).style.display = "block"
+                document.getElementById(el).style.display = "block"
             })
         }
 
@@ -300,8 +294,6 @@ const Tutorial = ({ ivesMode }) => {
             })
 
             document.getElementById("settersDiv").style.display = "grid"
-
-            document.getElementById("hairPullBeadsDiv").style.display = ivesMode ? "flex" : "none"
 
             const opacityVisible = ["dickHandSvg", "dick", "settersDiv"]
             opacityVisible.forEach((el) => {

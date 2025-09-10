@@ -8,3 +8,14 @@
 - tutorial button doesn't work 
 
 - some way to decrease arousal? certain things increase and certain things decrease?
+
+- disable interactions during tutorial
+
+- When !ivesMode everything's fine 
+- When ivesMode:
+ - beads visible for autoTutorial
+ - beads not visible when opacity 0.2, but visible on clickDown if tutorial not called/skipped
+ - once tutorial called, beads not in on clickDown
+
+ - if Ivesmode enabled after tutorial, beads visible only on clickDown
+ - once tutorial called, beads not visible in tutorial or clickdown

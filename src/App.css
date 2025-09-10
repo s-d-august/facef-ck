@@ -120,16 +120,6 @@ svg:not(.icon) {
   z-index: 16
 }
 
-.hairPullBeads {
-  z-index: 17;
-  opacity: 0;
-}
-
-#hairPullBeadsDiv {
-  display: none;
-  justify-content: center;
-}
-
 .topmost {
   z-index: 20;
 }
