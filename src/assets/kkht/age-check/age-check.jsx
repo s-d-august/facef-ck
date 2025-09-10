@@ -13,7 +13,6 @@ const AgeCheck = ({ setAgeChecked }) => {
         const btn = document.getElementById("ageCheckButton");
         if (!btn) return;
         const handler = () => {
-            localStorage.setItem("ageChecked", true)
             setAgeChecked(true);
         }
         btn.addEventListener("click", handler);
@@ -45,9 +44,9 @@ const AgeCheck = ({ setAgeChecked }) => {
                 <img src={cover} />
             </div>
             <div id="ageCheckTextButtonDiv">
-                <p id="ageCheckWarningText">This page has sexual content!</p>
-                <p>Are you over 18 and okay with seeing it?</p>
-                <button type="button" id="ageCheckButton">Sure am!</button>
+                <p id="ageCheckWarningText">Past this point, things get very sexually explicit, very quickly.</p>
+                <p>Are you a legal adult with an interest in such things?</p>
+                <button type="button" id="ageCheckButton">Oh yes.</button>
             </div>
         </div>
     );

@@ -6,7 +6,7 @@ import AgeCheck from './assets/kkht/age-check/age-check'
 
 function Landing() {
 
-  const [ageChecked, setAgeChecked] = useState(() => localStorage.getItem("ageChecked") === "true")
+  const [ageChecked, setAgeChecked] = useState(false)
 
   const ageCheckedRef = useRef(ageChecked)
 
