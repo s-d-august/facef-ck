@@ -6,6 +6,8 @@ const Tutorial = ({ ivesMode }) => {
 
     useEffect(() => {
 
+        console.log(ivesMode)
+
         function getAllSettingsChildren() {
 
             const getChildren = ["settingsContents", "flexRow", "depthSecret"]
@@ -36,7 +38,7 @@ const Tutorial = ({ ivesMode }) => {
         var hairPullVisible
 
         if (ivesMode) {
-            hairPullVisible = ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6"]
+            hairPullVisible = ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6", "hairPullBeadsDiv"]
         } else {
             hairPullVisible = ["hairPullHand"]
         }
@@ -51,13 +53,13 @@ const Tutorial = ({ ivesMode }) => {
                 line: '"If move you around, you will stay where I put you."',
                 visible: hairPullVisible,
                 display: "none",
-                opacity: "0"
+                opacity: true
             },
             {
                 line: '"That includes if I bring myself off on your face."',
                 zBoost: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
                 display: "none",
-                opacity: "0"
+                opacity: true
             },
             {
                 line: '"You may not be able to <em>take</em> me very far at first, but I\'m sure you\'ll get better with some training."',
@@ -67,7 +69,7 @@ const Tutorial = ({ ivesMode }) => {
                 collapseOn: ["settingsIcon"],
                 type: "Training",
                 display: "none",
-                opacity: "0"
+                opacity: true
             },
             {
                 line: '"Or maybe as you come to enjoy it."',
@@ -75,7 +77,7 @@ const Tutorial = ({ ivesMode }) => {
                 visible: ["settersDiv"],
                 type: "Arousal",
                 display: "none",
-                opacity: "0"
+                opacity: true
             },
             {
                 line: '"Because you <em>will</em> come to enjoy it, in your own way."',
@@ -94,7 +96,6 @@ const Tutorial = ({ ivesMode }) => {
         const tutorialLine = document.getElementById("tutorialLine")
         const tutorialArrow = document.getElementById("tutorialArrow")
 
-        console.log(tutorialArrow, tutorialBox, tutorialLine, tutorialYes, tutorialNo)
         var index
 
         function tutorialNoHandler() {
@@ -121,8 +122,6 @@ const Tutorial = ({ ivesMode }) => {
         }
 
         function startTutorial(line, yesNo) {
-
-            console.log(yesNo)
 
             if (!yesNo) {
                 tutorialYes.style.display = "none"
@@ -159,10 +158,8 @@ const Tutorial = ({ ivesMode }) => {
         }
 
         function runTutorialReset() {
-            console.log(index)
             if (tutorialSteps[index - 1]) {
                 dismountTutorial()
-                console.log("dismount fired")
             }
             if (tutorialSteps[index]) {
                 advanceTutorial()
@@ -177,7 +174,6 @@ const Tutorial = ({ ivesMode }) => {
         function runTutorial() {
             if (tutorialSteps[index - 1]) {
                 dismountTutorial()
-                console.log("dismount fired")
             }
             if (tutorialSteps[index]) {
                 advanceTutorial()
@@ -189,12 +185,10 @@ const Tutorial = ({ ivesMode }) => {
         }
 
         function dismountTutorial() {
-            console.log(index)
-            console.log(tutorialSteps[index - 1])
+
             if (tutorialSteps[index - 1].visible) {
                 tutorialSteps[index - 1].visible.forEach((el) => {
                     var element = document.getElementById(el)
-                    console.log(element)
                     element.classList.remove("tutorialVisible")
                     if (tutorialSteps[index - 1].display) element.style.display = "none"
                     if (tutorialSteps[index - 1].opacity) element.style.opacity = 0
@@ -222,7 +216,7 @@ const Tutorial = ({ ivesMode }) => {
         }
 
         function advanceTutorial() {
-            console.log(tutorialSteps[index].line)
+
             tutorialLine.innerHTML = tutorialSteps[index].line
 
             if (tutorialSteps[index].type) {
@@ -248,11 +242,21 @@ const Tutorial = ({ ivesMode }) => {
             }
 
             if (tutorialSteps[index].visible) {
+                console.log(tutorialSteps[index].visible)
                 tutorialSteps[index].visible.forEach((el) => {
+                    console.log(el)
                     var element = document.getElementById(el)
+                    console.log(element)
                     element.classList.add("tutorialVisible")
-                    if (tutorialSteps[index].display) element.style.display = "block"
-                    if (tutorialSteps[index].opacity) element.style.opacity = 1
+                    if (tutorialSteps[index].display) {
+                        if (el === "hairPullBeadsDiv") {
+                            element.style.display = "flex"
+                        } else element.style.display = "block"
+                    }
+                    if (tutorialSteps[index].opacity) {
+                        console.log("opacity", element)
+                        element.style.opacity = 1
+                    }
                 })
             }
 
@@ -260,7 +264,13 @@ const Tutorial = ({ ivesMode }) => {
                 tutorialSteps[index].zBoost.forEach((el) => {
                     var element = document.getElementById(el)
                     element.classList.add("tutorialZBoost")
-                    if (tutorialSteps[index].display) element.style.display = "block"
+                    if (tutorialSteps[index].display) {
+                        if (tutorialSteps[index].display) {
+                            if (el === "hairPullBeadsDiv") {
+                                element.style.display = "flex"
+                            } else element.style.display = "block"
+                        }
+                    }
                     if (tutorialSteps[index].opacity) element.style.opacity = 1
                 })
             }
@@ -268,7 +278,9 @@ const Tutorial = ({ ivesMode }) => {
 
         function resetToBlock() {
             hairPullVisible.forEach(el => {
-                document.getElementById(el).style.display = "block"
+                if (el === "hairPullBeadsDiv") {
+                    document.getElementById(el).style.display = "flex"
+                } else document.getElementById(el).style.display = "block"
             })
         }
 
@@ -288,6 +300,8 @@ const Tutorial = ({ ivesMode }) => {
             })
 
             document.getElementById("settersDiv").style.display = "grid"
+
+            document.getElementById("hairPullBeadsDiv").style.display = ivesMode ? "flex" : "none"
 
             const opacityVisible = ["dickHandSvg", "dick", "settersDiv"]
             opacityVisible.forEach((el) => {

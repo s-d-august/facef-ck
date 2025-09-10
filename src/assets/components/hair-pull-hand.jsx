@@ -32,7 +32,7 @@ const HairPullHand = () => (
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             id="hairPullHand"
-            className="noInteract hideHand opacity0"
+            className="noInteract hideHand "
             viewBox="0 0 1133.265 1241.91"
         >
             <defs>
@@ -85,8 +85,9 @@ const HairPullHand = () => (
                 <svg
                     key={bead.id}
                     viewBox="0 0 1133.265 1241.91"
-                    className="hairPullBeads hideHand opacity0 ivesMode"
+                    className="hairPullBeads hideHand ivesMode"
                     id={bead.id}
+
                 >
                     <path
                         fill="#2b1100"
@@ -94,7 +95,7 @@ const HairPullHand = () => (
                         fillRule="nonzero"
                         stroke="none"
                         strokeWidth="0.016"
-                        d={svgPath(bead.d).translate(0, 0)}
+                        d={bead.d}
                     />
                 </svg>
             ))}

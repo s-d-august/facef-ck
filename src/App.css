@@ -121,7 +121,8 @@ svg:not(.icon) {
 }
 
 .hairPullBeads {
-  z-index: 17
+  z-index: 17;
+  opacity: 0;
 }
 
 #hairPullBeadsDiv {
@@ -225,10 +226,6 @@ svg:not(.icon) {
   scale: (0, 0);
 }
 
-.opacity0 {
-  opacity: 0.2
-}
-
 [id*="Half"],
 [id*="Shut"],
 [id*="Wide"],
@@ -239,6 +236,7 @@ svg:not(.icon) {
 .hidden {
   visibility: hidden;
 }
+
 
 #mobileWrapDiv {
   position: absolute;
