@@ -45,7 +45,7 @@ const AgeCheck = ({ setAgeChecked }) => {
             </div>
             <div id="ageCheckTextButtonDiv">
                 <p id="ageCheckWarningText">Past this point, things get very sexually explicit, very quickly.</p>
-                <p>Are you a legal adult with an interest in such things?</p>
+                <p>Are you a legal adult with interests of that kind?</p>
                 <button type="button" id="ageCheckButton">Oh yes.</button>
             </div>
         </div>

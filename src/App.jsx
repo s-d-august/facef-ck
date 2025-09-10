@@ -203,7 +203,10 @@ function App() {
     useEffect(() => {
         var elements = gsap.utils.toArray(".ivesMode")
         elements.forEach((el) => {
-            el.style.display = ivesMode ? "block" : "none"
+            if (el.id === "hairPullBeadsDiv") {
+                el.style.display = ivesMode ? "flex" : "none"
+            } else el.style.display = ivesMode ? "block" : "none"
+
         })
     }, [ivesMode])
 
@@ -515,7 +518,7 @@ function App() {
 
                 const args = {
                     percent: percent,
-                    startApproach: 0.15,
+                    startApproach: 0.2,
                     startOn: 0.3,
                     setApproach,
                     setMouthOn,
@@ -980,7 +983,7 @@ function App() {
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
-                <Tutorial />
+                <Tutorial ivesMode={ivesMode} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>

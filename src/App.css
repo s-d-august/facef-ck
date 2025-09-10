@@ -125,7 +125,7 @@ svg:not(.icon) {
 }
 
 #hairPullBeadsDiv {
-  display: flex !important;
+  display: none;
   justify-content: center;
 }
 
@@ -202,7 +202,7 @@ svg:not(.icon) {
 }
 
 #positioning>div,
-#positioning>div>div {
+#positioning>div>div:not(#hairPullBeadsDiv) {
   display: contents;
 }
 

@@ -2,7 +2,7 @@ import './Tutorial.css'
 import { useEffect } from 'react';
 import gsap from 'gsap';
 
-const Tutorial = ({ onComplete }) => {
+const Tutorial = ({ ivesMode }) => {
 
     useEffect(() => {
 
@@ -33,6 +33,14 @@ const Tutorial = ({ onComplete }) => {
             "body", "head", "mouthFull", "armsSvg", "positioning"
         ]
 
+        var hairPullVisible
+
+        if (ivesMode) {
+            hairPullVisible = ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6"]
+        } else {
+            hairPullVisible = ["hairPullHand"]
+        }
+
         const tutorialSteps = [
 
             {
@@ -41,7 +49,7 @@ const Tutorial = ({ onComplete }) => {
             },
             {
                 line: '"If move you around, you will stay where I put you."',
-                visible: ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6"],
+                visible: hairPullVisible,
                 display: "none",
                 opacity: "0"
             },
@@ -259,8 +267,7 @@ const Tutorial = ({ onComplete }) => {
         }
 
         function resetToBlock() {
-            const toBlock = ["hairPullHand", "moveBead1", "moveBead2", "moveBead3", "moveBead4", "moveBead5", "moveBead6"]
-            toBlock.forEach(el => {
+            hairPullVisible.forEach(el => {
                 document.getElementById(el).style.display = "block"
             })
         }
@@ -285,6 +292,11 @@ const Tutorial = ({ onComplete }) => {
             const opacityVisible = ["dickHandSvg", "dick", "settersDiv"]
             opacityVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 1
+            })
+
+            const faintVisible = ["dickHandFingers", "dickHandGrab", "hairPullHand"]
+            faintVisible.forEach((el) => {
+                document.getElementById(el).style.opacity = 0.2
             })
 
             gsap.to("#armsSvg", {
