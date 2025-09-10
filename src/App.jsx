@@ -190,14 +190,6 @@ function App() {
         }
     }, [maxArousal]);
 
-    const [tutorialComplete, setTutorialComplete] = useState(() => localStorage.getItem("tutorialComplete") === "true");
-
-    // Handler to mark tutorial as complete
-    const handleTutorialComplete = useCallback(() => {
-        localStorage.setItem("tutorialComplete", "true");
-        setTutorialComplete(true);
-    }, []);
-
     useEffect(() => {
         if (ivesModeActive) {
             document.getElementById("secret").style.display = "block"
@@ -988,7 +980,7 @@ function App() {
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
-                <Tutorial onComplete={handleTutorialComplete} />
+                <Tutorial />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>

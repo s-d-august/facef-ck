@@ -305,12 +305,9 @@ const Tutorial = ({ onComplete }) => {
         }
 
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
-        if (onComplete) {
-            endTutorial()
-            onComplete();
-        } else {
-            startTutorial('"Shall I explain how this is going to work?"', true)
-        }
+
+        startTutorial('"Shall I explain how this is going to work?"', true)
+
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
 
