@@ -116,8 +116,15 @@ svg:not(.icon) {
   position: absolute
 }
 
-#hairPullHand {
-  z-index: 16
+#hairPullHand {}
+
+#hairPullDiv {
+  left: 50%;
+  transform: translateX(-50%);
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  z-index: 20;
 }
 
 .topmost {

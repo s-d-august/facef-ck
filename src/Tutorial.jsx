@@ -2,7 +2,7 @@ import './Tutorial.css'
 import { useEffect } from 'react';
 import gsap from 'gsap';
 
-const Tutorial = ({ ivesMode }) => {
+const Tutorial = ({ ivesMode, setInterruptUI }) => {
 
     useEffect(() => {
 
@@ -35,14 +35,6 @@ const Tutorial = ({ ivesMode }) => {
             "body", "head", "mouthFull", "armsSvg", "positioning"
         ]
 
-        var hairPullVisible
-
-        if (ivesMode) {
-            hairPullVisible = ["hairPullHand", "hairPullBeadsDiv"]
-        } else {
-            hairPullVisible = ["hairPullHand"]
-        }
-
         const tutorialSteps = [
 
             {
@@ -51,7 +43,7 @@ const Tutorial = ({ ivesMode }) => {
             },
             {
                 line: '"If move you around, you will stay where I put you."',
-                visible: hairPullVisible,
+                visible: ["hairPullDiv"],
                 display: "none",
                 opacity: true
             },
@@ -123,6 +115,9 @@ const Tutorial = ({ ivesMode }) => {
 
         function startTutorial(line, yesNo) {
 
+            setInterruptUI(true)
+            document.getElementById("waitIcon").style.display = "none"
+
             if (!yesNo) {
                 tutorialYes.style.display = "none"
                 tutorialNo.style.display = "none"
@@ -166,7 +161,7 @@ const Tutorial = ({ ivesMode }) => {
                 index++
             } else {
                 endTutorial()
-                resetToBlock()
+                document.getElementById("hairPullDiv").style.display = "block"
                 tutorialBox.removeEventListener("click", runTutorialReset)
             }
         }
@@ -264,18 +259,12 @@ const Tutorial = ({ ivesMode }) => {
                     element.classList.add("tutorialZBoost")
                     if (tutorialSteps[index].display) {
                         if (tutorialSteps[index].display) {
-                           element.style.display = "block"
+                            element.style.display = "block"
                         }
                     }
                     if (tutorialSteps[index].opacity) element.style.opacity = 1
                 })
             }
-        }
-
-        function resetToBlock() {
-            hairPullVisible.forEach(el => {
-                document.getElementById(el).style.display = "block"
-            })
         }
 
         function endTutorial() {
@@ -300,7 +289,7 @@ const Tutorial = ({ ivesMode }) => {
                 document.getElementById(el).style.opacity = 1
             })
 
-            const faintVisible = ["dickHandFingers", "dickHandGrab", "hairPullHand"]
+            const faintVisible = ["dickHandFingers", "dickHandGrab", "hairPullDiv"]
             faintVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 0.2
             })
@@ -311,6 +300,9 @@ const Tutorial = ({ ivesMode }) => {
             })
 
             tutorialBox.removeEventListener("click", endTutorial)
+
+            setInterruptUI(false)
+            document.getElementById("waitIcon").style.display = "none"
         }
 
 

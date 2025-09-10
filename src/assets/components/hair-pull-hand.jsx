@@ -27,12 +27,12 @@ const beadPaths = [
     }]
 
 const HairPullHand = () => (
-    <div id="hairPullDiv">
+    <div id="hairPullDiv" className="hideHand">
         <svg
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
             id="hairPullHand"
-            className="noInteract hideHand "
+            className="noInteract"
             viewBox="0 0 1133.265 1241.91"
         >
             <defs>
@@ -85,7 +85,7 @@ const HairPullHand = () => (
                 <svg
                     key={bead.id}
                     viewBox="0 0 1133.265 1241.91"
-                    className="hairPullBeads hideHand ivesMode"
+                    className="hairPullBeads"
                     id={bead.id}
 
                 >
