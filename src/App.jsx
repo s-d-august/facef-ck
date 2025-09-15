@@ -409,7 +409,7 @@ function App({ JP }) {
             edgeResistance: 0.9,
             onDrag: function () {
                 gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
-                gsap.to("#hairPullHand", { opacity: 0, duration: 0.2 });
+                gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 });
                 kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
             },
             onDragEnd: function () {
@@ -417,7 +417,7 @@ function App({ JP }) {
                 // Check if still hovering
 
                 gsap.to(dickHandParts.current, { opacity: 0.2, duration: 0.2 });
-                gsap.to("#hairPullHand", { opacity: 0.2, duration: 0.2 });
+                gsap.to("#hairPullDiv", { opacity: 0.2, duration: 0.2 });
             }
         })
 
@@ -766,6 +766,8 @@ function App({ JP }) {
 
     useEffect(() => { // Enable/disable draggables
 
+        interruptUI ? console.log("UI interrupted") : console.log("UI operational")
+
         if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
@@ -985,9 +987,7 @@ function App({ JP }) {
                 />
                 <div id='ordersDiv'>
                     <button id='mouthOrderButton'>"Open your mouth."</button>
-                    <button id='mouthOrderButtonJP'>“お口を開けて。”</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
-                    <button id='wipeOrderButtonJP'>“その汚い顔をきれいにして。”</button>
                 </div>
                 <Tutorial ivesMode={ivesModeActive}
                     setInterruptUI={setInterruptUI}

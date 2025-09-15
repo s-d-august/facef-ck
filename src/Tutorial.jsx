@@ -121,7 +121,7 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
         }
 
         function tutorialButtonHandler() {
-            var string = JP ? "なあに、忘れました？" : '"What, do you need a reminder?"'
+            var string = JP ? '"なあに、忘れました？"' : '"What, do you need a reminder?"'
             startTutorial(string, false)
         }
 
@@ -255,7 +255,7 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
                     console.log(element)
                     element.classList.add("tutorialVisible")
                     if (tutorialSteps[index].display) {
-                        element.style.display = "block"
+                        element.style.display = (element.id === "hairPullDiv") ? "flex" : "block"
                     }
                     if (tutorialSteps[index].opacity) {
                         console.log("opacity", element)

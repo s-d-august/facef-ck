@@ -73,7 +73,7 @@ const Setters = ({ sensitivity, max, secret, modes, JP }) => {
                     </div>
                     <div id='depthSecret'>
                         <div id='modeSetterDiv'>
-                            <label for={modes.id}>{JP ? modes.labelJP : modes.label}</label>
+                            <label for={modes.id}>{modes.label}</label>
                             <br />
                             <select
                                 name={modes.id}
