@@ -161,7 +161,6 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
                 index++
             } else {
                 endTutorial()
-                document.getElementById("hairPullDiv").style.display = "block"
                 tutorialBox.removeEventListener("click", runTutorialReset)
             }
         }
@@ -244,7 +243,7 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
                     console.log(element)
                     element.classList.add("tutorialVisible")
                     if (tutorialSteps[index].display) {
-                        element.style.display = "block"
+                        element.style.display = (element.id === "hairPullDiv") ? "flex" : "block"
                     }
                     if (tutorialSteps[index].opacity) {
                         console.log("opacity", element)
@@ -283,6 +282,7 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
             })
 
             document.getElementById("settersDiv").style.display = "grid"
+            document.getElementById("hairPullDiv").style.display = "none"
 
             const opacityVisible = ["dickHandSvg", "dick", "settersDiv"]
             opacityVisible.forEach((el) => {

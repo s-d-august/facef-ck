@@ -786,7 +786,7 @@ function App() {
         } else {
             hairPullDraggable.current.enable()
             hideHand.current.forEach((el) => {
-                el.style.display = "block"
+                el.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
             })
         }
         const waitIcon = document.getElementById("waitIcon")
