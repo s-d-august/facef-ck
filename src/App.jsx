@@ -14,7 +14,7 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import Setters from './assets/components/setters/setters'
 
-function App() {
+function App({ JP }) {
 
     const [slowMorph, setSlowMorph] = useState(false)
     const [fastMorph, setFastMorph] = useState(false)
@@ -227,7 +227,7 @@ function App() {
         }
 
         if (armsUp) {
-            wipeButton.current.innerText = !JP ? '"Now now, don\'t be shy."' : "“まあまあ、　照れる必要がないのよ。”"
+            wipeButton.current.innerText = !JP ? '"Now now, don\'t be shy."' : "“さあ、照れる必要がないのよ。”"
             mouthButton.current.classList.add("hide")
         } else {
             wipeButton.current.innerText = !JP ? '"Wipe the mess off your face."' : "“その汚い顔をきれいにして。”"
@@ -786,7 +786,7 @@ function App() {
         } else {
             hairPullDraggable.current.enable()
             hideHand.current.forEach((el) => {
-                el.style.display = "block"
+                el.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
             })
         }
         const waitIcon = document.getElementById("waitIcon")
@@ -925,6 +925,7 @@ function App() {
             </div>
             <div id='mobile'>
                 <Setters
+                    JP={JP}
                     sensitivity={[
                         {
                             id: "boydSet",
@@ -989,7 +990,8 @@ function App() {
                     <button id='wipeOrderButtonJP'>“その汚い顔をきれいにして。”</button>
                 </div>
                 <Tutorial ivesMode={ivesModeActive}
-                    setInterruptUI={setInterruptUI} />
+                    setInterruptUI={setInterruptUI}
+                    JP={JP} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>

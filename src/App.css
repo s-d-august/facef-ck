@@ -119,10 +119,9 @@ svg:not(.icon) {
 #hairPullHand {}
 
 #hairPullDiv {
-  left: 50%;
-  transform: translateX(-50%);
+  justify-content: center;
   position: absolute;
-  width: 100%;
+  width: 100vw;
   bottom: 0;
   z-index: 20;
 }
@@ -202,6 +201,11 @@ svg:not(.icon) {
 #positioning>div,
 #positioning>div>div:not(#hairPullBeadsDiv) {
   display: contents;
+}
+
+#hairPullBeadsDiv {
+  display: flex !important;
+  justify-content: center;
 }
 
 #face-CumGroup>path {

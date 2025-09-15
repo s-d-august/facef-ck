@@ -5,7 +5,8 @@ import Eyecatch from "../eyecatch/eyecatch";
 import cover from "../../fonts-etc/cover.svg"
 import gsap from "gsap";
 
-const AgeCheck = ({ setAgeChecked }) => {
+const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
+
     useEffect(() => {
         const div = document.getElementById("ageCheckDiv");
         if (div) div.classList.add("ready");
@@ -30,8 +31,24 @@ const AgeCheck = ({ setAgeChecked }) => {
         }
     }, [setAgeChecked]);
 
+    useEffect(() => {
+
+        const langButton = document.getElementById("langButton")
+        langButton.addEventListener("click", changeLang)
+
+        function changeLang() {
+            setJP(!JP)
+            localStorage.setItem("JP", String(!JP))
+        }
+
+        return () => {
+            langButton.removeEventListener("click", changeLang)
+        }
+    }, [JP])
+
     return (
         <div id="ageCheckDiv">
+            <button id="langButton">{JP ? "ENG" : "日本語"}</button>
             <div id="facefuckTitleDiv">
                 <Eyecatch mode={"linear"} size={"small"} />
                 <div id="titleOnly">
@@ -44,9 +61,11 @@ const AgeCheck = ({ setAgeChecked }) => {
                 <img src={cover} />
             </div>
             <div id="ageCheckTextButtonDiv">
-                <p id="ageCheckWarningText">Past this point, things get very sexually explicit, very quickly.</p>
-                <p>Are you a legal adult with interests of that kind?</p>
-                <button type="button" id="ageCheckButton">Oh yes.</button>
+                <p class="ageCheckText">{JP ? "このゲームを始めたら、すぐ成人向けのコンテンツが現れます。"
+                    : "Past this point, things get very sexually explicit, very quickly."}</p>
+                <p class="ageCheckText">{JP ? "お客様の地域において成人向けコンテンツを閲覧できる法定年齢に達していますか？"
+                    : "Are you a legal adult with interests of that kind?"}</p>
+                <button type="button" id="ageCheckButton">{JP ? "はい" : "Oh yes."}</button>
             </div>
         </div>
     );
