@@ -2,7 +2,7 @@ import './Tutorial.css'
 import { useEffect } from 'react';
 import gsap from 'gsap';
 
-const Tutorial = ({ ivesMode, setInterruptUI }) => {
+const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
 
     useEffect(() => {
 
@@ -24,10 +24,9 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
                     }
                 });
             })
-
-
             return result;
         }
+
         getAllSettingsChildren()
         const settingsChildren = getAllSettingsChildren()
 
@@ -39,47 +38,59 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
 
             {
                 line: '"If I tell you to do something, you will do it."',
+                jp: '"僕に指示されたら、あなたは言う通りにします。"',
                 visible: ["ordersDiv"]
             },
             {
                 line: '"If move you around, you will stay where I put you."',
+                jp: '"動かされたら、そのままにしておきます。"',
                 visible: ["hairPullDiv"],
                 display: "none",
                 opacity: true
             },
             {
                 line: '"That includes if I bring myself off on your face."',
+                jp: '"僕がその顔を彩ってもね。"',
                 zBoost: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
                 display: "none",
                 opacity: true
             },
             {
                 line: '"You may not be able to <em>take</em> me very far at first, but I\'m sure you\'ll get better with some training."',
+                jp: '"最初に僕のをあまり深くいただけないが、多少の教習で上手になるはずです。"',
                 visible: ["settersDiv"],
                 shade: settingsChildren,
                 collapseOff: ["settersDiv", "settingsContents"],
                 collapseOn: ["settingsIcon"],
-                type: "Training",
+                type: JP ? "教習" : "Training",
                 display: "none",
                 opacity: true
             },
             {
                 line: '"Or maybe as you come to enjoy it."',
+                jp: '"または、あなたが好きになりますうちにね。"',
                 shade: settingsChildren,
                 visible: ["settersDiv"],
-                type: "Arousal",
+                type: JP ? "興奮" : "Arousal",
                 display: "none",
                 opacity: true
             },
             {
                 line: '"Because you <em>will</em> come to enjoy it, in your own way."',
+                jp: '"いずれ好きになりますよ、あなたなりに。きっと。"',
                 visible: ["boydBarWrap", "progressBarsDiv"],
                 collapseOn: ["settersDiv", "settingsContents"],
                 collapseOff: ["settingsIcon"],
-                type: "Training",
+                type: JP ? "教習" : "Training",
             },
-            { line: '"So don\'t look so scared, alright?"' },
-            { line: '"This is going to be fun ❤"' }
+            {
+                line: '"So don\'t look so scared, alright?"',
+                jp: '"だから、そう怖がらないでもいいのですよ？"'
+            },
+            {
+                line: '"This is going to be fun ❤"',
+                jp: '"楽しみましょう ❤"'
+            }
         ];
 
         const tutorialBox = document.getElementById("tutorialBox")
@@ -110,7 +121,8 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
         }
 
         function tutorialButtonHandler() {
-            startTutorial('"What, do you need a reminder?"', false)
+            var string = JP ? '"なあに、忘れました？"' : '"What, do you need a reminder?"'
+            startTutorial(string, false)
         }
 
         function startTutorial(line, yesNo) {
@@ -211,7 +223,7 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
 
         function advanceTutorial() {
 
-            tutorialLine.innerHTML = tutorialSteps[index].line
+            tutorialLine.innerHTML = JP ? tutorialSteps[index].jp : tutorialSteps[index].line
 
             if (tutorialSteps[index].type) {
                 document.getElementById("depthModeSet").value = tutorialSteps[index].type
@@ -302,13 +314,13 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
             tutorialBox.removeEventListener("click", endTutorial)
 
             setInterruptUI(false)
-            document.getElementById("waitIcon").style.display = "none"
+            document.getElementById("waitIcon").style.display = "block"
         }
 
 
 
         function skipTutorial() {
-            tutorialLine.innerHTML = '"My, aren\'t you eager ❤"'
+            tutorialLine.innerHTML = JP ? '"あら、何と熱心ですね ❤"' : '"My, aren\'t you eager ❤"'
             tutorialYes.style.display = "none"
             tutorialNo.style.display = "none"
             tutorialBox.addEventListener("click", endTutorial)
@@ -316,7 +328,8 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
 
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
 
-        startTutorial('"Shall I explain how this is going to work?"', true)
+        var tutorialString = JP ? "“これから何が起こる事、説明してあげましょうか？”" : '"Shall I explain how this is going to work?"'
+        startTutorial(tutorialString, true)
 
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
@@ -330,16 +343,14 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
         <div id='tutorial' className='tutorial'>
 
             <div id='tutorialContents'>
-
-
                 <div id='tutorialYes' className='tutorialReply'>
-                    <p>What...? </p>
-                    <p className='right'>(read an explanation of the controls)</p>
+                    <p>{JP ? "何が．．．" : "What...?"} </p>
+                    <p className='right'>{JP ? "(コントロールの説明)" : "(read an explanation of the controls)"}</p>
                 </div>
 
                 <div id='tutorialNo' className='tutorialReply'>
-                    <p>Please, just...hurry up and get it over with.</p>
-                    <p className='right'>(skip the explanation)</p>
+                    <p>{JP ? "お願いだから、早く終わらせてくださいよ．．．" : "Please, just...hurry up and get it over with."}</p>
+                    <p className='right'>{JP ? "(説明をスキップ)" : "(skip the explanation)"}</p>
                 </div>
             </div>
 

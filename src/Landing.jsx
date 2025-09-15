@@ -8,11 +8,7 @@ function Landing() {
 
   const [ageChecked, setAgeChecked] = useState(false)
 
-  const ageCheckedRef = useRef(ageChecked)
-
-  useEffect(() => {
-    ageCheckedRef.current = ageChecked;
-  }, [ageChecked]);
+  const [JP, setJP] = useState(localStorage.getItem("JP"))
 
   useEffect(() => {
     if (ageChecked) {
@@ -33,7 +29,7 @@ function Landing() {
     <div id='container'>
 
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
-        setAgeChecked={setAgeChecked} /> : <App />}
+        setAgeChecked={setAgeChecked} JP={JP} setJP={setJP} /> : <App JP={JP} setJP={setJP} />}
 
     </div>
   )

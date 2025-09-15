@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import './setters.css';
 
-const Setters = ({ sensitivity, max, secret, modes }) => {
+const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
 
     useEffect(() => {
         const settingsIcon = document.getElementById("settingsIcon")
@@ -34,8 +34,8 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
             <div id='settingsContents' className='collapsed'>
 
                 <div id="sensitivitySettersDiv">
-                    <p>Sensitivity:</p>
-                    {sensitivity.map(({ id, label, setter, value, ...inputProps }) => (
+                    <p>{JP ? "興奮の上昇率" : "Sensitivity"}</p>
+                    {sensitivity.map(({ id, label, labelJP, setter, value, ...inputProps }) => (
                         <input
                             key={id}
                             id={id}
@@ -45,7 +45,7 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                             min={0}
                             max={5}
                             step={0.1}
-                            title={label}
+                            title={JP ? labelJP : label}
                             value={value ?? 1}
                             onChange={e => setter(e.target.value)}
                             {...inputProps}
@@ -56,9 +56,9 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
 
 
                     <div id='maxSettersDiv'>
-                        {max.map(({ id, setter, value, label }) => (
+                        {max.map(({ id, setter, value, label, labelJP }) => (
                             <div className='maxSetterWrap' key={id}>
-                                <label htmlFor={id}>{label}</label>
+                                <label htmlFor={id}>{JP ? labelJP : label}</label>
                                 <input
                                     id={id}
                                     type='number'
@@ -79,7 +79,13 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                                 name={modes.id}
                                 id={modes.id}
                                 onChange={e => modes.setter(e.target.value)}>
-                                {modes.modes.map((el) => (
+                                {JP ? modes.modesJP.map((el) => (
+                                    <option
+                                        key={el}
+                                        value={el}
+
+                                    >{el}</option>
+                                )) : modes.modes.map((el) => (
                                     <option
                                         key={el}
                                         value={el}
@@ -89,6 +95,31 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                             </select>
                         </div>
 
+                        <div id='langSetterDiv'>
+                            <label for="langSetter">{JP ? "言語： " : "Language: "}</label>
+                            <br />
+                            <select
+                                name="langSetter"
+                                id="langSetter"
+                                value={JP ? "true" : "false"}
+                                onChange={e => {
+                                    setJP(e.target.value === "true")
+                                    console.log(e.target.value)
+                                    console.log(JP)
+                                }}>
+                                <option
+                                    value="false"
+                                >English</option>
+                                <option
+                                    value="true"
+                                >日本語</option>
+
+
+
+                            </select>
+                        </div>
+                    </div>
+                    <div id='secretSettingsButtons'>
                         <div id='secret'>
                             <p>{secret.label}</p>
                             <label className='switch'>
@@ -100,13 +131,8 @@ const Setters = ({ sensitivity, max, secret, modes }) => {
                                 <span className="slider round"></span>
                             </label>
                         </div>
-                    </div>
-                    <div id='aboutSettingsButtons'>
-                        <button id='showAboutButton'>
-                            About
-                        </button>
                         <button id='hideSettingsButton'>
-                            Hide Settings
+                            {JP ? "設定を閉まる" : "Hide Settings"}
                         </button>
                     </div>
 

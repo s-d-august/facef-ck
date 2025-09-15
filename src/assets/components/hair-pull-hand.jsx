@@ -80,12 +80,12 @@ const HairPullHand = () => (
             ></path>
 
         </svg>
-        <div className="noInteract ivesMode" id="hairPullBeadsDiv" >
+        <div className="noInteract" id="hairPullBeadsDiv" >
             {beadPaths.map((bead) => (
                 <svg
                     key={bead.id}
                     viewBox="0 0 1133.265 1241.91"
-                    className="hairPullBeads"
+                    className="hairPullBeads ivesMode"
                     id={bead.id}
 
                 >

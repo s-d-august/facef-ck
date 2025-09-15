@@ -4,6 +4,7 @@ import { callState } from "../utils/dom"
 
 export const lowerArms = (args) => {
     const { elements, setter, container, animationSetter } = args
+    console.log(animationSetter)
     animationSetter(true)
     const targets = [...elements]
     gsap.timeline().to(targets, {

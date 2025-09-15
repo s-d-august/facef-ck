@@ -14,7 +14,7 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import Setters from './assets/components/setters/setters'
 
-function App() {
+function App({ JP, setJP }) {
 
     const [slowMorph, setSlowMorph] = useState(false)
     const [fastMorph, setFastMorph] = useState(false)
@@ -212,10 +212,10 @@ function App() {
 
         if (holdMouthOpen) {
             if (isTongueCum) {
-                mouthButton.current.innerText = '"Swallow for me."'
-            } else mouthButton.current.innerText = '"Close your mouth."'
+                mouthButton.current.innerText = !JP ? '"Swallow for me."' : '“良い子にして飲みなさい。”'
+            } else mouthButton.current.innerText = !JP ? '"Close your mouth."' : '“お口を閉じて。”'
         } else {
-            mouthButton.current.innerText = '"Open your mouth."'
+            mouthButton.current.innerText = !JP ? '"Open your mouth."' : '“お口を開けて。”'
         }
 
         if (mouthOn || fastMorph || approach || interruptUI) {
@@ -227,10 +227,10 @@ function App() {
         }
 
         if (armsUp) {
-            wipeButton.current.innerText = '"Now now, don\'t be shy."'
+            wipeButton.current.innerText = !JP ? '"Now now, don\'t be shy."' : "“さあ、照れる必要がないのよ。”"
             mouthButton.current.classList.add("hide")
         } else {
-            wipeButton.current.innerText = '"Wipe the mess off your face."'
+            wipeButton.current.innerText = !JP ? '"Wipe the mess off your face."' : "“その汚い顔をきれいにして。”"
             wipeButton.current.classList.add("hide")
             mouthButton.current.classList.remove("hide")
 
@@ -373,7 +373,9 @@ function App() {
         gsap.to("#waitIcon", {
             rotation: 180,
             duration: 1,
-            repeat: -1
+            repeat: -1,
+            ease: "power1.inOut",
+            delay: -0.05
         })
 
         mouthButton.current.addEventListener("click", mouthOpenClose)
@@ -409,7 +411,7 @@ function App() {
             edgeResistance: 0.9,
             onDrag: function () {
                 gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
-                gsap.to("#hairPullHand", { opacity: 0, duration: 0.2 });
+                gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 });
                 kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
             },
             onDragEnd: function () {
@@ -417,7 +419,7 @@ function App() {
                 // Check if still hovering
 
                 gsap.to(dickHandParts.current, { opacity: 0.2, duration: 0.2 });
-                gsap.to("#hairPullHand", { opacity: 0.2, duration: 0.2 });
+                gsap.to("#hairPullDiv", { opacity: 0.2, duration: 0.2 });
             }
         })
 
@@ -766,6 +768,8 @@ function App() {
 
     useEffect(() => { // Enable/disable draggables
 
+        interruptUI ? console.log("UI interrupted") : console.log("UI operational")
+
         if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
@@ -789,14 +793,14 @@ function App() {
                 el.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
             })
         }
-        const waitIcon = document.getElementById("waitIcon")
 
         if (fastMorph || interruptUI) {
-            gsap.to(waitIcon, {
+            console.log("UI interrupt triggered")
+            gsap.to("#waitIcon", {
                 opacity: 1, duration: 0.2
             })
 
-        } else gsap.to(waitIcon, { opacity: 0, duration: 0.2 })
+        } else gsap.to("#waitIcon", { opacity: 0, duration: 0.2 })
 
     }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
@@ -925,6 +929,8 @@ function App() {
             </div>
             <div id='mobile'>
                 <Setters
+                    JP={JP}
+                    setJP={setJP}
                     sensitivity={[
                         {
                             id: "boydSet",
@@ -932,6 +938,7 @@ function App() {
                                 setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
                             },
                             label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
+                            labelJP: !ivesMode ? "アオの感度をセット。" : "ボイドの感度をセット。",
                             value: sensitivity.boyd
                         },
                         {
@@ -940,6 +947,7 @@ function App() {
                                 setSensitivity(prev => ({ ...prev, ives: Number(value) }))
                             },
                             label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
+                            labelJP: !ivesMode ? "アカの感度をセット。" : "アイヴスの感度をセット。",
                             value: sensitivity.ives
                         }
                     ]
@@ -951,6 +959,7 @@ function App() {
                                 setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
                             },
                             label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
+                            labelJP: !ivesMode ? "アオのマックス: " : "ボイドのマックス: ",
                             value: maxArousal.boyd
                         },
                         {
@@ -959,20 +968,22 @@ function App() {
                                 setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
                             },
                             label: !ivesMode ? "Red Max: " : "Ives Max: ",
+                            labelJP: !ivesMode ? "アカのマックス: " : "アイヴスのマックス: ",
                             value: maxArousal.ives
                         }
                     ]}
                     modes={{
                         id: "depthModeSet",
                         modes: ["Training", "Arousal", "None"],
-                        label: "Depth Mode:",
+                        modesJP: ["教習", "興奮", "ない"],
+                        label: !JP ? "Depth Mode:" : "深さモード:",
                         setter: setDepthMethod
                     }}
                     secret={
                         {
                             id: "ivesModeSwitch",
                             setter: setIvesMode,
-                            label: "Ravenous",
+                            label: !JP ? "Ravenous" : "ラビナス",
                             value: ivesMode
                         }
                     }
@@ -982,7 +993,8 @@ function App() {
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                 </div>
                 <Tutorial ivesMode={ivesModeActive}
-                    setInterruptUI={setInterruptUI} />
+                    setInterruptUI={setInterruptUI}
+                    JP={JP} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>
