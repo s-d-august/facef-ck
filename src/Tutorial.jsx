@@ -24,10 +24,9 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
                     }
                 });
             })
-
-
             return result;
         }
+
         getAllSettingsChildren()
         const settingsChildren = getAllSettingsChildren()
 
@@ -51,7 +50,7 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
             },
             {
                 line: '"That includes if I bring myself off on your face."',
-                jp: "僕がその顔に果ててもね。",
+                jp: "僕がその顔を彩ってもね。",
                 zBoost: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
                 display: "none",
                 opacity: true
@@ -69,7 +68,7 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
             },
             {
                 line: '"Or maybe as you come to enjoy it."',
-                jp: "または、あなたが好きになりますほどにね。",
+                jp: "または、あなたが好きになりますうちにね。",
                 shade: settingsChildren,
                 visible: ["settersDiv"],
                 type: "Arousal",
@@ -359,12 +358,12 @@ const Tutorial = ({ ivesMode, setInterruptUI }) => {
             <div id='tutorialContentsJP'>
                 <div id='tutorialYesJP' className='tutorialReply'>
                     <p>何が．．． </p>
-                    <p className='right'>(read an explanation of the controls)</p>
+                    <p className='right'>(コントロールの説明)</p>
                 </div>
 
                 <div id='tutorialNoJP' className='tutorialReply'>
                     <p>お願いだから、早く終わらせてくださいよ．．．</p>
-                    <p className='right'>(skip the explanation)</p>
+                    <p className='right'>(説明をスキップ)</p>
                 </div>
             </div>
 
