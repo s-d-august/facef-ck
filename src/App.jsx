@@ -14,7 +14,7 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import Setters from './assets/components/setters/setters'
 
-function App({ JP }) {
+function App({ JP, setJP }) {
 
     const [slowMorph, setSlowMorph] = useState(false)
     const [fastMorph, setFastMorph] = useState(false)
@@ -930,6 +930,7 @@ function App({ JP }) {
             <div id='mobile'>
                 <Setters
                     JP={JP}
+                    setJP={setJP}
                     sensitivity={[
                         {
                             id: "boydSet",
