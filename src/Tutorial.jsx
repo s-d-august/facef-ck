@@ -314,7 +314,7 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
             tutorialBox.removeEventListener("click", endTutorial)
 
             setInterruptUI(false)
-            document.getElementById("waitIcon").style.display = "none"
+            document.getElementById("waitIcon").style.display = "block"
         }
 
 

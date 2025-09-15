@@ -373,7 +373,9 @@ function App({ JP }) {
         gsap.to("#waitIcon", {
             rotation: 180,
             duration: 1,
-            repeat: -1
+            repeat: -1,
+            ease: "power1.inOut",
+            delay: -0.05
         })
 
         mouthButton.current.addEventListener("click", mouthOpenClose)
@@ -791,14 +793,14 @@ function App({ JP }) {
                 el.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
             })
         }
-        const waitIcon = document.getElementById("waitIcon")
 
         if (fastMorph || interruptUI) {
-            gsap.to(waitIcon, {
+            console.log("UI interrupt triggered")
+            gsap.to("#waitIcon", {
                 opacity: 1, duration: 0.2
             })
 
-        } else gsap.to(waitIcon, { opacity: 0, duration: 0.2 })
+        } else gsap.to("#waitIcon", { opacity: 0, duration: 0.2 })
 
     }, [mouthOn, approach, fastMorph, interruptUI, armsUp, hairPullDragging])
 
