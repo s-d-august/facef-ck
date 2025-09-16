@@ -61,9 +61,9 @@ const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
                 <img src={cover} />
             </div>
             <div id="ageCheckTextButtonDiv">
-                <p class="ageCheckText">{JP ? "このゲームを始めたら、すぐ成人向けのコンテンツが現れます。"
+                <p className="ageCheckText">{JP ? "このゲームを始めたら、すぐ成人向けのコンテンツが現れます。"
                     : "Past this point, things get very sexually explicit, very quickly."}</p>
-                <p class="ageCheckText">{JP ? "お客様の地域において成人向けコンテンツを閲覧できる法定年齢に達していますか？"
+                <p className="ageCheckText">{JP ? "お客様の地域において成人向けコンテンツを閲覧できる法定年齢に達していますか？"
                     : "Are you a legal adult with interests of that kind?"}</p>
                 <button type="button" id="ageCheckButton">{JP ? "はい" : "Oh yes."}</button>
             </div>
