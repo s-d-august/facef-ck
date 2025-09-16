@@ -87,7 +87,7 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
             },
             {
                 line: '"So don\'t look so scared, alright?"',
-                jp: '"だから、そう怖がらないでもいいのですよ？"'
+                jp: '"だから、そう怖がらなくてもいいのですよ？"'
             },
             {
                 line: '"This is going to be fun ❤"',

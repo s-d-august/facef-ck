@@ -959,7 +959,7 @@ function App({ JP, setJP }) {
                                 setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
                             },
                             label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
-                            labelJP: !ivesMode ? "アオのマックス: " : "ボイドのマックス: ",
+                            labelJP: !ivesMode ? "アオの上限: " : "ボイド上限: ",
                             value: maxArousal.boyd
                         },
                         {
@@ -968,7 +968,7 @@ function App({ JP, setJP }) {
                                 setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
                             },
                             label: !ivesMode ? "Red Max: " : "Ives Max: ",
-                            labelJP: !ivesMode ? "アカのマックス: " : "アイヴスのマックス: ",
+                            labelJP: !ivesMode ? "アカの上限: " : "ｱｲｳﾞｽ上限: ",
                             value: maxArousal.ives
                         }
                     ]}
