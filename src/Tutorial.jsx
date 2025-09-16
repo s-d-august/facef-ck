@@ -2,13 +2,11 @@ import './Tutorial.css'
 import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 
-const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
+const Tutorial = ({ setInterruptUI, JP }) => {
 
     const [tutorialFired, setTutorialFired] = useState(false)
 
     useEffect(() => {
-
-        console.log(ivesMode)
 
         function getAllSettingsChildren() {
 
