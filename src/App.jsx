@@ -192,7 +192,7 @@ function App({ JP, setJP }) {
 
     useEffect(() => {
         if (ivesModeActive) {
-            document.getElementById("secret").style.display = "block"
+            document.getElementById("secret").style.display = "flex"
             setIvesMode(true)
         } else {
             document.getElementById("secret").style.display = "none"

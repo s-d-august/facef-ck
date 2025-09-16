@@ -7,12 +7,12 @@
 #showAboutButton {
     padding: 0.5vh;
     margin-right: 0.5vh;
-    width: 32vh;
+    width: min-content;
 }
 
 #hideSettingsButton {
     text-wrap: nowrap;
-    margin-right: 1vh;
+    margin-right: 0;
 }
 
 #settersDiv {
@@ -32,9 +32,9 @@
 #settingsContents {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
     height: 100%;
-    width: calc(100% - 2vw);
+    width: 100%;
 }
 
 #flexRow {
@@ -182,7 +182,7 @@ label {
 }
 
 #maxSettersDiv {
-    width: 20vh;
+    width: 10vw;
     padding-left: 1vh;
 }
 
@@ -207,6 +207,11 @@ label {
     align-self: first baseline;
 }
 
+#secret {
+    display: flex;
+    flex-direction: row;
+}
+
 p {
     margin: 0;
     grid-area: a
@@ -215,8 +220,11 @@ p {
 .switch {
     position: relative;
     display: inline-block;
-    width: 15vh;
-    height: 5vh;
+    width: 4vh;
+    height: 2vh;
+    border-radius: 50%;
+    align-self: center;
+    margin-left: 1vh;
 }
 
 /* Hide default HTML checkbox */
@@ -242,10 +250,10 @@ p {
 .slider:before {
     position: absolute;
     content: "";
-    height: 4.25vh;
-    width: 4.25vh;
-    left: 0.4vh;
-    bottom: 0.35vh;
+    height: 1.8vh;
+    width: 1.8vh;
+    left: 0.1vh;
+    bottom: 0.1vh;
     background-color: white;
     -webkit-transition: .4s;
     transition: transform .4s;
@@ -260,14 +268,14 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-    -webkit-transform: translateX(9.5vw);
-    -ms-transform: translateX(9.5vw);
-    transform: translateX(9.5vw);
+    -webkit-transform: translateX(1.4vw);
+    -ms-transform: translateX(1.4vw);
+    transform: translateX(1.4vw);
 }
 
 /* Rounded sliders */
 .slider.round {
-    border-radius: 0.5vh;
+    border-radius: 5vh;
 }
 
 .slider.round:before {
