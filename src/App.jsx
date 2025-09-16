@@ -264,14 +264,14 @@ function App({ JP, setJP }) {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
-        //   document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
+        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
 
 
         // Cleanup function to remove listeners
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            //   document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
+            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])

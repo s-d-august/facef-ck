@@ -1,8 +1,8 @@
 #progressBarsDiv {
-  height: calc(100% - 10px);
+  height: calc(100% - 1vh);
   display: inline-grid;
   grid-template-columns: auto auto;
-  gap: 0.75vw;
+  gap: 0.75vh;
   position: relative;
   margin: 1.25vh;
   z-index: 100;
@@ -10,8 +10,8 @@
 
 .gridElement {
   height: 100%;
-  width: 4vw;
-  border-radius: 5px;
+  width: 4vh;
+  border-radius: 0.5vh;
 }
 
 .barWrap {
@@ -23,12 +23,12 @@
 
 .progressBar {
   max-height: 97vh;
-  width: 3.5vw;
-  margin: 0 0.25vw;
+  width: 3.5vh;
+  margin: 0 0.25vh;
   height: 0;
-  bottom: 0.25vw;
+  bottom: 0.25vh;
   position: absolute;
-  border-radius: 5px;
+  border-radius: 0.5vh;
   box-sizing: border-box;
   -webkit-transition: .4s;
   transition: .4s;

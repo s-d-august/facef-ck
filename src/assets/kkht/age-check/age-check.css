@@ -15,7 +15,7 @@
     padding: 0.4vh 0.6vh;
     opacity: 80%;
     font-family: Jost;
-    font-size: 2vw !important;
+    font-size: 2vh !important;
 }
 
 #ageCheckDiv {
@@ -58,7 +58,7 @@
 
 #ageCheckImgDiv {
     height: 45vh;
-    margin-bottom: 20px;
+    margin-bottom: 1vh;
 }
 
 img {
@@ -70,7 +70,7 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 1vh;
 }
 
 #titleOnly {
@@ -87,6 +87,6 @@ img {
 
 #titleOnly>h1 {
     line-height: 1;
-    font-size: 10vh;
+    font-size: 8vh;
     margin: 0 !important;
 }

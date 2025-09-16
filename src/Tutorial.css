@@ -23,8 +23,8 @@
     height: fit-content;
     width: 100%;
     box-sizing: border-box;
-    padding: 15px;
-    padding-top: 20px;
+    padding: 1.5vh;
+    margin-top: 2vh;
     display: flex;
     flex-direction: column;
     -webkit-user-select: none;
@@ -50,10 +50,10 @@
 #wipeOrderButton {
     color: white;
     font-weight: bold;
-    border: white solid 3px;
-    border-radius: 8px;
-    padding: 10px;
-    margin-bottom: 10px;
+    border: white solid 0.5vh;
+    border-radius: 1vh;
+    padding: 1vh;
+    margin-bottom: 1vh;
     font-size: 2vh;
 }
 
@@ -64,11 +64,12 @@
 
 #tutorialBox {
     position: absolute;
-    width: calc(100% - 20px);
+    width: calc(100% - 2vh);
     height: fit-content;
     bottom: 0;
-    padding: 15px;
-    margin: 10px;
+    padding: 1.5vh;
+    margin: 1vh;
+    margin-bottom: 1.5vh;
     box-sizing: border-box;
     z-index: 200;
     cursor: auto;
@@ -88,7 +89,7 @@
 }
 
 #tutorialYes {
-    margin-bottom: 5px;
+    margin-bottom: 0.5vh;
 }
 
 #tutorialLine {

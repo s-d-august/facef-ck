@@ -139,7 +139,7 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
             } else {
                 tutorialArrow.style.display = "none"
 
-                tutorialBox.style.paddingBottom = "10px"
+                tutorialBox.style.paddingBottom = "1vh"
 
                 tutorialNo.addEventListener("click", tutorialNoHandler)
 
@@ -151,8 +151,10 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
             })
 
 
+            var height = document.getElementById("tutorialBackground").getBoundingClientRect().height
+            console.log(height)
             gsap.set("#armsSvg", {
-                y: 50
+                y: (height * 0.065)
             })
 
             tutorialLine.innerHTML = line

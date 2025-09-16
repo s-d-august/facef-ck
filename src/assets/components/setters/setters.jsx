@@ -103,19 +103,12 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                                 id="langSetter"
                                 value={JP ? "true" : "false"}
                                 onChange={e => {
-                                    setJP(e.target.value === "true")
-                                    console.log(e.target.value)
-                                    console.log(JP)
-                                }}>
-                                <option
-                                    value="false"
-                                >English</option>
-                                <option
-                                    value="true"
-                                >日本語</option>
-
-
-
+                                    setJP(e.target.value === "true");
+                                    localStorage.setItem("JP", e.target.value);
+                                }}
+                            >
+                                <option value="false">English</option>
+                                <option value="true">日本語</option>
                             </select>
                         </div>
                     </div>

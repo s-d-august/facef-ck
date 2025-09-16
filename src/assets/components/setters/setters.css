@@ -5,22 +5,22 @@
 
 #hideSettingsButton,
 #showAboutButton {
-    padding: 5px;
-    margin-right: 5px;
-    width: 32vw;
+    padding: 0.5vh;
+    margin-right: 0.5vh;
+    width: 32vh;
 }
 
 #hideSettingsButton {
     text-wrap: nowrap;
-    margin-right: 10px;
+    margin-right: 1vh;
 }
 
 #settersDiv {
     position: fixed;
     color: white;
     font-size: 2.5vh;
-    padding: 1vw;
-    margin-top: 5px;
+    padding: 1vh;
+    margin-top: 0.5vh;
     display: grid;
     z-index: 100;
     width: 100%;
@@ -42,7 +42,7 @@
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    padding: 5px;
+    padding: 0.5vh;
 }
 
 #settersDiv.collapsed {
@@ -62,19 +62,19 @@
     width: 7vh;
     fill: white;
     position: fixed;
-    margin: 0.5vw;
+    margin: 0.5vh;
     cursor: pointer;
     border: white solid 0.25vh;
-    border-radius: 5px;
-    bottom: 5px;
+    border-radius: 0.5vh;
+    bottom: 0.5vh;
 }
 
 #tutorialButton {
-    left: 5px;
+    left: 0.5vh;
 }
 
 #settingsIcon {
-    right: 5px;
+    right: 0.5vh;
     pointer-events: all;
 }
 
@@ -96,7 +96,7 @@ h1 {
     grid-area: a;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 10px;
+    margin-top: 1vh;
 }
 
 h1.collapsed {
@@ -106,7 +106,7 @@ h1.collapsed {
 
 #maxSettersDiv,
 #depthSecret {
-    padding-bottom: 10px;
+    padding-bottom: 1vh;
 }
 
 #sensitivitySettersDiv {
@@ -118,7 +118,7 @@ h1.collapsed {
     justify-self: center;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px;
+    padding: 1vh;
 
 }
 
@@ -128,7 +128,7 @@ h1.collapsed {
     flex-direction: column;
     height: 100%;
     justify-content: space-between;
-    padding: 5px;
+    padding: 0.5vh;
 }
 
 .sensitivitySet {
@@ -136,10 +136,10 @@ h1.collapsed {
     width: 100%;
     height: 100%;
 
-    border-radius: 5px;
+    border-radius: 0.5vh;
     background: white;
 
-    border: 0.25vw solid white;
+    border: 0.25vh solid white;
     box-sizing: border-box;
 }
 
@@ -163,9 +163,9 @@ label {
 #boydSet::-webkit-slider-thumb,
 #boydSet::-moz-range-thumb {
 
-    width: 4vw;
-    height: 24px;
-    border-radius: 5px;
+    width: 4vh;
+    height: 2.5vh;
+    border-radius: 0.5vh;
     background-color: white;
     cursor: pointer;
     border: none;
@@ -182,8 +182,8 @@ label {
 }
 
 #maxSettersDiv {
-    width: 20vw;
-    padding-left: 10px;
+    width: 20vh;
+    padding-left: 1vh;
 }
 
 .maxSetterWrap {
@@ -191,7 +191,7 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 10px
+    margin-bottom: 1vh
 }
 
 #sensitivitySettersDiv {
@@ -199,7 +199,7 @@ label {
 }
 
 #modeSetterDiv {
-    margin-bottom: 10px;
+    margin-bottom: 1vh;
     grid-area: d
 }
 
@@ -215,8 +215,8 @@ p {
 .switch {
     position: relative;
     display: inline-block;
-    width: 15vw;
-    height: 5vw;
+    width: 15vh;
+    height: 5vh;
 }
 
 /* Hide default HTML checkbox */
@@ -242,10 +242,10 @@ p {
 .slider:before {
     position: absolute;
     content: "";
-    height: 4.25vw;
-    width: 4.25vw;
-    left: 0.4vw;
-    bottom: 0.35vw;
+    height: 4.25vh;
+    width: 4.25vh;
+    left: 0.4vh;
+    bottom: 0.35vh;
     background-color: white;
     -webkit-transition: .4s;
     transition: transform .4s;
@@ -267,7 +267,7 @@ input:checked+.slider:before {
 
 /* Rounded sliders */
 .slider.round {
-    border-radius: 34px;
+    border-radius: 0.5vh;
 }
 
 .slider.round:before {

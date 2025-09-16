@@ -8,9 +8,12 @@ function Landing() {
 
   const [ageChecked, setAgeChecked] = useState(false)
 
-  const [JP, setJP] = useState(localStorage.getItem("JP"))
+  const [JP, setJP] = useState()
 
   useEffect(() => {
+    const container = document.getElementById("container");
+    if (container) container.classList.add("ready");
+
     if (ageChecked) {
       document.getElementById("mainDiv").classList.add("ready")
     } else {
@@ -20,9 +23,12 @@ function Landing() {
   }, [ageChecked]);
 
   useEffect(() => {
-    const container = document.getElementById("container");
-    if (container) container.classList.add("ready");
-  }, [ageChecked]);
+    if (localStorage.getItem("JP") === "false" || !localStorage.getItem("JP")) {
+      setJP(false)
+    } else {
+      setJP(true)
+    }
+  }, []);
 
 
   return (
