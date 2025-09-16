@@ -40,9 +40,10 @@
 #flexRow {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: space-around;
     width: 100%;
     padding: 0.5vh;
+    height: 100%;
 }
 
 #settersDiv.collapsed {
@@ -131,6 +132,10 @@ h1.collapsed {
     padding: 0.5vh;
 }
 
+#ivesMax {
+    margin-bottom: 2vh;
+}
+
 .sensitivitySet {
 
     width: 100%;
@@ -164,7 +169,7 @@ label {
 #boydSet::-moz-range-thumb {
 
     width: 4vh;
-    height: 2.5vh;
+    height: 3vh;
     border-radius: 0.5vh;
     background-color: white;
     cursor: pointer;
@@ -182,8 +187,16 @@ label {
 }
 
 #maxSettersDiv {
-    width: 10vw;
+    width: 15vh;
     padding-left: 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+}
+
+input.maxSet {
+    margin-top: 0.5vh
 }
 
 .maxSetterWrap {
@@ -191,7 +204,7 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin-bottom: 1vh
+
 }
 
 #sensitivitySettersDiv {
@@ -205,6 +218,7 @@ label {
 
 #depthSecret {
     align-self: first baseline;
+    height: 80%;
 }
 
 #secret {
@@ -268,9 +282,9 @@ input:focus+.slider {
 }
 
 input:checked+.slider:before {
-    -webkit-transform: translateX(1.4vw);
-    -ms-transform: translateX(1.4vw);
-    transform: translateX(1.4vw);
+    -webkit-transform: translateX(2vw);
+    -ms-transform: translateX(2vw);
+    transform: translateX(2vw);
 }
 
 /* Rounded sliders */
