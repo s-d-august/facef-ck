@@ -274,7 +274,7 @@ function App({ JP, setJP }) {
             document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
-    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen])
+    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP])
 
     useEffect(() => { // Elements that change based on approach state
 

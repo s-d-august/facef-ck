@@ -1,8 +1,10 @@
 import './Tutorial.css'
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 
 const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
+
+    const [tutorialFired, setTutorialFired] = useState(false)
 
     useEffect(() => {
 
@@ -137,6 +139,7 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
                 tutorialBox.addEventListener("click", runTutorialReset)
                 tutorialBox.style.cursor = "pointer"
             } else {
+
                 tutorialArrow.style.display = "none"
 
                 tutorialBox.style.paddingBottom = "1vh"
@@ -331,14 +334,19 @@ const Tutorial = ({ ivesMode, setInterruptUI, JP }) => {
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
 
         var tutorialString = JP ? "“これから何が起こる事、説明してあげましょうか？”" : '"Shall I explain how this is going to work?"'
-        startTutorial(tutorialString, true)
+        console.log(tutorialFired)
+
+        if (tutorialFired === false) {
+            startTutorial(tutorialString, true)
+            setTutorialFired(true)
+        }
 
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
 
         };
 
-    }, [])
+    }, [JP])
 
 
     return (

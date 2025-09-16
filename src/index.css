@@ -38,8 +38,9 @@ body {
   transform: translateX(-50%);
   display: flex;
   place-items: center;
-  max-width: min(350px, 60vh);
-  width: 100%;
+  max-width: 60vh;
+  width: min(max(100vw, 42vh), 60vh);
+  min-width: 42vh;
   min-height: 100vh;
   position: absolute;
   top: 0;
