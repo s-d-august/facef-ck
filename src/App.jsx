@@ -191,11 +191,14 @@ function App({ JP, setJP }) {
     }, [maxArousal]);
 
     useEffect(() => {
-        if (ivesModeActive) {
-            document.getElementById("secret").style.display = "flex"
+        var secret = document.getElementById("secret")
+        if (!ivesModeActive) {
+            secret.style.opacity = 0
+            secret.style.pointerEvents = "none"
             setIvesMode(true)
         } else {
-            document.getElementById("secret").style.display = "none"
+            secret.style.opacity = 1
+            secret.style.pointerEvents = "all"
             setIvesMode(false)
         }
     }, [ivesModeActive])
