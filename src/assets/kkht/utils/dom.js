@@ -3,7 +3,6 @@ import { Draggable } from "gsap/all"
 gsap.registerPlugin(Draggable)
 
 export const callState = (setter, sec) => {
-    console.log(setter)
     setter(true)
 
     // Wait, then enable
@@ -104,7 +103,6 @@ export const getScreenXY = (id, origin) => {
 
     const rect = element.getBoundingClientRect();
 
-    console.log(id)
 
     if (origin === "top left" || origin === "left top") {
         return { x: rect.left, y: rect.top };
@@ -141,7 +139,6 @@ export const renderProgress = (element, attr, stat, max) => {
 }
 
 export const renderTimelineProgress = (tl, progress) => {
-    console.log(tl, progress);
     tl.progress(progress);
 };
 

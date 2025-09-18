@@ -69,7 +69,6 @@ const Eyecatch = ({ mode, size }) => {
             });
 
             if (mode == "linear") {
-                console.log("linear noted")
                 const tl = gsap.timeline()
                 tl.add(kikaiAnimation())
                 tl.add(hentaiAnimation(), "-=1")

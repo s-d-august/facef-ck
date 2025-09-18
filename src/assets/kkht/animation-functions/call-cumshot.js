@@ -8,7 +8,6 @@ import { callState } from "../utils/dom.js"
 import gsap from "gsap"
 
 export const isFaceClean = (set) => {
-    console.log("isFaceClean fired", set)
     if (set === "yes") {
         var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
         cumArray.forEach(el => {
@@ -54,7 +53,6 @@ export const callCumshot = async (args) => {
         transformOrigin = origin
     } else transformOrigin = "center"
 
-    console.log(transformOrigin)
     var shot, move
     if (shotDuration) {
         shot = shotDuration
@@ -81,7 +79,6 @@ export const callCumshot = async (args) => {
     ) {
         faceWipeCalled = true;
         if (faceWipeArgs && typeof faceWipeArgs.animationSetter === "function") {
-            console.log("faceWipe called external")
             await faceWipe(faceWipeArgs);
         }
         faceWipeCalled = false

@@ -51,7 +51,6 @@ export function eyeMovement({ moveEls, bounds, type }) {
 
 export const bounceBounds = ({ moveEl, bounds }) => {
 
-    console.log(moveEl.getBoundingClientRect().width)
 
     let minX = 0;
     let minY = 0;
@@ -59,7 +58,6 @@ export const bounceBounds = ({ moveEl, bounds }) => {
     let maxX = bounds.getBoundingClientRect().width - size;
     let maxY = bounds.getBoundingClientRect().height - size;
 
-    console.log("maxX: ", maxX, "maxY: ", maxY)
 
     gsap.to(moveEl, {
         duration: 20,
@@ -74,7 +72,6 @@ export const bounceBounds = ({ moveEl, bounds }) => {
     function modX(x) {
         x = parseFloat(x);
         if (x > maxX || x < minX) {
-            console.log("modX fired")
             let delta = ((x % maxX) + maxX) % maxX;
             let start = x > maxX ? 1 : 0;
             let ratio = x / maxX + start;
@@ -88,7 +85,6 @@ export const bounceBounds = ({ moveEl, bounds }) => {
     function modY(y) {
         y = parseFloat(y);
         if (y > maxY || y < minY) {
-            console.log("modY fired")
 
             let delta = ((y % maxY) + maxY) % maxY;
             let start = y > maxY ? 1 : 0;

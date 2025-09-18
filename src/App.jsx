@@ -191,7 +191,6 @@ function App({ JP, setJP }) {
     }, [maxArousal]);
 
     useEffect(() => {
-        console.log(ivesModeActive)
         var secret = document.getElementById("secret")
         if (!ivesModeActive) {
             secret.style.opacity = 0
@@ -205,7 +204,6 @@ function App({ JP, setJP }) {
     }, [ivesModeActive])
 
     useEffect(() => {
-        console.log(ivesMode)
         var elements = gsap.utils.toArray(".ivesMode")
         elements.forEach((el) => {
             el.style.display = ivesMode ? "block" : "none"
@@ -439,12 +437,12 @@ function App({ JP, setJP }) {
 
                 gsap.to(hideHand.current, { opacity: 1, duration: 0.2 });
                 kkht.updateFollowers({
-                    itemsArray: [headParts.current, body.current],
+                    itemsArray: [headParts.current, "#bodyGroup"],
                     x: this.x,
                     y: this.y,
                     ease: "back",
-                    init: 0.25,
-                    increase: 0.2
+                    init: 0.1,
+                    increase: 0
                 })
                 kkht.updateFollowers({
                     itemsArray: hairPullBeads.current,
@@ -479,21 +477,20 @@ function App({ JP, setJP }) {
                     sensitivity: sensitivityRef.current,
                     direction
                 };
-                console.log(percent)
                 this.dragResistance = kkht.isApproachOrOn(args)
 
                 if (depthMethodRef.current === "Training") {
                     this.applyBounds({
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
-                        minY: containerSize.current * -0.07,
+                        minY: containerSize.current * -0.05,
                         maxY: containerSize.current * kkht.trainingMultiplier(
                             {
                                 id: "#hairPullHand",
                                 y: this.y,
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.125,
-                                end: 0.225,
+                                end: 0.22,
                                 hits: 5,
                                 increaseBy: 0.001
                             })
@@ -507,8 +504,8 @@ function App({ JP, setJP }) {
                     this.applyBounds({
                         minX: containerSize.current * -0.0055,
                         maxX: containerSize.current * 0.0055,
-                        minY: containerSize.current * -0.07,
-                        maxY: containerSize.current * 0.225
+                        minY: containerSize.current * -0.05,
+                        maxY: containerSize.current * 0.22
                     }
                     )
                 }
@@ -642,11 +639,11 @@ function App({ JP, setJP }) {
         if (depthMethodRef.current === "Arousal") {
             const draggable = Draggable.get("#hairPullHand");
             if (container && draggable) {
-                const bounds = containerSize.current * (0.125 + (arousalRatio * 0.1));
+                const bounds = containerSize.current * (0.12 + (arousalRatio * 0.1));
                 draggable.applyBounds({
                     minX: containerSize.current * -0.0055,
                     maxX: containerSize.current * 0.0055,
-                    minY: containerSize.current * -0.07,
+                    minY: containerSize.current * -0.05,
                     maxY: bounds
                 });
             }

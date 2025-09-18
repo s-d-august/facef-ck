@@ -28,7 +28,6 @@ export const cumAnimation = (args) => {
         move = moveDuration
     } else move = 1
 
-    console.log(transformOrigin)
 
     return (
         gsap.timeline().set(("#cumshot"), { opacity: 0.9 })

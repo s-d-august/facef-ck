@@ -7,7 +7,6 @@ export const setAllTo = ({ state, setter, value }) => {
 }
 
 export const allOpacityZero = (array) => {
-    console.log("allOpacityZero called")
     return array.every(el => {
         const opacity = window.getComputedStyle(el).opacity;
         return Number(opacity) === 0;
@@ -51,7 +50,6 @@ and returns it to the array so it can be selected again once the animation is co
 const activeElements = [{}]
 
 export const areElementsActive = () => {
-    console.log(activeElements)
     return activeElements
 }
 

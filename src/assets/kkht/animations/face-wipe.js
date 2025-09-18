@@ -4,7 +4,6 @@ import { callState } from "../utils/dom"
 
 export const lowerArms = (args) => {
     const { elements, setter, container, animationSetter } = args
-    console.log(animationSetter)
     animationSetter(true)
     const targets = [...elements]
     gsap.timeline().to(targets, {
@@ -21,7 +20,6 @@ export const lowerArms = (args) => {
 
 export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => {
 
-    console.log("faceWipe called internal")
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
 
     const targets = [...elements, cloth];

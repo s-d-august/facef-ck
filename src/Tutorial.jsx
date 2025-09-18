@@ -153,7 +153,6 @@ const Tutorial = ({ setInterruptUI, JP }) => {
 
 
             var height = document.getElementById("tutorialBackground").getBoundingClientRect().height
-            console.log(height)
             gsap.set("#armsSvg", {
                 y: (height * 0.065)
             })
@@ -251,17 +250,13 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             }
 
             if (tutorialSteps[index].visible) {
-                console.log(tutorialSteps[index].visible)
                 tutorialSteps[index].visible.forEach((el) => {
-                    console.log(el)
                     var element = document.getElementById(el)
-                    console.log(element)
                     element.classList.add("tutorialVisible")
                     if (tutorialSteps[index].display) {
                         element.style.display = (element.id === "hairPullDiv") ? "flex" : "block"
                     }
                     if (tutorialSteps[index].opacity) {
-                        console.log("opacity", element)
                         element.style.opacity = 1
                     }
                 })
@@ -332,7 +327,6 @@ const Tutorial = ({ setInterruptUI, JP }) => {
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
 
         var tutorialString = JP ? "“これから何が起こる事、説明してあげましょうか？”" : '"Shall I explain how this is going to work?"'
-        console.log(tutorialFired)
 
         if (tutorialFired === false) {
             startTutorial(tutorialString, true)

@@ -4,7 +4,6 @@ import { callState } from "../utils/dom";
 export const hesitation = async ({ duration, playDuring, playAfter, setter, deepBreath }) => {
 
     if (duration === 0) {
-        console.log("duration is 0")
         if (typeof playAfter === "function") playAfter();
         return
     }
@@ -15,13 +14,11 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
     var topLineRight = document.getElementById("topLineRightOpen")
     var eyes = [eyeLeft, eyeRight, topLineLeft, topLineRight]
 
-    console.log(playDuring)
 
     if (playDuring) {
         if (!Array.isArray(playDuring)) playDuring = [playDuring]
 
         playDuring.forEach((anim) => {
-            console.log(anim)
             anim.name({ ...anim.args, duration: duration })
         })
     }

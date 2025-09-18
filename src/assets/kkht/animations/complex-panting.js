@@ -5,7 +5,6 @@ import { renderMorph } from "../animation-functions/morph";
 export const pantingAnimation = (args) => {
 
     const { expressionsArray, fastMorph, setSlowMorph, slowMorph, containerSize, toMove, mouthGroup, bodyMain, tongueGroup, tongueDrool, tearLeft, tearRight, setMouthOpen, setMouthOn, setApproach, draggable, alsoMove, setFastMorph, setHoldMouthOpen } = args
-    console.log(setHoldMouthOpen)
     let obj = { p: 0 };
 
     const pantGroup = gsap.timeline({ paused: true })
@@ -20,7 +19,6 @@ export const pantingAnimation = (args) => {
 
     tearsAnimation(tearLeft, tearRight)
 
-    console.log(draggable)
 
     gsap.timeline().to(draggable.target, {
         y: 0, duration: 1.2
