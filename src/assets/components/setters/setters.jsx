@@ -114,7 +114,7 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                     </div>
                     <div id='secretSettingsButtons'>
                         <div id='secret'>
-                            <p>{secret.label}</p>
+
                             <label className='switch'>
                                 <input
                                     checked={secret.value}
@@ -123,6 +123,7 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                                     onChange={e => secret.setter(e.target.checked)} />
                                 <span className="slider round"></span>
                             </label>
+                            <p>{secret.label}</p>
                         </div>
                         <button id='hideSettingsButton'>
                             {JP ? "設定を閉まる" : "Hide Settings"}
