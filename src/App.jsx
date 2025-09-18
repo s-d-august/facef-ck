@@ -191,19 +191,21 @@ function App({ JP, setJP }) {
     }, [maxArousal]);
 
     useEffect(() => {
+        console.log(ivesModeActive)
         var secret = document.getElementById("secret")
         if (!ivesModeActive) {
             secret.style.opacity = 0
             secret.style.pointerEvents = "none"
-            setIvesMode(true)
+            setIvesMode(false)
         } else {
             secret.style.opacity = 1
             secret.style.pointerEvents = "all"
-            setIvesMode(false)
+            setIvesMode(true)
         }
     }, [ivesModeActive])
 
     useEffect(() => {
+        console.log(ivesMode)
         var elements = gsap.utils.toArray(".ivesMode")
         elements.forEach((el) => {
             el.style.display = ivesMode ? "block" : "none"
@@ -771,8 +773,6 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Enable/disable draggables
 
-        interruptUI ? console.log("UI interrupted") : console.log("UI operational")
-
         if (mouthOn || fastMorph || interruptUI || armsUp || hairPullDragging) {
             dickHandParts.current.forEach((el) => {
                 el.style.display = "none"
@@ -798,7 +798,6 @@ function App({ JP, setJP }) {
         }
 
         if (fastMorph || interruptUI) {
-            console.log("UI interrupt triggered")
             gsap.to("#waitIcon", {
                 opacity: 1, duration: 0.2
             })

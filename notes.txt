@@ -1,11 +1,18 @@
-- adjust hairPull
-- adjust faceShadow 
-- flashes after tears
-- reset arousal?
-- more dickDrool paths
-- faceCum positioning issue due to moving svgs I think!!
-- tears in eyes if cum on face/tongue
-- tutorial button doesn't work 
 
+- reset arousal?
+- tears in eyes if cum on face/tongue
 - some way to decrease arousal? certain things increase and certain things decrease?
 
+SWITCH RAVENOUS MODE TO CHECK BOX
+INCRESE SIZE OF DIALOG border
+
+firefox mobile app
+
+adds to home screen
+loads as app
+changes language and back
+"see tutorial" and options render properly
+tutorial skips properly
+tutorial reruns properly
+saves language change
+tutorial runs properly from open
