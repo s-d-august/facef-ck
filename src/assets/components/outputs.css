@@ -25,16 +25,17 @@
   max-height: 97vh;
   width: 1.5vh;
   margin: 0 0.25vh;
-  height: 0;
+  transform: scaleY(0);
+  transform-origin: bottom;
   bottom: 0.25vh;
   position: absolute;
   border-radius: 0.5vh;
   box-sizing: border-box;
-  -webkit-transition: height 0.1s linear;
-  -moz-transition: height 0.1s linear;
-  -ms-transition: height 0.1s linear;
-  -o-transition: height 0.1s linear;
-  transition: height 0.1s linear;
+  -webkit-transition: 0.15s linear;
+  -moz-transition: 0.15s linear;
+  -ms-transition: 0.15s linear;
+  -o-transition: 0.15s linear;
+  transition: 0.15s linear;
 }
 
 #numberOutputsDiv {

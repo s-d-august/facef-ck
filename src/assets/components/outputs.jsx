@@ -14,9 +14,14 @@ const Outputs = ({ ives, boyd, maxIves, maxBoyd }) => {
         element.style[attr] = (newVal(stat) || 0) + '%'
     }
 
+    function renderProgressBars(element, stat, max) {
+        const newVal = stat >= max ? 1 : stat / max;
+        element.style.transform = `scaleY(${newVal || 0})`;
+    }
+
     function renderBars() {
-        renderProgress(boydBarRef.current, boyd, "height", maxBoyd);
-        renderProgress(ivesBarRef.current, ives, "height", maxIves);
+        renderProgressBars(boydBarRef.current, boyd, maxBoyd);
+        renderProgressBars(ivesBarRef.current, ives, maxIves);
     }
 
     useEffect(() => {
