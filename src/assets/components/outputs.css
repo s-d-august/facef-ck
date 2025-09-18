@@ -27,6 +27,7 @@
   margin: 0 0.25vh;
   transform: scaleY(0);
   transform-origin: bottom;
+  will-change: transform;
   bottom: 0.25vh;
   position: absolute;
   border-radius: 0.5vh;
