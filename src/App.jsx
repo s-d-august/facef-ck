@@ -415,7 +415,10 @@ function App({ JP, setJP }) {
             onDrag: function () {
                 gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
                 gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 });
-                kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                const direction = this.getDirection("velocity")
+                if (direction && ((direction === "up") || (direction === "down"))) {
+                    kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                }
             },
             onDragEnd: function () {
                 setHairPullDragging(false);
