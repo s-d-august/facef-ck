@@ -44,19 +44,6 @@ const Dick = (props) => (
             id="dick"
         >
             <defs id="defs1">
-                <linearGradient id="linearGradient60">
-                    <stop id="stop60" offset="0" stopColor="maroon" stopOpacity="1"></stop>
-                    <stop id="stop61" offset="1" stopColor="maroon" stopOpacity="0"></stop>
-                </linearGradient>
-                <linearGradient
-                    xlinkHref="#linearGradient60"
-                    id="linearGradient5"
-                    x1="375.714"
-                    x2="355.917"
-                    y1="1218.325"
-                    y2="1282.675"
-                    gradientUnits="userSpaceOnUse"
-                ></linearGradient>
                 <pattern
                     xlinkHref="#pattern1"
                     id="pattern2"
@@ -171,33 +158,28 @@ const Dick = (props) => (
 
         <svg id="dickHandSvg"
             viewBox="0 0 1133.265 1241.91">
-            <linearGradient id="linearGradient62">
-                <stop id="stop62" offset="0" stopColor="#a00" stopOpacity="1"></stop>
-                <stop id="stop63" offset="1" stopColor="#a00" stopOpacity="0"></stop>
-            </linearGradient>
-            <linearGradient id="linearGradient60">
-                <stop id="stop60" offset="0" stopColor="maroon" stopOpacity="1"></stop>
-                <stop id="stop61" offset="1" stopColor="maroon" stopOpacity="0"></stop>
-            </linearGradient>
-            <linearGradient id="linearGradient6">
-                <stop id="stop6" offset="0.853" stopColor="gray" stopOpacity="1"></stop>
-                <stop id="stop7" offset="0.938" stopColor="gray" stopOpacity="0"></stop>
-            </linearGradient>
-            <linearGradient
-                xlinkHref="#linearGradient60"
-                id="linearGradient5"
-                x1="375.714"
-                x2="355.917"
-                y1="1218.325"
-                y2="1282.675"
-                gradientUnits="userSpaceOnUse"
-            ></linearGradient>
+            <defs>
+                <linearGradient id="linearGradient60">
+                    <stop id="stop60" offset="0" stopColor="maroon" stopOpacity="1"></stop>
+                    <stop id="stop61" offset="1" stopColor="maroon" stopOpacity="0"></stop>
+                </linearGradient>
+                <linearGradient
+                    href="#linearGradient60"
+                    id="linearGradient5"
+                    x1="416.356"
+                    x2="389.786"
+                    y1="1150.588"
+                    y2="1196.311"
+                    gradientUnits="userSpaceOnUse"
+                ></linearGradient>
+            </defs>
+
             <path
                 id="dickHandGrab"
                 className="interact dickHandParts"
                 fill="url(#linearGradient5)"
                 strokeWidth="4"
-                d="M478.277 901.996s-21.052 11.703-34.419 18.633c-7.992 4.143-17.688 7.7-25.347 12.43-6.26 3.867-12.101 9.215-15.442 15.77-8.615 16.899-4.733 37.747-9.51 56.101-8.948 34.39-22.292 67.54-35.67 100.45-17.291 42.55-75.313 159.9-75.313 159.9l137.684 49.23s29.907-96.32 44.143-124.72c5.823-11.62 10.089-12.46 17.33-21.97 4.442-5.84 8.184-10.24 7.376-17.53-.727-6.56-.299-19.32-.299-19.32l-1.763-18.86 1.851-19.96c10.474-9.38 22.823-20.4 27.885-24.7 4.52-3.84 9.205-7.88 12.073-13.07 8.421-15.25 13.609-50.46 13.609-50.46l31.363-12.354s21.314 6.169 33.314 3.092c5.575-1.429 12.653-3.452 16.768-7.474 4.036-3.944 9.327-7.544 10.882-12.969 2.092-7.297-2.296-13.56-6.542-19.852-5.449-8.075-14.806-11.319-21.942-17.306-7.135-5.988-14.607-17.064-20.853-18.603-13.478-3.322-45.646 8.912-66.927 17.871-11.02 4.64-30.839 18.319-30.839 18.319s-2.313-10.798-3.846-16.486c-3.672-13.62-5.566-36.162-5.566-36.162"
+                d="M478.277 901.996s-21.052 11.703-34.419 18.633c-7.992 4.143-17.688 7.7-25.347 12.43-6.26 3.867-12.101 9.215-15.442 15.77-8.615 16.899-4.733 37.747-9.51 56.101-8.948 34.39-22.292 67.54-35.67 100.45-17.291 42.55-31.284 68.456-31.284 68.456l116.516 59.39s7.046-15.036 21.282-43.436c5.823-11.62 10.089-12.46 17.33-21.97 4.442-5.84 8.184-10.24 7.376-17.53-.727-6.56-.299-19.32-.299-19.32l-1.763-18.86 1.851-19.96c10.474-9.38 22.823-20.4 27.885-24.7 4.52-3.84 9.205-7.88 12.073-13.07 8.421-15.25 13.609-50.46 13.609-50.46l31.363-12.354s21.314 6.169 33.314 3.092c5.575-1.429 12.653-3.452 16.768-7.474 4.036-3.944 9.327-7.544 10.882-12.969 2.092-7.297-2.296-13.56-6.542-19.852-5.449-8.075-14.806-11.319-21.942-17.306-7.135-5.988-14.607-17.064-20.853-18.603-13.478-3.322-45.646 8.912-66.927 17.871-11.02 4.64-30.839 18.319-30.839 18.319s-2.313-10.798-3.846-16.486c-3.672-13.62-5.566-36.162-5.566-36.162"
                 display="inline"
             ></path>
 

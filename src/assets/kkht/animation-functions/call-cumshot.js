@@ -79,6 +79,8 @@ export const callCumshot = async (args) => {
         setTimeout(faceWipeHandler, 1500)
         cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
     }
-
+    return () => {
+        clearTimeout(faceWipeHandler, 1500)
+    }
 
 }
