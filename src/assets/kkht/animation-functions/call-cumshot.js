@@ -1,5 +1,4 @@
 var arrayEligibleMap = {}
-var faceWipeCalled = false
 import { getScreenXY, getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 import { cumAnimation } from "../animations/cum.js"
@@ -66,21 +65,20 @@ export const callCumshot = async (args) => {
     cumshot.setAttribute('x2', cumVals.x);
     cumshot.setAttribute('y2', cumVals.y);
 
+    async function faceWipeHandler() {
+        setInterruptUI(true)
+        await faceWipe(faceWipeArgs)
+        setInterruptUI(false)
+    }
+
     if (!(arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0)) {
         callState(setInterruptUI, 1.5)
+        await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
+    } else {
+        callState(setInterruptUI, 1.5)
+        setTimeout(faceWipeHandler, 1500)
+        cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
     }
 
-    await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
 
-    if (
-        arrayEligibleMap[typeKey] &&
-        arrayEligibleMap[typeKey].length === 0 &&
-        !faceWipeCalled
-    ) {
-        faceWipeCalled = true;
-        if (faceWipeArgs && typeof faceWipeArgs.animationSetter === "function") {
-            await faceWipe(faceWipeArgs);
-        }
-        faceWipeCalled = false
-    }
 }
