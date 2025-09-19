@@ -41,6 +41,7 @@ export const callFastMorph = (args) => {
         fromArray.forEach((el) => {
             const match = matchID(el, fromState, toState);
             if (!match) return;
+
             tl.to(el, {
                 duration: 0.5,
                 morphSVG: match,

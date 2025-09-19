@@ -311,11 +311,7 @@ function App({ JP, setJP }) {
                 setter: [setInterruptUI, setInterruptBreath],
                 duration: Math.max((hesitation.current * 2 / 1000), 0),
                 playDuring: {
-                    name: kkht.browRaise,
-                    args: {
-                        browLeft: browLeft.current,
-                        browRight: browRight.current
-                    }
+                    name: kkht.browRaise
                 },
                 playAfter: () => {
                     //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
@@ -332,25 +328,12 @@ function App({ JP, setJP }) {
                     setter: [setInterruptBreath, setInterruptUI],
                     duration: Math.max((hesitation.current * 3 / 1000), 0),
                     playDuring: (arousalTierRef.current < 4) ? [{
-                        name: kkht.browRaise,
-                        args: {
-                            browLeft: browLeft.current,
-                            browRight: browRight.current
-                        }
+                        name: kkht.browRaise
                     },
                     {
-                        name: kkht.tearsAnimation,
-                        args: {
-                            tearRight: tearRight.current,
-                            tearLeft: tearLeft.current,
-
-                        }
+                        name: kkht.tearsAnimation
                     }] : [{
-                        name: kkht.browRaise,
-                        args: {
-                            browLeft: browLeft.current,
-                            browRight: browRight.current
-                        }
+                        name: kkht.browRaise
                     }],
                     playAfter: () => {
                         kkht.mouthCloseFunction({ ...mouthArgs.current, duration: Math.max((hesitation.current * 3 / 1000), 1) });
@@ -493,8 +476,8 @@ function App({ JP, setJP }) {
 
                 if (depthMethodRef.current === "Training") {
                     this.applyBounds({
-                        minX: containerSize.current * -0.0055,
-                        maxX: containerSize.current * 0.0055,
+                        minX: containerSize.current * -0.005,
+                        maxX: containerSize.current * 0.005,
                         minY: containerSize.current * -0.05,
                         maxY: containerSize.current * kkht.trainingMultiplier(
                             {
@@ -514,8 +497,8 @@ function App({ JP, setJP }) {
                             reset: true
                         })
                     this.applyBounds({
-                        minX: containerSize.current * -0.0055,
-                        maxX: containerSize.current * 0.0055,
+                        minX: containerSize.current * -0.005,
+                        maxX: containerSize.current * 0.005,
                         minY: containerSize.current * -0.05,
                         maxY: containerSize.current * 0.22
                     }
@@ -604,8 +587,6 @@ function App({ JP, setJP }) {
                 })
 
                 kkht.browRaise({
-                    browLeft: browLeft.current,
-                    browRight: browRight.current,
                     duration: 1.5
                 })
 
@@ -654,8 +635,8 @@ function App({ JP, setJP }) {
             if (container && draggable) {
                 const bounds = containerSize.current * (0.12 + (arousalRatio * 0.1));
                 draggable.applyBounds({
-                    minX: containerSize.current * -0.0055,
-                    maxX: containerSize.current * 0.0055,
+                    minX: containerSize.current * -0.005,
+                    maxX: containerSize.current * 0.005,
                     minY: containerSize.current * -0.05,
                     maxY: bounds
                 });

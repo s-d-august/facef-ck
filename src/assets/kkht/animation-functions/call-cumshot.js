@@ -71,16 +71,18 @@ export const callCumshot = async (args) => {
         setInterruptUI(false)
     }
 
+    let timeoutID;
+
     if (!(arrayEligibleMap[typeKey] && arrayEligibleMap[typeKey].length === 0)) {
         callState(setInterruptUI, 1.5)
         await cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
     } else {
         callState(setInterruptUI, 1.5)
-        setTimeout(faceWipeHandler, 1500)
+        timeoutID = setTimeout(faceWipeHandler, 1500)
         cumAnimation({ cumID, origin: transformOrigin, shotDuration: shot, moveDuration: move })
     }
     return () => {
-        clearTimeout(faceWipeHandler, 1500)
+        if (timeoutID) clearTimeout(timeoutID);
     }
 
 }
