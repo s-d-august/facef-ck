@@ -397,21 +397,21 @@ function App({ JP, setJP }) {
     useEffect(() => { // Sets up draggables
 
 
-        Draggable.create(".dickHandParts", {
+        Draggable.create("#dickHandSvg", {
             trigger: "#dickHandGrab",
             zIndexBoost: false,
             type: "y",
             cursor: "ns-resize",
             bounds: {
-                minY: containerSize.current * -0.07,
-                maxY: containerSize.current * 0.07,
+                minY: containerSize.current * -0.03,
+                maxY: containerSize.current * 0.03,
             },
             inertia: {
                 y: {
                     end: 0,
                 }
             },
-            edgeResistance: 0.9,
+            edgeResistance: 0.95,
             onDrag: function () {
                 gsap.to(dickHandParts.current, { opacity: 1, duration: 0.2 });
                 gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 });
@@ -419,11 +419,20 @@ function App({ JP, setJP }) {
                 if (direction && ((direction === "up") || (direction === "down"))) {
                     kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
                 }
+                kkht.updateFollowers({
+                    itemsArray: ["#dickHandFingers"],
+                    x: this.x,
+                    y: this.y,
+                    ease: "back",
+                    init: 0.1,
+                    increase: 0.05
+                })
             },
             onDragEnd: function () {
-                setHairPullDragging(false);
-                // Check if still hovering
-
+                gsap.to("#dickHandFingers", {
+                    y: 0,
+                    duration: 0.2
+                })
                 gsap.to(dickHandParts.current, { opacity: 0.2, duration: 0.2 });
                 gsap.to("#hairPullDiv", { opacity: 0.2, duration: 0.2 });
             }
@@ -543,11 +552,12 @@ function App({ JP, setJP }) {
                 setHairPullDragging(false);
 
                 gsap.to(hideHand.current, { opacity: 0.2, duration: 0.2 });
+
             }
 
         });
         hairPullDraggable.current = Draggable.get("#hairPullHand")
-        dickHandDraggable.current = Draggable.get(dickHandParts.current)
+        dickHandDraggable.current = Draggable.get("#dickHandSvg")
 
     }, [depthMethod])
 
