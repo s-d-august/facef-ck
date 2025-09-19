@@ -4,10 +4,9 @@ import gsap from 'gsap';
 
 const Tutorial = ({ setInterruptUI, JP }) => {
 
-    const [tutorialFired, setTutorialFired] = useState(false)
+    const [tutorialFired, setTutorialFired] = useState(localStorage.getItem("testMode") === "true")
 
     useEffect(() => {
-
         function getAllSettingsChildren() {
 
             const getChildren = ["settingsContents", "flexRow", "depthSecret"]
@@ -331,7 +330,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
         if (tutorialFired === false) {
             startTutorial(tutorialString, true)
             setTutorialFired(true)
-        }
+        } else endTutorial()
 
         return () => {
             document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)

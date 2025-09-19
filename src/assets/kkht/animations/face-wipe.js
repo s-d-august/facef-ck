@@ -3,12 +3,13 @@ import { isFaceClean } from "../animation-functions/call-cumshot"
 import { callState } from "../utils/dom"
 
 export const lowerArms = (args) => {
+    const testMode = localStorage.getItem("testMode")
     const { elements, setter, container, animationSetter } = args
     animationSetter(true)
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 1000,
-        duration: 3,
+        duration: testMode ? 0.3 : 3,
         ease: "power1.in",
         onComplete: () => {
             animationSetter(false)
