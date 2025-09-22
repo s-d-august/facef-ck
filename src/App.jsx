@@ -617,6 +617,10 @@ function App({ JP, setJP }) {
 
                 //         kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
+                gsap.to(dickHandParts.current, {
+                    opacity: 0.2,
+                    duration: 0.2
+                })
                 if (mouthOpen) {
                     kkht.callCumshot({
                         cumType: "tongueCum",
@@ -624,6 +628,10 @@ function App({ JP, setJP }) {
                     })
                     setIsTongueCum(true)
                     setHoldMouthOpen(true)
+                    gsap.to(dickHandParts.current, {
+                        opacity: 0.2,
+                        duration: 0.2
+                    })
                 } else {
                     kkht.callCumshot({
                         cumType: "faceCum",
@@ -641,14 +649,14 @@ function App({ JP, setJP }) {
                     })
                 }
             }
-
+            gsap.to(dickHandParts.current, {
+                opacity: 0.2,
+                duration: 0.2
+            })
             setArousal(prev => ({ ...prev, ives: 0 }))
         }
 
-        gsap.to(dickHandParts.current, {
-            opacity: 0.2,
-            duration: 0.2
-        })
+
     }, [arousal.ives, mouthOn, mouthOpenRef])
 
     useEffect(() => { // Elements that change based on arousal.boyd
