@@ -657,7 +657,7 @@ function App({ JP, setJP }) {
         }
 
 
-    }, [arousal.ives, mouthOn, mouthOpenRef])
+    }, [arousal.ives, maxArousal.ives, mouthOn, mouthOpenRef])
 
     useEffect(() => { // Elements that change based on arousal.boyd
         const arousalRatio = arousal.boyd / maxArousal.boyd
