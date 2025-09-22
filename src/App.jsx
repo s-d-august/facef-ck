@@ -485,8 +485,8 @@ function App({ JP, setJP }) {
                                 y: this.y,
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.125,
-                                end: 0.22,
-                                hits: 5,
+                                end: 0.21,
+                                hits: 7,
                                 increaseBy: 0.001
                             })
                     });
@@ -500,7 +500,7 @@ function App({ JP, setJP }) {
                         minX: containerSize.current * -0.005,
                         maxX: containerSize.current * 0.005,
                         minY: containerSize.current * -0.05,
-                        maxY: containerSize.current * 0.22
+                        maxY: containerSize.current * 0.21
                     }
                     )
                 }
@@ -633,7 +633,7 @@ function App({ JP, setJP }) {
         if (depthMethodRef.current === "Arousal") {
             const draggable = Draggable.get("#hairPullHand");
             if (container && draggable) {
-                const bounds = containerSize.current * (0.12 + (arousalRatio * 0.1));
+                const bounds = containerSize.current * (0.11 + (arousalRatio * 0.1));
                 draggable.applyBounds({
                     minX: containerSize.current * -0.005,
                     maxX: containerSize.current * 0.005,
