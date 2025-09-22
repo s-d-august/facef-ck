@@ -630,10 +630,10 @@ function App({ JP, setJP }) {
             if (el.style.opacity !== 0.2) el.style.opacity = 0.2
         })
     }, [arousal.ives, mouthOn, mouthOpenRef])
-
+    const lastBoundsUpdateRef = useRef(0);
     useEffect(() => { // Elements that change based on arousal.boyd
         const arousalRatio = arousal.boyd / maxArousal.boyd
-        const lastBoundsUpdateRef = useRef(0);
+
 
 
         if (depthMethodRef.current === "Arousal") {
