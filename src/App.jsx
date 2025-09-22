@@ -977,8 +977,10 @@ function App({ JP, setJP }) {
                     ]}
                     modes={{
                         id: "depthModeSet",
-                        modes: ["Training", "Arousal", "None"],
-                        modesJP: ["教習", "興奮", "ない"],
+                        modes: {
+                            en: ["Training", "Arousal", "None"],
+                            jp: ["教習", "興奮", "ない"]
+                        },
                         label: !JP ? "Depth Mode:" : "深さモード:",
                         setter: setDepthMethod
                     }}

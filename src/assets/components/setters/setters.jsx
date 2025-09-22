@@ -79,18 +79,12 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                                 name={modes.id}
                                 id={modes.id}
                                 onChange={e => modes.setter(e.target.value)}>
-                                {JP ? modes.modesJP.map((el) => (
+                                {modes.modes.map((el) => (
                                     <option
-                                        key={el}
-                                        value={el}
+                                        key={JP ? el.jp : el.en}
+                                        value={el.en}
 
-                                    >{el}</option>
-                                )) : modes.modes.map((el) => (
-                                    <option
-                                        key={el}
-                                        value={el}
-
-                                    >{el}</option>
+                                    >{JP ? el.jp : el.en}</option>
                                 ))}
                             </select>
                         </div>
