@@ -267,14 +267,14 @@ function App({ JP, setJP }) {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
-        document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
+        //  document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
 
 
         // Cleanup function to remove listeners
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
+            //     document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP])
@@ -625,6 +625,10 @@ function App({ JP, setJP }) {
 
             setArousal(prev => ({ ...prev, ives: 0 }))
         }
+
+        dickHandParts.current.forEach(el => {
+            if (el.style.opacity !== 0.2) el.style.opacity = 0.2
+        })
     }, [arousal.ives, mouthOn, mouthOpenRef])
 
     useEffect(() => { // Elements that change based on arousal.boyd
