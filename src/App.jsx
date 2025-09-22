@@ -566,7 +566,7 @@ function App({ JP, setJP }) {
     useEffect(() => { // Nut function
         if (arousal.ives >= maxArousal.ives) {
 
-            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20))
+            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 35))
 
             if (mouthOn) {
                 kkht.callFastMorph({
@@ -645,10 +645,12 @@ function App({ JP, setJP }) {
             setArousal(prev => ({ ...prev, ives: 0 }))
         }
 
-        dickHandParts.current.forEach(el => {
-            if (el.style.opacity !== 0.2) el.style.opacity = 0.2
+        gsap.to(dickHandParts.current, {
+            opacity: 0.2,
+            duration: 0.2
         })
     }, [arousal.ives, mouthOn, mouthOpenRef])
+
     useEffect(() => { // Elements that change based on arousal.boyd
         const arousalRatio = arousal.boyd / maxArousal.boyd
 
