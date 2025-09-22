@@ -618,6 +618,7 @@ function App({ JP, setJP }) {
                 //         kkht.callState(setInterruptUI, 1.5)
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
                 gsap.to(dickHandParts.current, {
+                    y: 0,
                     opacity: 0.2,
                     duration: 0.2
                 })
@@ -629,6 +630,7 @@ function App({ JP, setJP }) {
                     setIsTongueCum(true)
                     setHoldMouthOpen(true)
                     gsap.to(dickHandParts.current, {
+                        y: 0,
                         opacity: 0.2,
                         duration: 0.2
                     })
@@ -650,6 +652,7 @@ function App({ JP, setJP }) {
                 }
             }
             gsap.to(dickHandParts.current, {
+                y: 0,
                 opacity: 0.2,
                 duration: 0.2
             })

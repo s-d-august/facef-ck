@@ -293,12 +293,12 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             document.getElementById("settersDiv").style.display = "grid"
             document.getElementById("hairPullDiv").style.display = "none"
 
-            const opacityVisible = ["dickHandSvg", "dick", "settersDiv"]
+            const opacityVisible = ["dick", "settersDiv", "dickHandGrab"]
             opacityVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 1
             })
 
-            const faintVisible = ["dickHandFingers", "dickHandGrab", "hairPullDiv"]
+            const faintVisible = ["dickHandSvg", "dickHandFingers", "hairPullDiv"]
             faintVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 0.2
             })

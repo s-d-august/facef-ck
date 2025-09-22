@@ -148,6 +148,10 @@ svg:not(.icon) {
   opacity: 0.2;
 }
 
+#dickHandGrab {
+  opacity: 1;
+}
+
 #dick {
   z-index: 10;
 }
