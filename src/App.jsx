@@ -62,6 +62,8 @@ function App({ JP, setJP }) {
 
     const armLeft = useRef()
     const armRight = useRef()
+    const arousalRef = useRef(arousal);
+
     const arousalTierRef = useRef(arousalTier)
     const body = useRef()
     const browLeft = useRef()
@@ -164,6 +166,10 @@ function App({ JP, setJP }) {
         arousalTierRef.current = arousalTier;
         hesitation.current = ((5 - arousalTier) * 250)
     }, [arousalTier]);
+
+    useEffect(() => {
+        arousalRef.current = arousal;
+    }, [arousal]);
 
     useEffect(() => {
         depthMethodRef.current = depthMethod;
@@ -490,6 +496,19 @@ function App({ JP, setJP }) {
                                 increaseBy: 0.001
                             })
                     });
+                } else if (depthMethodRef.current === "Arousal") {
+                    const draggable = Draggable.get("#hairPullHand");
+                    if (container && draggable) {
+                        const arousalRatio = arousalRef.current.boyd / maxArousalRef.current.boyd;
+
+                        const bounds = containerSize.current * (0.11 + (arousalRatio * 0.1));
+                        draggable.applyBounds({
+                            minX: containerSize.current * -0.005,
+                            maxX: containerSize.current * 0.005,
+                            minY: containerSize.current * -0.05,
+                            maxY: bounds
+                        });
+                    }
                 } else {
                     kkht.trainingMultiplier(
                         {
@@ -630,28 +649,9 @@ function App({ JP, setJP }) {
             if (el.style.opacity !== 0.2) el.style.opacity = 0.2
         })
     }, [arousal.ives, mouthOn, mouthOpenRef])
-    const lastBoundsUpdateRef = useRef(0);
     useEffect(() => { // Elements that change based on arousal.boyd
         const arousalRatio = arousal.boyd / maxArousal.boyd
 
-
-
-        if (depthMethodRef.current === "Arousal") {
-            const draggable = Draggable.get("#hairPullHand");
-            if (container && draggable) {
-                const now = Date.now();
-                if (now - lastBoundsUpdateRef.current > 250) {
-                    lastBoundsUpdateRef.current = now;
-                    const bounds = containerSize.current * (0.11 + (arousalRatio * 0.1));
-                    draggable.applyBounds({
-                        minX: containerSize.current * -0.005,
-                        maxX: containerSize.current * 0.005,
-                        minY: containerSize.current * -0.05,
-                        maxY: bounds
-                    });
-                }
-            }
-        }
         if (!fastMorphRef.current) {
             kkht.callSlowMorph({
                 ...morphArgsTemplate,
