@@ -58,6 +58,7 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
             ease: "power1.out",
             scaleY: 0.75,
             onComplete: () => {
+                cloth.style.opacity = 0
                 setter(false)
                 animationSetter(false)
                 if (hide) {
