@@ -97,7 +97,7 @@ svg:not(.icon) {
   position: absolute;
   max-width: 100%;
   pointer-events: none;
-  bottom: -2vh;
+  bottom: 0;
 }
 
 #body {

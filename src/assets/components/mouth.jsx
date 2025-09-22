@@ -3,6 +3,8 @@ const Mouth = () => (
         id="mouthFull"
         className="headParts"
         viewBox="0 0 1133.265 1241.91"
+        preserveAspectRatio="xMinYMax meet"
+
     >
         <defs id="defs1">
 

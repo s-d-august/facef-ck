@@ -29,8 +29,8 @@ const beadPaths = [
 const HairPullHand = () => (
     <div id="hairPullDiv" className="hideHand">
         <svg
-            xmlns="http://www.w3.org/2000/svg"
-            xmlnsXlink="http://www.w3.org/1999/xlink"
+            preserveAspectRatio="xMinYMax meet"
+
             id="hairPullHand"
             className="noInteract"
             viewBox="0 0 1133.265 1241.91"
@@ -87,6 +87,8 @@ const HairPullHand = () => (
                     viewBox="0 0 1133.265 1241.91"
                     className="hairPullBeads ivesMode"
                     id={bead.id}
+                    preserveAspectRatio="xMinYMax meet"
+
 
                 >
                     <path

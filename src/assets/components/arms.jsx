@@ -4,6 +4,8 @@ const Arms = () => (
     <svg
         id="armsSvg"
         viewBox="0 0 1133.265 1241.91"
+        preserveAspectRatio="xMinYMax meet"
+
     >
 
         <g id="armsLayer" display="inline">

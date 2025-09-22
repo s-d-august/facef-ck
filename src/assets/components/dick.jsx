@@ -6,6 +6,7 @@ const Dick = (props) => (
             id="dickHandFingers"
             className="dickHandParts"
             viewBox="0 0 1133.265 1241.91"
+            preserveAspectRatio="xMinYMax meet"
         >
             <g>
                 <path
@@ -31,7 +32,7 @@ const Dick = (props) => (
             </g>
         </svg>
 
-        <svg viewBox="0 0 1133.265 1241.91" className="topmost">
+        <svg viewBox="0 0 1133.265 1241.91" className="topmost" preserveAspectRatio="xMinYMax meet">
             <line
                 id="cumshot"
                 x1="530" y1="775" x2="530" y2="400"
@@ -42,6 +43,7 @@ const Dick = (props) => (
         <svg
             viewBox="0 0 1133.265 1241.91"
             id="dick"
+            preserveAspectRatio="xMinYMax meet"
         >
             <defs id="defs1">
                 <pattern
@@ -157,7 +159,9 @@ const Dick = (props) => (
         </svg>
 
         <svg id="dickHandSvg"
-            viewBox="0 0 1133.265 1241.91">
+            viewBox="0 0 1133.265 1241.91"
+            preserveAspectRatio="xMinYMax meet"
+        >
             <defs>
                 <linearGradient id="linearGradient60">
                     <stop id="stop60" offset="0" stopColor="maroon" stopOpacity="1"></stop>
