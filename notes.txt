@@ -5,6 +5,8 @@
 
 FACE SHADOW POSITIONING
 
+arousal mode has weird jackhammering effect
+
 chrome mobile
 
 adds to home screen

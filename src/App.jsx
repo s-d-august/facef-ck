@@ -633,17 +633,23 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Elements that change based on arousal.boyd
         const arousalRatio = arousal.boyd / maxArousal.boyd
+        const lastBoundsUpdateRef = useRef(0);
+
 
         if (depthMethodRef.current === "Arousal") {
             const draggable = Draggable.get("#hairPullHand");
             if (container && draggable) {
-                const bounds = containerSize.current * (0.11 + (arousalRatio * 0.1));
-                draggable.applyBounds({
-                    minX: containerSize.current * -0.005,
-                    maxX: containerSize.current * 0.005,
-                    minY: containerSize.current * -0.05,
-                    maxY: bounds
-                });
+                const now = Date.now();
+                if (now - lastBoundsUpdateRef.current > 250) {
+                    lastBoundsUpdateRef.current = now;
+                    const bounds = containerSize.current * (0.11 + (arousalRatio * 0.1));
+                    draggable.applyBounds({
+                        minX: containerSize.current * -0.005,
+                        maxX: containerSize.current * 0.005,
+                        minY: containerSize.current * -0.05,
+                        maxY: bounds
+                    });
+                }
             }
         }
         if (!fastMorphRef.current) {
