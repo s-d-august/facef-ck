@@ -8,7 +8,7 @@ export const lowerArms = (args) => {
     animationSetter(true)
     const targets = [...elements]
     gsap.timeline().to(targets, {
-        y: 900,
+        y: 500,
         duration: testMode ? 0.3 : 3,
         ease: "power1.in",
         onComplete: () => {
