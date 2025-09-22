@@ -53,7 +53,7 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
             y: wipeDistance, duration: 1, ease: "power1.in"
         })
         .to(targets, {
-            y: 1000,
+            y: 900,
             duration: 1,
             ease: "power1.out",
             onComplete: () => {
