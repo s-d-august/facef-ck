@@ -24,7 +24,7 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
 
     const targets = [...elements, cloth];
-    gsap.set(targets, { y: 900, scaleY: 1 }); // Start at y: 1000
+    gsap.set(targets, { y: 950, scaleY: 1 }); // Start at y: 1000
 
     var loopDuration = 0.75
     var wipeDistance = 200
@@ -53,7 +53,7 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
             y: wipeDistance, duration: 1, ease: "power1.in"
         })
         .to(targets, {
-            y: 900,
+            y: 950,
             duration: 1,
             ease: "power1.out",
             onComplete: () => {
