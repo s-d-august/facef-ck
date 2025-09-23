@@ -1,4 +1,4 @@
-#tutorialBackground {
+#messageBackground {
     height: 100vh;
     width: 100%;
     opacity: 0.8;
@@ -8,16 +8,16 @@
     top: 0
 }
 
-.tutorialVisible {
+.messageVisible {
     z-index: 120 !important;
     pointer-events: none;
 }
 
-.tutorialZBoost {
+.messageZBoost {
     z-index: 130 !important
 }
 
-#tutorialContents {
+#messageContents {
     position: fixed;
     z-index: 9999 !important;
     height: fit-content;
@@ -35,17 +35,17 @@
     /* Standard syntax */
 }
 
-#tutorialLine {
+#messageLine {
     font-size: 2vh;
 }
 
-#tutorialArrow {
+#messageArrow {
     font-size: 3vh;
 }
 
-#tutorialBox,
-#tutorialYes,
-#tutorialNo,
+#messageBox,
+#messageYes,
+#messageNo,
 #mouthOrderButton,
 #wipeOrderButton {
     color: white;
@@ -62,7 +62,7 @@
     font-size: 2.5vh;
 }
 
-#tutorialBox {
+#messageBox {
     position: absolute;
     width: calc(100% - 2vh);
     height: fit-content;
@@ -83,21 +83,21 @@
     padding-bottom: 0;
 }
 
-#tutorialYes,
-#tutorialNo {
+#messageYes,
+#messageNo {
     cursor: pointer;
 }
 
-#tutorialYes {
+#messageYes {
     margin-bottom: 0.5vh;
 }
 
-#tutorialLine {
+#messageLine {
     font-size: 2.5vh;
 }
 
-.tutorialReply>p,
-.tutorialReply {
+.messageReply>p,
+.messageReply {
     background-color: #87aade;
     color: rgb(16, 16, 77);
     font-weight: 700;

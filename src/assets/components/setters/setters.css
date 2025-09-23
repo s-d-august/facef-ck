@@ -58,7 +58,7 @@
 }
 
 #settingsIcon,
-#tutorialButton {
+#messageButton {
     height: 7vh;
     width: 7vh;
     fill: white;
@@ -70,7 +70,7 @@
     bottom: 0.5vh;
 }
 
-#tutorialButton {
+#messageButton {
     left: 0.5vh;
 }
 
@@ -79,7 +79,7 @@
     pointer-events: all;
 }
 
-#tutorialButtonText {
+#messageButtonText {
     color: white;
     font-size: 7vh;
     margin: 0 1vh;

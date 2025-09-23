@@ -18,3 +18,4 @@ export * from './utils/dom';
 export * from './utils/gsap';
 export * from './utils/math';
 export * from './utils/stats';
+export * from './utils/messages';

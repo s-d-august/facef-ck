@@ -936,9 +936,9 @@ function App({ JP, setJP }) {
                     <HairPullHand />
                 </div>
 
-                <div className='tutorial' id='tutorialBox'>
-                    <div id='tutorialLine'></div>
-                    <p className='right' id='tutorialArrow'>► </p>
+                <div className='message' id='messageBox'>
+                    <div id='messageLine'></div>
+                    <p className='right' id='messageArrow'>► </p>
 
                 </div>
 
@@ -1013,8 +1013,8 @@ function App({ JP, setJP }) {
                 <Tutorial ivesMode={ivesModeActive}
                     setInterruptUI={setInterruptUI}
                     JP={JP} />
-                <div id='tutorialButton'>
-                    <p id='tutorialButtonText'>?</p>
+                <div id='messageButton'>
+                    <p id='messageButtonText'>?</p>
                 </div>
             </div>
 

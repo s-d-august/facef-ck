@@ -1,6 +1,7 @@
 import './Tutorial.css'
 import { useEffect, useState } from 'react';
 import gsap from 'gsap';
+import * as kkht from "../src/assets/kkht/index"
 
 const Tutorial = ({ setInterruptUI, JP }) => {
 
@@ -33,7 +34,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             "body", "head", "mouthFull", "armsSvg", "positioning"
         ]
 
-        const tutorialSteps = [
+        const messageSteps = [
 
             {
                 line: '"If I tell you to do something, you will do it."',
@@ -92,34 +93,47 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             }
         ];
 
-        const tutorialBox = document.getElementById("tutorialBox")
-        const tutorialYes = document.getElementById("tutorialYes")
-        const tutorialNo = document.getElementById("tutorialNo")
-        const tutorialLine = document.getElementById("tutorialLine")
-        const tutorialArrow = document.getElementById("tutorialArrow")
+        const messageBox = document.getElementById("messageBox")
+        const messageYes = document.getElementById("messageYes")
+        const messageNo = document.getElementById("messageNo")
+        const messageLine = document.getElementById("messageLine")
+        const messageArrow = document.getElementById("messageArrow")
 
-        var index
+        var index = 0
 
-        function tutorialNoHandler() {
-            tutorialBox.style.cursor = "pointer"
-            tutorialNo.removeEventListener("click", tutorialNoHandler)
-            tutorialBox.style.paddingBottom = "0"
-            tutorialArrow.style.display = "block"
+        function messageNoHandler() {
+            messageBox.style.cursor = "pointer"
+            messageNo.removeEventListener("click", messageNoHandler)
+            messageBox.style.paddingBottom = "0"
+            messageArrow.style.display = "block"
             skipTutorial()
         }
 
-        function tutorialYesHandler() {
-            tutorialBox.style.cursor = "pointer"
-            tutorialBox.addEventListener("click", runTutorial)
-            tutorialYes.removeEventListener("click", tutorialYesHandler)
-            tutorialBox.style.paddingBottom = "0"
-            tutorialArrow.style.display = "block"
-            tutorialYes.style.display = "none"
-            tutorialNo.style.display = "none"
-            runTutorial()
+        function messageYesHandler() {
+            messageBox.style.cursor = "pointer"
+            messageBox.addEventListener("click", runMessage)
+            messageYes.removeEventListener("click", messageYesHandler)
+            messageBox.style.paddingBottom = "0"
+            messageArrow.style.display = "block"
+            messageYes.style.display = "none"
+            messageNo.style.display = "none"
+            runMessage()
         }
 
-        function tutorialButtonHandler() {
+        function runMessage() {
+            if (messageSteps[index - 1]) {
+                kkht.dismountMessage({ messageSteps, index })
+            }
+            if (messageSteps[index]) {
+                kkht.advanceMessage({ messageSteps, index })
+                index++
+            } else {
+                endTutorial()
+                messageBox.removeEventListener("click", runMessage)
+            }
+        }
+
+        function messageButtonHandler() {
             var string = JP ? '"なあに、忘れました？"' : '"What, do you need a reminder?"'
             startTutorial(string, false)
         }
@@ -130,159 +144,49 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             document.getElementById("waitIcon").style.display = "none"
 
             if (!yesNo) {
-                tutorialYes.style.display = "none"
-                tutorialNo.style.display = "none"
+                messageYes.style.display = "none"
+                messageNo.style.display = "none"
 
-                tutorialBox.addEventListener("click", runTutorialReset)
-                tutorialBox.style.cursor = "pointer"
+                messageBox.addEventListener("click", runMessage)
+                messageBox.style.cursor = "pointer"
             } else {
 
-                tutorialArrow.style.display = "none"
+                messageArrow.style.display = "none"
 
-                tutorialBox.style.paddingBottom = "1vh"
+                messageBox.style.paddingBottom = "1vh"
 
-                tutorialNo.addEventListener("click", tutorialNoHandler)
+                messageNo.addEventListener("click", messageNoHandler)
 
-                tutorialYes.addEventListener("click", tutorialYesHandler)
+                messageYes.addEventListener("click", messageYesHandler)
             }
 
-            Array.from(document.getElementsByClassName("tutorial")).forEach(el => {
+            Array.from(document.getElementsByClassName("message")).forEach(el => {
                 el.style.display = "block"
             })
 
 
-            var height = document.getElementById("tutorialBackground").getBoundingClientRect().height
+            var height = document.getElementById("messageBackground").getBoundingClientRect().height
             gsap.set("#armsSvg", {
                 y: (height * 0.065)
             })
 
-            tutorialLine.innerHTML = line
+            messageLine.innerHTML = line
 
             bodyVisible.forEach((el) => {
-                document.getElementById(el).classList.add("tutorialVisible")
+                document.getElementById(el).classList.add("messageVisible")
             })
 
             index = 0
         }
 
-        function runTutorialReset() {
-            if (tutorialSteps[index - 1]) {
-                dismountTutorial()
-            }
-            if (tutorialSteps[index]) {
-                advanceTutorial()
-                index++
-            } else {
-                endTutorial()
-                tutorialBox.removeEventListener("click", runTutorialReset)
-            }
-        }
-
-        function runTutorial() {
-            if (tutorialSteps[index - 1]) {
-                dismountTutorial()
-            }
-            if (tutorialSteps[index]) {
-                advanceTutorial()
-                index++
-            } else {
-                endTutorial()
-                tutorialBox.removeEventListener("click", runTutorial)
-            }
-        }
-
-        function dismountTutorial() {
-
-            if (tutorialSteps[index - 1].visible) {
-                tutorialSteps[index - 1].visible.forEach((el) => {
-                    var element = document.getElementById(el)
-                    element.classList.remove("tutorialVisible")
-                    if (tutorialSteps[index - 1].display) element.style.display = "none"
-                    if (tutorialSteps[index - 1].opacity) element.style.opacity = 0
-
-                })
-            }
-
-            if (tutorialSteps[index - 1].zBoost) {
-                tutorialSteps[index - 1].zBoost.forEach((el) => {
-                    var element = document.getElementById(el)
-                    element.classList.remove("tutorialZBoost")
-                    if (tutorialSteps[index - 1].display) element.style.display = "none"
-                    if (tutorialSteps[index - 1].opacity) element.style.opacity = 0
-
-                })
-            }
-
-            if (tutorialSteps[index - 1].shade) {
-                tutorialSteps[index - 1].shade.forEach((el) => {
-                    if (!el.style) return
-                    el.style.opacity = 1
-                })
-            }
-
-        }
-
-        function advanceTutorial() {
-
-            tutorialLine.innerHTML = JP ? tutorialSteps[index].jp : tutorialSteps[index].line
-
-            if (tutorialSteps[index].type) {
-                document.getElementById("depthModeSet").value = tutorialSteps[index].type
-            }
-
-            if (tutorialSteps[index].collapseOn) {
-                tutorialSteps[index].collapseOn.forEach((el) => {
-                    document.getElementById(el).classList.add("collapsed")
-                })
-            }
-            if (tutorialSteps[index].collapseOff) {
-                tutorialSteps[index].collapseOff.forEach((el) => {
-                    document.getElementById(el).classList.remove("collapsed")
-                })
-            }
-
-            if (tutorialSteps[index].shade) {
-                tutorialSteps[index].shade.forEach((el) => {
-                    if (!el.style) return
-                    el.style.opacity = 0.2
-                })
-            }
-
-            if (tutorialSteps[index].visible) {
-                tutorialSteps[index].visible.forEach((el) => {
-                    var element = document.getElementById(el)
-                    element.classList.add("tutorialVisible")
-                    if (tutorialSteps[index].display) {
-                        element.style.display = (element.id === "hairPullDiv") ? "flex" : "block"
-                    }
-                    if (tutorialSteps[index].opacity) {
-                        element.style.opacity = 1
-                    }
-                })
-            }
-
-            if (tutorialSteps[index].zBoost) {
-                tutorialSteps[index].zBoost.forEach((el) => {
-                    var element = document.getElementById(el)
-                    element.classList.add("tutorialZBoost")
-                    if (tutorialSteps[index].display) {
-                        if (tutorialSteps[index].display) {
-                            element.style.display = "block"
-                        }
-                    }
-                    if (tutorialSteps[index].opacity) element.style.opacity = 1
-                })
-            }
-        }
-
         function endTutorial() {
 
-            Array.from(document.getElementsByClassName("tutorial")).forEach(el => {
+            Array.from(document.getElementsByClassName("message")).forEach(el => {
                 el.style.display = "none"
             })
 
             bodyVisible.forEach((el) => {
-                document.getElementById(el).classList.remove("tutorialVisible")
+                document.getElementById(el).classList.remove("messageVisible")
             })
 
             const blockVisible = ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg", "armsSvg"]
@@ -308,7 +212,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
                 duration: 1
             })
 
-            tutorialBox.removeEventListener("click", endTutorial)
+            messageBox.removeEventListener("click", endTutorial)
 
             setInterruptUI(false)
             document.getElementById("waitIcon").style.display = "block"
@@ -317,23 +221,23 @@ const Tutorial = ({ setInterruptUI, JP }) => {
 
 
         function skipTutorial() {
-            tutorialLine.innerHTML = JP ? '"あら、何と熱心ですね ❤"' : '"My, aren\'t you eager ❤"'
-            tutorialYes.style.display = "none"
-            tutorialNo.style.display = "none"
-            tutorialBox.addEventListener("click", endTutorial)
+            messageLine.innerHTML = JP ? '"あら、何と熱心ですね ❤"' : '"My, aren\'t you eager ❤"'
+            messageYes.style.display = "none"
+            messageNo.style.display = "none"
+            messageBox.addEventListener("click", endTutorial)
         }
 
-        document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
+        document.getElementById("messageButton").addEventListener("click", messageButtonHandler)
 
-        var tutorialString = JP ? "“これから何が起こる事、説明してあげましょうか？”" : '"Shall I explain how this is going to work?"'
+        var messageString = JP ? "“これから何が起こる事、説明してあげましょうか？”" : '"Shall I explain how this is going to work?"'
 
         if (tutorialFired === false) {
-            startTutorial(tutorialString, true)
+            startTutorial(messageString, true)
             setTutorialFired(true)
         }
 
         return () => {
-            document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
+            document.getElementById("messageButton").removeEventListener("click", messageButtonHandler)
 
         };
 
@@ -341,21 +245,21 @@ const Tutorial = ({ setInterruptUI, JP }) => {
 
 
     return (
-        <div id='tutorial' className='tutorial'>
+        <div id='message' className='message'>
 
-            <div id='tutorialContents'>
-                <div id='tutorialYes' className='tutorialReply'>
+            <div id='messageContents'>
+                <div id='messageYes' className='messageReply '>
                     <p>{JP ? "何が．．．" : "What...?"} </p>
                     <p className='right'>{JP ? "(コントロールの説明)" : "(read an explanation of the controls)"}</p>
                 </div>
 
-                <div id='tutorialNo' className='tutorialReply'>
+                <div id='messageNo' className='messageReply '>
                     <p>{JP ? "お願いだから、早く終わらせてくださいよ．．．" : "Please, just...hurry up and get it over with."}</p>
                     <p className='right'>{JP ? "(説明をスキップ)" : "(skip the explanation)"}</p>
                 </div>
             </div>
 
-            <div id="tutorialBackground"></div>
+            <div id="messageBackground"></div>
         </div>
 
     )
