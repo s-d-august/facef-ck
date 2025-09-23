@@ -682,7 +682,7 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Elements that change based on arousal.boyd
 
-        if (arousal.boyd >= maxArousal.boyd) {
+        if (arousal.boyd >= (maxArousal.boyd * 0.99)) {
             const targets = [
                 hairPullDraggable.current.target,
                 ...hairPullBeads.current,
