@@ -125,7 +125,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
                 kkht.dismountMessage({ messageSteps, index })
             }
             if (messageSteps[index]) {
-                kkht.advanceMessage({ messageSteps, index })
+                kkht.advanceMessage({ messageSteps, index, messageBox, JP })
                 index++
             } else {
                 endTutorial()
