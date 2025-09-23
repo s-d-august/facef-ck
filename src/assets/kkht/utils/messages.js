@@ -1,6 +1,6 @@
 
 
-export const startMessage = ({ line, yesNo, messageYes, messageNo, messageArrow, messageBox, messageLine }) => {
+export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messageNo, messageArrow, messageBox, messageLine }) => {
 
     setInterruptUI(true)
     document.getElementById("waitIcon").style.display = "none"
@@ -9,7 +9,7 @@ export const startMessage = ({ line, yesNo, messageYes, messageNo, messageArrow,
         messageYes.style.display = "none"
         messageNo.style.display = "none"
 
-        messageBox.addEventListener("click", runMessage)
+        messageBox.addEventListener("click", runMessageHandler)
         messageBox.style.cursor = "pointer"
     } else {
 
@@ -76,8 +76,14 @@ export const dismountMessage = ({ messageSteps, index }) => {
     }
 }
 
-export const advanceMessage = ({ messageSteps, index, JP }) => {
+export const advanceMessage = ({ messageSteps, index, JP, messageBox }) => {
     messageLine.innerHTML = JP ? messageSteps[index].jp : messageSteps[index].line
+
+    if (messageSteps[index].color) {
+        messageBox.style.backgroundColor = "#87aade"
+    } else {
+        messageBox.style.backgroundColor = "#a00"
+    }
 
     if (messageSteps[index].type) {
         document.getElementById("depthModeSet").value = messageSteps[index].type
@@ -147,4 +153,43 @@ export const messageYesHandler = (args) => {
     messageYes.style.display = "none";
     messageNo.style.display = "none";
     actualFunc(funcArgs);
+}
+
+export const endTutorial = () => {
+
+    Array.from(document.getElementsByClassName("message")).forEach(el => {
+        el.style.display = "none"
+    })
+
+    bodyVisible.forEach((el) => {
+        document.getElementById(el).classList.remove("messageVisible")
+    })
+
+    const blockVisible = ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg", "armsSvg"]
+    blockVisible.forEach((el) => {
+        document.getElementById(el).style.display = "block"
+    })
+
+    document.getElementById("settersDiv").style.display = "grid"
+    document.getElementById("hairPullDiv").style.display = "none"
+
+    const opacityVisible = ["dick", "settersDiv", "dickHandGrab"]
+    opacityVisible.forEach((el) => {
+        document.getElementById(el).style.opacity = 1
+    })
+
+    const faintVisible = ["dickHandSvg", "dickHandFingers", "hairPullDiv"]
+    faintVisible.forEach((el) => {
+        document.getElementById(el).style.opacity = 0.2
+    })
+
+    gsap.to("#armsSvg", {
+        y: 0,
+        duration: 1
+    })
+
+    messageBox.removeEventListener("click", endTutorial)
+
+    setInterruptUI(false)
+    document.getElementById("waitIcon").style.display = "block"
 }

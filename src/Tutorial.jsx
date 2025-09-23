@@ -133,7 +133,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             }
         }
 
-        function messageButtonHandler() {
+        function tutorialButtonHandler() {
             var string = JP ? '"なあに、忘れました？"' : '"What, do you need a reminder?"'
             startTutorial(string, false)
         }
@@ -227,7 +227,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
             messageBox.addEventListener("click", endTutorial)
         }
 
-        document.getElementById("messageButton").addEventListener("click", messageButtonHandler)
+        document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
 
         var messageString = JP ? "“これから何が起こる事、説明してあげましょうか？”" : '"Shall I explain how this is going to work?"'
 
@@ -237,7 +237,7 @@ const Tutorial = ({ setInterruptUI, JP }) => {
         }
 
         return () => {
-            document.getElementById("messageButton").removeEventListener("click", messageButtonHandler)
+            document.getElementById("tutorialButton").removeEventListener("click", tutorialButtonHandler)
 
         };
 

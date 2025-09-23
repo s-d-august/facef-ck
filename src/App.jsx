@@ -663,6 +663,11 @@ function App({ JP, setJP }) {
     }, [arousal.ives, maxArousal.ives, mouthOn, mouthOpenRef])
 
     useEffect(() => { // Elements that change based on arousal.boyd
+
+        if (arousal.boyd >= maxArousal.boyd) {
+            kkht.endingHandler({ maxArousal, JP, setArousal })
+        }
+
         const arousalRatio = arousal.boyd / maxArousal.boyd
 
         if (!fastMorphRef.current) {
@@ -1013,8 +1018,8 @@ function App({ JP, setJP }) {
                 <Tutorial ivesMode={ivesModeActive}
                     setInterruptUI={setInterruptUI}
                     JP={JP} />
-                <div id='messageButton'>
-                    <p id='messageButtonText'>?</p>
+                <div id='tutorialButton'>
+                    <p id='tutorialButtonText'>?</p>
                 </div>
             </div>
 

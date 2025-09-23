@@ -58,7 +58,7 @@
 }
 
 #settingsIcon,
-#messageButton {
+#tutorialButton {
     height: 7vh;
     width: 7vh;
     fill: white;
@@ -70,7 +70,7 @@
     bottom: 0.5vh;
 }
 
-#messageButton {
+#tutorialButton {
     left: 0.5vh;
 }
 
@@ -79,7 +79,7 @@
     pointer-events: all;
 }
 
-#messageButtonText {
+#tutorialButtonText {
     color: white;
     font-size: 7vh;
     margin: 0 1vh;
@@ -154,7 +154,7 @@ h1.collapsed {
 }
 
 #boydSet {
-    background: cornflowerblue;
+    background: #87aade;
 
 }
 
