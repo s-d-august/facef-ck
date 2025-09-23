@@ -273,7 +273,25 @@ function App({ JP, setJP }) {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
-        //  document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
+        document.getElementById("boydBarWrap").addEventListener("dblclick", () => {
+            gsap.to([
+                hairPullDraggable.current.target,
+                ...hairPullBeads.current,
+                ...headParts.current,
+                body.current
+            ], {
+                y: 0,
+                duration: 2
+            })
+
+            hairPullDraggable.current.update();
+
+            setApproach(false)
+            setMouthOn(false)
+            setMouthOpen(false)
+            setHoldMouthOpen(false)
+            kkht.endingHandler({ maxArousal, JP, setArousal, setInterruptUI })
+        });
 
 
         // Cleanup function to remove listeners
@@ -665,7 +683,43 @@ function App({ JP, setJP }) {
     useEffect(() => { // Elements that change based on arousal.boyd
 
         if (arousal.boyd >= maxArousal.boyd) {
-            kkht.endingHandler({ maxArousal, JP, setArousal })
+            const targets = [
+                hairPullDraggable.current.target,
+                ...hairPullBeads.current,
+                ...headParts.current,
+                body.current
+            ]
+
+            console.log(targets)
+
+            gsap.to(hairPullDraggable.current.target, {
+                y: -10,
+                duration: 2
+            })
+
+            gsap.to(hairPullBeads.current, {
+                y: -10,
+                duration: 2
+            })
+
+            gsap.to(headParts.current, {
+                y: -10,
+                duration: 2
+            })
+
+            gsap.to(body.current, {
+                y: -10,
+                duration: 2
+            })
+
+            hairPullDraggable.current.update();
+
+            setApproach(false)
+            setMouthOn(false)
+            setMouthOpen(false)
+            setHoldMouthOpen(false)
+
+            kkht.endingHandler({ maxArousal, JP, setArousal, setInterruptUI })
         }
 
         const arousalRatio = arousal.boyd / maxArousal.boyd

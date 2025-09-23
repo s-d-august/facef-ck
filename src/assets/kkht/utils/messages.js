@@ -1,6 +1,12 @@
+import gsap from "gsap"
+
+const bodyVisible = [
+    "body", "head", "mouthFull", "armsSvg", "positioning"
+]
+
+export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messageNo, messageArrow, messageBox, messageLine, setInterruptUI }) => {
 
 
-export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messageNo, messageArrow, messageBox, messageLine }) => {
 
     setInterruptUI(true)
     document.getElementById("waitIcon").style.display = "none"
@@ -81,8 +87,10 @@ export const advanceMessage = ({ messageSteps, index, JP, messageBox }) => {
 
     if (messageSteps[index].color) {
         messageBox.style.backgroundColor = "#87aade"
+        messageBox.style.color = "#10104d"
     } else {
         messageBox.style.backgroundColor = "#a00"
+        messageBox.style.color = "white"
     }
 
     if (messageSteps[index].type) {
@@ -155,10 +163,11 @@ export const messageYesHandler = (args) => {
     actualFunc(funcArgs);
 }
 
-export const endTutorial = () => {
+export const endMessage = () => {
 
-    Array.from(document.getElementsByClassName("message")).forEach(el => {
-        el.style.display = "none"
+    const displayNone = ["messageBox", "message"]
+    displayNone.forEach((el) => {
+        document.getElementById(el).style.display = "none"
     })
 
     bodyVisible.forEach((el) => {
@@ -171,7 +180,6 @@ export const endTutorial = () => {
     })
 
     document.getElementById("settersDiv").style.display = "grid"
-    document.getElementById("hairPullDiv").style.display = "none"
 
     const opacityVisible = ["dick", "settersDiv", "dickHandGrab"]
     opacityVisible.forEach((el) => {
@@ -188,8 +196,7 @@ export const endTutorial = () => {
         duration: 1
     })
 
-    messageBox.removeEventListener("click", endTutorial)
+    messageBox.removeEventListener("click", endMessage)
 
-    setInterruptUI(false)
     document.getElementById("waitIcon").style.display = "block"
 }
