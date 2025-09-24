@@ -274,6 +274,7 @@ function App({ JP, setJP }) {
             mouthButton.current.classList.remove("hide")
 
             if (isFaceCum) {
+                tearsVisible()
                 wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {
