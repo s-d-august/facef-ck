@@ -223,39 +223,16 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Face wipe, order buttons
 
-        function tearsVisible() {
-            if (gsap.getProperty(tearLeft.current, "scale") !== 1
-                || gsap.getProperty(tearLeft.current, "opacity") !== 0.8) {
-
-                console.log("scale", gsap.getProperty(tearLeft.current, "scale"))
-                console.log("opacity", gsap.getProperty(tearLeft.current, "opacity"))
-                gsap.set(tearLeft.current, {
-                    morphSVG: tearLeft.current
-                })
-                gsap.set(tearRight.current, {
-                    morphSVG: tearRight.current
-                })
-                gsap.set([tearLeft.current, tearRight.current], {
-                    clearProps: "all"
-                })
-                gsap.to([tearLeft.current, tearRight.current], {
-                    opacity: 0.8,
-                    scale: 1,
-                    duration: 0.5
-                })
-            }
-        }
-
         if (holdMouthOpen) {
             if (isTongueCum) {
-                tearsVisible()
+                kkht.tearsVisible(arousalTierRef.current)
                 mouthButton.current.innerText = !JP ? '"Swallow for me."' : '“良い子にして飲みなさい。”'
             } else mouthButton.current.innerText = !JP ? '"Close your mouth."' : '“お口を閉じて。”'
         } else {
             mouthButton.current.innerText = !JP ? '"Open your mouth."' : '“お口を開けて。”'
         }
 
-        if (isFaceCum) tearsVisible()
+        if (isFaceCum) kkht.tearsVisible(arousalTierRef.current)
 
         if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
@@ -274,7 +251,7 @@ function App({ JP, setJP }) {
             mouthButton.current.classList.remove("hide")
 
             if (isFaceCum) {
-                tearsVisible()
+                kkht.tearsVisible(arousalTierRef.current)
                 wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {

@@ -1,5 +1,31 @@
 import gsap from "gsap"
 
+export const tearsVisible = (arousalTier) => {
+    if (gsap.getProperty("#tearLeft", "scale") !== 1
+        || gsap.getProperty("#tearLeft", "opacity") !== 0.8) {
+
+        if (arousalTier < 4) {
+
+            gsap.set("#tearLeft", {
+                morphSVG: "#tearLeft"
+            })
+            gsap.set("#tearRight", {
+                morphSVG: "#tearRight"
+            })
+            gsap.set(["#tearLeft", "#tearRight"], {
+                clearProps: "all"
+            })
+            gsap.to(["#tearLeft", "#tearRight"], {
+                opacity: 0.8,
+                scale: 1,
+                duration: 0.5
+            })
+        }
+
+
+    }
+}
+
 export const tearsAnimation = ({ secondary }) => {
 
     var tear1, tear2, tearDown1, tearDown2, t1, t2, num
@@ -40,12 +66,12 @@ export const tearsAnimation = ({ secondary }) => {
                 morphSVG: tearDown2
             }, 1)
             .to(tear1, {
-                y: 1000,
+                y: 3000,
                 duration: "random(2, 3)",
                 ease: "power4.in"
             }, "<0")
             .to(tear2, {
-                y: 1000,
+                y: 3000,
                 duration: "random(2, 3)",
                 ease: "power4.in"
             }, "<0.2")
