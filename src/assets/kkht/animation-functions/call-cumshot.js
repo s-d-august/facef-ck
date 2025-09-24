@@ -6,21 +6,7 @@ import { faceWipe } from "../animations/face-wipe.js"
 import { callState } from "../utils/dom.js"
 import gsap from "gsap"
 
-export const isFaceClean = (set) => {
-    if (set === "yes") {
-        var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
-        cumArray.forEach(el => {
-            if (typeof el === "string") el = document.getElementById(el);
-            if (el) gsap.set(el, { opacity: 0 })
-        })
-        arrayEligibleMap = {}
-        return true
-    }
 
-    if (arrayEligibleMap.faceCum && arrayEligibleMap.faceCum.length > 0)
-        return false
-    else return true
-}
 
 export const callCumshot = async (args) => {
     const { cumType, untilEmpty, origin, shotDuration, moveDuration, faceWipeArgs, setInterruptUI } = args

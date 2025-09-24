@@ -1,5 +1,4 @@
 import gsap from "gsap"
-import { isFaceClean } from "../animation-functions/call-cumshot"
 import { callState } from "../utils/dom"
 
 export const lowerArms = (args) => {
@@ -19,7 +18,18 @@ export const lowerArms = (args) => {
 
 }
 
-export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => {
+var arrayEligibleMap = {}
+
+export const cleanFace = () => {
+    var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
+    cumArray.forEach(el => {
+        if (typeof el === "string") el = document.getElementById(el);
+        if (el) gsap.set(el, { opacity: 0 })
+    })
+    arrayEligibleMap = {}
+}
+
+export const faceWipe = ({ elements, cloth, setter, hide, animationSetter, setIsFaceCum }) => {
 
     if (cloth.style.opacity !== "1") cloth.style.opacity = 1;
 
@@ -50,7 +60,8 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
                     opacity: 0,
                     scale: 0
                 })
-                isFaceClean("yes")
+                cleanFace()
+                setIsFaceCum(false)
             }
         })
         .to(targets, {

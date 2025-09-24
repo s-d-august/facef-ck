@@ -255,6 +255,8 @@ function App({ JP, setJP }) {
             mouthButton.current.innerText = !JP ? '"Open your mouth."' : '“お口を開けて。”'
         }
 
+        if (isFaceCum) tearsVisible()
+
         if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
             wipeButton.current.classList.add("inactive")
@@ -271,25 +273,24 @@ function App({ JP, setJP }) {
             wipeButton.current.classList.add("hide")
             mouthButton.current.classList.remove("hide")
 
-            if (kkht.isFaceClean() === false) {
-                tearsVisible()
-                setIsFaceCum(true)
+            if (isFaceCum) {
                 wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {
                 wipeButton.current.classList.add("hide");
-                setIsFaceCum(false)
             }
         }
 
         function handleFaceWipeClick() {
             wipeButton.current.classList.add("hide");
+            setIsFaceCum(false)
             kkht.faceWipe({
                 elements: [chain.current, armRight.current, armLeft.current],
                 cloth: cloth.current,
                 hide: [hairPullHandGrab.current, dickHandGrab.current],
                 setter: setArmsUp,
-                animationSetter: setInterruptUI
+                animationSetter: setInterruptUI,
+                setIsFaceCum
             });
         }
         function lowerArmsHandler() {
@@ -666,6 +667,7 @@ function App({ JP, setJP }) {
                         duration: 0.2
                     })
                 } else {
+                    setIsFaceCum(true)
                     kkht.callCumshot({
                         cumType: "faceCum",
                         untilEmpty: true,
@@ -677,7 +679,8 @@ function App({ JP, setJP }) {
                             elements: [chain.current, armRight.current, armLeft.current],
                             cloth: cloth.current,
                             setter: setArmsUp,
-                            animationSetter: setInterruptUI
+                            animationSetter: setInterruptUI,
+                            setIsFaceCum
                         }
                     })
                 }
