@@ -75,7 +75,7 @@ const Tutorial = ({
                 shade: settingsChildren,
                 collapseOff: ["settersDiv", "settingsContents"],
                 collapseOn: ["settingsIcon"],
-                type: JP ? "教習" : "Training",
+                type: "Training",
                 display: "none",
                 opacity: true
             },
@@ -84,7 +84,7 @@ const Tutorial = ({
                 jp: '"または、あなたが好きになりますうちにね。"',
                 shade: settingsChildren,
                 visible: ["settersDiv"],
-                type: JP ? "興奮" : "Arousal",
+                type: "Arousal",
                 display: "none",
                 opacity: true
             },
@@ -94,7 +94,7 @@ const Tutorial = ({
                 visible: ["boydBarWrap", "progressBarsDiv"],
                 collapseOn: ["settersDiv", "settingsContents"],
                 collapseOff: ["settingsIcon"],
-                type: JP ? "教習" : "Training",
+                type: "Training",
             },
             {
                 line: '"So don\'t look so scared, alright?"',
