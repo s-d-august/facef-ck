@@ -55,11 +55,11 @@ function App({ JP, setJP }) {
     })
     const [maxArousal, setmaxArousal] = useState({
         ives: 2500,
-        boyd: 10000,
+        boyd: 1000,
     })
     const [sensitivity, setSensitivity] = useState({
         ives: 3.5,
-        boyd: 1.5,
+        boyd: 4.5,
     })
 
     const armLeft = useRef()
@@ -220,6 +220,11 @@ function App({ JP, setJP }) {
     }, [ivesMode])
 
     useEffect(() => { // Face wipe, order buttons
+
+        console.log("mouthOpen: ", mouthOpen)
+        console.log("mouthOn: ", mouthOn)
+        console.log("holdMouthOpen: ", holdMouthOpen)
+        console.log("approach: ", approach)
 
         if (holdMouthOpen) {
             if (isTongueCum) {
@@ -667,12 +672,6 @@ function App({ JP, setJP }) {
     useEffect(() => { // Elements that change based on arousal.boyd
 
         if (arousal.boyd >= (maxArousal.boyd * 0.95)) {
-            const targets = [
-                hairPullDraggable.current.target,
-                ...hairPullBeads.current,
-                ...headParts.current,
-                body.current
-            ]
 
             gsap.to(hairPullDraggable.current.target, {
                 y: -10,
@@ -684,12 +683,12 @@ function App({ JP, setJP }) {
                 duration: 2
             })
 
-            gsap.to(headParts.current, {
+            gsap.to(body.current, {
                 y: -10,
                 duration: 2
             })
 
-            gsap.to(body.current, {
+            gsap.to(headParts.current, {
                 y: -10,
                 duration: 2
             })
@@ -697,19 +696,29 @@ function App({ JP, setJP }) {
             hairPullDraggable.current.update();
 
 
-
-            kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
-
             if (!boydNutRef.current) {
-                console.log("Threshold reached");
-                console.log(targets)
 
-                setApproach(false)
-                setMouthOn(false)
-                setMouthOpen(false)
-                setHoldMouthOpen(false)
+                setTimeout(() => {
+                    kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
+                    setApproach(false)
+                    setMouthOn(false)
+                    setMouthOpen(false)
+                    setHoldMouthOpen(false)
+                }, 1000)
 
-                kkht.endingHandler({ maxArousal: maxArousalRef.current, JP, setArousal, setInterruptUI })
+                kkht.endingHandler({
+                    maxArousal: maxArousalRef.current,
+                    JP,
+                    setArousal,
+                    setInterruptUI,
+                    setMouthOn,
+                    setMouthOpen,
+                    setHoldMouthOpen,
+                    setApproach,
+                    draggable: hairPullDraggable.current,
+                    mouthArgs: mouthArgs.current
+                })
+
                 boydNutRef.current = true;
             }
 
@@ -747,7 +756,7 @@ function App({ JP, setJP }) {
 
         return () => {
         };
-    }, [arousal.boyd, maxArousal.boyd, depthMethod]);
+    }, [arousal.boyd, maxArousal.boyd, depthMethod, approach, mouthOn, mouthOpen, holdMouthOpen]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
         const eyeCenterRight = document.getElementById("eyeCenterRight");

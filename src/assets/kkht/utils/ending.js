@@ -1,6 +1,8 @@
 import * as kkht from "../index"
+import gsap from "gsap"
+import { useEffect } from "react"
 
-export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI }) => {
+export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, setApproach, setMouthOn, setMouthOpen, setHoldMouthOpen, draggable, mouthArgs }) => {
     const messageBox = document.getElementById("messageBox")
     const messageYes = document.getElementById("messageYes")
     const messageNo = document.getElementById("messageNo")
