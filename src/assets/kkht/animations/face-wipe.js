@@ -46,6 +46,10 @@ export const faceWipe = ({ elements, cloth, setter, hide, animationSetter }) => 
         .to(targets, {
             y: -100, duration: loopDuration, ease: "power1.out",
             onComplete: () => {
+                gsap.set(["#tearLeft", "#tearRight"], {
+                    opacity: 0,
+                    scale: 0
+                })
                 isFaceClean("yes")
             }
         })

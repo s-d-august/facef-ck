@@ -1,8 +1,78 @@
 import gsap from "gsap"
+import * as kkht from "../index"
 
 const bodyVisible = [
     "body", "head", "mouthFull", "armsSvg", "positioning"
 ]
+
+export const resetPosition = ({
+    hairPullDraggable,
+    hairPullBeads,
+    body,
+    headParts,
+    boydNutRef,
+    mouthArgs,
+    setApproach,
+    setMouthOn,
+    setHoldMouthOpen,
+    setMouthOpen,
+    func
+}) => {
+
+    console.log(hairPullDraggable,
+        hairPullBeads,
+        body,
+        headParts,
+        boydNutRef,
+        mouthArgs,
+        setApproach,
+        setMouthOn,
+        setHoldMouthOpen,
+        setMouthOpen,
+        func)
+
+    gsap.to(hairPullDraggable.current.target, {
+        y: -10,
+        duration: 2
+    })
+
+    gsap.to(hairPullBeads.current, {
+        y: -10,
+        duration: 2
+    })
+
+    gsap.to(body.current, {
+        y: -10,
+        duration: 2
+    })
+
+    gsap.to(headParts.current, {
+        y: -10,
+        duration: 2
+    })
+
+    hairPullDraggable.current.update();
+
+
+    if (!boydNutRef) {
+
+        setTimeout(() => {
+            kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
+            setApproach(false)
+            setMouthOn(false)
+            setMouthOpen(false)
+            setHoldMouthOpen(false)
+        }, 500)
+
+        func()
+
+        boydNutRef = true;
+    }
+
+    else {
+        boydNutRef = false; // Reset if below threshold
+    }
+}
 
 export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messageNo, messageArrow, messageBox, messageLine, setInterruptUI }) => {
 

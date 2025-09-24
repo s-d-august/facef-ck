@@ -30,6 +30,8 @@ function App({ JP, setJP }) {
     const [isTongueCum, setIsTongueCum] = useState(false)
     const isTongueCumRef = useRef()
 
+    const [isFaceCum, setIsFaceCum] = useState(false)
+
     const [depthMethod, setDepthMethod] = useState("Training")
 
     const [hairPullDragging, setHairPullDragging] = useState(false)
@@ -221,13 +223,32 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Face wipe, order buttons
 
-        console.log("mouthOpen: ", mouthOpen)
-        console.log("mouthOn: ", mouthOn)
-        console.log("holdMouthOpen: ", holdMouthOpen)
-        console.log("approach: ", approach)
+        function tearsVisible() {
+            if (gsap.getProperty(tearLeft.current, "scale") !== 1
+                || gsap.getProperty(tearLeft.current, "opacity") !== 0.8) {
+
+                console.log("scale", gsap.getProperty(tearLeft.current, "scale"))
+                console.log("opacity", gsap.getProperty(tearLeft.current, "opacity"))
+                gsap.set(tearLeft.current, {
+                    morphSVG: tearLeft.current
+                })
+                gsap.set(tearRight.current, {
+                    morphSVG: tearRight.current
+                })
+                gsap.set([tearLeft.current, tearRight.current], {
+                    clearProps: "all"
+                })
+                gsap.to([tearLeft.current, tearRight.current], {
+                    opacity: 0.8,
+                    scale: 1,
+                    duration: 0.5
+                })
+            }
+        }
 
         if (holdMouthOpen) {
             if (isTongueCum) {
+                tearsVisible()
                 mouthButton.current.innerText = !JP ? '"Swallow for me."' : '“良い子にして飲みなさい。”'
             } else mouthButton.current.innerText = !JP ? '"Close your mouth."' : '“お口を閉じて。”'
         } else {
@@ -251,10 +272,13 @@ function App({ JP, setJP }) {
             mouthButton.current.classList.remove("hide")
 
             if (kkht.isFaceClean() === false) {
+                tearsVisible()
+                setIsFaceCum(true)
                 wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {
                 wipeButton.current.classList.add("hide");
+                setIsFaceCum(false)
             }
         }
 
@@ -290,7 +314,7 @@ function App({ JP, setJP }) {
             //     document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
-    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP])
+    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP, isFaceCum])
 
     useEffect(() => { // Elements that change based on approach state
 
@@ -704,7 +728,7 @@ function App({ JP, setJP }) {
                     setMouthOn(false)
                     setMouthOpen(false)
                     setHoldMouthOpen(false)
-                }, 1000)
+                }, 500)
 
                 kkht.endingHandler({
                     maxArousal: maxArousalRef.current,
@@ -1075,7 +1099,19 @@ function App({ JP, setJP }) {
                 </div>
                 <Tutorial ivesMode={ivesModeActive}
                     setInterruptUI={setInterruptUI}
-                    JP={JP} />
+                    JP={JP}
+                    arousal={arousal}
+                    maxArousal={maxArousal}
+                    hairPullDraggable={hairPullDraggable}
+                    hairPullBeads={hairPullBeads}
+                    body={body}
+                    headParts={headParts}
+                    boydNutRef={boydNutRef.current}
+                    mouthArgs={mouthArgs}
+                    setApproach={setApproach}
+                    setMouthOn={setMouthOn}
+                    setHoldMouthOpen={setHoldMouthOpen}
+                    setMouthOpen={setMouthOpen} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>

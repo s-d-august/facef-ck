@@ -3,7 +3,20 @@ import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 import * as kkht from "../src/assets/kkht/index"
 
-const Tutorial = ({ setInterruptUI, JP }) => {
+const Tutorial = ({
+    setInterruptUI,
+    JP,
+    hairPullDraggable,
+    hairPullBeads,
+    body,
+    headParts,
+    boydNutRef,
+    mouthArgs,
+    setApproach,
+    setMouthOn,
+    setMouthOpen,
+    setHoldMouthOpen
+}) => {
 
     const [tutorialFired, setTutorialFired] = useState(false)
 
@@ -135,7 +148,22 @@ const Tutorial = ({ setInterruptUI, JP }) => {
 
         function tutorialButtonHandler() {
             var string = JP ? '"なあに、忘れました？"' : '"What, do you need a reminder?"'
-            startTutorial(string, false)
+            kkht.resetPosition(
+                {
+                    hairPullDraggable,
+                    hairPullBeads,
+                    body,
+                    headParts,
+                    boydNutRef,
+                    mouthArgs,
+                    setApproach,
+                    setMouthOn,
+                    setHoldMouthOpen,
+                    setMouthOpen,
+                    func: () => startTutorial(string, false)
+                }
+            )
+
         }
 
         function startTutorial(line, yesNo) {
