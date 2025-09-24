@@ -55,11 +55,11 @@ function App({ JP, setJP }) {
     })
     const [maxArousal, setmaxArousal] = useState({
         ives: 2500,
-        boyd: 2000,
+        boyd: 10000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 1,
-        boyd: 5,
+        ives: 3.5,
+        boyd: 1.5,
     })
 
     const armLeft = useRef()
