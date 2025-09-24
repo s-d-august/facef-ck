@@ -696,16 +696,18 @@ function App({ JP, setJP }) {
 
             hairPullDraggable.current.update();
 
-            setApproach(false)
-            setMouthOn(false)
-            setMouthOpen(false)
-            setHoldMouthOpen(false)
+
 
             kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
 
             if (!boydNutRef.current) {
                 console.log("Threshold reached");
                 console.log(targets)
+
+                setApproach(false)
+                setMouthOn(false)
+                setMouthOpen(false)
+                setHoldMouthOpen(false)
 
                 kkht.endingHandler({ maxArousal: maxArousalRef.current, JP, setArousal, setInterruptUI })
                 boydNutRef.current = true;
