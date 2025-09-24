@@ -297,6 +297,15 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Elements that change based on approach state
 
+        if (mouthOn && arousalTier < 2) {
+            kkht.tearsVisible(arousalTierRef.current)
+        }
+
+        if (!interruptUI && !mouthOn && !isFaceCum && !isTongueCum && (gsap.getProperty("#tearLeft", "scale") === 1
+            || gsap.getProperty("#tearLeft", "opacity") === 0.8)) {
+            kkht.tearsAnimation({ secondary: false })
+        }
+
         if (mouthCloseBlockRef.current) {
             mouthCloseBlockRef.current = false; // Reset for next time
             return;
@@ -318,7 +327,7 @@ function App({ JP, setJP }) {
         } else if (!approach || !mouthOn || !holdMouthOpen) {
             kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
         }
-    }, [approach, holdMouthOpen, mouthOn])
+    }, [approach, holdMouthOpen, mouthOn, isFaceCum, interruptUI])
 
     function mouthOpenClose() {
         if (mouthOpenRef.current === false) { // if setting mouth to open
