@@ -45,6 +45,8 @@ function App({ JP, setJP }) {
     const droolIntervalRef = useRef(null);
     const sweatIntervalRef = useRef(null);
 
+    const boydNutRef = useRef(false)
+
     const [arousalTier, setArousalTier] = useState(1)
 
     const [arousal, setArousal] = useState({
@@ -53,11 +55,11 @@ function App({ JP, setJP }) {
     })
     const [maxArousal, setmaxArousal] = useState({
         ives: 2500,
-        boyd: 10000,
+        boyd: 2000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 3.5,
-        boyd: 1.5,
+        ives: 1,
+        boyd: 5,
     })
 
     const armLeft = useRef()
@@ -273,25 +275,7 @@ function App({ JP, setJP }) {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
-        document.getElementById("boydBarWrap").addEventListener("dblclick", () => {
-            gsap.to([
-                hairPullDraggable.current.target,
-                ...hairPullBeads.current,
-                ...headParts.current,
-                body.current
-            ], {
-                y: 0,
-                duration: 2
-            })
-
-            hairPullDraggable.current.update();
-
-            setApproach(false)
-            setMouthOn(false)
-            setMouthOpen(false)
-            setHoldMouthOpen(false)
-            kkht.endingHandler({ maxArousal, JP, setArousal, setInterruptUI })
-        });
+        //  document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
 
 
         // Cleanup function to remove listeners
@@ -690,8 +674,6 @@ function App({ JP, setJP }) {
                 body.current
             ]
 
-            console.log(targets)
-
             gsap.to(hairPullDraggable.current.target, {
                 y: -10,
                 duration: 2
@@ -719,7 +701,18 @@ function App({ JP, setJP }) {
             setMouthOpen(false)
             setHoldMouthOpen(false)
 
-            kkht.endingHandler({ maxArousal, JP, setArousal, setInterruptUI })
+            kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
+
+            if (!boydNutRef.current) {
+                console.log("Threshold reached");
+                console.log(targets)
+
+                kkht.endingHandler({ maxArousal: maxArousalRef.current, JP, setArousal, setInterruptUI })
+                boydNutRef.current = true;
+            }
+
+        } else {
+            boydNutRef.current = false; // Reset if below threshold
         }
 
         const arousalRatio = arousal.boyd / maxArousal.boyd
@@ -752,7 +745,7 @@ function App({ JP, setJP }) {
 
         return () => {
         };
-    }, [arousal.boyd, depthMethod]);
+    }, [arousal.boyd, maxArousal.boyd, depthMethod]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
         const eyeCenterRight = document.getElementById("eyeCenterRight");

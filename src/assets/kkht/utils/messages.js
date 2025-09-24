@@ -6,8 +6,6 @@ const bodyVisible = [
 
 export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messageNo, messageArrow, messageBox, messageLine, setInterruptUI }) => {
 
-
-
     setInterruptUI(true)
     document.getElementById("waitIcon").style.display = "none"
 
@@ -15,7 +13,9 @@ export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messa
         messageYes.style.display = "none"
         messageNo.style.display = "none"
 
-        messageBox.addEventListener("click", runMessageHandler)
+        messageBox.removeEventListener("click", runMessageHandler);
+        messageBox.addEventListener("click", runMessageHandler);
+
         messageBox.style.cursor = "pointer"
     } else {
 
@@ -37,6 +37,10 @@ export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messa
     bodyVisible.forEach((el) => {
         document.getElementById(el).classList.add("messageVisible")
     })
+
+    return () => {
+        messageBox.removeEventListener("click", runMessageHandler)
+    }
 }
 
 export const runMessage = ({ messageSteps, index, endFunc }) => {

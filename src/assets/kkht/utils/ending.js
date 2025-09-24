@@ -64,23 +64,50 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI }) =>
 
     const decreaseBy = maxArousal.boyd / (endingSteps.length)
 
+    console.log(maxArousal.boyd, endingSteps.length, decreaseBy)
+
     const line = JP ? '"ほら、僕が言った通りに楽しみました。いつも通りにね。"' : '"See? I said you\'d enjoy yourself. You always do."'
 
-    kkht.startMessage({
-        line,
-        yesNo: false,
-        messageYes,
-        messageNo,
-        messageArrow,
-        messageBox,
-        messageLine,
-        runMessageHandler,
-        setInterruptUI
-    })
+    startMessage()
+
+    function startMessage() {
+
+        const bodyVisible = [
+            "body", "head", "mouthFull", "armsSvg", "positioning"
+        ]
+
+        setInterruptUI(true)
+        document.getElementById("waitIcon").style.display = "none"
+
+        messageYes.style.display = "none"
+        messageNo.style.display = "none"
+
+        messageBox.removeEventListener("click", runMessageHandler);
+        messageBox.addEventListener("click", runMessageHandler);
+
+        messageBox.style.cursor = "pointer"
+
+
+        Array.from(document.getElementsByClassName("message")).forEach(el => {
+            el.style.display = "block"
+        })
+
+        messageLine.innerHTML = line
+
+        bodyVisible.forEach((el) => {
+            document.getElementById(el).classList.add("messageVisible")
+        })
+
+        return () => {
+            messageBox.removeEventListener("click", runMessageHandler)
+        }
+    }
 
     function runMessageHandler() {
 
-        kkht.valChange(["boyd"], "down", maxArousal, setArousal, null, decreaseBy)
+        kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
+
+        console.log(decreaseBy)
 
         if (endingSteps[index - 1]) {
             kkht.dismountMessage({ messageSteps: endingSteps, index })
