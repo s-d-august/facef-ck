@@ -40,15 +40,17 @@ export const tearsAnimation = ({ secondary }) => {
                 morphSVG: tearDown2
             }, 1)
             .to(tear1, {
-                y: 3000,
+                y: 1000,
                 duration: "random(2, 3)",
                 ease: "power4.in"
             }, "<0")
             .to(tear2, {
-                y: 3000,
+                y: 1000,
                 duration: "random(2, 3)",
                 ease: "power4.in"
             }, "<0.2")
+            .set(tear1, { opacity: 0, y: 0, scale: 0, morphSVG: tear1 })
+            .set(tear2, { opacity: 0, y: 0, scale: 0, morphSVG: tear2 })
     )
 
 }
