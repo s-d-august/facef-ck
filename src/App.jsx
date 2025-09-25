@@ -57,12 +57,15 @@ function App({ JP, setJP }) {
     })
     const [maxArousal, setmaxArousal] = useState({
         ives: 2500,
-        boyd: 10000,
+        boyd: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 4.5,
+        ives: 3.5,
         boyd: 1.5,
     })
+
+    const endLineRef = useRef(0)
+    const endCallRef = useRef(0)
 
     const armLeft = useRef()
     const armRight = useRef()
@@ -198,6 +201,9 @@ function App({ JP, setJP }) {
             setIvesModeActive(true)
             localStorage.setItem("ivesModeActive", "true")
         }
+
+        if (arousal.ives > maxArousal.ives) setArousal(prev => ({ ...prev, ives: maxArousal.ives * 0.95 }))
+        if (arousal.boyd > maxArousal.boyd) setArousal(prev => ({ ...prev, boyd: maxArousal.boyd * 0.95 }))
     }, [maxArousal]);
 
     useEffect(() => {
@@ -685,7 +691,7 @@ function App({ JP, setJP }) {
 
     useEffect(() => { // Elements that change based on arousal.boyd
 
-        if (arousal.boyd >= (maxArousal.boyd * 0.95)) {
+        if (arousal.boyd >= (maxArousal.boyd * 0.97)) {
 
             gsap.to(hairPullDraggable.current.target, {
                 y: -10,
@@ -730,7 +736,9 @@ function App({ JP, setJP }) {
                     setHoldMouthOpen,
                     setApproach,
                     draggable: hairPullDraggable.current,
-                    mouthArgs: mouthArgs.current
+                    mouthArgs: mouthArgs.current,
+                    endLineRef,
+                    endCallRef
                 })
 
                 boydNutRef.current = true;
@@ -770,7 +778,7 @@ function App({ JP, setJP }) {
 
         return () => {
         };
-    }, [arousal.boyd, maxArousal.boyd, depthMethod, approach, mouthOn, mouthOpen, holdMouthOpen]);
+    }, [arousal.boyd, depthMethod, approach, mouthOn, mouthOpen, holdMouthOpen]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
         const eyeCenterRight = document.getElementById("eyeCenterRight");

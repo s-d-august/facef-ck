@@ -3,9 +3,8 @@
 - tears in eyes if cum on face/tongue
 - some way to decrease arousal? certain things increase and certain things decrease?
 
-FACE SHADOW POSITIONING
-
-arousal mode has weird jackhammering effect
+arousal doesn't reset properly if boydNut triggered by lowering maxArousal
+svgs break if boydNut triggered by maxArousal? sometimes??
 
 chrome mobile
 

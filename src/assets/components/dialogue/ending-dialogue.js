@@ -1,12 +1,6 @@
-import { useRef } from "react"
+export const endingDialogue = (index) => {
 
-export const endingDialogue = () => {
-
-    const endingIndex = useRef(0)
-
-    const item = endingScripts[endingIndex.current];
-    if (endingScripts[endingIndex.current++]) endingIndex.current++;
-    return item;
+    return endingScripts[index]
 }
 
 const endingScripts = [

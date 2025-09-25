@@ -3,16 +3,13 @@ import gsap from "gsap"
 import { useRef } from "react"
 import { endingDialogue } from "./ending-dialogue"
 
-export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI }) => {
+export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endLineRef, endCallRef }) => {
     const messageBox = document.getElementById("messageBox")
     const messageYes = document.getElementById("messageYes")
     const messageNo = document.getElementById("messageNo")
     const messageLine = document.getElementById("messageLine")
 
-    const index = useRef(0)
-    const callIndex = useRef(0)
-
-    const endingSteps = endingDialogue()
+    const endingSteps = endingDialogue(endCallRef.current)
 
     const decreaseBy = maxArousal.boyd / (endingSteps.length)
 
@@ -57,9 +54,9 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI }) =>
             el.style.display = "block"
         })
 
-        messageLine.innerHTML = JP ? callIndexLines[callIndex].jp : callIndexLines[callIndex].en
+        messageLine.innerHTML = JP ? callIndexLines[endCallRef.current].jp : callIndexLines[endCallRef.current].en
 
-        if (callIndexLines[callIndex++]) callIndex++
+        if (callIndexLines[endCallRef.current + 1]) endCallRef.current = endCallRef.current + 1
 
         bodyVisible.forEach((el) => {
             document.getElementById(el).classList.add("messageVisible")
@@ -71,18 +68,19 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI }) =>
     }
 
     function runMessageHandler() {
-
+        const currentIndex = endLineRef.current;
         kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
 
-        console.log(decreaseBy)
+        console.log(currentIndex)
 
-        if (endingSteps[index - 1]) {
-            kkht.dismountMessage({ messageSteps: endingSteps, index })
+        if (endingSteps[currentIndex - 1]) {
+            kkht.dismountMessage({ messageSteps: endingSteps, index: currentIndex })
         }
-        if (endingSteps[index]) {
-            kkht.advanceMessage({ messageSteps: endingSteps, index, JP, messageBox })
-            index++
+        if (endingSteps[currentIndex]) {
+            kkht.advanceMessage({ messageSteps: endingSteps, index: currentIndex, JP, messageBox });
+            endLineRef.current = endLineRef.current + 1
         } else {
+            endLineRef.current = 0
             messageBox.removeEventListener("click", runMessageHandler)
             kkht.endMessage()
             setInterruptUI(false)
