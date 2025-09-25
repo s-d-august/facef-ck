@@ -25,27 +25,25 @@ export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
 
     var tear1, tear2, tearDown1, tearDown2, t1, t2, num
 
-    var tearAppear = areTears
-        ? gsap.timeline()
-            .to(tear1, {
-                delay: 2,
-                duration: 1,
-                ease: "power1.in",
-                morphSVG: tearDown1
-            }, 1)
-        : gsap.timeline()
-            .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })
-            .set(tear2, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear2 })
-            .to([tear1, tear2], {
-                scale: 1,
-                duration: 2,
-                ease: "power1.out"
-            })
-            .to(tear1, {
-                duration: 1,
-                ease: "power1.in",
-                morphSVG: tearDown1
-            }, 1)
+    function tearAppear() {
+        if (areTears) {
+            return (
+                gsap.timeline()
+                    .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })
+                    .set(tear2, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear2 })
+                    .to([tear1, tear2], {
+                        scale: 1,
+                        duration: 2,
+                        ease: "power1.out"
+                    })
+                    .to(tear1, {
+                        duration: 1,
+                        ease: "power1.in",
+                        morphSVG: tearDown1
+                    }, 1)
+            )
+        }
+    }
 
 
     if (Math.random() > 0.5) {
@@ -65,7 +63,13 @@ export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
 
     return (
         gsap.timeline()
-            .add(tearAppear)
+            .add(tearAppear())
+            .to(tear1, {
+                delay: areTears ? 2 : 0,
+                duration: 1,
+                ease: "power1.in",
+                morphSVG: tearDown1
+            }, 1)
             .to(tear2, {
                 duration: 1,
                 ease: "power1.in",
