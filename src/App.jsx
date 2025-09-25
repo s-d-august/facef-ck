@@ -67,6 +67,8 @@ function App({ JP, setJP }) {
     const endLineRef = useRef(0)
     const endCallRef = useRef(0)
 
+    const [areTears, setAreTears] = useState(false)
+
     const armLeft = useRef()
     const armRight = useRef()
     const arousalRef = useRef(arousal);
@@ -231,14 +233,14 @@ function App({ JP, setJP }) {
 
         if (holdMouthOpen) {
             if (isTongueCum) {
-                kkht.tearsVisible(arousalTierRef.current)
+                kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
                 mouthButton.current.innerText = !JP ? '"Swallow for me."' : '“良い子にして飲みなさい。”'
             } else mouthButton.current.innerText = !JP ? '"Close your mouth."' : '“お口を閉じて。”'
         } else {
             mouthButton.current.innerText = !JP ? '"Open your mouth."' : '“お口を開けて。”'
         }
 
-        if (isFaceCum) kkht.tearsVisible(arousalTierRef.current)
+        if (isFaceCum) kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
 
         if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
@@ -257,7 +259,7 @@ function App({ JP, setJP }) {
             mouthButton.current.classList.remove("hide")
 
             if (isFaceCum) {
-                kkht.tearsVisible(arousalTierRef.current)
+                kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
                 wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {
@@ -304,12 +306,11 @@ function App({ JP, setJP }) {
     useEffect(() => { // Elements that change based on approach state
 
         if (mouthOn && arousalTier < 2) {
-            kkht.tearsVisible(arousalTierRef.current)
+            kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
         }
 
-        if (!interruptUI && !mouthOn && !isFaceCum && !isTongueCum && (gsap.getProperty("#tearLeft", "scale") === 1
-            || gsap.getProperty("#tearLeft", "opacity") === 0.8)) {
-            kkht.tearsAnimation({ secondary: false })
+        if (areTears && !interruptUI && !mouthOn && !isFaceCum && !isTongueCum) {
+            kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
         }
 
         if (mouthCloseBlockRef.current) {
@@ -362,7 +363,8 @@ function App({ JP, setJP }) {
                         name: kkht.browRaise
                     },
                     {
-                        name: kkht.tearsAnimation
+                        name: kkht.tearsAnimation,
+                        args: { areTears, setAreTears }
                     }] : [{
                         name: kkht.browRaise
                     }],
@@ -373,7 +375,7 @@ function App({ JP, setJP }) {
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
-                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ secondary: true })
+                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ secondary: true, areTears, setAreTears })
                     }
                 })
 
