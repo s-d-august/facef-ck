@@ -14,7 +14,6 @@ export const clearVisible = (array) => {
 }
 
 export const mouthCloseFunction = ({ tongueCum, mouthGroup, tongueGroup, tongueDrool, mouthOpenSetter, duration }) => {
-    console.log("mouthClose called")
     const visible = (tongueCum).filter(el => getComputedStyle(el).opacity !== "0");
 
     gsap.to(mouthGroup, { y: 0, duration: duration ?? 1, ease: "power1.out" })

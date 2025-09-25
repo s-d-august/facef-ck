@@ -1,7 +1,8 @@
 import './Tutorial.css'
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import gsap from 'gsap';
 import * as kkht from "../src/assets/kkht/index"
+import { tutorialDialogue } from './assets/components/dialogue/tutorial-dialogue';
 
 const Tutorial = ({
     setInterruptUI,
@@ -15,96 +16,20 @@ const Tutorial = ({
     setApproach,
     setMouthOn,
     setMouthOpen,
-    setHoldMouthOpen
+    setHoldMouthOpen,
+    arousalTier
 }) => {
 
     const [tutorialFired, setTutorialFired] = useState(false)
+    const tutorialIndexRef = useRef(0);
 
     useEffect(() => {
-        function getAllSettingsChildren() {
-
-            const getChildren = ["settingsContents", "flexRow", "depthSecret"]
-
-            const result = [];
-
-            getChildren.forEach(el => {
-                document.getElementById(el).childNodes.forEach((child) => {
-
-                    if ((child.id !== "flexRow")
-                        && (child.id !== "depthSecret")
-                        && (child.id !== "modeSetterDiv")) {
-                        result.push(child);
-                    }
-                });
-            })
-            return result;
-        }
-
-        getAllSettingsChildren()
-        const settingsChildren = getAllSettingsChildren()
 
         const bodyVisible = [
             "body", "head", "mouthFull", "armsSvg", "positioning"
         ]
 
-        const messageSteps = [
 
-            {
-                line: '"If I tell you to do something, you will do it."',
-                jp: '"僕に指示されたら、あなたは言う通りにします。"',
-                visible: ["ordersDiv"]
-            },
-            {
-                line: '"If move you around, you will stay where I put you."',
-                jp: '"動かされたら、そのままにしておきます。"',
-                visible: ["hairPullDiv"],
-                display: "none",
-                opacity: true
-            },
-            {
-                line: '"That includes if I bring myself off on your face."',
-                jp: '"僕がその顔を彩ってもね。"',
-                zBoost: ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg"],
-                display: "none",
-                opacity: true
-            },
-            {
-                line: '"You may not be able to <em>take</em> me very far at first, but I\'m sure you\'ll get better with some training."',
-                jp: '"最初に僕のをあまり深くいただけないが、多少の教習で上手になるはずです。"',
-                visible: ["settersDiv"],
-                shade: settingsChildren,
-                collapseOff: ["settersDiv", "settingsContents"],
-                collapseOn: ["settingsIcon"],
-                type: "Training",
-                display: "none",
-                opacity: true
-            },
-            {
-                line: '"Or maybe as you come to enjoy it."',
-                jp: '"または、あなたが好きになりますうちにね。"',
-                shade: settingsChildren,
-                visible: ["settersDiv"],
-                type: "Arousal",
-                display: "none",
-                opacity: true
-            },
-            {
-                line: '"Because you <em>will</em> come to enjoy it, in your own way."',
-                jp: '"いずれ好きになりますよ、あなたなりに。きっと。"',
-                visible: ["boydBarWrap", "progressBarsDiv"],
-                collapseOn: ["settersDiv", "settingsContents"],
-                collapseOff: ["settingsIcon"],
-                type: "Training",
-            },
-            {
-                line: '"So don\'t look so scared, alright?"',
-                jp: '"だから、そう怖がらなくてもいいのですよ？"'
-            },
-            {
-                line: '"This is going to be fun ❤"',
-                jp: '"楽しみましょう ❤"'
-            }
-        ];
 
         const messageBox = document.getElementById("messageBox")
         const messageYes = document.getElementById("messageYes")
@@ -134,6 +59,8 @@ const Tutorial = ({
         }
 
         function runMessage() {
+            const messageSteps = tutorialDialogue(arousalTier)
+
             if (messageSteps[index - 1]) {
                 kkht.dismountMessage({ messageSteps, index })
             }
@@ -147,7 +74,36 @@ const Tutorial = ({
         }
 
         function tutorialButtonHandler() {
-            var string = JP ? '"なあに、忘れました？"' : '"What, do you need a reminder?"'
+            let index = tutorialIndexRef.current;
+
+            const tutorialCallDialogue = [
+                {
+                    en: '"What, do you need a reminder?"',
+                    jp: '"なあに、忘れました？"'
+                },
+                {
+                    en: '"What, do you need <em>another</em> reminder?"',
+                    jp: '"なあに、マタ忘れました？"'
+                },
+                {
+                    en: '"How many times do you expect me to go over this?"',
+                    jp: '"何回言わせるつもりですか？"'
+                },
+                {
+                    en: '"You know, I\'m starting to think you\'re stalling."',
+                    jp: '"これは段々と時間稼ぎのにおいがしますよ。"'
+                },
+                {
+                    en: '"Fine, but this is the last time, understand?"',
+                    jp: '"説明は言いますが、これで最後ですよ。"'
+                },
+            ]
+            if (index === tutorialCallDialogue.length - 1) {
+                document.getElementById("tutorialButton").style.display = "none"
+            }
+
+            const string = JP ? tutorialCallDialogue[index].jp : tutorialCallDialogue[index].en
+
             kkht.resetPosition(
                 {
                     hairPullDraggable,
@@ -163,7 +119,8 @@ const Tutorial = ({
                     func: () => startTutorial(string, false)
                 }
             )
-
+            index++;
+            tutorialIndexRef.current = index;
         }
 
         function startTutorial(line, yesNo) {
@@ -269,7 +226,7 @@ const Tutorial = ({
 
         };
 
-    }, [JP])
+    }, [JP, arousalTier])
 
 
     return (

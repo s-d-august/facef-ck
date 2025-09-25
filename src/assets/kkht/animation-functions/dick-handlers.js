@@ -35,7 +35,7 @@ export const isApproachOrOn =
 var maxYLoggedRef = {};
 var multRef = {};
 
-export const trainingMultiplier = ({ id, y, maxY, initial, end, hits, increaseBy, reset }) => {
+export const trainingMultiplier = ({ id, y, maxY, initial, end, hits, increaseBy, reset, output }) => {
 
     if (reset) {
         multRef[id] = undefined
@@ -48,6 +48,8 @@ export const trainingMultiplier = ({ id, y, maxY, initial, end, hits, increaseBy
     if (maxYLoggedRef[id] === undefined) {
         maxYLoggedRef[id] = 0;
     }
+
+    if (output) return multRef[id];
 
     if (multRef[id] >= end) return end;
     else if (y + 1 >= maxY) {

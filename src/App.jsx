@@ -1101,7 +1101,8 @@ function App({ JP, setJP }) {
                     setApproach={setApproach}
                     setMouthOn={setMouthOn}
                     setHoldMouthOpen={setHoldMouthOpen}
-                    setMouthOpen={setMouthOpen} />
+                    setMouthOpen={setMouthOpen}
+                    arousalTier={arousalTierRef.current} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>
