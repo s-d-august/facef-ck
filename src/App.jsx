@@ -248,6 +248,7 @@ function App({ JP, setJP }) {
         } else {
             mouthButton.current.classList.remove("inactive")
             wipeButton.current.classList.remove("inactive")
+            kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
         }
 
         if (armsUp) {

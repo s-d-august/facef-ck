@@ -2,11 +2,7 @@ import gsap from "gsap"
 
 export const tearsVisible = (arousalTier, tearsVisible) => {
     if (!tearsVisible) {
-
         if (arousalTier < 4) {
-
-
-
             gsap.set("#tearLeft", {
                 morphSVG: "#tearLeft"
             })
@@ -22,8 +18,6 @@ export const tearsVisible = (arousalTier, tearsVisible) => {
                 duration: 0.5
             })
         }
-
-
     }
 }
 
