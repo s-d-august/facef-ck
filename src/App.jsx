@@ -229,18 +229,45 @@ function App({ JP, setJP }) {
         })
     }, [ivesMode])
 
+    const tearsCalled = useRef(false)
+
+    useEffect(() => {
+
+        async function callTears() {
+            if (arousalTier === 5) {
+                await kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
+                kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+            }
+            if (arousalTier === 4 || arousalTier === 3) {
+                if (tearsCalled.current === false) {
+                    tearsCalled.current = true
+                    await kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
+                    kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+                }
+            }
+        }
+
+        console.log("areTears: ", areTears)
+
+        if (isFaceCum || isTongueCum || mouthOn) {
+            kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+        }
+
+        if (areTears && !mouthOn) {
+            callTears()
+        }
+
+    }, [areTears, isFaceCum, isTongueCum, mouthOn, arousalTier])
+
     useEffect(() => { // Face wipe, order buttons
 
         if (holdMouthOpen) {
             if (isTongueCum) {
-                kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
                 mouthButton.current.innerText = !JP ? '"Swallow for me."' : '“良い子にして飲みなさい。”'
             } else mouthButton.current.innerText = !JP ? '"Close your mouth."' : '“お口を閉じて。”'
         } else {
             mouthButton.current.innerText = !JP ? '"Open your mouth."' : '“お口を開けて。”'
         }
-
-        if (isFaceCum) kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
 
         if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
@@ -248,7 +275,6 @@ function App({ JP, setJP }) {
         } else {
             mouthButton.current.classList.remove("inactive")
             wipeButton.current.classList.remove("inactive")
-            kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
         }
 
         if (armsUp) {
@@ -260,7 +286,7 @@ function App({ JP, setJP }) {
             mouthButton.current.classList.remove("hide")
 
             if (isFaceCum) {
-                kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+
                 wipeButton.current.classList.remove("hide");
                 wipeButton.current.addEventListener("click", handleFaceWipeClick);
             } else {
@@ -302,17 +328,9 @@ function App({ JP, setJP }) {
             //     document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
-    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP, isFaceCum])
+    }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP, isFaceCum, areTears])
 
     useEffect(() => { // Elements that change based on approach state
-
-        if (mouthOn && arousalTier < 2) {
-            kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-        }
-
-        if (areTears && !interruptUI && !mouthOn && !isFaceCum && !isTongueCum) {
-            kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
-        }
 
         if (mouthCloseBlockRef.current) {
             mouthCloseBlockRef.current = false; // Reset for next time
@@ -614,8 +632,8 @@ function App({ JP, setJP }) {
                             bodyMain: body.current,
                             tongueGroup: tongueGroup.current,
                             tongueDrool: tongueDrool.current,
-                            tearLeft: tearLeft.current,
-                            tearRight: tearRight.current,
+                            areTears,
+                            setAreTears,
                             setMouthOn: setMouthOn,
                             setMouthOpen: setMouthOpen,
                             setApproach: setApproach,
