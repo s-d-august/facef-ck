@@ -91,13 +91,13 @@ export const tearsAnimation = ({ index, areTears, setAreTears }) => {
                 morphSVG: tearDown2
             }, interval)
             .to(tear1, {
-                y: 3000,
-                duration: "random(2, 3)",
+                y: 1000,
+                duration: "random(1, 2)",
                 ease: "power4.in"
             }, "<0")
             .to(tear2, {
-                y: 3000,
-                duration: "random(2, 3)",
+                y: 1000,
+                duration: "random(1, 2)",
                 ease: "power4.in",
                 onComplete: setFalse
             }, "<0.2")
