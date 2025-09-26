@@ -204,8 +204,8 @@ function App({ JP, setJP }) {
             localStorage.setItem("ivesModeActive", "true")
         }
 
-        if (arousal.ives > maxArousal.ives) setArousal(prev => ({ ...prev, ives: maxArousal.ives * 0.95 }))
-        if (arousal.boyd > maxArousal.boyd) setArousal(prev => ({ ...prev, boyd: maxArousal.boyd * 0.95 }))
+        if (arousal.ives > maxArousal.ives) setArousal(prev => ({ ...prev, ives: Math.min(maxArousal.ives * 0.95, maxArousal.ives - 5) }))
+        if (arousal.boyd > maxArousal.boyd) setArousal(prev => ({ ...prev, boyd: Math.min(maxArousal.boyd * 0.95, maxArousal.boyd - 5) }))
     }, [maxArousal]);
 
     useEffect(() => {
