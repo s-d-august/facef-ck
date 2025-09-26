@@ -783,7 +783,10 @@ function App({ JP, setJP }) {
                 })
             }
 
+        }
 
+        if (!(arousal.boyd >= (maxArousal.boyd * 0.90))) {
+            endingButton.current.style.display = "none"
         }
 
         const arousalRatio = arousal.boyd / maxArousal.boyd
