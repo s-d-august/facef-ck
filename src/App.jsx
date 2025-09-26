@@ -56,12 +56,12 @@ function App({ JP, setJP }) {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 500,
-        boyd: 500,
+        ives: 2500,
+        boyd: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 5,
-        boyd: 5,
+        ives: 3.5,
+        boyd: 2.5,
     })
 
     const endLineRef = useRef(0)
