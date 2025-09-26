@@ -2,7 +2,7 @@ import gsap from "gsap"
 
 export const tearsVisible = (arousalTier, areTears, setAreTears) => {
     if (!areTears) {
-        if (arousalTier <= 2) {
+        if (arousalTier <= 3) {
             setAreTears(true)
             gsap.set("#tearLeft", {
                 morphSVG: "#tearLeft"
@@ -16,6 +16,15 @@ export const tearsVisible = (arousalTier, areTears, setAreTears) => {
             gsap.to(["#tearLeft", "#tearRight"], {
                 opacity: 0.8,
                 scale: 1,
+                duration: 0.5
+            })
+        }
+    } else {
+        if (arousalTier > 3) {
+            setAreTears(false)
+            gsap.to(["#tearLeft", "#tearRight"], {
+                opacity: 0.8,
+                scale: 0,
                 duration: 0.5
             })
         }

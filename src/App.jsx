@@ -249,13 +249,17 @@ function App({ JP, setJP }) {
                     kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
                 } else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
             }
-            if (arousalTier === 3) kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+            else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
         }
 
         console.log("areTears: ", areTears)
 
         if (isFaceCum || isTongueCum || mouthOn) {
             callTears()
+        } else {
+            if (areTears) {
+
+            }
         }
 
         if (areTears && !mouthOn) {
@@ -655,6 +659,7 @@ function App({ JP, setJP }) {
                 })
             }
             if (!mouthOn) {
+                tearsCalled.current = false
                 gsap.to([".eyeCenter"], {
                     x: 0,
                     y: 0,
