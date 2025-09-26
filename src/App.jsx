@@ -232,30 +232,35 @@ function App({ JP, setJP }) {
     const tearsCalled = useRef(false)
 
     useEffect(() => {
+        var tier = arousalTier
 
         async function callTears() {
-            if (arousalTier === 5) {
+            console.log(arousalTier)
+            if (arousalTier === 1) {
                 await kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
                 kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
             }
-            if (arousalTier === 4 || arousalTier === 3) {
+            if (arousalTier === 2) {
                 if (tearsCalled.current === false) {
                     tearsCalled.current = true
                     await kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
                     kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-                }
+                } else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
             }
+            if (arousalTier === 3) kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
         }
 
         console.log("areTears: ", areTears)
 
         if (isFaceCum || isTongueCum || mouthOn) {
-            kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+            callTears()
         }
 
         if (areTears && !mouthOn) {
             callTears()
         }
+
+        if (mouthOn) tearsCalled.current = false
 
     }, [areTears, isFaceCum, isTongueCum, mouthOn, arousalTier])
 

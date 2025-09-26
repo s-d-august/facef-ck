@@ -2,7 +2,7 @@ import gsap from "gsap"
 
 export const tearsVisible = (arousalTier, areTears, setAreTears) => {
     if (!areTears) {
-        if (arousalTier < 4) {
+        if (arousalTier <= 2) {
             setAreTears(true)
             gsap.set("#tearLeft", {
                 morphSVG: "#tearLeft"
@@ -59,7 +59,10 @@ export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
         }
     }
 
-    setAreTears(false)
+    function setFalse() {
+        console.log("tears set to false")
+        setAreTears(false)
+    }
 
     return (
         gsap.timeline()
@@ -83,6 +86,7 @@ export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
                 y: 3000,
                 duration: "random(2, 3)",
                 ease: "power4.in",
+                onComplete: setFalse
             }, "<0.2")
             .set(tear1, { opacity: 0, y: 0, scale: 0, morphSVG: tear1 })
             .set(tear2, { opacity: 0, y: 0, scale: 0, morphSVG: tear2 })
