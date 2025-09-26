@@ -785,7 +785,7 @@ function App({ JP, setJP }) {
     }
 
     useEffect(() => { // Elements that change based on arousal.boyd
-        if (arousal.boyd >= (maxArousal.boyd * 0.97)) {
+        if (arousal.boyd >= (maxArousal.boyd * 0.98)) {
             endingButton.current.style.display = "block"
 
             if (!endingUnlocked.current) {
@@ -804,6 +804,7 @@ function App({ JP, setJP }) {
         }
 
         if (!(arousal.boyd >= (maxArousal.boyd * 0.90))) {
+            endingUnlocked.current = false
             endingButton.current.style.display = "none"
         }
 
