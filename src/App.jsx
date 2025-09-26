@@ -86,6 +86,7 @@ function App({ JP, setJP }) {
     const dickHandParts = useRef()
     const dickSvg = useRef()
     const endingButton = useRef()
+    const endingUnlocked = useRef()
     const hairPullBeads = useRef()
     const hairPullDraggable = useRef()
     const hairPullHandGrab = useRef()
@@ -749,6 +750,7 @@ function App({ JP, setJP }) {
         hairPullDraggable.current.update();
 
         document.getElementById("boydNutButton").style.display = "none"
+        endingUnlocked.current = false
 
         setTimeout(() => {
             kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
@@ -779,14 +781,18 @@ function App({ JP, setJP }) {
         if (arousal.boyd >= (maxArousal.boyd * 0.97)) {
             endingButton.current.style.display = "block"
 
-            const elements = ["settersDiv", "settingsContents", "settingsIcon"]
-            if (document.getElementById("settersDiv").classList.contains("collapsed")) {
-                return
-            } else {
-                elements.forEach((el) => {
-                    document.getElementById(el).classList.toggle("collapsed")
-                })
+            if (!endingUnlocked.current) {
+                endingUnlocked.current = true
+                const elements = ["settersDiv", "settingsContents", "settingsIcon"]
+                if (document.getElementById("settersDiv").classList.contains("collapsed")) {
+                    return
+                } else {
+                    elements.forEach((el) => {
+                        document.getElementById(el).classList.toggle("collapsed")
+                    })
+                }
             }
+
 
         }
 

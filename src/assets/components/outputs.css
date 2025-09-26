@@ -24,7 +24,7 @@
 .progressBar {
   width: 1.5vh;
   margin: 0 0.25vh;
-  height: 100%;
+  height: calc(100% - 0.5vh);
   transform: scaleY(1);
   transform-origin: bottom;
   bottom: 0.25vh;
