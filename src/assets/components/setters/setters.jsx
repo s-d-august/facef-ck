@@ -64,7 +64,7 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                                     type='number'
                                     className='maxSet'
                                     min="100"
-                                    step="100"
+                                    step="1"
                                     value={value ?? 100}
                                     onChange={e => {
                                         const val = Number(e.target.value);

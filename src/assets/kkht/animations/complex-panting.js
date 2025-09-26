@@ -17,7 +17,7 @@ export const pantingAnimation = (args) => {
         .to(tongueDrool, { scaleX: 0, duration: 1, ease: "power1.in", transformOrigin: "top center" })
         .set(tongueDrool, { scaleX: 1, scaleY: 0 });
 
-    tearsAnimation({ secondary: false, areTears, setAreTears })
+    tearsAnimation({ index: "3", areTears, setAreTears })
 
 
     gsap.timeline().to(draggable.target, {

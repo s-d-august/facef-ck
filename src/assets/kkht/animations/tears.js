@@ -22,9 +22,11 @@ export const tearsVisible = (arousalTier, areTears, setAreTears) => {
     }
 }
 
-export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
+export const tearsAnimation = ({ index, areTears, setAreTears }) => {
 
     var tear1, tear2, tearDown1, tearDown2, t1, t2, num
+
+    console.log(index)
 
     if (Math.random() > 0.5) {
         t1 = "Right"
@@ -34,7 +36,7 @@ export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
         t2 = "Right"
     }
 
-    num = secondary ? "2" : ""
+    num = index
 
     tear1 = "#tear" + t1 + num
     tearDown1 = "#tearDown" + t1 + num
@@ -43,8 +45,10 @@ export const tearsAnimation = ({ secondary, areTears, setAreTears }) => {
 
     var interval = 1
 
+    console.log(tear1, tear2, tearDown1, tearDown2)
+
     function tearAppear() {
-        if (!areTears) {
+        if (!areTears || index !== "") {
             return (
                 gsap.timeline()
                     .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })

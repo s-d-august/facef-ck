@@ -237,13 +237,13 @@ function App({ JP, setJP }) {
         async function callTears() {
             console.log(arousalTier)
             if (arousalTier === 1) {
-                await kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
+                await kkht.tearsAnimation({ index: "", areTears, setAreTears })
                 kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
             }
             if (arousalTier === 2) {
                 if (tearsCalled.current === false) {
                     tearsCalled.current = true
-                    await kkht.tearsAnimation({ secondary: false, areTears, setAreTears })
+                    await kkht.tearsAnimation({ index: "", areTears, setAreTears })
                     kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
                 } else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
             }
@@ -388,7 +388,7 @@ function App({ JP, setJP }) {
                     },
                     {
                         name: kkht.tearsAnimation,
-                        args: { areTears, setAreTears }
+                        args: { index: "2", areTears, setAreTears }
                     }] : [{
                         name: kkht.browRaise
                     }],
@@ -399,7 +399,7 @@ function App({ JP, setJP }) {
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
-                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ secondary: true, areTears, setAreTears })
+                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ index: "3", areTears, setAreTears })
                     }
                 })
 
