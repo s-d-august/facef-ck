@@ -102,6 +102,7 @@ function App({ JP, setJP }) {
     const sensitivityRef = useRef()
     const tearLeft = useRef()
     const tearRight = useRef()
+    const tearsCalled = useRef(false)
     const tongueCumArray = useRef()
     const tongueDrool = useRef()
     const tongueGroup = useRef()
@@ -232,8 +233,6 @@ function App({ JP, setJP }) {
         })
     }, [ivesMode])
 
-    const tearsCalled = useRef(false)
-
     useEffect(() => {
         var tier = arousalTier
 
@@ -259,17 +258,16 @@ function App({ JP, setJP }) {
             callTears()
         } else {
             if (areTears) {
-
+                callTears()
             }
         }
 
-        if (areTears && !mouthOn) {
-            callTears()
-        }
-
-        if (mouthOn) tearsCalled.current = false
-
     }, [areTears, isFaceCum, isTongueCum, mouthOn, arousalTier])
+
+    useEffect(() => {
+        if (mouthOn) tearsCalled.current = false
+        kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+    }, [mouthOn])
 
     useEffect(() => { // Face wipe, order buttons
 
@@ -408,7 +406,7 @@ function App({ JP, setJP }) {
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
-                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ index: "3", areTears, setAreTears })
+                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ index: areTears ? "" : "3", areTears, setAreTears })
                     }
                 })
 
