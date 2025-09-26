@@ -117,11 +117,6 @@ const endingScripts = [
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"I certainly do!"',
-            jp: '"知っていますね～"',
-            visible: ["boydBarWrap", "progressBarsDiv"]
-        },
-        {
             line: '"Which means you\'re not done yet ❤"',
             jp: '"というのは、まだまだ終わっていませんよ ❤"',
             visible: ["boydBarWrap", "progressBarsDiv"]
@@ -145,8 +140,8 @@ const endingScripts = [
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"Aw, I love you too ❤"',
-            jp: '"あなたも愛していますよ ❤"',
+            line: '"Now now, don\'t say things you don\'t mean ❤"',
+            jp: '"本気ではない事を言わないで ❤"',
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
     ]

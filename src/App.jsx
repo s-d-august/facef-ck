@@ -56,12 +56,12 @@ function App({ JP, setJP }) {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 2500,
-        boyd: 5000,
+        ives: 500,
+        boyd: 500,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 3.5,
-        boyd: 1.5,
+        ives: 5,
+        boyd: 5,
     })
 
     const endLineRef = useRef(0)
@@ -85,6 +85,7 @@ function App({ JP, setJP }) {
     const dickHandGrab = useRef()
     const dickHandParts = useRef()
     const dickSvg = useRef()
+    const endingButton = useRef()
     const hairPullBeads = useRef()
     const hairPullDraggable = useRef()
     const hairPullHandGrab = useRef()
@@ -134,6 +135,7 @@ function App({ JP, setJP }) {
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
         dickSvg.current = document.getElementById("dick")
+        endingButton.current = document.getElementById("boydNutButton")
         hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         headParts.current = gsap.utils.toArray(".headParts");
@@ -277,9 +279,11 @@ function App({ JP, setJP }) {
         if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
             wipeButton.current.classList.add("inactive")
+            endingButton.current.classList.add("inactive")
         } else {
             mouthButton.current.classList.remove("inactive")
             wipeButton.current.classList.remove("inactive")
+            endingButton.current.classList.remove("inactive")
         }
 
         if (armsUp) {
@@ -422,6 +426,7 @@ function App({ JP, setJP }) {
         })
 
         mouthButton.current.addEventListener("click", mouthOpenClose)
+        endingButton.current.addEventListener("click", callBoydNut)
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
         function valDownHandler() {
@@ -715,63 +720,70 @@ function App({ JP, setJP }) {
 
     }, [arousal.ives, maxArousal.ives, mouthOn, mouthOpenRef])
 
+    function callBoydNut() {
+        gsap.to(hairPullDraggable.current.target, {
+            y: -10,
+            duration: 2
+        })
+
+        gsap.to(hairPullBeads.current, {
+            y: -10,
+            duration: 2
+        })
+
+        gsap.to(body.current, {
+            y: -10,
+            duration: 2
+        })
+
+        gsap.to(headParts.current, {
+            y: -10,
+            duration: 2
+        })
+
+        hairPullDraggable.current.update();
+
+        document.getElementById("boydNutButton").style.display = "none"
+
+        setTimeout(() => {
+            kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
+            setApproach(false)
+            setMouthOn(false)
+            setMouthOpen(false)
+            setHoldMouthOpen(false)
+        }, 500)
+
+        kkht.endingHandler({
+            maxArousal: maxArousalRef.current,
+            JP,
+            setArousal,
+            setInterruptUI,
+            setMouthOn,
+            setMouthOpen,
+            setHoldMouthOpen,
+            setApproach,
+            draggable: hairPullDraggable.current,
+            mouthArgs: mouthArgs.current,
+            endLineRef,
+            endCallRef
+        })
+
+    }
+
     useEffect(() => { // Elements that change based on arousal.boyd
-
         if (arousal.boyd >= (maxArousal.boyd * 0.97)) {
+            endingButton.current.style.display = "block"
 
-            gsap.to(hairPullDraggable.current.target, {
-                y: -10,
-                duration: 2
-            })
-
-            gsap.to(hairPullBeads.current, {
-                y: -10,
-                duration: 2
-            })
-
-            gsap.to(body.current, {
-                y: -10,
-                duration: 2
-            })
-
-            gsap.to(headParts.current, {
-                y: -10,
-                duration: 2
-            })
-
-            hairPullDraggable.current.update();
-
-
-            if (!boydNutRef.current) {
-
-                setTimeout(() => {
-                    kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
-                    setApproach(false)
-                    setMouthOn(false)
-                    setMouthOpen(false)
-                    setHoldMouthOpen(false)
-                }, 500)
-
-                kkht.endingHandler({
-                    maxArousal: maxArousalRef.current,
-                    JP,
-                    setArousal,
-                    setInterruptUI,
-                    setMouthOn,
-                    setMouthOpen,
-                    setHoldMouthOpen,
-                    setApproach,
-                    draggable: hairPullDraggable.current,
-                    mouthArgs: mouthArgs.current,
-                    endLineRef,
-                    endCallRef
+            const elements = ["settersDiv", "settingsContents", "settingsIcon"]
+            if (document.getElementById("settersDiv").classList.contains("collapsed")) {
+                return
+            } else {
+                elements.forEach((el) => {
+                    document.getElementById(el).classList.toggle("collapsed")
                 })
-
-                boydNutRef.current = true;
             }
 
-        } else {
-            boydNutRef.current = false; // Reset if below threshold
+
         }
 
         const arousalRatio = arousal.boyd / maxArousal.boyd
@@ -1120,6 +1132,7 @@ function App({ JP, setJP }) {
                 <div id='ordersDiv'>
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
+                    <button id='boydNutButton'>"Just look at you..."</button>
                 </div>
                 <Tutorial ivesMode={ivesModeActive}
                     setInterruptUI={setInterruptUI}
