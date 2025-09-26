@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, use } from 'react'
 import './App.css'
 import * as kkht from './assets/kkht/index'
 import Dick from './assets/components/dick'
@@ -233,28 +233,26 @@ function App({ JP, setJP }) {
         })
     }, [ivesMode])
 
-    useEffect(() => {
-        var tier = arousalTier
-
-        async function callTears() {
-            console.log(arousalTier)
-            if (arousalTier === 1) {
+    async function callTears() {
+        console.log(arousalTier)
+        if (arousalTier === 1) {
+            await kkht.tearsAnimation({ index: "", areTears, setAreTears })
+            kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+        }
+        if (arousalTier === 2) {
+            if (tearsCalled.current === false) {
+                tearsCalled.current = true
                 await kkht.tearsAnimation({ index: "", areTears, setAreTears })
                 kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-            }
-            if (arousalTier === 2) {
-                if (tearsCalled.current === false) {
-                    tearsCalled.current = true
-                    await kkht.tearsAnimation({ index: "", areTears, setAreTears })
-                    kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-                } else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-            }
-            else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+            } else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
         }
+        else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+    }
 
+    useEffect(() => {
         console.log("areTears: ", areTears)
 
-        if (isFaceCum || isTongueCum || mouthOn) {
+        if (isFaceCum || isTongueCum) {
             callTears()
         } else {
             if (areTears) {
@@ -262,11 +260,22 @@ function App({ JP, setJP }) {
             }
         }
 
-    }, [areTears, isFaceCum, isTongueCum, mouthOn, arousalTier])
+    }, [areTears, isFaceCum, isTongueCum, arousalTier])
 
     useEffect(() => {
-        if (mouthOn) tearsCalled.current = false
-        kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
+
+        if (isFaceCum || isTongueCum || areTears || mouthOn) callTears()
+
+    }, [mouthOn, areTears])
+
+    useEffect(() => {
+        if (mouthOn) {
+            tearsCalled.current = false
+        }
+        if (!mouthOn && areTears) {
+            kkht.tearsAnimation({ index: "", areTears, setAreTears })
+        }
+
     }, [mouthOn])
 
     useEffect(() => { // Face wipe, order buttons

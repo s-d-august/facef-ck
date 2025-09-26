@@ -23,7 +23,7 @@ export const tearsVisible = (arousalTier, areTears, setAreTears) => {
         if (arousalTier > 3) {
             setAreTears(false)
             gsap.to(["#tearLeft", "#tearRight"], {
-                opacity: 0.8,
+                opacity: 0,
                 scale: 0,
                 duration: 0.5
             })
@@ -98,11 +98,13 @@ export const tearsAnimation = ({ index, areTears, setAreTears }) => {
             .to(tear2, {
                 y: 1000,
                 duration: "random(1, 2)",
-                ease: "power4.in",
-                onComplete: setFalse
+                ease: "power4.in"
             }, "<0.2")
             .set(tear1, { opacity: 0, y: 0, scale: 0, morphSVG: tear1 })
-            .set(tear2, { opacity: 0, y: 0, scale: 0, morphSVG: tear2 })
+            .set(tear2, {
+                opacity: 0, y: 0, scale: 0, morphSVG: tear2,
+                onComplete: setFalse
+            })
 
     )
 

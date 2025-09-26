@@ -17,9 +17,10 @@ export const pluckRandomFrom = (args) => {
     const { array, typeKey, arrayEligibleMap } = args
 
     if (!arrayEligibleMap[typeKey] || arrayEligibleMap[typeKey].length === 0) {
-        arrayEligibleMap[typeKey] = gsap.utils.shuffle(array.slice(0));
+        arrayEligibleMap[typeKey] = array.slice(0);
     }
-    return arrayEligibleMap[typeKey].pop();
+    const idx = Math.floor(Math.random() * arrayEligibleMap[typeKey].length);
+    return arrayEligibleMap[typeKey].splice(idx, 1)[0];
 }
 
 export const getRandomFrom = (array) => {
