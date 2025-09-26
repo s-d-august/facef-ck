@@ -266,7 +266,7 @@ function App({ JP, setJP }) {
 
         if (isFaceCum || isTongueCum || areTears || mouthOn) callTears()
 
-    }, [mouthOn, areTears])
+    }, [mouthOn, areTears, arousalTier])
 
     useEffect(() => {
         if (mouthOn) {
