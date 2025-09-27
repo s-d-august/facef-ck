@@ -56,19 +56,21 @@ function App({ JP, setJP }) {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 2500,
-        boyd: 5000,
+        ives: 250,
+        boyd: 500,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 3.5,
-        boyd: 2.5,
+        ives: 0,
+        boyd: 1,
     })
 
     const endLineRef = useRef(0)
     const endCallRef = useRef(0)
 
     const [areTears, setAreTears] = useState(false)
+    const [isCrying, setIsCrying] = useState(false)
 
+    const areTearsRef = useRef()
     const armLeft = useRef()
     const armRight = useRef()
     const arousalRef = useRef(arousal);
@@ -93,6 +95,7 @@ function App({ JP, setJP }) {
     const headParts = useRef()
     const hesitation = useRef((5 - arousalTier) * 250)
     const hideHand = useRef()
+    const isCryingRef = (useRef(isCrying))
     const maxArousalRef = useRef(maxArousal);
     const mouthArgs = useRef()
     const mouthButton = useRef()
@@ -102,7 +105,6 @@ function App({ JP, setJP }) {
     const sensitivityRef = useRef()
     const tearLeft = useRef()
     const tearRight = useRef()
-    const tearsCalled = useRef(false)
     const tongueCumArray = useRef()
     const tongueDrool = useRef()
     const tongueGroup = useRef()
@@ -169,6 +171,10 @@ function App({ JP, setJP }) {
     }, [isTongueCum])
 
     useEffect(() => {
+        isCryingRef.current = isCrying
+    }, [isCrying])
+
+    useEffect(() => {
         mouthOpenRef.current = mouthOpen;
     }, [mouthOpen]);
     useEffect(() => {
@@ -233,50 +239,63 @@ function App({ JP, setJP }) {
         })
     }, [ivesMode])
 
-    async function callTears() {
-        console.log(arousalTier)
-        if (arousalTier === 1) {
-            await kkht.tearsAnimation({ index: "", areTears, setAreTears })
-            kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-        }
-        if (arousalTier === 2) {
-            if (tearsCalled.current === false) {
-                tearsCalled.current = true
-                await kkht.tearsAnimation({ index: "", areTears, setAreTears })
-                kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-            } else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-        }
-        else kkht.tearsVisible(arousalTierRef.current, areTears, setAreTears)
-    }
-
     useEffect(() => {
         console.log("areTears: ", areTears)
-
-        if (isFaceCum || isTongueCum) {
-            callTears()
-        } else {
-            if (areTears) {
-                callTears()
-            }
-        }
-
-    }, [areTears, isFaceCum, isTongueCum, arousalTier])
+        areTearsRef.current = areTears
+    }, [areTears])
 
     useEffect(() => {
-
-        if (isFaceCum || isTongueCum || areTears || mouthOn) callTears()
-
-    }, [mouthOn, areTears, arousalTier])
-
-    useEffect(() => {
-        if (mouthOn) {
-            tearsCalled.current = false
+        console.log(areTears, arousalTier, mouthOn)
+        if (areTears && arousalTier === 2 && mouthOn) {
+            console.log("tears renew")
+            kkht.tearsAnimation({
+                index: "",
+                areTears: areTearsRef,
+                setAreTears,
+                type: "renew",
+                arousalTier: arousalTierRef,
+                isCrying: isCryingRef
+            })
         }
-        if (!mouthOn && areTears) {
-            kkht.tearsAnimation({ index: "", areTears, setAreTears })
-        }
 
+        if (areTears && arousalTier === 2 && !mouthOn) {
+            console.log("tears once")
+            kkht.tearsAnimation({
+                index: "",
+                areTears: areTearsRef,
+                setAreTears,
+                type: "once",
+                arousalTier: arousalTierRef,
+                isCrying: isCryingRef
+            })
+        }
     }, [mouthOn])
+
+    useEffect(() => {
+        if (isFaceCum || isTongueCum || mouthOn) {
+            setIsCrying(true)
+        } else setIsCrying(false)
+    }, [isFaceCum, isTongueCum, mouthOn])
+
+    useEffect(() => {
+        console.log("isCrying: ", isCrying)
+        if (isCrying && arousalTier <= 3) {
+            var type =
+                (arousalTier === 1) ? "constant"
+                    : (arousalTier === 2) ? "renew"
+                        : "inEyes"
+            kkht.tearsAnimation({
+                index: "",
+                areTears: areTearsRef,
+                setAreTears,
+                type: type,
+                arousalTier: arousalTierRef,
+                isCrying: isCryingRef
+            })
+
+        }
+    }, [arousalTier, isCrying])
+
 
     useEffect(() => { // Face wipe, order buttons
 
@@ -396,15 +415,22 @@ function App({ JP, setJP }) {
         } else {
             if (isTongueCumRef.current) {
                 kkht.hesitation({
-                    deepBreath: (arousalTierRef.current < 4) ? "true" : "false",
+                    deepBreath: (arousalTierRef.current <= 3) ? "true" : "false",
                     setter: [setInterruptBreath, setInterruptUI],
                     duration: Math.max((hesitation.current * 3 / 1000), 0),
-                    playDuring: (arousalTierRef.current < 4) ? [{
+                    playDuring: (arousalTierRef.current <= 3) ? [{
                         name: kkht.browRaise
                     },
                     {
                         name: kkht.tearsAnimation,
-                        args: { index: "2", areTears, setAreTears }
+                        args: {
+                            index: "2",
+                            areTears: areTearsRef,
+                            setAreTears,
+                            type: "once",
+                            arousalTier: arousalTierRef,
+                            isCrying: isCryingRef
+                        }
                     }] : [{
                         name: kkht.browRaise
                     }],
@@ -415,7 +441,14 @@ function App({ JP, setJP }) {
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
-                        if (arousalTierRef.current < 4) kkht.tearsAnimation({ index: areTears ? "" : "3", areTears, setAreTears })
+                        if (arousalTierRef.current <= 3) kkht.tearsAnimation({
+                            index: "3",
+                            areTears: areTearsRef,
+                            setAreTears,
+                            type: "once",
+                            arousalTier: arousalTierRef,
+                            isCrying: isCryingRef
+                        })
                     }
                 })
 
@@ -654,7 +687,7 @@ function App({ JP, setJP }) {
                             bodyMain: body.current,
                             tongueGroup: tongueGroup.current,
                             tongueDrool: tongueDrool.current,
-                            areTears,
+                            areTears: areTearsRef,
                             setAreTears,
                             setMouthOn: setMouthOn,
                             setMouthOpen: setMouthOpen,
@@ -667,7 +700,17 @@ function App({ JP, setJP }) {
                 })
             }
             if (!mouthOn) {
-                tearsCalled.current = false
+                if (areTears && arousalTier === 2) {
+                    console.log("tears renew")
+                    kkht.tearsAnimation({
+                        index: "",
+                        areTears: areTearsRef,
+                        setAreTears,
+                        type: "renew",
+                        arousalTier: arousalTierRef,
+                        isCrying: isCryingRef
+                    })
+                }
                 gsap.to([".eyeCenter"], {
                     x: 0,
                     y: 0,
@@ -703,6 +746,7 @@ function App({ JP, setJP }) {
                         opacity: 0.2,
                         duration: 0.2
                     })
+
                 } else {
                     setIsFaceCum(true)
                     kkht.callCumshot({
