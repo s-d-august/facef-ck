@@ -56,12 +56,12 @@ function App({ JP, setJP }) {
         boyd: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 250,
-        boyd: 500,
+        ives: 2500,
+        boyd: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 0,
-        boyd: 1,
+        ives: 3.5,
+        boyd: 1.5,
     })
 
     const endLineRef = useRef(0)
@@ -245,8 +245,7 @@ function App({ JP, setJP }) {
     }, [areTears])
 
     useEffect(() => {
-        console.log(areTears, arousalTier, mouthOn)
-        if (areTears && arousalTier === 2 && mouthOn) {
+        if (areTears && arousalTier === 2 && mouthOn && isCrying) {
             console.log("tears renew")
             kkht.tearsAnimation({
                 index: "",
@@ -256,9 +255,7 @@ function App({ JP, setJP }) {
                 arousalTier: arousalTierRef,
                 isCrying: isCryingRef
             })
-        }
-
-        if (areTears && arousalTier === 2 && !mouthOn) {
+        } else if (areTears && arousalTier === 2 && !isCrying) {
             console.log("tears once")
             kkht.tearsAnimation({
                 index: "",
@@ -268,22 +265,24 @@ function App({ JP, setJP }) {
                 arousalTier: arousalTierRef,
                 isCrying: isCryingRef
             })
+        } else if (areTears && !isCrying) {
+            gsap.to(["#tearLeft", "#tearRight"], {
+                scale: 0,
+                opacity: 0.8,
+                duration: 1,
+                ease: "power1.out"
+            })
         }
     }, [mouthOn])
 
     useEffect(() => {
-        if (isFaceCum || isTongueCum || mouthOn) {
+        if (isFaceCum || isTongueCum || mouthOn && arousalTier <= 3) {
             setIsCrying(true)
         } else setIsCrying(false)
     }, [isFaceCum, isTongueCum, mouthOn])
 
     useEffect(() => {
-        console.log("isCrying: ", isCrying)
-        if (isCrying && arousalTier <= 3) {
-            var type =
-                (arousalTier === 1) ? "constant"
-                    : (arousalTier === 2) ? "renew"
-                        : "inEyes"
+        function callTearsAnimation(type) {
             kkht.tearsAnimation({
                 index: "",
                 areTears: areTearsRef,
@@ -292,7 +291,31 @@ function App({ JP, setJP }) {
                 arousalTier: arousalTierRef,
                 isCrying: isCryingRef
             })
+        }
+        console.log("isCrying: ", isCrying)
+        if (isCrying && arousalTier <= 3) {
+            var type =
+                (arousalTier === 1) ? "constant"
+                    : (arousalTier === 2) ? "renew"
+                        : "inEyes"
 
+            console.log("type: ", type)
+            callTearsAnimation(type)
+
+        }
+
+        if (!isCrying && areTears) {
+            if (arousalTier <= 2) {
+                callTearsAnimation("once")
+            } else if (arousalTier >= 3) {
+                gsap.to(["#tearRight", "#tearLeft"], {
+                    scale: 0,
+                    opacity: 0.8,
+                    duration: 1,
+                    y: 0,
+                    ease: "power1.out"
+                })
+            }
         }
     }, [arousalTier, isCrying])
 
@@ -447,7 +470,7 @@ function App({ JP, setJP }) {
                             setAreTears,
                             type: "once",
                             arousalTier: arousalTierRef,
-                            isCrying: isCryingRef
+                            isCrying: isCryingRef,
                         })
                     }
                 })
@@ -681,36 +704,27 @@ function App({ JP, setJP }) {
                         name: kkht.pantingAnimation,
                         args: {
                             ...morphArgsTemplate,
-                            containerSize: containerSize.current,
-                            toMove: [body.current, headParts.current],
-                            mouthGroup: mouthGroup.current,
-                            bodyMain: body.current,
-                            tongueGroup: tongueGroup.current,
-                            tongueDrool: tongueDrool.current,
+                            alsoMove: hairPullBeads.current,
                             areTears: areTearsRef,
+                            arousalTier: arousalTierRef,
+                            bodyMain: body.current,
+                            containerSize: containerSize.current,
+                            draggable: hairPullDraggable.current,
+                            isCrying: isCryingRef,
+                            mouthGroup: mouthGroup.current,
+                            setApproach: setApproach,
                             setAreTears,
+                            setHoldMouthOpen: setHoldMouthOpen,
                             setMouthOn: setMouthOn,
                             setMouthOpen: setMouthOpen,
-                            setApproach: setApproach,
-                            draggable: hairPullDraggable.current,
-                            alsoMove: hairPullBeads.current,
-                            setHoldMouthOpen: setHoldMouthOpen
+                            toMove: [body.current, headParts.current],
+                            tongueDrool: tongueDrool.current,
+                            tongueGroup: tongueGroup.current,
                         }
                     }]
                 })
             }
             if (!mouthOn) {
-                if (areTears && arousalTier === 2) {
-                    console.log("tears renew")
-                    kkht.tearsAnimation({
-                        index: "",
-                        areTears: areTearsRef,
-                        setAreTears,
-                        type: "renew",
-                        arousalTier: arousalTierRef,
-                        isCrying: isCryingRef
-                    })
-                }
                 gsap.to([".eyeCenter"], {
                     x: 0,
                     y: 0,

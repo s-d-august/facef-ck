@@ -1,6 +1,6 @@
 import gsap from "gsap"
 
-export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier, isCrying }) => {
+export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier, isCrying, setNone }) => {
 
     var tear1, tear2, tearDown1, tearDown2, t1, t2, num
 
@@ -21,46 +21,34 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
 
     var interval = 1
 
-    function tearFadeInHandler() {
-        if (!areTears.current || index !== "" || type === "constant") {
-            tearFadeIn()
-        } else {
-            gsap.timeline()
-                .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })
-                .set(tear2, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear2 })
-        }
-    }
-
     function tearFadeIn() {
-        console.log("tear fade in")
+        setTrue()
         gsap.timeline()
-            .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })
-            .set(tear2, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear2 })
             .to([tear1, tear2], {
                 scale: 1,
                 opacity: 0.8,
                 duration: 1,
-                ease: "power1.out",
-                onComplete: setTrue
+                ease: "power1.out"
             })
     }
 
     function tearEndHandler() {
-        console.log(type, arousalTier, isCrying)
         if (type === "constant" && arousalTier.current === 1 && isCrying.current === true) {
             tearsTweens()
-        } else {
-            setFalse()
-        }
+        } else setFalse()
     }
 
     function isRenew() {
         if (type === "renew") {
-            console.log("renew called")
             gsap.timeline({
                 onStart: setTrue,
-                onComplete: tearEndHandler
             })
+                .to([tear1, tear2], {
+                    scale: 1,
+                    opacity: 0.8,
+                    duration: 1,
+                    ease: "power1.out"
+                })
                 .to(tear1, {
                     duration: 1,
                     ease: "power1.in",
@@ -85,25 +73,21 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
                 .set(tear2, {
                     opacity: 0.8, y: 0, scale: 0, morphSVG: tear2,
                 })
-                .set(tear1, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear1 })
-                .set(tear2, { opacity: 0.8, y: 0, scale: 0, morphSVG: tear2 })
                 .to([tear1, tear2], {
                     scale: 1,
                     opacity: 0.8,
                     duration: 1,
-                    ease: "power1.out",
-                    onComplete: setTrue
+                    ease: "power1.out"
                 })
         }
     }
 
     function setFalse() {
-        setAreTears(false)
+        if (index === "") setAreTears(false)
     }
 
     function setTrue() {
-        console.log("tears set true")
-        setAreTears(true)
+        if (index === "") setAreTears(true)
     }
 
     function tearsTweens() {
@@ -111,7 +95,12 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
             onStart: setTrue,
             onComplete: tearEndHandler
         })
-            .add(tearFadeInHandler())
+            .to([tear1, tear2], {
+                scale: 1,
+                opacity: 0.8,
+                duration: 1,
+                ease: "power1.out"
+            })
             .to(tear1, {
                 duration: 1,
                 ease: "power1.in",
@@ -138,19 +127,21 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
             })
     }
 
-    console.log(type, areTears, tearsTweens)
+    if (type === "once") {
+        console.log(tear1, tear2, index)
+    }
+
     if (isCrying.current === false) {
         console.log("not crying")
         return
     } else if (type === "inEyes") {
-        if (areTears.current === true) {
-            return
-        } else {
-            tearFadeIn()
-        }
+        console.log("inEyes called")
+        tearFadeIn()
     } else if (type === "renew") {
+        console.log("renew called")
         isRenew()
-    } else {
+    } else if (type === "constant" || type === "once") {
+        console.log("other called. type: ", type)
         tearsTweens()
-    }
+    } else console.log("nothing recognized")
 }
