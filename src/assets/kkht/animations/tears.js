@@ -1,6 +1,6 @@
 import gsap from "gsap"
 
-export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier, isCrying, setNone }) => {
+export const tearsAnimation = ({ index, setAreTears, type, arousalTier, isCrying }) => {
 
     var tear1, tear2, tearDown1, tearDown2, t1, t2, num
 
@@ -19,7 +19,7 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
     tear2 = "#tear" + t2 + num
     tearDown2 = "#tearDown" + t2 + num
 
-    var interval = 1
+    console.log("tear ids: ", tear1, tear2)
 
     function tearFadeIn() {
         setTrue()
@@ -35,13 +35,14 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
     function tearEndHandler() {
         if (type === "constant" && arousalTier.current === 1 && isCrying.current === true) {
             tearsTweens()
-        } else setFalse()
+        }
+        if (type === "once") setFalse()
     }
 
     function isRenew() {
         if (type === "renew") {
             gsap.timeline({
-                onStart: setTrue,
+                onComplete: setTrue,
             })
                 .to([tear1, tear2], {
                     scale: 1,
@@ -53,12 +54,12 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
                     duration: 1,
                     ease: "power1.in",
                     morphSVG: tearDown1
-                }, interval)
+                }, 1)
                 .to(tear2, {
                     duration: 1,
                     ease: "power1.in",
                     morphSVG: tearDown2
-                }, interval)
+                }, 1)
                 .to(tear1, {
                     y: 1000,
                     duration: "random(1, 2)",
@@ -105,12 +106,12 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
                 duration: 1,
                 ease: "power1.in",
                 morphSVG: tearDown1
-            }, interval)
+            }, 1)
             .to(tear2, {
                 duration: 1,
                 ease: "power1.in",
                 morphSVG: tearDown2
-            }, interval)
+            }, 1)
             .to(tear1, {
                 y: 1000,
                 duration: "random(1, 2)",
@@ -127,14 +128,9 @@ export const tearsAnimation = ({ index, areTears, setAreTears, type, arousalTier
             })
     }
 
-    if (type === "once") {
-        console.log(tear1, tear2, index)
-    }
+    console.log(type, tear1, tear2, index)
 
-    if (isCrying.current === false) {
-        console.log("not crying")
-        return
-    } else if (type === "inEyes") {
+    if (type === "inEyes") {
         console.log("inEyes called")
         tearFadeIn()
     } else if (type === "renew") {

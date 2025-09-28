@@ -282,12 +282,12 @@ function App({ JP, setJP }) {
     }, [isFaceCum, isTongueCum, mouthOn])
 
     useEffect(() => {
-        function callTearsAnimation(type) {
+        function callTearsAnimation(typeVal) {
             kkht.tearsAnimation({
                 index: "",
                 areTears: areTearsRef,
                 setAreTears,
-                type: type,
+                type: typeVal,
                 arousalTier: arousalTierRef,
                 isCrying: isCryingRef
             })
