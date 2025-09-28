@@ -111,14 +111,14 @@ const endingScripts = [
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"And <em>you</em> know I\'m not going to do that."',
-            jp: '"言わないってこと、おまえも知っている。"',
+            line: '"And I know what <em>you\'ll</em> do if I say it."',
+            jp: '"言えばおまえがどうするって事も知っている。"',
             color: "blue",
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"Which means you\'re not done yet ❤"',
-            jp: '"というのは、まだまだ終わっていませんよ ❤"',
+            line: '"Oh, I\'m sure you do ❤"',
+            jp: '"確かにね ❤"',
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
     ], [
@@ -134,14 +134,172 @@ const endingScripts = [
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"...I hate you."',
-            jp: '"...嫌い。"',
+            line: '"...how much more do you want me to..."',
+            jp: '"どこまで俺を..."',
             color: "blue",
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"Now now, don\'t say things you don\'t mean ❤"',
-            jp: '"本気ではない事を言わないで ❤"',
+            line: '"I gave you a choice; you said you wanted to do this."',
+            jp: '"これを選んだのはあなたでしょう？"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"That was <em>not</em> a <em>choice</em>."',
+            jp: '"選択などなかったぞ。"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Of course it was."',
+            jp: '"もちろん選択でしたよ"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"You don\'t have to like the options for it to be a choice."',
+            jp: '"選びたくない選択でも選択である。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"And you made yours."',
+            jp: '"あなたは選びました。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"So unless you\'ve changed your mind..."',
+            jp: '"その選びを変わりたいですか？"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"<em>No</em>."',
+            jp: '"イヤだ。"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Then we keep going "',
+            jp: '"じゃあ、続きましょう ❤"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+    ], [
+        {
+            line: '"I can\'t take this. I can\'t take this..."',
+            jp: '"もうできない、これ以上..."',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Don\'t put yourself down, now."',
+            jp: '"自分を悪く言わないでくだいさいよ。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"I\'d say you\'ve gotten quite good at taking it."',
+            jp: '"ここから見ると、結構上手にやっています。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Go to hell."',
+            jp: '"貴様..."',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"You know, there are <em>other things</em> I wouldn\'t mind doing"',
+            jp: '"僕はして見たいこと、他にもありますよ。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"In fact, I think I <em>am</em> starting to get bored of this."',
+            jp: '"そういえば、これはちょっと退屈になっていました。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"So unless you <em>really</em> want to continue..."',
+            jp: '"ですので、本当に続きたいのでなければ..."',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"...fine."',
+            jp: '"...分かった。"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Are you sure?"',
+            jp: '"確かですか？"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"You know I\'d never want to make you do anything you didn\'t want to do."',
+            jp: '"したくない事をさせますなど..."',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Yes I\'m sure...!"',
+            jp: '"確かだぞ...!"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Yes <em>what</em>?"',
+            jp: '"何が？"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '".......yes please."',
+            jp: '"...続きたい。"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"Well, if you\'re asking so nicely..."',
+            jp: '"まあ、そうご丁寧に頼められたら..."',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"How can I refuse?"',
+            jp: '"断れませんね ❤"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+    ], [
+        {
+            line: '"Do you want to keep going?"',
+            jp: '"続きたいですか？"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"...yes."',
+            jp: '"...うん。"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '".......please."',
+            jp: '"...お願いします。"',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"See? It\'s really not so difficult."',
+            jp: '"ほら、そんなに難しい事ではありませんよ。"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+    ], [
+        {
+            line: '"Had enough yet?"',
+            jp: '"続きましょうか？"',
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"...not unless you have."',
+            jp: '"...おまえが終わりたくなければ..."',
+            color: "blue",
+            visible: ["boydBarWrap", "progressBarsDiv"]
+        },
+        {
+            line: '"A good answer from a good boy ❤"',
+            jp: '"良い子からの良い答え ❤"',
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
     ]
