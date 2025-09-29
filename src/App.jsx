@@ -725,6 +725,15 @@ function App({ JP, setJP }) {
                 })
             }
             if (!mouthOn) {
+                if (areTears && isCrying) {
+                    kkht.tearsAnimation({
+                        index: "",
+                        setAreTears,
+                        type: "renew",
+                        arousalTier,
+                        isCrying
+                    })
+                }
                 gsap.to([".eyeCenter"], {
                     x: 0,
                     y: 0,
