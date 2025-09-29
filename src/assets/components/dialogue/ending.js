@@ -17,8 +17,8 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
     const callIndexLines = [
         {
-            en: '"Just look at you..."',
-            jp: '"何と顔ですね..."'
+            en: '"You always do warm to it."',
+            jp: '"結局あなたはアタタメテきていました。いつも通りにね。"'
         },
         {
             en: '"What a sight you are."',
@@ -27,6 +27,18 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
         {
             en: '"Having fun?"',
             jp: '"楽しんでいますか？"'
+        },
+        {
+            en: '"How are you feeling?"',
+            jp: '"気分はどうですか？"'
+        },
+        {
+            en: '"You\'re starting to look a bit run down."',
+            jp: '"少々くたびれているようですね。"'
+        },
+        {
+            en: '"You look quite the mess."',
+            jp: '"少々くたびれているようですね。"'
         },
     ]
 

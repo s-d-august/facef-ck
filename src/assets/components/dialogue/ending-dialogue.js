@@ -6,11 +6,6 @@ export const endingDialogue = (index) => {
 const endingScripts = [
     [
         {
-            line: '"You always do warm to it."',
-            jp: '"結局あなたはアタタメテきていました。いつも通りにね。"',
-            visible: ["boydBarWrap", "progressBarsDiv"]
-        },
-        {
             line: '"You just need a little...persuasion, sometimes."',
             jp: '"ただ、時には多少の説得には必要があります。"',
             visible: ["boydBarWrap", "progressBarsDiv"]
@@ -177,7 +172,7 @@ const endingScripts = [
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"Then we keep going "',
+            line: '"Then we keep going ❤"',
             jp: '"じゃあ、続きましょう ❤"',
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
