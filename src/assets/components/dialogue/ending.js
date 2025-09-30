@@ -3,6 +3,8 @@ import gsap from "gsap"
 import { useRef } from "react"
 import { endingDialogue } from "./ending-dialogue"
 
+let runMessageHandler; // module scope
+
 export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endLineRef, endCallRef }) => {
     const messageBox = document.getElementById("messageBox")
     const messageYes = document.getElementById("messageYes")
@@ -56,7 +58,30 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
         messageYes.style.display = "none"
         messageNo.style.display = "none"
 
-        messageBox.removeEventListener("click", runMessageHandler);
+        if (runMessageHandler) {
+            messageBox.removeEventListener("click", runMessageHandler);
+        }
+
+        runMessageHandler = function () {
+            const currentIndex = endLineRef.current;
+            kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
+
+            console.log(currentIndex)
+
+            if (endingSteps[currentIndex - 1]) {
+                kkht.dismountMessage({ messageSteps: endingSteps, index: currentIndex })
+            }
+            if (endingSteps[currentIndex]) {
+                kkht.advanceMessage({ messageSteps: endingSteps, index: currentIndex, JP, messageBox });
+                endLineRef.current = endLineRef.current + 1
+            } else {
+                endLineRef.current = 0
+                messageBox.removeEventListener("click", runMessageHandler)
+                kkht.endMessage()
+                setInterruptUI(false)
+            }
+        };
+
         messageBox.addEventListener("click", runMessageHandler);
 
         messageBox.style.cursor = "pointer"
@@ -76,26 +101,6 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
         return () => {
             messageBox.removeEventListener("click", runMessageHandler)
-        }
-    }
-
-    function runMessageHandler() {
-        const currentIndex = endLineRef.current;
-        kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
-
-        console.log(currentIndex)
-
-        if (endingSteps[currentIndex - 1]) {
-            kkht.dismountMessage({ messageSteps: endingSteps, index: currentIndex })
-        }
-        if (endingSteps[currentIndex]) {
-            kkht.advanceMessage({ messageSteps: endingSteps, index: currentIndex, JP, messageBox });
-            endLineRef.current = endLineRef.current + 1
-        } else {
-            endLineRef.current = 0
-            messageBox.removeEventListener("click", runMessageHandler)
-            kkht.endMessage()
-            setInterruptUI(false)
         }
     }
 }
