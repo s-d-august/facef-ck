@@ -1,4 +1,5 @@
 var arrayEligibleMap = {}
+const originalFaceCumArray = Array.from(document.querySelectorAll('[id*="faceCum"]'));
 import { getScreenXY, getXY } from "../utils/dom.js"
 import { pluckRandomFrom, getRandomFrom } from "../utils/array.js"
 import { cumAnimation } from "../animations/cum.js"
@@ -6,7 +7,9 @@ import { faceWipe } from "../animations/face-wipe.js"
 import { callState } from "../utils/dom.js"
 import gsap from "gsap"
 
-
+export const resetFaceCumArray = () => {
+    arrayEligibleMap.faceCum = [...originalFaceCumArray];
+};
 
 export const callCumshot = async (args) => {
     const { cumType, untilEmpty, origin, shotDuration, moveDuration, faceWipeArgs, setInterruptUI } = args

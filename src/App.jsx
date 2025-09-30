@@ -364,6 +364,7 @@ function App({ JP, setJP }) {
         function handleFaceWipeClick() {
             wipeButton.current.classList.add("hide");
             setIsFaceCum(false)
+            kkht.resetFaceCumArray()
             kkht.faceWipe({
                 elements: [chain.current, armRight.current, armLeft.current],
                 cloth: cloth.current,
