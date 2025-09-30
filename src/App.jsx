@@ -32,6 +32,8 @@ function App({ JP, setJP }) {
 
     const [isFaceCum, setIsFaceCum] = useState(false)
 
+    const [isLick, setIsLick] = useState(false)
+
     const [depthMethod, setDepthMethod] = useState("Training")
 
     const [hairPullDragging, setHairPullDragging] = useState(false)
@@ -57,11 +59,11 @@ function App({ JP, setJP }) {
     })
     const [maxArousal, setmaxArousal] = useState({
         ives: 2500,
-        boyd: 3500,
+        boyd: 3000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 3.5,
-        boyd: 1.5,
+        ives: 3,
+        boyd: 2,
     })
 
     const endLineRef = useRef(0)
@@ -276,10 +278,10 @@ function App({ JP, setJP }) {
     }, [mouthOn])
 
     useEffect(() => {
-        if (isFaceCum || isTongueCum || mouthOn && arousalTier <= 3) {
+        if ((isFaceCum || isTongueCum || mouthOn || isLick) && (arousalTier <= 3)) {
             setIsCrying(true)
         } else setIsCrying(false)
-    }, [isFaceCum, isTongueCum, mouthOn])
+    }, [isFaceCum, isTongueCum, mouthOn, isLick])
 
     useEffect(() => {
         function callTearsAnimation(typeVal) {
@@ -600,7 +602,8 @@ function App({ JP, setJP }) {
                     maxArousal: maxArousalRef.current,
                     setArousal,
                     sensitivity: sensitivityRef.current,
-                    direction
+                    direction,
+                    setIsLick
                 };
                 this.dragResistance = kkht.isApproachOrOn(args)
 
@@ -616,7 +619,7 @@ function App({ JP, setJP }) {
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.125,
                                 end: 0.21,
-                                hits: 7,
+                                hits: 20,
                                 increaseBy: 0.001
                             })
                     });
@@ -670,7 +673,8 @@ function App({ JP, setJP }) {
                     },
                     maxArousal: maxArousalRef.current,
                     setArousal,
-                    sensitivity: sensitivityRef.current
+                    sensitivity: sensitivityRef.current,
+                    setIsLick
                 };
 
                 kkht.isApproachOrOn(args)
@@ -725,7 +729,7 @@ function App({ JP, setJP }) {
                 })
             }
             if (!mouthOn) {
-                if (areTears && isCrying) {
+                if (areTears && isCrying && arousalTier <= 2) {
                     kkht.tearsAnimation({
                         index: "",
                         setAreTears,

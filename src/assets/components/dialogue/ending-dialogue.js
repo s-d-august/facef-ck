@@ -200,7 +200,7 @@ const endingScripts = [
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
-            line: '"You know, there are <em>other things</em> I wouldn\'t mind doing"',
+            line: '"You know, there are <em>other things</em> I wouldn\'t mind doing."',
             jp: '"僕はして見たいこと、他にもありますよ。"',
             visible: ["boydBarWrap", "progressBarsDiv"]
         },

@@ -8,9 +8,10 @@ export const isApproachOrOn =
         // Neither approach nor on
         const {
             percent, startApproach, startOn, setApproach, setMouthOn,
-            affectedIDs, lick, maxArousal, setArousal, whileOff, whileApproach, whileOn, sensitivity, direction
+            affectedIDs, lick, maxArousal, setArousal, whileOff, whileApproach, whileOn, sensitivity, direction, setIsLick
         } = args;
         if (percent <= startApproach) {
+            setIsLick(false)
             setApproach(false)
             if (whileOff) whileOff
         } else setApproach(true)
@@ -19,6 +20,7 @@ export const isApproachOrOn =
             setMouthOn(false)
             if (whileApproach) whileApproach
             if (Draggable.hitTest(lick.tongue, lick.tip, lick.percent)) {
+                setIsLick(true)
                 valChange(affectedIDs, "up", maxArousal, setArousal, sensitivity);
             }
             return 0

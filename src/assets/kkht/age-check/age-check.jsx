@@ -2,7 +2,7 @@
 import React, { useEffect } from "react"
 import "./age-check.css"
 import Eyecatch from "../eyecatch/eyecatch";
-import cover from "../../fonts-etc/coverUpdated.png"
+import cover from "../../fonts-etc/cover.png"
 import gsap from "gsap";
 
 const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
