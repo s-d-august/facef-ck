@@ -281,7 +281,7 @@ function App({ JP, setJP }) {
         if ((isFaceCum || isTongueCum || mouthOn || isLick) && (arousalTier <= 3)) {
             setIsCrying(true)
         } else setIsCrying(false)
-    }, [isFaceCum, isTongueCum, mouthOn, isLick])
+    }, [isFaceCum, isTongueCum, mouthOn, isLick, arousalTier])
 
     useEffect(() => {
         function callTearsAnimation(typeVal) {
@@ -308,6 +308,8 @@ function App({ JP, setJP }) {
 
         if (!isCrying && areTears) {
             if (arousalTier <= 2) {
+                console.log("tears called once")
+
                 callTearsAnimation("once")
             } else if (arousalTier >= 3) {
                 gsap.to(["#tearRight", "#tearLeft"], {
@@ -439,6 +441,8 @@ function App({ JP, setJP }) {
 
         } else {
             if (isTongueCumRef.current) {
+                console.log("tears called once")
+
                 kkht.hesitation({
                     deepBreath: (arousalTierRef.current <= 3) ? "true" : "false",
                     setter: [setInterruptBreath, setInterruptUI],
@@ -466,14 +470,17 @@ function App({ JP, setJP }) {
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
                         kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
-                        if (arousalTierRef.current <= 3) kkht.tearsAnimation({
-                            index: "3",
-                            areTears: areTearsRef,
-                            setAreTears,
-                            type: "once",
-                            arousalTier: arousalTierRef,
-                            isCrying: isCryingRef,
-                        })
+                        if (arousalTierRef.current <= 3) {
+                            console.log("tears called once")
+                            kkht.tearsAnimation({
+                                index: "3",
+                                areTears: areTearsRef,
+                                setAreTears,
+                                type: "once",
+                                arousalTier: arousalTierRef,
+                                isCrying: isCryingRef,
+                            })
+                        }
                     }
                 })
 
@@ -805,6 +812,7 @@ function App({ JP, setJP }) {
     }, [arousal.ives, maxArousal.ives, mouthOn, mouthOpenRef])
 
     function callBoydNut() {
+        setAreTears(false)
         gsap.to(hairPullDraggable.current.target, {
             y: -10,
             duration: 2

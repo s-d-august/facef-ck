@@ -18,15 +18,13 @@ export const lowerArms = (args) => {
 
 }
 
-var arrayEligibleMap = {}
-
 export const cleanFace = () => {
     var cumArray = Array.from(document.querySelectorAll(`[id*="faceCum"]`));
     cumArray.forEach(el => {
         if (typeof el === "string") el = document.getElementById(el);
         if (el) gsap.set(el, { opacity: 0 })
     })
-    arrayEligibleMap = {}
+
 }
 
 export const faceWipe = ({ elements, cloth, setter, hide, animationSetter, setIsFaceCum }) => {
