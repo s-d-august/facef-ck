@@ -42,7 +42,7 @@ const Mouth = () => (
             ></path>
             <path
                 id="beard"
-                fill="#fc0"
+                fill="#f8bc00"
                 fillOpacity="1"
                 stroke="none"
                 strokeWidth="6.417"

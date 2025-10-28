@@ -234,12 +234,12 @@ const Tutorial = ({
 
             <div id='messageContents'>
                 <div id='messageYes' className='messageReply '>
-                    <p>{JP ? "何が．．．" : "What...?"} </p>
+                    <p>{JP ? '"何が．．．"' : '"What...?"'} </p>
                     <p className='right'>{JP ? "(コントロールの説明)" : "(read an explanation of the controls)"}</p>
                 </div>
 
                 <div id='messageNo' className='messageReply '>
-                    <p>{JP ? "お願いだから、早く終わらせてくださいよ．．．" : "Please, just...hurry up and get it over with."}</p>
+                    <p>{JP ? '"お願いだから、早く終わらせてくださいよ．．．"' : '"Please, just...hurry up and get it over with."'}</p>
                     <p className='right'>{JP ? "(説明をスキップ)" : "(skip the explanation)"}</p>
                 </div>
             </div>

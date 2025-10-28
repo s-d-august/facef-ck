@@ -52,7 +52,7 @@ const HairPullHand = () => (
             </defs>
             <path
                 id="hairPull"
-                fill="#fc0"
+                fill="#f8bc00"
                 fillOpacity="1"
                 strokeLinecap="round"
                 strokeWidth="2.823"
