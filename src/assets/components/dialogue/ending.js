@@ -19,12 +19,14 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
     const callIndexLines = [
         {
-            en: '"You always do warm to it."',
-            jp: '"結局あなたはアタタメテきていました。いつも通りにね。"'
-        },
-        {
             en: '"What a sight you are."',
             jp: '"すごい景色ですよ。"'
+
+        },
+        /* 
+        {
+            en: '"You always do warm to it."',
+            jp: '"結局あなたはアタタメテきていました。いつも通りにね。"'
         },
         {
             en: '"Having fun?"',
@@ -41,7 +43,7 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
         {
             en: '"You look quite the mess."',
             jp: '"少々くたびれているようですね。"'
-        },
+        },*/
     ]
 
     startMessage()
@@ -64,7 +66,7 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
         runMessageHandler = function () {
             const currentIndex = endLineRef.current;
-            kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
+            //   kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
 
             console.log(currentIndex)
 
@@ -93,7 +95,7 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
         messageLine.innerHTML = JP ? callIndexLines[endCallRef.current].jp : callIndexLines[endCallRef.current].en
 
-        if (callIndexLines[endCallRef.current + 1]) endCallRef.current = endCallRef.current + 1
+        endCallRef.current = false
 
         bodyVisible.forEach((el) => {
             document.getElementById(el).classList.add("messageVisible")

@@ -1,15 +1,79 @@
+import gsap from "gsap"
+
 export const endingDialogue = (index) => {
 
-    return endingScripts[index]
+    return endingScripts[0]
+}
+
+function lookDown() {
+    gsap.timeline()
+        .to(".eyeCenter", {
+            y: 17,
+            duration: 1
+        })
+}
+
+function lookLeft() {
+    gsap.timeline()
+        .to(".eyeCenter", {
+            x: 10,
+            duration: 1
+        })
+}
+
+function lookRight() {
+    gsap.timeline()
+        .to(".eyeCenter", {
+            x: -20,
+            duration: 1
+        })
+}
+
+function callSmile() {
+    console.log("callSmile fired")
+    gsap.to(".eyeCenter", {
+        y: 0,
+        x: 0,
+        duration: 1.5
+    })
+    gsap.to("#mustache", {
+        morphSVG: "#mustacheSmile",
+        duration: 2
+    })
+    gsap.to("#mouth", {
+        morphSVG: "#mouthSmile",
+        duration: 2
+    })
 }
 
 const endingScripts = [
     [
         {
+            line: '"You always do warm to it."',
+            jp: '"結局あなたはアタタメテきていました。いつも通りにね。"',
+            function: lookDown
+        },
+        {
             line: '"You just need a little...persuasion, sometimes."',
             jp: '"ただ、時には多少の説得には必要があります。"',
-            visible: ["boydBarWrap", "progressBarsDiv"]
+            function: lookLeft
         },
+        {
+            line: '"Isn\'t that right?"',
+            jp: '"そうでしょう？"',
+            function: lookRight
+        },
+        {
+            line: '"...❤"',
+            jp: '"...❤"',
+            color: "blue",
+            function: callSmile
+        },
+        {
+            line: '"That\'s my good boy ❤"',
+            jp: '"何と良い子、あなたってのは ❤"',
+        },
+        /* 
         {
             line: '"You know, I wouldn\'t mind stopping now."',
             jp: '"これで終わりにしても、僕は別に構いませんよ。"',
@@ -18,11 +82,6 @@ const endingScripts = [
         {
             line: '"But you don\'t seem like you\'ve quite had your fill yet."',
             jp: '"だが、あなたはまだまだ満足していなさそうね。"',
-            visible: ["boydBarWrap", "progressBarsDiv"]
-        },
-        {
-            line: '"Isn\'t that right?"',
-            jp: '"そうでしょう？"',
             visible: ["boydBarWrap", "progressBarsDiv"]
         },
         {
@@ -296,7 +355,7 @@ const endingScripts = [
             line: '"A good answer from a good boy ❤"',
             jp: '"良い子からの良い答え ❤"',
             visible: ["boydBarWrap", "progressBarsDiv"]
-        },
+        }, */
     ]
 ]
 

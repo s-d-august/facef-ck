@@ -159,6 +159,8 @@ export const dismountMessage = ({ messageSteps, index }) => {
 export const advanceMessage = ({ messageSteps, index, JP, messageBox }) => {
     messageLine.innerHTML = JP ? messageSteps[index].jp : messageSteps[index].line
 
+    if (messageSteps[index].function) messageSteps[index].function()
+
     if (messageSteps[index].color) {
         messageBox.style.backgroundColor = "#87aade"
         messageBox.style.color = "#10104d"

@@ -59,7 +59,7 @@ function App({ JP, setJP }) {
     })
     const [maxArousal, setmaxArousal] = useState({
         ives: 2500,
-        boyd: 3000,
+        boyd: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
         ives: 3,
@@ -90,6 +90,7 @@ function App({ JP, setJP }) {
     const dickHandParts = useRef()
     const dickSvg = useRef()
     const endingButton = useRef()
+    const endingFired = useRef(false)
     const endingUnlocked = useRef()
     const hairPullBeads = useRef()
     const hairPullDraggable = useRef()
@@ -627,7 +628,7 @@ function App({ JP, setJP }) {
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.125,
                                 end: 0.21,
-                                hits: 20,
+                                hits: 8,
                                 increaseBy: 0.001
                             })
                     });
@@ -838,6 +839,7 @@ function App({ JP, setJP }) {
 
         document.getElementById("boydNutButton").style.display = "none"
         endingUnlocked.current = false
+        endingFired.current = true
 
         setTimeout(() => {
             kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
@@ -865,7 +867,7 @@ function App({ JP, setJP }) {
     }
 
     useEffect(() => { // Elements that change based on arousal.boyd
-        if (arousal.boyd >= (maxArousal.boyd * 0.98)) {
+        if (arousal.boyd >= (maxArousal.boyd * 0.98) && endingFired.current === false) {
             endingButton.current.style.display = "block"
 
             if (!endingUnlocked.current) {
@@ -883,7 +885,7 @@ function App({ JP, setJP }) {
 
         }
 
-        if (!(arousal.boyd >= (maxArousal.boyd * 0.90))) {
+        if (endingFired.current === true || !(arousal.boyd >= (maxArousal.boyd * 0.95))) {
             endingUnlocked.current = false
             endingButton.current.style.display = "none"
         }
@@ -927,6 +929,14 @@ function App({ JP, setJP }) {
 
         if (!fastMorphRef.current) {
             if (arousalTier === 1 || arousalTier === 2) {
+                gsap.to("#mustache", {
+                    morphSVG: "#mustache",
+                    duration: 2
+                })
+                gsap.to("#mouth", {
+                    morphSVG: "#mouth",
+                    duration: 2
+                })
                 cleanup = kkht.eyeMovement({
                     moveEls: [eyeCenterRight, eyeCenterLeft],
                     type: "random",
