@@ -4,6 +4,8 @@ import { useRef } from "react"
 import { endingDialogue } from "./ending-dialogue"
 
 let runMessageHandler; // module scope
+let endingActive = false;
+
 
 export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endLineRef, endCallRef }) => {
     const messageBox = document.getElementById("messageBox")
@@ -46,6 +48,9 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
         },*/
     ]
 
+    if (endingActive) return;
+    endingActive = true;
+
     startMessage()
 
     function startMessage() {
@@ -55,14 +60,11 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
         ]
 
         setInterruptUI(true)
+        messageBox.onclick = null;
         document.getElementById("waitIcon").style.display = "none"
 
         messageYes.style.display = "none"
         messageNo.style.display = "none"
-
-        if (runMessageHandler) {
-            messageBox.removeEventListener("click", runMessageHandler);
-        }
 
         runMessageHandler = function () {
             const currentIndex = endLineRef.current;
@@ -78,13 +80,14 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
                 endLineRef.current = endLineRef.current + 1
             } else {
                 endLineRef.current = 0
-                messageBox.removeEventListener("click", runMessageHandler)
+                messageBox.onclick = null;
                 kkht.endMessage()
                 setInterruptUI(false)
             }
         };
 
-        messageBox.addEventListener("click", runMessageHandler);
+        messageBox.onclick = runMessageHandler;
+
 
         messageBox.style.cursor = "pointer"
 
@@ -102,7 +105,7 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
         })
 
         return () => {
-            messageBox.removeEventListener("click", runMessageHandler)
+            messageBox.onclick = null;
         }
     }
 }

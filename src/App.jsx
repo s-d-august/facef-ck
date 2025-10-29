@@ -503,7 +503,7 @@ function App({ JP, setJP }) {
         })
 
         mouthButton.current.addEventListener("click", mouthOpenClose)
-        endingButton.current.addEventListener("click", callBoydNut)
+        endingButton.current.addEventListener("click", callBoydNut, {once: true})
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
         function valDownHandler() {

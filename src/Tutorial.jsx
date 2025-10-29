@@ -40,17 +40,19 @@ const Tutorial = ({
         var index = 0
 
         function messageNoHandler() {
+            console.log("messageNoHandler called from tutorial.js")
             messageBox.style.cursor = "pointer"
-            messageNo.removeEventListener("click", messageNoHandler)
+            messageNo.onclick = null
             messageBox.style.paddingBottom = "0"
             messageArrow.style.display = "block"
             skipTutorial()
         }
 
         function messageYesHandler() {
+            console.log("messageYesHandler called from tutorial.js")
             messageBox.style.cursor = "pointer"
-            messageBox.addEventListener("click", runMessage)
-            messageYes.removeEventListener("click", messageYesHandler)
+            messageBox.onclick = runMessage
+            messageYes.onclick = null
             messageBox.style.paddingBottom = "0"
             messageArrow.style.display = "block"
             messageYes.style.display = "none"
@@ -69,7 +71,7 @@ const Tutorial = ({
                 index++
             } else {
                 endTutorial()
-                messageBox.removeEventListener("click", runMessage)
+                messageBox.onclick = null
             }
         }
 
@@ -132,7 +134,7 @@ const Tutorial = ({
                 messageYes.style.display = "none"
                 messageNo.style.display = "none"
 
-                messageBox.addEventListener("click", runMessage)
+                messageBox.onclick = runMessage
                 messageBox.style.cursor = "pointer"
             } else {
 
@@ -140,9 +142,9 @@ const Tutorial = ({
 
                 messageBox.style.paddingBottom = "1vh"
 
-                messageNo.addEventListener("click", messageNoHandler)
+                messageNo.onclick = messageNoHandler
 
-                messageYes.addEventListener("click", messageYesHandler)
+                messageYes.onclick = messageYesHandler
             }
 
             Array.from(document.getElementsByClassName("message")).forEach(el => {
@@ -197,7 +199,7 @@ const Tutorial = ({
                 duration: 1
             })
 
-            messageBox.removeEventListener("click", endTutorial)
+            messageBox.onclick = null
 
             setInterruptUI(false)
             document.getElementById("waitIcon").style.display = "block"
@@ -209,7 +211,7 @@ const Tutorial = ({
             messageLine.innerHTML = JP ? '"あら、何と熱心ですね ❤"' : '"My, aren\'t you eager ❤"'
             messageYes.style.display = "none"
             messageNo.style.display = "none"
-            messageBox.addEventListener("click", endTutorial)
+            messageBox.onclick = endTutorial
         }
 
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)

@@ -83,8 +83,7 @@ export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messa
         messageYes.style.display = "none"
         messageNo.style.display = "none"
 
-        messageBox.removeEventListener("click", runMessageHandler);
-        messageBox.addEventListener("click", runMessageHandler);
+        messageBox.onclick = runMessageHandler
 
         messageBox.style.cursor = "pointer"
     } else {
@@ -93,9 +92,9 @@ export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messa
 
         messageBox.style.paddingBottom = "1vh"
 
-        messageNo.addEventListener("click", messageNoHandler)
+        messageNo.onclick = messageNoHandler
 
-        messageYes.addEventListener("click", messageYesHandler)
+        messageYes.onclick = messageYesHandler
     }
 
     Array.from(document.getElementsByClassName("message")).forEach(el => {
@@ -109,7 +108,7 @@ export const startMessage = ({ line, yesNo, runMessageHandler, messageYes, messa
     })
 
     return () => {
-        messageBox.removeEventListener("click", runMessageHandler)
+        messageBox.onclick = null
     }
 }
 
@@ -217,8 +216,10 @@ export const advanceMessage = ({ messageSteps, index, JP, messageBox }) => {
 }
 
 export const messageNoHandler = ({ func, messageBox, messageNo, messageArrow }) => {
+    console.log("messageNoHandler called from messages.js")
     messageBox.style.cursor = "pointer"
-    messageNo.removeEventListener("click", messageNoHandler)
+    messageNo.onclick = null
+    messageYes.onlick = null
     messageBox.style.paddingBottom = "0"
     messageArrow.style.display = "block"
     func()
@@ -226,12 +227,13 @@ export const messageNoHandler = ({ func, messageBox, messageNo, messageArrow }) 
 
 export const messageYesHandler = (args) => {
     const { func, messageBox, messageYes, messageNo, messageArrow, funcArgs } = args;
-    console.log(args)
+    console.log("messageYesHandler called from messages.js")
     let actualFunc = func;
     if (func === "runMessage") actualFunc = runMessage;
     messageBox.style.cursor = "pointer";
-    messageBox.addEventListener("click", actualFunc);
-    messageYes.removeEventListener("click", messageYesHandler);
+    messageBox.onclick = actualFunc
+    messageNo.onclick = null
+    messageYes.onlick = null
     messageBox.style.paddingBottom = "0";
     messageArrow.style.display = "block";
     messageYes.style.display = "none";
@@ -272,7 +274,7 @@ export const endMessage = () => {
         duration: 1
     })
 
-    messageBox.removeEventListener("click", endMessage)
+    messageBox.onclick = null
 
     document.getElementById("waitIcon").style.display = "block"
 }
