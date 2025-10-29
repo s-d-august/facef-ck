@@ -1,4 +1,4 @@
-const Mouth = () => (
+const Mouth = ({ ivesMode }) => (
     <svg
         id="mouthFull"
         className="headParts"
@@ -42,7 +42,7 @@ const Mouth = () => (
             ></path>
             <path
                 id="beard"
-                fill="#f8bc00"
+                fill={!ivesMode ? "#fab700" : "#cf8700"}
                 fillOpacity="1"
                 stroke="none"
                 strokeWidth="6.417"

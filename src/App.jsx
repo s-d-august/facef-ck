@@ -25,7 +25,7 @@ function App({ JP, setJP }) {
     const [interruptUI, setInterruptUI] = useState()
 
     const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
-    const [ivesMode, setIvesMode] = useState(false)
+    const [ivesMode, setIvesMode] = useState(() => localStorage.getItem("ivesModeOn") === "true")
 
     const [isTongueCum, setIsTongueCum] = useState(false)
     const isTongueCumRef = useRef()
@@ -226,11 +226,9 @@ function App({ JP, setJP }) {
         if (!ivesModeActive) {
             secret.style.opacity = 0
             secret.style.pointerEvents = "none"
-            setIvesMode(false)
         } else {
             secret.style.opacity = 1
             secret.style.pointerEvents = "all"
-            setIvesMode(true)
         }
     }, [ivesModeActive])
 
@@ -338,11 +336,11 @@ function App({ JP, setJP }) {
         if (mouthOn || fastMorph || approach || interruptUI) {
             mouthButton.current.classList.add("inactive")
             wipeButton.current.classList.add("inactive")
-            endingButton.current.classList.add("inactive")
+            //   endingButton.current.classList.add("inactive")
         } else {
             mouthButton.current.classList.remove("inactive")
             wipeButton.current.classList.remove("inactive")
-            endingButton.current.classList.remove("inactive")
+            //   endingButton.current.classList.remove("inactive")
         }
 
         if (armsUp) {
@@ -515,7 +513,11 @@ function App({ JP, setJP }) {
         }
         const interval = setInterval(valDownHandler, 500);
 
-        return () => clearInterval(interval); // Cleanup interval on unmount
+        return () => {
+            clearInterval(interval); // Cleanup interval on unmount
+            mouthButton.current.removeEventListener("click", mouthOpenClose)
+            endingButton.current.removeEventListener("click", callBoydNut)
+        }
     }, []);
 
     useEffect(() => { // Sets up draggables
@@ -1164,11 +1166,11 @@ function App({ JP, setJP }) {
 
                 <div id='positioning'>
                     <Body />
-                    <Mouth />
+                    <Mouth ivesMode={ivesMode} />
                     <Dick />
-                    <Head />
+                    <Head ivesMode={ivesMode} />
                     <Arms />
-                    <HairPullHand />
+                    <HairPullHand ivesMode={ivesMode} />
                 </div>
 
                 <div className='message' id='messageBox'>

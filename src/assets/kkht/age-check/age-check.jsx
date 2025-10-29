@@ -3,13 +3,24 @@ import React, { useEffect } from "react"
 import "./age-check.css"
 import Eyecatch from "../eyecatch/eyecatch";
 import cover from "../../fonts-etc/cover.png"
+import coverAlt from "../../fonts-etc/coverAlt.png"
 import gsap from "gsap";
+
+var ivesModeOn
 
 const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
 
     useEffect(() => {
         const div = document.getElementById("ageCheckDiv");
         if (div) div.classList.add("ready");
+
+        ivesModeOn = localStorage.getItem("ivesModeOn") === "true"
+
+        if (ivesModeOn) {
+            document.getElementById("ageCheckDiv").classList.add("ivesModeOn")
+            document.getElementById("faceTitle").classList.add("ivesModeOn")
+            document.getElementById("fuckTitle").classList.add("ivesModeOn")
+        }
 
         const btn = document.getElementById("ageCheckButton");
         if (!btn) return;
@@ -58,7 +69,7 @@ const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
 
             </div>
             <div id="ageCheckImgDiv">
-                <img src={cover} />
+                <img src={ivesModeOn ? coverAlt : cover} />
             </div>
             <div id="ageCheckTextButtonDiv">
                 <p className="ageCheckText">{JP ? "このゲームを始めたら、すぐ成人向けのコンテンツが現れます。"

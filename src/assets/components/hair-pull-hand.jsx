@@ -26,7 +26,7 @@ const beadPaths = [
         d: "M863.331 102.985a9.41 9.41 0 0 0-9.412 9.412 9.412 9.412 0 1 0 18.823 0 9.41 9.41 0 0 0-9.411-9.412"
     }]
 
-const HairPullHand = () => (
+const HairPullHand = ({ ivesMode }) => (
     <div id="hairPullDiv" className="hideHand">
         <svg
             preserveAspectRatio="xMinYMax meet"
@@ -52,7 +52,7 @@ const HairPullHand = () => (
             </defs>
             <path
                 id="hairPull"
-                fill="#f8bc00"
+                fill={!ivesMode ? "#f8bc00" : "#cf8700"}
                 fillOpacity="1"
                 strokeLinecap="round"
                 strokeWidth="2.823"
