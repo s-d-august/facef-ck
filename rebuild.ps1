@@ -8,6 +8,80 @@ $androidPlatformDir = Join-Path $cordovaDir 'platforms\android'
 $gradleExplicit = 'C:\Gradle\gradle-8.13\bin\gradle.bat'  # adjust only if you use a different gradle binary
 $electronWwwDir = Join-Path $cordovaDir 'platforms\electron\www'
 
+# Path to source file that contains the 'censored' flag used for two-phase builds.
+# Change this if your source file lives elsewhere. A backup copy of this script previously
+# used 'src\assets\components\dick.jsx' so that's the sensible default.
+$dickSrc = Join-Path $repoRoot 'src\assets\components\dick.jsx'
+
+# Debug wrapper: make errors terminating and log unhandled exceptions to a debug file
+$ErrorActionPreference = 'Stop'
+$debugLog = Join-Path $repoRoot 'rebuild-debug.log'
+try { Set-Content -LiteralPath $debugLog -Value "Debug log started: $(Get-Date -Format o)" -Force } catch {}
+function Write-DebugLog($m) { try { Add-Content -LiteralPath $debugLog -Value ("[$(Get-Date -Format o)] " + $m) } catch {} }
+trap [Exception] {
+    Write-DebugLog "Unhandled exception: $($_.Exception.Message)"
+    Write-DebugLog "Invocation: $($_.InvocationInfo.ScriptName) $($_.InvocationInfo.PositionMessage)"
+    Write-DebugLog "StackTrace: $($_.Exception.StackTrace)"
+    Write-DebugLog "Full error: $($_ | Out-String)"
+    Write-Output "An error occurred; details written to $debugLog"
+    exit 1
+}
+
+# Final output folders: all uncensored builds go to final/uncensored; censored variants go to final/censored
+$finalDir = Join-Path $repoRoot 'final'
+$uncensoredDir = Join-Path $finalDir 'uncensored'
+$censoredDir = Join-Path $finalDir 'censored'
+if (-not (Test-Path $uncensoredDir)) { New-Item -ItemType Directory -Path $uncensoredDir -Force | Out-Null }
+if (-not (Test-Path $censoredDir)) { New-Item -ItemType Directory -Path $censoredDir -Force | Out-Null }
+
+# Helper to set censored flag in the source file (adds line if missing)
+function Set-CensoredFlag($path, [bool]$value) {
+    if (-not (Test-Path $path)) { throw "File not found: $path" }
+    $raw = Get-Content $path -Raw
+    if ($raw -match 'const\s+censored\s*=') {
+        $new = $raw -replace 'const\s+censored\s*=\s*(?:true|false)', "const censored = $($value.ToString().ToLower())"
+    }
+    else {
+        # Insert at top
+        $new = "const censored = $($value.ToString().ToLower())`n`n" + $raw
+    }
+    Set-Content -LiteralPath $path -Value $new -Force
+}
+
+# Outer two-pass runner: if not already inner, perform censored then uncensored runs and exit.
+if (-not $env:REBUILD_INNER -and (Test-Path $dickSrc)) {
+    $backupDir = Join-Path $repoRoot '.rebuild_backup'
+    if (-not (Test-Path $backupDir)) { New-Item -ItemType Directory -Path $backupDir -Force | Out-Null }
+    # Ensure Split-Path is evaluated before string concatenation; otherwise the '+' is parsed as a parameter
+    $origBackup = Join-Path $backupDir ((Split-Path $dickSrc -Leaf) + '.orig')
+    try { Copy-Item -LiteralPath $dickSrc -Destination $origBackup -Force -ErrorAction Stop } catch { Write-Warning "Could not backup ${dickSrc}: $($_)" }
+
+    $phases = @('censored', 'uncensored')
+    foreach ($phase in $phases) {
+        try {
+            if ($phase -eq 'censored') { Set-CensoredFlag -path $dickSrc -value $true } else { Set-CensoredFlag -path $dickSrc -value $false }
+            Write-Output "Starting inner build for phase: $phase (censored=$($phase -eq 'censored'))"
+        }
+        catch { Write-Warning "Failed setting censored flag for phase ${phase}: $($_)" }
+
+        $env:REBUILD_INNER = '1'
+        $env:REBUILD_PHASE = $phase
+        & powershell -NoProfile -ExecutionPolicy Bypass -File $MyInvocation.MyCommand.Path
+        # inner run returns here
+    }
+
+    # restore original source file if backup exists
+    try { if (Test-Path $origBackup) { Copy-Item -LiteralPath $origBackup -Destination $dickSrc -Force; Write-Output "Restored original ${dickSrc} from backup." } } catch { Write-Warning "Failed to restore original ${dickSrc}: $($_)" }
+    Remove-Item env:REBUILD_INNER -ErrorAction SilentlyContinue
+    Remove-Item env:REBUILD_PHASE -ErrorAction SilentlyContinue
+    exit 0
+}
+else {
+    if (-not $env:REBUILD_INNER) { Write-Output "Skipping two-phase censored/uncensored run because censored-source file not found at: $dickSrc" }
+}
+
+# When running as inner build, detect phase
+$buildPhase = if ($env:REBUILD_PHASE) { $env:REBUILD_PHASE } else { 'uncensored' }
 # Helper: get image dimensions (returns hashtable with Width/Height) - returns $null on failure
 function Get-ImageDimensions($path) {
     try {
@@ -113,7 +187,16 @@ if (-not (Test-CommandExists 'java')) {
     Write-Warning "java not found on PATH. Ensure JDK is installed and JAVA_HOME is set to the JDK root."
 }
 else {
-    & java -version 2>&1 | ForEach-Object { Write-Output "  $($_)" }
+    # Run java -version inside try/catch to avoid letting unexpected native command errors bubble
+    # up to the global trap (some Java distributions may write to stderr/stdout in ways PowerShell
+    # surfaces as a NativeCommandError). We still log the output for diagnostics.
+    try {
+        & java -version 2>&1 | ForEach-Object { Write-Output "  $($_)" }
+    }
+    catch {
+        Write-Warning "Failed running 'java -version': $($_)"
+        Write-DebugLog "java -version error: $($_)"
+    }
 }
 
 # Parse local.properties for sdk.dir if ANDROID_SDK_ROOT/ANDROID_HOME missing
@@ -284,7 +367,7 @@ Get-ChildItem -Path $distDir -Recurse -Force | ForEach-Object {
     # Skip root-level files that would overwrite platform files (match only top-level entries)
     if ($relPath -match '^[\\/]*([^\\/]+)$') {
         $top = $Matches[1]
-        if ($skipRoot -contains $top) {
+        if ($preserveRoot -contains $top) {
             Write-Output "Skipping platform file: $top"
             return
         }
@@ -379,6 +462,27 @@ if (Test-Path $apkPath) {
     Select-Object FullName, Length, @{Name = 'LastWriteTime'; Expression = { $_.LastWriteTime.UtcDateTime } }
     $entries | Sort-Object FullName | Format-Table -AutoSize
     $zip.Dispose()
+
+    # Copy APK to final folder based on build phase (censored vs uncensored)
+    try {
+        if (Test-Path $uncensoredDir) {
+            $apkLeaf = Split-Path $apkPath -Leaf
+            if ($buildPhase -eq 'censored') {
+                $censoredName = "FACEFCK-CENSOR-" + $apkLeaf
+                $destC = Join-Path $censoredDir $censoredName
+                Copy-Item -LiteralPath $apkPath -Destination $destC -Force -ErrorAction Stop
+                Write-Output "Copied censored APK to final/censored: $destC"
+            }
+            else {
+                $destUnc = Join-Path $uncensoredDir $apkLeaf
+                Copy-Item -LiteralPath $apkPath -Destination $destUnc -Force -ErrorAction Stop
+                Write-Output "Copied APK to final/uncensored: $destUnc"
+            }
+        }
+    }
+    catch {
+        Write-Warning "Failed copying APK to final: $($_)"
+    }
 }
 else {
     Write-Warning "APK not found at expected path: $apkPath"
@@ -500,7 +604,7 @@ if ($doZip) {
                         Write-Output "Electron package created: $($zip.FullName)"
                         $electronPackagePath = $zip.FullName
 
-                        if ($isCensored) {
+                        if ($buildPhase -eq 'censored') {
                             try {
                                 $zipPath = $zip.FullName
                                 $zipName = $zip.Name
@@ -518,10 +622,8 @@ if ($doZip) {
                         try {
                             $origZip = $zip.FullName
                             $zipLeaf = $zip.Name
-                            $destUncZip = Join-Path $uncensoredDir $zipLeaf
-                            Copy-Item -LiteralPath $origZip -Destination $destUncZip -Force -ErrorAction Stop
-                            Write-Output "Copied ZIP to uncensored exports: $destUncZip"
-                            if ($isCensored) {
+                            if ($buildPhase -eq 'censored') {
+                                # prefer the censored-in-place artifact if it exists, otherwise prefix the original
                                 if ($newPath -and (Test-Path $newPath)) {
                                     $destCZip = Join-Path $censoredDir (Split-Path $newPath -Leaf)
                                     Copy-Item -LiteralPath $newPath -Destination $destCZip -Force -ErrorAction Stop
@@ -530,10 +632,15 @@ if ($doZip) {
                                     $destCZip = Join-Path $censoredDir ("FACEFCK-CENSOR-" + $zipLeaf)
                                     Copy-Item -LiteralPath $origZip -Destination $destCZip -Force -ErrorAction Stop
                                 }
-                                Write-Output "Copied censored ZIP to censored exports: $destCZip"
+                                Write-Output "Copied censored ZIP to final/censored: $destCZip"
+                            }
+                            else {
+                                $destUncZip = Join-Path $uncensoredDir $zipLeaf
+                                Copy-Item -LiteralPath $origZip -Destination $destUncZip -Force -ErrorAction Stop
+                                Write-Output "Copied ZIP to final/uncensored: $destUncZip"
                             }
                         }
-                        catch { Write-Warning "Failed copying ZIP to exports: $($_)" }
+                        catch { Write-Warning "Failed copying ZIP to final: $($_)" }
                     }
                     else { Write-Output "Electron build completed but no zip artifact was found in $buildOut" }
                 }
