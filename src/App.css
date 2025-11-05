@@ -6,6 +6,12 @@
   src: url("../src/assets/fonts-etc/benguiat.woff");
 }
 
+#langButton,
+#ageCheckButton,
+#hideSettingsButton {
+  color: #000 !important
+}
+
 .customCursor {
   cursor: url("../src/assets/fonts-etc/hourglasspng.png"), wait
 }

@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.kikaihentai.facefck" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name short="FF*K">FACEF*CK</name>
+    <description>Responsive Facef*ck Simulation</description>
+    <author email="houndlesshare@gmail.com" href="https://kikai-hentai.itch.io/facef-ck">
+        KIKAI-HENTAI
+    </author>
+    <content src="index.html" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <preference name="DisallowOverscroll" value="true"/>
+    <preference name="Orientation" value="portrait" />
+    <preference name="Fullscreen" value="true" />
+    <platform name="android">
+        <!--
+            ldpi    : 36x36 px
+            mdpi    : 48x48 px
+            hdpi    : 72x72 px
+            xhdpi   : 96x96 px
+            xxhdpi  : 144x144 px
+            xxxhdpi : 192x192 px
+        -->
+    <icon src="res/ldpi.png" density="ldpi" />
+    <icon src="res/mdpi.png" density="mdpi" />
+    <icon src="res/hdpi.png" density="hdpi" />
+    <icon src="res/xhdpi.png" density="xhdpi" />
+    <icon src="res/xxhdpi.png" density="xxhdpi" />
+    <icon src="res/xxxhdpi.png" density="xxxhdpi" />
+    </platform>
+</widget>
