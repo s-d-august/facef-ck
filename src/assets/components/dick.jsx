@@ -75,7 +75,7 @@ const Dick = (props) => (
                 ></path>
                 <path
                     id="dickTip"
-                    fill="#950000"
+                    fill="#a00"
                     strokeDasharray="none"
                     strokeWidth="10.065"
                     d="M486.807 812.227c-6.569 12.066-12.008 34.755-4.96 49.952 5.127 11.056 11.201 18.619 24.417 23.813 11.831 4.651 31.831 4.304 43.874 1.165 10.685-2.785 22.47-6.523 29.377-19.167 6.908-12.644 5.356-35.781-2.503-55.329-16.783-41.749-58.129-59.363-90.205-.434"
@@ -85,7 +85,7 @@ const Dick = (props) => (
                     id="slit"
                     cx="530.267"
                     cy="788.181"
-                    fill="#2b0000"
+                    fill="#a00"
                     strokeDasharray="none"
                     strokeWidth="10.065"
                     display="inline"
@@ -99,6 +99,7 @@ const Dick = (props) => (
                     d="m470.308 1184.41-77.679 70.71 278.206-.3-82.07-74.43z"
                 ></path>
                 <path
+                    display="none"
                     id="pubes"
                     fill="url(#pattern2)"
                     strokeWidth="2.749"
