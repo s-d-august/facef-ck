@@ -417,6 +417,11 @@ else {
 if ($doZip) {
     Write-Output "`n==> Step 5: prepare and package Electron (desktop)"
     Set-Location $cordovaDir
+
+    # Prepare variables used below
+    $electronPackagePath = $null
+    $newPath = $null
+
     if (Test-Path (Join-Path $cordovaDir 'platforms\electron')) {
         Write-Output "Running 'npx cordova prepare electron' to ensure platform is up-to-date"
         npx cordova prepare electron
@@ -427,21 +432,15 @@ if ($doZip) {
         }
 
         if (-not (Test-Path $electronWwwDir)) {
-            Write-Warning "Electron www folder not found at $electronWwwDir. Cannot package Electron app." 
+            Write-Warning "Electron www folder not found at $electronWwwDir. Cannot package Electron app."
         }
         else {
             Set-Location $electronWwwDir
 
-            # Ensure electron icons are present and valid. If missing or wrong size here, attempt to copy from the Cordova project root ($cordovaDir).
-            try {
-                Ensure-ElectronIcons -electronWwwDir $electronWwwDir -cordovaDir $cordovaDir
-            }
-            catch {
-                Write-Warning "Ensure-ElectronIcons encountered an error: $($_)"
-            }
+            # Ensure electron icons are present and valid.
+            try { Ensure-ElectronIcons -electronWwwDir $electronWwwDir -cordovaDir $cordovaDir } catch { Write-Warning "Ensure-ElectronIcons encountered an error: $($_)" }
 
-            # Before packaging: ensure package.json has pack script or build config
-            # Also temporarily disable automatic DevTools so packaged builds don't open devtools.
+            # Temporarily disable DevTools in cdv-electron-settings.json if present
             $settingsFile = Join-Path $electronWwwDir 'cdv-electron-settings.json'
             $settingsBackupDir = Join-Path $repoRoot '.rebuild_backup\electron_settings'
             $settingsWasModified = $false
@@ -449,24 +448,19 @@ if ($doZip) {
                 try {
                     $settings = Get-Content $settingsFile -Raw | ConvertFrom-Json
                     if ($settings.browserWindow -and $settings.browserWindow.webPreferences -and $settings.browserWindow.webPreferences.devTools) {
-                        # Backup original settings
                         if (-not (Test-Path $settingsBackupDir)) { New-Item -ItemType Directory -Path $settingsBackupDir -Force | Out-Null }
                         Copy-Item -LiteralPath $settingsFile -Destination (Join-Path $settingsBackupDir 'cdv-electron-settings.json') -Force
-                        # Disable devTools for packaging
                         $settings.browserWindow.webPreferences.devTools = $false
                         $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile -Force
                         $settingsWasModified = $true
                         Write-Output "Temporarily disabled DevTools in $settingsFile for packaging (backup saved to $settingsBackupDir)."
                     }
                 }
-                catch {
-                    Write-Warning "Failed to adjust devTools setting in $($settingsFile): $($_)"
-                }
+                catch { Write-Warning "Failed to adjust devTools setting in $($settingsFile): $($_)" }
             }
 
-            # Ensure package.json has pack script or build config
             if (-not (Test-Path package.json)) {
-                Write-Warning "No package.json in $electronWwwDir. Skipping Electron packaging." 
+                Write-Warning "No package.json in $electronWwwDir. Skipping Electron packaging."
             }
             else {
                 # Install dependencies if node_modules missing
@@ -485,77 +479,85 @@ if ($doZip) {
                     if ($resolved) {
                         $buildPath = $resolved.Path
                         Write-Output "Cleaning previous Electron build artifacts in $buildPath"
-                        # remove zip and unpacked folders but don't fail the script if deletion fails
                         Get-ChildItem -Path $buildPath -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
                     }
-                    else {
-                        Write-Output "No existing Electron build folder found at $expectedBuildDir; nothing to clean."
-                    }
+                    else { Write-Output "No existing Electron build folder found at $expectedBuildDir; nothing to clean." }
                 }
-                catch {
-                    Write-Warning "Failed to clean previous Electron build artifacts: $_. Continuing..."
-                }
+                catch { Write-Warning "Failed to clean previous Electron build artifacts: $_. Continuing..." }
 
                 Write-Output "Running npm run pack:win to build portable ZIP..."
                 npm run pack:win
                 $packExit = $LASTEXITCODE
                 Write-Output "npm run pack:win exit code: $packExit"
-                if ($packExit -ne 0) { 
-                    Write-Warning "electron-builder packaging failed (exit $packExit). See npm output for details. Packaging is non-fatal; script will continue."
-                }
+                if ($packExit -ne 0) { Write-Warning "electron-builder packaging failed (exit $packExit). See npm output for details. Packaging is non-fatal; script will continue." }
 
                 # find produced zip
                 $buildOut = Join-Path $electronWwwDir '..\build' | Resolve-Path -ErrorAction SilentlyContinue
                 if ($buildOut) {
                     $buildOut = $buildOut.Path
                     $zip = Get-ChildItem -Path $buildOut -Filter '*.zip' -File -Recurse | Sort-Object LastWriteTime | Select-Object -Last 1
-                    if ($zip) { 
-                        Write-Output "Electron package created: $($zip.FullName)" 
+                    if ($zip) {
+                        Write-Output "Electron package created: $($zip.FullName)"
                         $electronPackagePath = $zip.FullName
+
+                        if ($isCensored) {
+                            try {
+                                $zipPath = $zip.FullName
+                                $zipName = $zip.Name
+                                $idx = $zipName.IndexOf('-')
+                                if ($idx -ge 0) { $suffix = $zipName.Substring($idx) } else { $suffix = '-' + $zipName }
+                                $newName = "FACEFCK-CENSOR" + $suffix
+                                $newPath = Join-Path $zip.DirectoryName $newName
+                                Copy-Item -LiteralPath $zipPath -Destination $newPath -Force
+                                Write-Output "Created censored package: $newPath"
+                                $electronPackagePath = $newPath
+                            }
+                            catch { Write-Warning "Failed to create censored package: $($_)" }
+                        }
+
+                        try {
+                            $origZip = $zip.FullName
+                            $zipLeaf = $zip.Name
+                            $destUncZip = Join-Path $uncensoredDir $zipLeaf
+                            Copy-Item -LiteralPath $origZip -Destination $destUncZip -Force -ErrorAction Stop
+                            Write-Output "Copied ZIP to uncensored exports: $destUncZip"
+                            if ($isCensored) {
+                                if ($newPath -and (Test-Path $newPath)) {
+                                    $destCZip = Join-Path $censoredDir (Split-Path $newPath -Leaf)
+                                    Copy-Item -LiteralPath $newPath -Destination $destCZip -Force -ErrorAction Stop
+                                }
+                                else {
+                                    $destCZip = Join-Path $censoredDir ("FACEFCK-CENSOR-" + $zipLeaf)
+                                    Copy-Item -LiteralPath $origZip -Destination $destCZip -Force -ErrorAction Stop
+                                }
+                                Write-Output "Copied censored ZIP to censored exports: $destCZip"
+                            }
+                        }
+                        catch { Write-Warning "Failed copying ZIP to exports: $($_)" }
                     }
                     else { Write-Output "Electron build completed but no zip artifact was found in $buildOut" }
                 }
-                else {
-                    Write-Output "Electron build completed but build output folder not found (expected ../build)"
+                else { Write-Output "Electron build completed but build output folder not found (expected ../build)" }
+            }
+
+            # Final packaging status message and optional pause so window doesn't close immediately
+            if ($null -ne $electronPackagePath) {
+                Write-Output "`n==> Electron packaging SUCCESSFUL. Package: $electronPackagePath"
+                try { if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) { Read-Host -Prompt "Press Enter to finish" } } catch { }
+            }
+            else {
+                Write-Warning "Electron packaging did not produce a zip artifact. Check previous npm/electron-builder output above for errors."
+                try { if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) { Read-Host -Prompt "Press Enter to finish" } } catch { }
+            }
+
+            # Restore settings file if we modified it
+            if ($settingsWasModified) {
+                try {
+                    $orig = Join-Path $settingsBackupDir 'cdv-electron-settings.json'
+                    if (Test-Path $orig) { Copy-Item -LiteralPath $orig -Destination $settingsFile -Force; Remove-Item -LiteralPath $orig -Force; Write-Output "Restored original $settingsFile from backup." }
+                    Remove-Item -LiteralPath $settingsBackupDir -Recurse -Force -ErrorAction SilentlyContinue
                 }
-                # Final packaging status message and optional pause so window doesn't close immediately
-                if ($null -ne $electronPackagePath) {
-                    Write-Output "`n==> Electron packaging SUCCESSFUL. Package: $electronPackagePath"
-                    # Pause only if interactive host to avoid blocking CI
-                    try {
-                        if ($Host -and $Host.UI -and $Host.UI.RawUI) {
-                            Read-Host -Prompt "Press Enter to finish"
-                        }
-                    }
-                    catch {
-                        # ignore if Read-Host not available
-                    }
-                }
-                else {
-                    Write-Warning "Electron packaging did not produce a zip artifact. Check previous npm/electron-builder output above for errors."
-                    try {
-                        if ($Host -and $Host.UI -and $Host.UI.RawUI) {
-                            Read-Host -Prompt "Press Enter to finish"
-                        }
-                    }
-                    catch {
-                    }
-                }
-                # Restore settings file if we modified it
-                if ($settingsWasModified) {
-                    try {
-                        $orig = Join-Path $settingsBackupDir 'cdv-electron-settings.json'
-                        if (Test-Path $orig) {
-                            Copy-Item -LiteralPath $orig -Destination $settingsFile -Force
-                            Remove-Item -LiteralPath $orig -Force
-                            Write-Output "Restored original $settingsFile from backup."
-                        }
-                        Remove-Item -LiteralPath $settingsBackupDir -Recurse -Force -ErrorAction SilentlyContinue
-                    }
-                    catch {
-                        Write-Warning "Failed to restore original settings from $($settingsBackupDir): $($_)"
-                    }
-                }
+                catch { Write-Warning "Failed to restore original settings from $($settingsBackupDir): $($_)" }
             }
         }
     }

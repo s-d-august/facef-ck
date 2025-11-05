@@ -1,0 +1,671 @@
+# Build -> copy -> prepare -> gradle clean -> assembleDebug
+# Adjust $repoRoot if your repo is somewhere else
+$repoRoot = 'C:\Users\sincl\boydOral'
+$cordovaDir = Join-Path $repoRoot 'FFK'
+$distDir = Join-Path $repoRoot 'dist'
+$wwwDir = Join-Path $cordovaDir 'www'
+$androidPlatformDir = Join-Path $cordovaDir 'platforms\android'
+$gradleExplicit = 'C:\Gradle\gradle-8.13\bin\gradle.bat'  # adjust only if you use a different gradle binary
+$electronWwwDir = Join-Path $cordovaDir 'platforms\electron\www'
+
+# Detect censored flag in source component to adjust packaged name if needed
+$dickSrc = Join-Path $repoRoot 'src\assets\components\dick.jsx'
+$isCensored = $false
+if (Test-Path $dickSrc) {
+    try {
+        $dickContent = Get-Content $dickSrc -Raw -ErrorAction Stop
+        if ($dickContent -match 'const\s+censored\s*=\s*true') {
+            $isCensored = $true
+            Write-Output "Detected censored=true in $dickSrc; packaged Electron ZIP will be renamed to include 'CENSOR'."
+        }
+    }
+    catch {
+        Write-Warning "Failed to inspect $dickSrc for censored flag: $($_)"
+    }
+}
+
+# Helper to set censored flag in the source file (adds line if missing)
+function Set-CensoredFlag($path, [bool]$value) {
+    if (-not (Test-Path $path)) { throw "File not found: $path" }
+    $raw = Get-Content $path -Raw
+    if ($raw -match 'const\s+censored\s*=') {
+        $new = $raw -replace 'const\s+censored\s*=\s*(?:true|false)', "const censored = $($value.ToString().ToLower())"
+    }
+    else {
+        # Insert at top
+        $new = "const censored = $($value.ToString().ToLower())`n`n" + $raw
+    }
+    Set-Content -LiteralPath $path -Value $new -Force
+}
+
+# If not already running as an inner build runner, perform the two-pass censored->normal build sequence.
+if (-not $env:REBUILD_INNER) {
+    # Backup original source so we can restore later
+    $backupDir = Join-Path $repoRoot '.rebuild_backup'
+    if (-not (Test-Path $backupDir)) { New-Item -ItemType Directory -Path $backupDir -Force | Out-Null }
+    $origBackup = Join-Path $backupDir 'dick.jsx.orig'
+    try {
+        Copy-Item -LiteralPath $dickSrc -Destination $origBackup -Force -ErrorAction Stop
+    }
+    catch {
+        Write-Warning "Could not backup $($dickSrc): $($_)"
+    }
+
+    # 1) Ensure censored=true
+    try {
+        Set-CensoredFlag -path $dickSrc -value $true
+        Write-Output "Set censored=true in $dickSrc"
+    }
+    catch {
+        Write-Warning "Failed to set censored=true: $($_)"
+    }
+
+    # Run inner build (child) to perform the actual build steps without re-entering this wrapper.
+    $env:REBUILD_INNER = '1'
+    Write-Output "Starting censored build (inner)..."
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $MyInvocation.MyCommand.Path
+
+    # After inner build completes, rename produced artifacts (apk and/or zip) to FACEFCK-CENSOR
+    try {
+        # APK: find latest APK under outputs and create a censored-named copy (preserve original)
+        $apkFolder = Join-Path $androidPlatformDir 'app\build\outputs\apk'
+        if (Test-Path $apkFolder) {
+            $apk = Get-ChildItem -Path $apkFolder -Filter '*.apk' -File -Recurse -ErrorAction SilentlyContinue | Sort-Object LastWriteTime | Select-Object -Last 1
+            if ($apk) {
+                $newApkName = "FACEFCK-CENSOR-" + $apk.Name
+                $newApkPath = Join-Path $apk.DirectoryName $newApkName
+                try { Copy-Item -LiteralPath $apk.FullName -Destination $newApkPath -Force -ErrorAction Stop; Write-Output "Created censored APK copy: $newApkPath" } catch { Write-Warning "Failed creating censored APK copy: $($_)" }
+            }
+        }
+
+        # Electron zip: find latest zip in build output and create a censored-named copy
+        $buildZipFolder = Resolve-Path (Join-Path $electronWwwDir '..\build') -ErrorAction SilentlyContinue
+        if ($buildZipFolder) {
+            $zip = Get-ChildItem -Path $buildZipFolder.Path -Filter '*.zip' -File -Recurse | Sort-Object LastWriteTime | Select-Object -Last 1
+            if ($zip) {
+                $newZipName = "FACEFCK-CENSOR-" + $zip.Name
+                $newZipPath = Join-Path $zip.DirectoryName $newZipName
+                try { Copy-Item -LiteralPath $zip.FullName -Destination $newZipPath -Force -ErrorAction Stop; Write-Output "Created censored ZIP copy: $newZipPath" } catch { Write-Warning "Failed creating censored ZIP copy: $($_)" }
+            }
+        }
+    }
+    catch {
+        Write-Warning "Failed renaming censored artifacts: $($_)"
+    }
+
+    # 3) Set censored=false and run a normal build
+    try {
+        Set-CensoredFlag -path $dickSrc -value $false
+        Write-Output "Set censored=false in $dickSrc"
+    }
+    catch {
+        Write-Warning "Failed to set censored=false: $($_)"
+    }
+
+    Write-Output "Starting normal build (inner)..."
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $MyInvocation.MyCommand.Path
+
+    # Restore original file from backup if available
+    try {
+        if (Test-Path $origBackup) {
+            Copy-Item -LiteralPath $origBackup -Destination $dickSrc -Force
+            Write-Output "Restored original $dickSrc from backup."
+        }
+    }
+    catch {
+        Write-Warning "Failed to restore original dick.jsx from backup: $($_)"
+    }
+
+    # Clean up marker and exit parent run
+    Remove-Item env:REBUILD_INNER -ErrorAction SilentlyContinue
+    exit 0
+}
+
+# Helper: get image dimensions (returns hashtable with Width/Height) - returns $null on failure
+function Get-ImageDimensions($path) {
+    try {
+        Add-Type -AssemblyName System.Drawing -ErrorAction SilentlyContinue | Out-Null
+        $img = [System.Drawing.Image]::FromFile($path)
+        $w = $img.Width
+        $h = $img.Height
+        $img.Dispose()
+        return @{ Width = $w; Height = $h }
+    }
+    catch {
+        return $null
+    }
+}
+
+# Ensure Electron www has usable icons. If icons are missing or wrong size in the electron www folder,
+# attempt to copy the icons from the Cordova project root ($cordovaDir) if they are present and the
+# PNG versions match the desired size. We deliberately do NOT resize images here.
+function Ensure-ElectronIcons($electronWwwDir, $cordovaDir) {
+    # Desired minimum size for ICO files used by electron-builder. Override by setting env var ELECTRON_ICON_PNG_SIZE.
+    $desiredSize = 256
+    if ($env:ELECTRON_ICON_PNG_SIZE) {
+        [int]$parsed = 0
+        if ([int]::TryParse($env:ELECTRON_ICON_PNG_SIZE, [ref]$parsed)) { $desiredSize = $parsed }
+    }
+
+    $icons = @('icon.png', 'icon.ico')
+    foreach ($icon in $icons) {
+        $target = Join-Path $electronWwwDir $icon
+        $fallback = Join-Path $cordovaDir $icon
+
+        if ($icon -ieq 'icon.png') {
+            # Do not enforce PNG size. If PNG is missing in electron www, copy fallback if present.
+            if (Test-Path $target) {
+                Write-Output "Electron PNG icon present: $target"
+            }
+            # 7) Prepare and package desktop (Cordova-electron -> portable zip)
+            if ($doZip) {
+                Write-Output "`n==> Step 5: prepare and package Electron (desktop)"
+                Set-Location $cordovaDir
+
+                # Prepare variables used below
+                $electronPackagePath = $null
+                $newPath = $null
+
+                if (Test-Path (Join-Path $cordovaDir 'platforms\electron')) {
+                    Write-Output "Running 'npx cordova prepare electron' to ensure platform is up-to-date"
+                    npx cordova prepare electron
+                    $cpExit = $LASTEXITCODE
+                    Write-Output "cordova prepare electron exit code: $cpExit"
+                    if ($cpExit -ne 0) {
+                        Write-Warning "cordova prepare electron failed (exit $cpExit). Will attempt packaging anyway if possible."
+                    }
+
+                    if (-not (Test-Path $electronWwwDir)) {
+                        Write-Warning "Electron www folder not found at $electronWwwDir. Cannot package Electron app."
+                    }
+                    else {
+                        Set-Location $electronWwwDir
+
+                        # Ensure electron icons are present and valid.
+                        try { Ensure-ElectronIcons -electronWwwDir $electronWwwDir -cordovaDir $cordovaDir } catch { Write-Warning "Ensure-ElectronIcons encountered an error: $($_)" }
+
+                        # Temporarily disable DevTools in cdv-electron-settings.json if present
+                        $settingsFile = Join-Path $electronWwwDir 'cdv-electron-settings.json'
+                        $settingsBackupDir = Join-Path $repoRoot '.rebuild_backup\electron_settings'
+                        $settingsWasModified = $false
+                        if (Test-Path $settingsFile) {
+                            try {
+                                $settings = Get-Content $settingsFile -Raw | ConvertFrom-Json
+                                if ($settings.browserWindow -and $settings.browserWindow.webPreferences -and $settings.browserWindow.webPreferences.devTools) {
+                                    if (-not (Test-Path $settingsBackupDir)) { New-Item -ItemType Directory -Path $settingsBackupDir -Force | Out-Null }
+                                    Copy-Item -LiteralPath $settingsFile -Destination (Join-Path $settingsBackupDir 'cdv-electron-settings.json') -Force
+                                    $settings.browserWindow.webPreferences.devTools = $false
+                                    $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile -Force
+                                    $settingsWasModified = $true
+                                    Write-Output "Temporarily disabled DevTools in $settingsFile for packaging (backup saved to $settingsBackupDir)."
+                                }
+                            }
+                            catch { Write-Warning "Failed to adjust devTools setting in $($settingsFile): $($_)" }
+                        }
+
+                        if (-not (Test-Path package.json)) {
+                            Write-Warning "No package.json in $electronWwwDir. Skipping Electron packaging."
+                        }
+                        else {
+                            # Install dependencies if node_modules missing
+                            if (-not (Test-Path (Join-Path $electronWwwDir 'node_modules'))) {
+                                Write-Output "Installing npm dependencies in Electron www folder... (this may take a minute)"
+                                npm install --no-audit --no-fund
+                                $npmExit = $LASTEXITCODE
+                                Write-Output "npm install exit code: $npmExit"
+                                if ($npmExit -ne 0) { Write-Warning "npm install in Electron www failed (exit $npmExit). Attempting to continue but packaging will likely fail." }
+                            }
+
+                            # Cleanup previous electron build artifacts (non-fatal)
+                            try {
+                                $expectedBuildDir = Join-Path $electronWwwDir '..\build'
+                                $resolved = Resolve-Path $expectedBuildDir -ErrorAction SilentlyContinue
+                                if ($resolved) {
+                                    $buildPath = $resolved.Path
+                                    Write-Output "Cleaning previous Electron build artifacts in $buildPath"
+                                    Get-ChildItem -Path $buildPath -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+                                }
+                                else { Write-Output "No existing Electron build folder found at $expectedBuildDir; nothing to clean." }
+                            }
+                            catch { Write-Warning "Failed to clean previous Electron build artifacts: $_. Continuing..." }
+
+                            Write-Output "Running npm run pack:win to build portable ZIP..."
+                            npm run pack:win
+                            $packExit = $LASTEXITCODE
+                            Write-Output "npm run pack:win exit code: $packExit"
+                            if ($packExit -ne 0) { Write-Warning "electron-builder packaging failed (exit $packExit). See npm output for details. Packaging is non-fatal; script will continue." }
+
+                            # find produced zip
+                            $buildOut = Join-Path $electronWwwDir '..\build' | Resolve-Path -ErrorAction SilentlyContinue
+                            if ($buildOut) {
+                                $buildOut = $buildOut.Path
+                                $zip = Get-ChildItem -Path $buildOut -Filter '*.zip' -File -Recurse | Sort-Object LastWriteTime | Select-Object -Last 1
+                                if ($zip) {
+                                    Write-Output "Electron package created: $($zip.FullName)"
+                                    $electronPackagePath = $zip.FullName
+
+                                    if ($isCensored) {
+                                        try {
+                                            $zipPath = $zip.FullName
+                                            $zipName = $zip.Name
+                                            $idx = $zipName.IndexOf('-')
+                                            if ($idx -ge 0) { $suffix = $zipName.Substring($idx) } else { $suffix = '-' + $zipName }
+                                            $newName = "FACEFCK-CENSOR" + $suffix
+                                            $newPath = Join-Path $zip.DirectoryName $newName
+                                            Copy-Item -LiteralPath $zipPath -Destination $newPath -Force
+                                            Write-Output "Created censored package: $newPath"
+                                            $electronPackagePath = $newPath
+                                        }
+                                        catch { Write-Warning "Failed to create censored package: $($_)" }
+                                    }
+
+                                    try {
+                                        $origZip = $zip.FullName
+                                        $zipLeaf = $zip.Name
+                                        $destUncZip = Join-Path $uncensoredDir $zipLeaf
+                                        Copy-Item -LiteralPath $origZip -Destination $destUncZip -Force -ErrorAction Stop
+                                        Write-Output "Copied ZIP to uncensored exports: $destUncZip"
+                                        if ($isCensored) {
+                                            if ($newPath -and (Test-Path $newPath)) {
+                                                $destCZip = Join-Path $censoredDir (Split-Path $newPath -Leaf)
+                                                Copy-Item -LiteralPath $newPath -Destination $destCZip -Force -ErrorAction Stop
+                                            }
+                                            else {
+                                                $destCZip = Join-Path $censoredDir ("FACEFCK-CENSOR-" + $zipLeaf)
+                                                Copy-Item -LiteralPath $origZip -Destination $destCZip -Force -ErrorAction Stop
+                                            }
+                                            Write-Output "Copied censored ZIP to censored exports: $destCZip"
+                                        }
+                                    }
+                                    catch { Write-Warning "Failed copying ZIP to exports: $($_)" }
+                                }
+                                else { Write-Output "Electron build completed but no zip artifact was found in $buildOut" }
+                            }
+                            else { Write-Output "Electron build completed but build output folder not found (expected ../build)" }
+                        }
+
+                        # Final packaging status message and optional pause so window doesn't close immediately
+                        if ($null -ne $electronPackagePath) {
+                            Write-Output "`n==> Electron packaging SUCCESSFUL. Package: $electronPackagePath"
+                            try { if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) { Read-Host -Prompt "Press Enter to finish" } } catch { }
+                        }
+                        else {
+                            Write-Warning "Electron packaging did not produce a zip artifact. Check previous npm/electron-builder output above for errors."
+                            try { if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) { Read-Host -Prompt "Press Enter to finish" } } catch { }
+                        }
+
+                        # Restore settings file if we modified it
+                        if ($settingsWasModified) {
+                            try {
+                                $orig = Join-Path $settingsBackupDir 'cdv-electron-settings.json'
+                                if (Test-Path $orig) { Copy-Item -LiteralPath $orig -Destination $settingsFile -Force; Remove-Item -LiteralPath $orig -Force; Write-Output "Restored original $settingsFile from backup." }
+                                Remove-Item -LiteralPath $settingsBackupDir -Recurse -Force -ErrorAction SilentlyContinue
+                            }
+                            catch { Write-Warning "Failed to restore original settings from $($settingsBackupDir): $($_)" }
+                        }
+                    }
+                }
+                else {
+                    Write-Output "No electron platform found at $cordovaDir\platforms\electron — skipping desktop packaging."
+                }
+            }
+            else {
+                Write-Output "Skipping Electron packaging as requested."
+            }
+            $sourcePath = $_.FullName
+            $relPath = $sourcePath.Substring($distDir.Length).TrimStart('\', '/')
+            $destPath = Join-Path $wwwDir $relPath
+
+            if ($_.PSIsContainer) {
+                # create the directory if needed
+                if (-not (Test-Path $destPath)) { New-Item -ItemType Directory -Path $destPath -Force | Out-Null }
+                return
+            }
+
+            # Skip root-level files that would overwrite platform files (match only top-level entries)
+            if ($relPath -match '^[\\/]*([^\\/]+)$') {
+                $top = $Matches[1]
+                if ($skipRoot -contains $top) {
+                    Write-Output "Skipping platform file: $top"
+                    return
+                }
+            }
+
+            Copy-Item -Path $sourcePath -Destination $destPath -Force
+        }
+        Write-Output "Copy complete."
+
+        # Restore any preserved platform files from backup (overwrite any accidental replacements)
+        foreach ($fname in $preserveRoot) {
+            $backupFile = Join-Path $backupRoot $fname
+            if (Test-Path $backupFile) {
+                try {
+                    Write-Output "Restoring platform file: $fname"
+                    Copy-Item -LiteralPath $backupFile -Destination (Join-Path $wwwDir $fname) -Force -ErrorAction SilentlyContinue
+                }
+                catch {
+                    Write-Warning "Failed to restore $($backupFile): $($_)"
+                }
+            }
+        }
+
+        # Remove backup folder
+        if (Test-Path $backupRoot) {
+            try { Remove-Item -LiteralPath $backupRoot -Recurse -Force -ErrorAction SilentlyContinue } catch { Write-Warning "Failed to remove backup folder $($backupRoot): $($_)" }
+        }
+
+        # 3) Cordova prepare (copies www into platforms/android as required)
+        if ($doApk) {
+            Write-Output "`n==> Step 3: cordova prepare android in $cordovaDir"
+            Set-Location $cordovaDir
+            npx cordova prepare android
+            if ($LASTEXITCODE -ne 0) { Write-Error "cordova prepare android failed (exit $LASTEXITCODE). Check output above."; exit 1 }
+        }
+        else {
+            Write-Output "Skipping Android prepare/build as requested."
+        }
+
+        # 4) Ensure gradle wrapper exists (if not, generate wrapper using explicit gradle)
+        if ($doApk) {
+            Set-Location $androidPlatformDir
+            if (-not (Test-Path ".\gradlew.bat")) {
+                Write-Output "`nNo gradlew.bat found in $androidPlatformDir, attempting to generate wrapper using explicit Gradle binary..."
+                if (-not (Test-Path $gradleExplicit)) {
+                    Write-Warning "Explicit Gradle binary not found at $gradleExplicit. Please install Gradle or adjust the path in this script."
+                    Write-Error "Cannot create gradle wrapper. Install Gradle or place gradlew.bat in $androidPlatformDir. Abort."
+                    exit 1
+                }
+                & $gradleExplicit wrapper --gradle-version 8.13 --distribution-type all --info --stacktrace
+                if ($LASTEXITCODE -ne 0) { Write-Error "Failed to generate gradle wrapper (exit $LASTEXITCODE). See above logs."; exit 1 }
+                Write-Output "gradle wrapper created."
+            }
+            else {
+                Write-Output "gradlew.bat already exists. Skipping wrapper generation."
+            }
+        }
+        else {
+            Write-Output "Skipping gradle wrapper/check because APK build was skipped."
+        }
+
+        # 5) Clean and assemble debug
+        if ($doApk) {
+            Write-Output "`n==> Step 4: gradle clean and assembleDebug (using gradlew.bat)"
+            # Use gradlew.bat if present
+            $gradlew = Join-Path $androidPlatformDir 'gradlew.bat'
+            if (Test-Path $gradlew) {
+                & $gradlew clean
+                if ($LASTEXITCODE -ne 0) { Write-Warning "gradle clean returned non-zero exit; continuing to build." }
+                & $gradlew assembleDebug --info --stacktrace
+                if ($LASTEXITCODE -ne 0) { Write-Error "gradle assembleDebug failed (exit $LASTEXITCODE). Check logs above."; exit 1 }
+            }
+            else {
+                Write-Error "gradlew.bat not found and explicit gradle path not used/available. Abort."
+                exit 1
+            }
+        }
+        else {
+            Write-Output "Skipping gradle build because APK build was skipped."
+        }
+
+        # 6) Show APK path and inspect contents for index.html and CSS
+        $apkPath = Join-Path $androidPlatformDir 'app\build\outputs\apk\debug\app-debug.apk'
+        if (Test-Path $apkPath) {
+            Write-Output "`n==> Build successful. APK located at:"
+            Get-Item $apkPath | Select-Object FullName, Length, LastWriteTime
+
+            Write-Output "`nListing web assets inside APK (index.html + CSS files)"
+            Add-Type -AssemblyName System.IO.Compression.FileSystem
+            $zip = [System.IO.Compression.ZipFile]::OpenRead($apkPath)
+            $entries = $zip.Entries | Where-Object { $_.FullName -match 'www\/(index\.html|.*\.css|.*\.html|assets/.*)' } |
+            Select-Object FullName, Length, @{Name = 'LastWriteTime'; Expression = { $_.LastWriteTime.UtcDateTime } }
+            $entries | Sort-Object FullName | Format-Table -AutoSize
+            $zip.Dispose()
+
+            # Copy APK to exports/uncensored and (if censored) to exports/censored with a FACEFCK-CENSOR prefix
+            try {
+                if (Test-Path $uncensoredDir) {
+                    $apkLeaf = Split-Path $apkPath -Leaf
+                    $destUnc = Join-Path $uncensoredDir $apkLeaf
+                    Copy-Item -LiteralPath $apkPath -Destination $destUnc -Force -ErrorAction Stop
+                    Write-Output "Copied APK to uncensored exports: $destUnc"
+                    if ($isCensored) {
+                        $censoredName = "FACEFCK-CENSOR-" + $apkLeaf
+                        $destC = Join-Path $censoredDir $censoredName
+                        Copy-Item -LiteralPath $apkPath -Destination $destC -Force -ErrorAction Stop
+                        Write-Output "Copied censored APK to censored exports: $destC"
+                    }
+                }
+            }
+            catch {
+                Write-Warning "Failed copying APK to exports: $($_)"
+            }
+        }
+        else {
+            Write-Warning "APK not found at expected path: $apkPath"
+        }
+        Write-Output "`nDone. If you expected different files inside the APK, check the 'Listing web assets inside APK' output and timestamps."
+
+        if ($doApk) {
+            # Informational success/failure message for APK and pause interactively so window doesn't close immediately
+            if (Test-Path $apkPath) {
+                Write-Output "`n==> APK packaging SUCCESSFUL. APK: $apkPath"
+                try {
+                    if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) {
+                        Read-Host -Prompt "Press Enter to continue"
+                    }
+                }
+                catch {
+                    # ignore if Read-Host not available
+                }
+            }
+            else {
+                Write-Warning "APK was not produced at $apkPath. Check earlier output for gradle errors."
+                try {
+                    if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) {
+                        Read-Host -Prompt "Press Enter to continue"
+                    }
+                }
+                catch {
+                }
+            }
+        }
+        else {
+            Write-Output "Skipping APK packaging/messages as requested."
+        }
+
+        # 7) Prepare and package desktop (Cordova-electron -> portable zip)
+        if ($doZip) {
+            Write-Output "`n==> Step 5: prepare and package Electron (desktop)"
+            Set-Location $cordovaDir
+            if (Test-Path (Join-Path $cordovaDir 'platforms\electron')) {
+                Write-Output "Running 'npx cordova prepare electron' to ensure platform is up-to-date"
+                npx cordova prepare electron
+                $cpExit = $LASTEXITCODE
+                Write-Output "cordova prepare electron exit code: $cpExit"
+                if ($cpExit -ne 0) {
+                    Write-Warning "cordova prepare electron failed (exit $cpExit). Will attempt packaging anyway if possible."
+                }
+
+                if (-not (Test-Path $electronWwwDir)) {
+                    Write-Warning "Electron www folder not found at $electronWwwDir. Cannot package Electron app." 
+                }
+                else {
+                    Set-Location $electronWwwDir
+
+                    # Ensure electron icons are present and valid. If missing or wrong size here, attempt to copy from the Cordova project root ($cordovaDir).
+                    try {
+                        Ensure-ElectronIcons -electronWwwDir $electronWwwDir -cordovaDir $cordovaDir
+                    }
+                    catch {
+                        Write-Warning "Ensure-ElectronIcons encountered an error: $($_)"
+                    }
+
+                    # Before packaging: ensure package.json has pack script or build config
+                    # Also temporarily disable automatic DevTools so packaged builds don't open devtools.
+                    $settingsFile = Join-Path $electronWwwDir 'cdv-electron-settings.json'
+                    $settingsBackupDir = Join-Path $repoRoot '.rebuild_backup\electron_settings'
+                    $settingsWasModified = $false
+                    if (Test-Path $settingsFile) {
+                        try {
+                            $settings = Get-Content $settingsFile -Raw | ConvertFrom-Json
+                            if ($settings.browserWindow -and $settings.browserWindow.webPreferences -and $settings.browserWindow.webPreferences.devTools) {
+                                # Backup original settings
+                                if (-not (Test-Path $settingsBackupDir)) { New-Item -ItemType Directory -Path $settingsBackupDir -Force | Out-Null }
+                                Copy-Item -LiteralPath $settingsFile -Destination (Join-Path $settingsBackupDir 'cdv-electron-settings.json') -Force
+                                # Disable devTools for packaging
+                                $settings.browserWindow.webPreferences.devTools = $false
+                                $settings | ConvertTo-Json -Depth 10 | Set-Content $settingsFile -Force
+                                $settingsWasModified = $true
+                                Write-Output "Temporarily disabled DevTools in $settingsFile for packaging (backup saved to $settingsBackupDir)."
+                            }
+                        }
+                        catch {
+                            Write-Warning "Failed to adjust devTools setting in $($settingsFile): $($_)"
+                        }
+                    }
+
+                    # Ensure package.json has pack script or build config
+                    if (-not (Test-Path package.json)) {
+                        Write-Warning "No package.json in $electronWwwDir. Skipping Electron packaging." 
+                    }
+                    else {
+                        # Install dependencies if node_modules missing
+                        if (-not (Test-Path (Join-Path $electronWwwDir 'node_modules'))) {
+                            Write-Output "Installing npm dependencies in Electron www folder... (this may take a minute)"
+                            npm install --no-audit --no-fund
+                            $npmExit = $LASTEXITCODE
+                            Write-Output "npm install exit code: $npmExit"
+                            if ($npmExit -ne 0) { Write-Warning "npm install in Electron www failed (exit $npmExit). Attempting to continue but packaging will likely fail." }
+                        }
+
+                        # Cleanup previous electron build artifacts (non-fatal)
+                        try {
+                            $expectedBuildDir = Join-Path $electronWwwDir '..\build'
+                            $resolved = Resolve-Path $expectedBuildDir -ErrorAction SilentlyContinue
+                            if ($resolved) {
+                                $buildPath = $resolved.Path
+                                Write-Output "Cleaning previous Electron build artifacts in $buildPath"
+                                # remove zip and unpacked folders but don't fail the script if deletion fails
+                                Get-ChildItem -Path $buildPath -Force -ErrorAction SilentlyContinue | Remove-Item -Recurse -Force -ErrorAction SilentlyContinue
+                            }
+                            else {
+                                Write-Output "No existing Electron build folder found at $expectedBuildDir; nothing to clean."
+                            }
+                        }
+                        catch {
+                            Write-Warning "Failed to clean previous Electron build artifacts: $_. Continuing..."
+                        }
+
+                        Write-Output "Running npm run pack:win to build portable ZIP..."
+                        npm run pack:win
+                        $packExit = $LASTEXITCODE
+                        Write-Output "npm run pack:win exit code: $packExit"
+                        if ($packExit -ne 0) { 
+                            Write-Warning "electron-builder packaging failed (exit $packExit). See npm output for details. Packaging is non-fatal; script will continue."
+                        }
+
+                        # find produced zip
+                        $buildOut = Join-Path $electronWwwDir '..\build' | Resolve-Path -ErrorAction SilentlyContinue
+                        if ($buildOut) {
+                            $buildOut = $buildOut.Path
+                            $zip = Get-ChildItem -Path $buildOut -Filter '*.zip' -File -Recurse | Sort-Object LastWriteTime | Select-Object -Last 1
+                            if ($zip) {
+                                Write-Output "Electron package created: $($zip.FullName)"
+                                $electronPackagePath = $zip.FullName
+
+                                # If source component indicates censored build, also create a censored-named artifact.
+                                if ($isCensored) {
+                                    try {
+                                        $zipPath = $zip.FullName
+                                        $zipName = $zip.Name
+                                        $idx = $zipName.IndexOf('-')
+                                        if ($idx -ge 0) { $suffix = $zipName.Substring($idx) } else { $suffix = '-' + $zipName }
+                                        $newName = "FACEFCK-CENSOR" + $suffix
+                                        $newPath = Join-Path $zip.DirectoryName $newName
+                                        Copy-Item -LiteralPath $zipPath -Destination $newPath -Force
+                                        Write-Output "Created censored package: $newPath"
+                                        # Prefer reporting the censored package as the produced artifact
+                                        $electronPackagePath = $newPath
+                                    }
+                                    catch {
+                                        Write-Warning "Failed to create censored package: $($_)"
+                                    }
+                                }
+
+                                # Copy produced ZIP to exports/uncensored and, if censored, to exports/censored
+                                try {
+                                    $origZip = $zip.FullName
+                                    $zipLeaf = $zip.Name
+                                    $destUncZip = Join-Path $uncensoredDir $zipLeaf
+                                    Copy-Item -LiteralPath $origZip -Destination $destUncZip -Force -ErrorAction Stop
+                                    Write-Output "Copied ZIP to uncensored exports: $destUncZip"
+                                    if ($isCensored) {
+                                        # if we created a censored artifact in-place, prefer copying that; otherwise prefix the original
+                                        if (Test-Path $newPath) {
+                                            $destCZip = Join-Path $censoredDir (Split-Path $newPath -Leaf)
+                                            Copy-Item -LiteralPath $newPath -Destination $destCZip -Force -ErrorAction Stop
+                                        }
+                                        else {
+                                            $destCZip = Join-Path $censoredDir ("FACEFCK-CENSOR-" + $zipLeaf)
+                                            Copy-Item -LiteralPath $origZip -Destination $destCZip -Force -ErrorAction Stop
+                                        }
+                                        Write-Output "Copied censored ZIP to censored exports: $destCZip"
+                                    }
+                                }
+                                catch {
+                                    Write-Warning "Failed copying ZIP to exports: $($_)"
+                                }
+                            }
+                            else {
+                                Write-Output "Electron build completed but no zip artifact was found in $buildOut"
+                            }
+                        }
+                        else {
+                            Write-Output "Electron build completed but build output folder not found (expected ../build)"
+                        }
+                        # Final packaging status message and optional pause so window doesn't close immediately
+                        if ($null -ne $electronPackagePath) {
+                            Write-Output "`n==> Electron packaging SUCCESSFUL. Package: $electronPackagePath"
+                            # Pause only if interactive host to avoid blocking CI
+                            try {
+                                if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) {
+                                    Read-Host -Prompt "Press Enter to finish"
+                                }
+                            }
+                            catch {
+                                # ignore if Read-Host not available
+                            }
+                        }
+                        else {
+                            Write-Warning "Electron packaging did not produce a zip artifact. Check previous npm/electron-builder output above for errors."
+                            try {
+                                if ($Host -and $Host.UI -and $Host.UI.RawUI -and -not $noPrompt) {
+                                    Read-Host -Prompt "Press Enter to finish"
+                                }
+                            }
+                            catch {
+                            }
+                        }
+                        # Restore settings file if we modified it
+                        if ($settingsWasModified) {
+                            try {
+                                $orig = Join-Path $settingsBackupDir 'cdv-electron-settings.json'
+                                if (Test-Path $orig) {
+                                    Copy-Item -LiteralPath $orig -Destination $settingsFile -Force
+                                    Remove-Item -LiteralPath $orig -Force
+                                    Write-Output "Restored original $settingsFile from backup."
+                                }
+                                Remove-Item -LiteralPath $settingsBackupDir -Recurse -Force -ErrorAction SilentlyContinue
+                            }
+                            catch {
+                                Write-Warning "Failed to restore original settings from $($settingsBackupDir): $($_)"
+                            }
+                        }
+                    } # end if Test-Path platforms\electron
+                    else {
+                        Write-Output "No electron platform found at $cordovaDir\platforms\electron — skipping desktop packaging."
+                    }
+                    # end if ($doZip)
+                    else {
+                        Write-Output "Skipping Electron packaging as requested."
+                    }

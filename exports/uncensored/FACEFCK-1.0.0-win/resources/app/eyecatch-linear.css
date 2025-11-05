@@ -1,0 +1,33 @@
+#kkhtLogoDiv {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: center;
+    margin: 5vh;
+}
+
+#kkhtLogoDiv>div {
+    text-align: justify;
+    text-justify: inter-character;
+    line-height: 10vh;
+}
+
+#hentai {
+    font-family: "Cherry Bomb One", system-ui, sans-serif;
+    font-size: 12vh;
+    color: red;
+    text-wrap: nowrap;
+    position: relative;
+}
+
+#kikai {
+    font-family: "Sixtyfour", sans-serif;
+    letter-spacing: -0.75vh;
+    font-size: 9.5vh;
+    position: relative
+}
+
+body {
+    background-color: red;
+}

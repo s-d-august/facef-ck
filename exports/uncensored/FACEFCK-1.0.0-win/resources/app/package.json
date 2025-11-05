@@ -1,0 +1,16 @@
+{
+  "main": "cdv-electron-main.js",
+  "name": "com.kikaihentai.facefck",
+  "displayName": "FACEF*CK",
+  "version": "1.0.0",
+  "description": "Responsive Facef*ck Simulation",
+  "homepage": "https://kikai-hentai.itch.io/facef-ck",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "KIKAI-HENTAI",
+    "email": "houndlesshare@gmail.com"
+  },
+  "dependencies": {
+    "electron-devtools-installer": "^3.2.0"
+  }
+}
