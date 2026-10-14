@@ -93,8 +93,7 @@
 }
 
 body {
-  background-color: #93ac93;
-  background-color: rgb(0, 0, 0);
+  background-color: #afafaf;
   font-family: "Jost";
 }
 
@@ -123,6 +122,9 @@ svg:not(.icon) {
   position: absolute
 }
 
+svg {
+  overflow: visible;
+}
 
 #hairPullDiv {
   justify-content: center;
