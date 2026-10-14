@@ -54,7 +54,7 @@ function getTears(num) {
     )
 }
 
-const Head = ({ ravenousMode }) => (
+const Head = ({ rosaryMode }) => (
     <svg
         id="head"
         className="headParts"

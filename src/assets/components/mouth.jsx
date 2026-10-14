@@ -1,6 +1,6 @@
 import svgDefs from "./svgDefs"
 
-const Mouth = ({ ravenousMode }) => (
+const Mouth = ({ rosaryMode }) => (
     <svg
         id="mouthFull"
         className="headParts"

@@ -24,8 +24,8 @@ function App({ JP, setJP, devMode }) {
     const [interruptBreath, setInterruptBreath] = useState()
     const [interruptUI, setInterruptUI] = useState()
 
-    const [ravenousModeActive, setravenousModeActive] = useState(() => localStorage.getItem("ravenousModeActive") === "true")
-    const [ravenousMode, setravenousMode] = useState(() => localStorage.getItem("ravenousModeOn") === "true")
+    const [rosaryModeActive, setrosaryModeActive] = useState(() => localStorage.getItem("rosaryModeActive") === "true")
+    const [rosaryMode, setrosaryMode] = useState(() => localStorage.getItem("rosaryModeOn") === "true")
 
     const [isTongueCum, setIsTongueCum] = useState(false)
     const isTongueCumRef = useRef()
@@ -216,8 +216,8 @@ function App({ JP, setJP, devMode }) {
         maxArousalRef.current = maxArousal;
         if (Object.values(maxArousal).includes(1999)
             || Object.values(maxArousal).includes(1847)) {
-            setravenousModeActive(true)
-            localStorage.setItem("ravenousModeActive", "true")
+            setrosaryModeActive(true)
+            localStorage.setItem("rosaryModeActive", "true")
         }
 
         if (arousal.man > maxArousal.man) setArousal(prev => ({ ...prev, man: Math.min(maxArousal.man * 0.95, maxArousal.man - 5) }))
@@ -226,22 +226,22 @@ function App({ JP, setJP, devMode }) {
 
     useEffect(() => {
         var secret = document.getElementById("secret")
-        if (!ravenousModeActive) {
+        if (!rosaryModeActive) {
             secret.style.opacity = 0
             secret.style.pointerEvents = "none"
         } else {
             secret.style.opacity = 1
             secret.style.pointerEvents = "all"
         }
-    }, [ravenousModeActive])
+    }, [rosaryModeActive])
 
     useEffect(() => {
-        var elements = gsap.utils.toArray(".ravenousMode")
+        var elements = gsap.utils.toArray(".rosaryMode")
         elements.forEach((el) => {
-            el.style.display = ravenousMode ? "block" : "none"
+            el.style.display = rosaryMode ? "block" : "none"
 
         })
-    }, [ravenousMode])
+    }, [rosaryMode])
 
     useEffect(() => {
         console.log("areTears: ", areTears)
@@ -1170,11 +1170,11 @@ function App({ JP, setJP, devMode }) {
 
                 <div id='positioning'>
                     <Body />
-                    <Mouth ravenousMode={ravenousMode} />
+                    <Mouth rosaryMode={rosaryMode} />
                     <Dick />
-                    <Head ravenousMode={ravenousMode} />
+                    <Head rosaryMode={rosaryMode} />
                     <Arms />
-                    <HairPullHand ravenousMode={ravenousMode} />
+                    <HairPullHand rosaryMode={rosaryMode} />
                 </div>
 
                 <div className='message' id='messageBox'>
@@ -1194,8 +1194,8 @@ function App({ JP, setJP, devMode }) {
                             setter: value => {
                                 setSensitivity(prev => ({ ...prev, boy: Number(value) }))
                             },
-                            label: !ravenousMode ? "Set Blue's sensitivity." : "Set boy's sensitivity.",
-                            labelJP: !ravenousMode ? "アオの感度をセット。" : "ボイドの感度をセット。",
+                            label: "Set boy's sensitivity.",
+                            labelJP: "少年の感度をセット。",
                             value: sensitivity.boy
                         },
                         {
@@ -1203,8 +1203,8 @@ function App({ JP, setJP, devMode }) {
                             setter: value => {
                                 setSensitivity(prev => ({ ...prev, man: Number(value) }))
                             },
-                            label: !ravenousMode ? "Set Red's sensitivity." : "Set man' sensitivity.",
-                            labelJP: !ravenousMode ? "アカの感度をセット。" : "アイヴスの感度をセット。",
+                            label: "Set man's sensitivity.",
+                            labelJP: "男の感度をセット。",
                             value: sensitivity.man
                         }
                     ]
@@ -1215,8 +1215,8 @@ function App({ JP, setJP, devMode }) {
                             setter: value => {
                                 setmaxArousal(prev => ({ ...prev, boy: Number(value) }))
                             },
-                            label: !ravenousMode ? "Blue Max: " : "boy Max: ",
-                            labelJP: !ravenousMode ? "アオの上限: " : "ボイド上限: ",
+                            label: "Boy Max: ",
+                            labelJP: "少年上限: ",
                             value: maxArousal.boy
                         },
                         {
@@ -1224,8 +1224,8 @@ function App({ JP, setJP, devMode }) {
                             setter: value => {
                                 setmaxArousal(prev => ({ ...prev, man: Number(value) }))
                             },
-                            label: !ravenousMode ? "Red Max: " : "man Max: ",
-                            labelJP: !ravenousMode ? "アカの上限: " : "ｱｲｳﾞｽ上限: ",
+                            label: "Man Max: ",
+                            labelJP: "男上限: ",
                             value: maxArousal.man
                         }
                     ]}
@@ -1240,10 +1240,10 @@ function App({ JP, setJP, devMode }) {
                     }}
                     secret={
                         {
-                            id: "ravenousModeSwitch",
-                            setter: setravenousMode,
-                            label: !JP ? "Ravenous" : "ラビナス",
-                            value: ravenousMode
+                            id: "rosaryModeSwitch",
+                            setter: setrosaryMode,
+                            label: !JP ? "Rosary" : "ロザリオ",
+                            value: rosaryMode
                         }
                     }
                 />
@@ -1252,7 +1252,7 @@ function App({ JP, setJP, devMode }) {
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
                     <button id='boyNutButton'>"Just look at you..."</button>
                 </div>
-                <Tutorial ravenousMode={ravenousModeActive}
+                <Tutorial rosaryMode={rosaryModeActive}
                     setInterruptUI={setInterruptUI}
                     JP={JP}
                     arousal={arousal}
