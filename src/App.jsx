@@ -165,6 +165,14 @@ function App({ JP, setJP, devMode }) {
             duration: Math.max((hesitation.current / 1000), 0.5)
         }
 
+        // Elements that should be opacity: 0 at start
+        gsap.set([`[id^="tongueCum"]`, cloth.current], { opacity: 0 })
+
+        // Elements that require the "interact" class
+        document.querySelectorAll(`[id^="Grab"]`).forEach(el => {
+            el.classList.add("interact")
+        });
+
     }, [])
 
     useEffect(() => {

@@ -304,7 +304,7 @@ const SvgIcon = (props) => (
         display="inline"
         opacity="1"
       ></path>
-      <g id="bodyGroup" display="inline">
+      <g id="bodyScaleGroup" display="inline">
         <path
           id="bodyIn"
           fill="#fff"

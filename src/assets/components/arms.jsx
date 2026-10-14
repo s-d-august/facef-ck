@@ -13,12 +13,7 @@ const Arms = () => (
         <g id="armsLayer" strokeLinecap="round" display="inline">
             <g
                 id="cloth"
-                fillOpacity="1"
                 stroke="none"
-                strokeDasharray="none"
-                strokeLinejoin="round"
-                strokeOpacity="1"
-                strokeWidth="1.995"
             >
                 <path
                     id="path79"

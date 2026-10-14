@@ -512,9 +512,9 @@ const Head = ({ ravenousMode }) => (
                         display="inline"
                     ></path>
                 </g>
-                {getTears()}
-                {getTears(1)}
-                {getTears(3)}
+                {getTears("")}
+                {getTears("2")}
+                {getTears("3")}
             </g>
             <g
                 id="sweatGroup"

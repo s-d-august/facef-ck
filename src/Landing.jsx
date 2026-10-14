@@ -6,7 +6,7 @@ import AgeCheck from './assets/kkht/age-check/age-check'
 
 function Landing() {
 
-  const devMode = useRef(false)
+  const devMode = useRef(true)
 
   const [ageChecked, setAgeChecked] = useState(devMode.current)
 
