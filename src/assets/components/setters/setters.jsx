@@ -119,7 +119,7 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                                     type="checkbox"
                                     onChange={e => {
                                         secret.setter(e.target.checked)
-                                        localStorage.setItem("ivesModeOn", e.target.checked)
+                                        localStorage.setItem("ravenousModeOn", e.target.checked)
                                     }} />
                                 <span className="slider round"></span>
                             </label>

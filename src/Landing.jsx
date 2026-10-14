@@ -6,9 +6,12 @@ import AgeCheck from './assets/kkht/age-check/age-check'
 
 function Landing() {
 
-  const [ageChecked, setAgeChecked] = useState(false)
+  const devMode = useRef(true)
+
+  const [ageChecked, setAgeChecked] = useState(devMode.current)
 
   const [JP, setJP] = useState()
+
 
   useEffect(() => {
     const container = document.getElementById("container");
@@ -35,7 +38,7 @@ function Landing() {
     <div id='container'>
 
       {!ageChecked ? <AgeCheck ageChecked={ageChecked}
-        setAgeChecked={setAgeChecked} JP={JP} setJP={setJP} /> : <App JP={JP} setJP={setJP} />}
+        setAgeChecked={setAgeChecked} JP={JP} setJP={setJP} /> : <App JP={JP} setJP={setJP} devMode={devMode.current} />}
 
     </div>
   )

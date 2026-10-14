@@ -99,7 +99,7 @@ export const tutorialDialogue = (arousalTier) => {
                 jp: (arousalTier >= 3)
                     ? '"結構楽しそう、ここから見ると。"'
                     : '"いずれ好きになりますよ、あなたなりに。きっと。"',
-                visible: ["boydBarWrap", "progressBarsDiv"],
+                visible: ["boyBarWrap", "progressBarsDiv"],
                 collapseOn: ["settersDiv", "settingsContents"],
                 collapseOff: ["settingsIcon"],
                 type: "Training",

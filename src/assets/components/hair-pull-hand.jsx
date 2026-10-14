@@ -27,7 +27,7 @@ const beadPaths = [
         d: "M863.331 102.985a9.41 9.41 0 0 0-9.412 9.412 9.412 9.412 0 1 0 18.823 0 9.41 9.41 0 0 0-9.411-9.412"
     }]
 
-const HairPullHand = ({ ivesMode }) => (
+const HairPullHand = ({ ravenousMode }) => (
     <div id="hairPullDiv" className="hideHand">
         <svg
             preserveAspectRatio="xMinYMax meet"
@@ -56,7 +56,7 @@ const HairPullHand = ({ ivesMode }) => (
             ></path>
             <path
                 id="beads"
-                className="ivesMode"
+                className="ravenousMode"
                 fill="#2b1100"
                 fillOpacity="1"
                 fillRule="nonzero"
@@ -70,7 +70,7 @@ const HairPullHand = ({ ivesMode }) => (
                 <svg
                     key={bead.id}
                     viewBox="0 0 1133.265 1179.254"
-                    className="hairPullBeads ivesMode"
+                    className="hairPullBeads ravenousMode"
                     id={bead.id}
                     preserveAspectRatio="xMinYMax meet"
 

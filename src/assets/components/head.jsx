@@ -54,7 +54,7 @@ function getTears(num) {
     )
 }
 
-const Head = ({ ivesMode }) => (
+const Head = ({ ravenousMode }) => (
     <svg
         id="head"
         className="headParts"

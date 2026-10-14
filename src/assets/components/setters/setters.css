@@ -131,7 +131,7 @@ h1.collapsed {
     padding: 0.5vh;
 }
 
-#ivesMax {
+#manMax {
     margin-bottom: 2vh;
 }
 
@@ -147,12 +147,12 @@ h1.collapsed {
     box-sizing: border-box;
 }
 
-#ivesSet {
+#manSet {
     background: #a00;
     accent-color: #a00;
 }
 
-#boydSet {
+#boySet {
     background: cornflowerblue;
 
 }
@@ -162,10 +162,10 @@ label {
 
 }
 
-#ivesSet::-moz-range-thumb,
-#ivesSet::-webkit-slider-thumb,
-#boydSet::-webkit-slider-thumb,
-#boydSet::-moz-range-thumb {
+#manSet::-moz-range-thumb,
+#manSet::-webkit-slider-thumb,
+#boySet::-webkit-slider-thumb,
+#boySet::-moz-range-thumb {
 
     width: 4vh;
     height: 3vh;
@@ -175,12 +175,12 @@ label {
     border: none;
 }
 
-#ivesSet::-webkit-slider-thumb {
+#manSet::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
 }
 
-#boydSet::-webkit-slider-thumb {
+#boySet::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
 }
@@ -235,6 +235,6 @@ p {
     grid-area: a
 }
 
-#ivesModeSwitch {
+#ravenousModeSwitch {
     accent-color: #a00;
 }

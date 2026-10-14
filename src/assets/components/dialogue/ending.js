@@ -15,9 +15,9 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
     const endingSteps = endingDialogue(endCallRef.current)
 
-    const decreaseBy = maxArousal.boyd / (endingSteps.length)
+    const decreaseBy = maxArousal.boy / (endingSteps.length)
 
-    console.log(maxArousal.boyd, endingSteps.length, decreaseBy)
+    console.log(maxArousal.boy, endingSteps.length, decreaseBy)
 
     const callIndexLines = [
         {
@@ -68,7 +68,7 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
 
         runMessageHandler = function () {
             const currentIndex = endLineRef.current;
-            //   kkht.valChange(["boyd"], "down", maxArousal, setArousal, 0, decreaseBy, true)
+            //   kkht.valChange(["boy"], "down", maxArousal, setArousal, 0, decreaseBy, true)
 
             console.log(currentIndex)
 

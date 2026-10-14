@@ -1,4 +1,4 @@
-const BoydOralEditingPlain = ({ className, ...props }) => {
+const boyOralEditingPlain = ({ className, ...props }) => {
 	return (
 		<svg height="1236.6125" id="svg1" width="987.67889" version="1.1" viewBox="0 0 987.679 1236.6125" xmlns="http://www.w3.org/2000/svg" {...props}>
 			<defs id="defs1">
@@ -271,4 +271,4 @@ const BoydOralEditingPlain = ({ className, ...props }) => {
 	);
 }
 
-export default BoydOralEditingPlain
+export default boyOralEditingPlain

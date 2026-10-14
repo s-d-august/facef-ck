@@ -10,7 +10,7 @@ export const resetPosition = ({
     hairPullBeads,
     body,
     headParts,
-    boydNutRef,
+    boyNutRef,
     mouthArgs,
     setApproach,
     setMouthOn,
@@ -23,7 +23,7 @@ export const resetPosition = ({
         hairPullBeads,
         body,
         headParts,
-        boydNutRef,
+        boyNutRef,
         mouthArgs,
         setApproach,
         setMouthOn,
@@ -54,7 +54,7 @@ export const resetPosition = ({
     hairPullDraggable.current.update();
 
 
-    if (!boydNutRef) {
+    if (!boyNutRef) {
 
         setTimeout(() => {
             kkht.mouthCloseFunction({ ...mouthArgs.current, duration: 1 })
@@ -66,11 +66,11 @@ export const resetPosition = ({
 
         func()
 
-        boydNutRef = true;
+        boyNutRef = true;
     }
 
     else {
-        boydNutRef = false; // Reset if below threshold
+        boyNutRef = false; // Reset if below threshold
     }
 }
 

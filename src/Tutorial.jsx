@@ -11,16 +11,17 @@ const Tutorial = ({
     hairPullBeads,
     body,
     headParts,
-    boydNutRef,
+    boyNutRef,
     mouthArgs,
     setApproach,
     setMouthOn,
     setMouthOpen,
     setHoldMouthOpen,
-    arousalTier
+    arousalTier,
+    devMode
 }) => {
 
-    const [tutorialFired, setTutorialFired] = useState(false)
+    const [tutorialFired, setTutorialFired] = useState(devMode)
     const tutorialIndexRef = useRef(0);
 
     useEffect(() => {
@@ -112,7 +113,7 @@ const Tutorial = ({
                     hairPullBeads,
                     body,
                     headParts,
-                    boydNutRef,
+                    boyNutRef,
                     mouthArgs,
                     setApproach,
                     setMouthOn,
@@ -221,6 +222,10 @@ const Tutorial = ({
         if (tutorialFired === false) {
             startTutorial(messageString, true)
             setTutorialFired(true)
+        }
+
+        if (tutorialFired === true) {
+            endTutorial()
         }
 
         return () => {

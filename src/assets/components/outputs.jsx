@@ -2,9 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import React from "react";
 import "./outputs.css";
 
-const Outputs = ({ ives, boyd, maxIves, maxBoyd }) => {
-    const ivesBarRef = useRef(null);
-    const boydBarRef = useRef(null);
+const Outputs = ({ man, boy, maxman, maxboy }) => {
+    const manBarRef = useRef(null);
+    const boyBarRef = useRef(null);
 
     function renderProgress(element, stat, attr, max) {
         const newVal = function (stat) {
@@ -20,22 +20,22 @@ const Outputs = ({ ives, boyd, maxIves, maxBoyd }) => {
     }
 
     function renderBars() {
-        renderProgressBars(boydBarRef.current, boyd, maxBoyd);
-        renderProgressBars(ivesBarRef.current, ives, maxIves);
+        renderProgressBars(boyBarRef.current, boy, maxboy);
+        renderProgressBars(manBarRef.current, man, maxman);
     }
 
     useEffect(() => {
-        // Render progress bars when ives or boyd changes
+        // Render progress bars when man or boy changes
         renderBars();
-    }, [ives, boyd]);
+    }, [man, boy]);
 
     return (
         <div id="progressBarsDiv">
-            <div id="ivesBarWrap" className="barWrap gridElement">
-                <div id="ivesBar" ref={ivesBarRef} className="progressBar"></div>
+            <div id="manBarWrap" className="barWrap gridElement">
+                <div id="manBar" ref={manBarRef} className="progressBar"></div>
             </div>
-            <div id="boydBarWrap" className="barWrap gridElement">
-                <div id="boydBar" ref={boydBarRef} className="progressBar"></div>
+            <div id="boyBarWrap" className="barWrap gridElement">
+                <div id="boyBar" ref={boyBarRef} className="progressBar"></div>
             </div>
         </div>
     );

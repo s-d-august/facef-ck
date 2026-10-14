@@ -6,7 +6,7 @@ import cover from "../../fonts-etc/cover.png"
 import coverAlt from "../../fonts-etc/coverAlt.png"
 import gsap from "gsap";
 
-var ivesModeOn
+var ravenousModeOn
 
 const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
 
@@ -14,12 +14,12 @@ const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
         const div = document.getElementById("ageCheckDiv");
         if (div) div.classList.add("ready");
 
-        ivesModeOn = localStorage.getItem("ivesModeOn") === "true"
+        ravenousModeOn = localStorage.getItem("ravenousModeOn") === "true"
 
-        if (ivesModeOn) {
-            document.getElementById("ageCheckDiv").classList.add("ivesModeOn")
-            document.getElementById("faceTitle").classList.add("ivesModeOn")
-            document.getElementById("fuckTitle").classList.add("ivesModeOn")
+        if (ravenousModeOn) {
+            document.getElementById("ageCheckDiv").classList.add("ravenousModeOn")
+            document.getElementById("faceTitle").classList.add("ravenousModeOn")
+            document.getElementById("fuckTitle").classList.add("ravenousModeOn")
         }
 
         const btn = document.getElementById("ageCheckButton");
@@ -69,7 +69,7 @@ const AgeCheck = ({ setAgeChecked, JP, setJP }) => {
 
             </div>
             <div id="ageCheckImgDiv">
-                <img src={ivesModeOn ? coverAlt : cover} />
+                <img src={ravenousModeOn ? coverAlt : cover} />
             </div>
             <div id="ageCheckTextButtonDiv">
                 <p className="ageCheckText">{JP ? "このゲームを始めたら、すぐ成人向けのコンテンツが現れます。"

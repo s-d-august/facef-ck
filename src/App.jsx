@@ -14,7 +14,7 @@ import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import Setters from './assets/components/setters/setters'
 
-function App({ JP, setJP }) {
+function App({ JP, setJP, devMode }) {
 
     const [slowMorph, setSlowMorph] = useState(false)
     const [fastMorph, setFastMorph] = useState(false)
@@ -24,8 +24,8 @@ function App({ JP, setJP }) {
     const [interruptBreath, setInterruptBreath] = useState()
     const [interruptUI, setInterruptUI] = useState()
 
-    const [ivesModeActive, setIvesModeActive] = useState(() => localStorage.getItem("ivesModeActive") === "true")
-    const [ivesMode, setIvesMode] = useState(() => localStorage.getItem("ivesModeOn") === "true")
+    const [ravenousModeActive, setravenousModeActive] = useState(() => localStorage.getItem("ravenousModeActive") === "true")
+    const [ravenousMode, setravenousMode] = useState(() => localStorage.getItem("ravenousModeOn") === "true")
 
     const [isTongueCum, setIsTongueCum] = useState(false)
     const isTongueCumRef = useRef()
@@ -49,21 +49,21 @@ function App({ JP, setJP }) {
     const droolIntervalRef = useRef(null);
     const sweatIntervalRef = useRef(null);
 
-    const boydNutRef = useRef(false)
+    const boyNutRef = useRef(false)
 
     const [arousalTier, setArousalTier] = useState(1)
 
     const [arousal, setArousal] = useState({
-        ives: 0,
-        boyd: 0,
+        man: 0,
+        boy: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        ives: 2500,
-        boyd: 5000,
+        man: 2500,
+        boy: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
-        ives: 3,
-        boyd: 2,
+        man: 3,
+        boy: 2,
     })
 
     const endLineRef = useRef(0)
@@ -142,7 +142,7 @@ function App({ JP, setJP }) {
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = gsap.utils.toArray(".dickHandParts")
         dickSvg.current = document.getElementById("dick")
-        endingButton.current = document.getElementById("boydNutButton")
+        endingButton.current = document.getElementById("boyNutButton")
         hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         headParts.current = gsap.utils.toArray(".headParts");
@@ -213,32 +213,32 @@ function App({ JP, setJP }) {
         maxArousalRef.current = maxArousal;
         if (Object.values(maxArousal).includes(1999)
             || Object.values(maxArousal).includes(1847)) {
-            setIvesModeActive(true)
-            localStorage.setItem("ivesModeActive", "true")
+            setravenousModeActive(true)
+            localStorage.setItem("ravenousModeActive", "true")
         }
 
-        if (arousal.ives > maxArousal.ives) setArousal(prev => ({ ...prev, ives: Math.min(maxArousal.ives * 0.95, maxArousal.ives - 5) }))
-        if (arousal.boyd > maxArousal.boyd) setArousal(prev => ({ ...prev, boyd: Math.min(maxArousal.boyd * 0.95, maxArousal.boyd - 5) }))
+        if (arousal.man > maxArousal.man) setArousal(prev => ({ ...prev, man: Math.min(maxArousal.man * 0.95, maxArousal.man - 5) }))
+        if (arousal.boy > maxArousal.boy) setArousal(prev => ({ ...prev, boy: Math.min(maxArousal.boy * 0.95, maxArousal.boy - 5) }))
     }, [maxArousal]);
 
     useEffect(() => {
         var secret = document.getElementById("secret")
-        if (!ivesModeActive) {
+        if (!ravenousModeActive) {
             secret.style.opacity = 0
             secret.style.pointerEvents = "none"
         } else {
             secret.style.opacity = 1
             secret.style.pointerEvents = "all"
         }
-    }, [ivesModeActive])
+    }, [ravenousModeActive])
 
     useEffect(() => {
-        var elements = gsap.utils.toArray(".ivesMode")
+        var elements = gsap.utils.toArray(".ravenousMode")
         elements.forEach((el) => {
-            el.style.display = ivesMode ? "block" : "none"
+            el.style.display = ravenousMode ? "block" : "none"
 
         })
-    }, [ivesMode])
+    }, [ravenousMode])
 
     useEffect(() => {
         console.log("areTears: ", areTears)
@@ -374,7 +374,7 @@ function App({ JP, setJP }) {
             });
         }
         function lowerArmsHandler() {
-            //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 20 * sensitivityRef.current.boyd))
+            //   kkht.valChange(["boy"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boy / 20 * sensitivityRef.current.boy))
             kkht.lowerArms({
                 elements: [chain.current, cloth.current, armRight.current, armLeft.current],
                 container: container,
@@ -385,14 +385,14 @@ function App({ JP, setJP }) {
         }
 
         wipeButton.current.addEventListener("click", lowerArmsHandler)
-        //  document.getElementById("boydBarWrap").addEventListener("dblclick", handleFaceWipeClick);
+        //  document.getElementById("boyBarWrap").addEventListener("dblclick", handleFaceWipeClick);
 
 
         // Cleanup function to remove listeners
         return () => {
             wipeButton.current.removeEventListener("click", lowerArmsHandler);
             wipeButton.current.removeEventListener("click", handleFaceWipeClick);
-            //     document.getElementById("boydBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
+            //     document.getElementById("boyBarWrap").removeEventListener("dblclick", handleFaceWipeClick);
         };
 
     }, [armsUp, mouthOn, fastMorph, interruptUI, approach, mouthOpen, isTongueCum, holdMouthOpen, JP, isFaceCum, areTears])
@@ -432,7 +432,7 @@ function App({ JP, setJP }) {
                     name: kkht.browRaise
                 },
                 playAfter: () => {
-                    //   kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 100 * sensitivityRef.current.boyd))
+                    //   kkht.valChange(["boy"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boy / 100 * sensitivityRef.current.boy))
                     kkht.mouthOpenFunction({ ...mouthArgs.current, duration: Math.max((hesitation.current * 2 / 1000), 1) });
                     setHoldMouthOpen(true)
                 }
@@ -469,7 +469,7 @@ function App({ JP, setJP }) {
                         mouthCloseBlockRef.current = true;
                         setHoldMouthOpen(false)
                         setIsTongueCum(false)
-                        kkht.valChange(["boyd"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boyd / 15))
+                        kkht.valChange(["boy"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boy / 15))
                         if (arousalTierRef.current <= 3) {
                             console.log("tears called once")
                             kkht.tearsAnimation({
@@ -503,12 +503,12 @@ function App({ JP, setJP }) {
         })
 
         mouthButton.current.addEventListener("click", mouthOpenClose)
-        endingButton.current.addEventListener("click", callBoydNut, {once: true})
+        endingButton.current.addEventListener("click", callboyNut, { once: true })
         gsap.set(tongueGroup.current, { scaleY: 0 });
         gsap.set(tongueDrool.current, { scaleY: 0, scaleX: 1 });
         function valDownHandler() {
             if ((mouthOnRef.current === false) && document.hasFocus()) {
-                kkht.valChange(["boyd", "ives"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
+                kkht.valChange(["boy", "man"], "down", maxArousalRef.current, setArousal, sensitivityRef.current)
             }
         }
         const interval = setInterval(valDownHandler, 500);
@@ -516,7 +516,7 @@ function App({ JP, setJP }) {
         return () => {
             clearInterval(interval); // Cleanup interval on unmount
             mouthButton.current.removeEventListener("click", mouthOpenClose)
-            endingButton.current.removeEventListener("click", callBoydNut)
+            endingButton.current.removeEventListener("click", callboyNut)
         }
     }, []);
 
@@ -543,7 +543,7 @@ function App({ JP, setJP }) {
                 gsap.to("#hairPullDiv", { opacity: 0, duration: 0.2 });
                 const direction = this.getDirection("velocity")
                 if (direction && ((direction === "up") || (direction === "down"))) {
-                    kkht.valChange("ives", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
+                    kkht.valChange("man", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
                 }
                 kkht.updateFollowers({
                     itemsArray: ["#dickHandFingers"],
@@ -604,7 +604,7 @@ function App({ JP, setJP }) {
                     startOn: 0.325,
                     setApproach,
                     setMouthOn,
-                    affectedIDs: ["ives", "boyd"],
+                    affectedIDs: ["man", "boy"],
                     lick: {
                         tongue: "#tongue",
                         tip: "#dickTip",
@@ -637,7 +637,7 @@ function App({ JP, setJP }) {
                 } else if (depthMethodRef.current === "Arousal") {
                     const draggable = Draggable.get("#hairPullHand");
                     if (container && draggable) {
-                        const arousalRatio = arousalRef.current.boyd / maxArousalRef.current.boyd;
+                        const arousalRatio = arousalRef.current.boy / maxArousalRef.current.boy;
 
                         const bounds = containerSize.current * (0.11 + (arousalRatio * 0.1));
                         draggable.applyBounds({
@@ -676,7 +676,7 @@ function App({ JP, setJP }) {
                     startOn: 0.3,
                     setApproach,
                     setMouthOn,
-                    affectedIDs: ["ives", "boyd"],
+                    affectedIDs: ["man", "boy"],
                     lick: {
                         tongue: "#tongue",
                         tip: "#dickTip",
@@ -703,9 +703,9 @@ function App({ JP, setJP }) {
     }, [depthMethod])
 
     useEffect(() => { // Nut function
-        if (arousal.ives >= maxArousal.ives) {
+        if (arousal.man >= maxArousal.man) {
 
-            kkht.valChange("boyd", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boyd / 35))
+            kkht.valChange("boy", "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boy / 35))
 
             if (mouthOn) {
                 kkht.callFastMorph({
@@ -809,13 +809,13 @@ function App({ JP, setJP }) {
                 opacity: 0.2,
                 duration: 0.2
             })
-            setArousal(prev => ({ ...prev, ives: 0 }))
+            setArousal(prev => ({ ...prev, man: 0 }))
         }
 
 
-    }, [arousal.ives, maxArousal.ives, mouthOn, mouthOpenRef])
+    }, [arousal.man, maxArousal.man, mouthOn, mouthOpenRef])
 
-    function callBoydNut() {
+    function callboyNut() {
         setAreTears(false)
         gsap.to(hairPullDraggable.current.target, {
             y: -10,
@@ -839,7 +839,7 @@ function App({ JP, setJP }) {
 
         hairPullDraggable.current.update();
 
-        document.getElementById("boydNutButton").style.display = "none"
+        document.getElementById("boyNutButton").style.display = "none"
         endingUnlocked.current = false
         endingFired.current = true
 
@@ -868,8 +868,8 @@ function App({ JP, setJP }) {
 
     }
 
-    useEffect(() => { // Elements that change based on arousal.boyd
-        if (arousal.boyd >= (maxArousal.boyd * 0.98) && endingFired.current === false) {
+    useEffect(() => { // Elements that change based on arousal.boy
+        if (arousal.boy >= (maxArousal.boy * 0.98) && endingFired.current === false) {
             endingButton.current.style.display = "block"
 
             if (!endingUnlocked.current) {
@@ -887,12 +887,12 @@ function App({ JP, setJP }) {
 
         }
 
-        if (endingFired.current === true || !(arousal.boyd >= (maxArousal.boyd * 0.95))) {
+        if (endingFired.current === true || !(arousal.boy >= (maxArousal.boy * 0.95))) {
             endingUnlocked.current = false
             endingButton.current.style.display = "none"
         }
 
-        const arousalRatio = arousal.boyd / maxArousal.boyd
+        const arousalRatio = arousal.boy / maxArousal.boy
 
         if (!fastMorphRef.current) {
             kkht.callSlowMorph({
@@ -911,7 +911,7 @@ function App({ JP, setJP }) {
                         : setArousalTier(1)
 
         const blush = document.getElementById("blush")
-        kkht.renderProgress(blush, "opacity", arousal.boyd, maxArousal.boyd)
+        kkht.renderProgress(blush, "opacity", arousal.boy, maxArousal.boy)
 
         const pupilSize = gsap.timeline({ paused: true })
             .fromTo(".pupil",
@@ -922,7 +922,7 @@ function App({ JP, setJP }) {
 
         return () => {
         };
-    }, [arousal.boyd, depthMethod, approach, mouthOn, mouthOpen, holdMouthOpen]);
+    }, [arousal.boy, depthMethod, approach, mouthOn, mouthOpen, holdMouthOpen]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
         const eyeCenterRight = document.getElementById("eyeCenterRight");
@@ -946,7 +946,7 @@ function App({ JP, setJP }) {
                         maxX: 30,
                         maxY: 20,
                         minX: -30,
-                        minY: 5
+                        minY: 10
                     }
                 });
             } else if (arousalTier === 3 || arousalTier === 4) {
@@ -1143,10 +1143,10 @@ function App({ JP, setJP }) {
             <div id='mainDiv' className="ready">
 
                 <Outputs id="outputs"
-                    boyd={arousal.boyd}
-                    ives={arousal.ives}
-                    maxBoyd={maxArousal.boyd}
-                    maxIves={maxArousal.ives} />
+                    boy={arousal.boy}
+                    man={arousal.man}
+                    maxboy={maxArousal.boy}
+                    maxman={maxArousal.man} />
 
                 <svg
                     id="waitIcon"
@@ -1166,11 +1166,11 @@ function App({ JP, setJP }) {
 
                 <div id='positioning'>
                     <Body />
-                    <Mouth ivesMode={ivesMode} />
+                    <Mouth ravenousMode={ravenousMode} />
                     <Dick />
-                    <Head ivesMode={ivesMode} />
+                    <Head ravenousMode={ravenousMode} />
                     <Arms />
-                    <HairPullHand ivesMode={ivesMode} />
+                    <HairPullHand ravenousMode={ravenousMode} />
                 </div>
 
                 <div className='message' id='messageBox'>
@@ -1186,43 +1186,43 @@ function App({ JP, setJP }) {
                     setJP={setJP}
                     sensitivity={[
                         {
-                            id: "boydSet",
+                            id: "boySet",
                             setter: value => {
-                                setSensitivity(prev => ({ ...prev, boyd: Number(value) }))
+                                setSensitivity(prev => ({ ...prev, boy: Number(value) }))
                             },
-                            label: !ivesMode ? "Set Blue's sensitivity." : "Set Boyd's sensitivity.",
-                            labelJP: !ivesMode ? "アオの感度をセット。" : "ボイドの感度をセット。",
-                            value: sensitivity.boyd
+                            label: !ravenousMode ? "Set Blue's sensitivity." : "Set boy's sensitivity.",
+                            labelJP: !ravenousMode ? "アオの感度をセット。" : "ボイドの感度をセット。",
+                            value: sensitivity.boy
                         },
                         {
-                            id: "ivesSet",
+                            id: "manSet",
                             setter: value => {
-                                setSensitivity(prev => ({ ...prev, ives: Number(value) }))
+                                setSensitivity(prev => ({ ...prev, man: Number(value) }))
                             },
-                            label: !ivesMode ? "Set Red's sensitivity." : "Set Ives' sensitivity.",
-                            labelJP: !ivesMode ? "アカの感度をセット。" : "アイヴスの感度をセット。",
-                            value: sensitivity.ives
+                            label: !ravenousMode ? "Set Red's sensitivity." : "Set man' sensitivity.",
+                            labelJP: !ravenousMode ? "アカの感度をセット。" : "アイヴスの感度をセット。",
+                            value: sensitivity.man
                         }
                     ]
                     }
                     max={[
                         {
-                            id: "boydMax",
+                            id: "boyMax",
                             setter: value => {
-                                setmaxArousal(prev => ({ ...prev, boyd: Number(value) }))
+                                setmaxArousal(prev => ({ ...prev, boy: Number(value) }))
                             },
-                            label: !ivesMode ? "Blue Max: " : "Boyd Max: ",
-                            labelJP: !ivesMode ? "アオの上限: " : "ボイド上限: ",
-                            value: maxArousal.boyd
+                            label: !ravenousMode ? "Blue Max: " : "boy Max: ",
+                            labelJP: !ravenousMode ? "アオの上限: " : "ボイド上限: ",
+                            value: maxArousal.boy
                         },
                         {
-                            id: "ivesMax",
+                            id: "manMax",
                             setter: value => {
-                                setmaxArousal(prev => ({ ...prev, ives: Number(value) }))
+                                setmaxArousal(prev => ({ ...prev, man: Number(value) }))
                             },
-                            label: !ivesMode ? "Red Max: " : "Ives Max: ",
-                            labelJP: !ivesMode ? "アカの上限: " : "ｱｲｳﾞｽ上限: ",
-                            value: maxArousal.ives
+                            label: !ravenousMode ? "Red Max: " : "man Max: ",
+                            labelJP: !ravenousMode ? "アカの上限: " : "ｱｲｳﾞｽ上限: ",
+                            value: maxArousal.man
                         }
                     ]}
                     modes={{
@@ -1236,19 +1236,19 @@ function App({ JP, setJP }) {
                     }}
                     secret={
                         {
-                            id: "ivesModeSwitch",
-                            setter: setIvesMode,
+                            id: "ravenousModeSwitch",
+                            setter: setravenousMode,
                             label: !JP ? "Ravenous" : "ラビナス",
-                            value: ivesMode
+                            value: ravenousMode
                         }
                     }
                 />
                 <div id='ordersDiv'>
                     <button id='mouthOrderButton'>"Open your mouth."</button>
                     <button id='wipeOrderButton'>"Wipe the mess off your face."</button>
-                    <button id='boydNutButton'>"Just look at you..."</button>
+                    <button id='boyNutButton'>"Just look at you..."</button>
                 </div>
-                <Tutorial ivesMode={ivesModeActive}
+                <Tutorial ravenousMode={ravenousModeActive}
                     setInterruptUI={setInterruptUI}
                     JP={JP}
                     arousal={arousal}
@@ -1257,13 +1257,14 @@ function App({ JP, setJP }) {
                     hairPullBeads={hairPullBeads}
                     body={body}
                     headParts={headParts}
-                    boydNutRef={boydNutRef.current}
+                    boyNutRef={boyNutRef.current}
                     mouthArgs={mouthArgs}
                     setApproach={setApproach}
                     setMouthOn={setMouthOn}
                     setHoldMouthOpen={setHoldMouthOpen}
                     setMouthOpen={setMouthOpen}
-                    arousalTier={arousalTierRef.current} />
+                    arousalTier={arousalTierRef.current}
+                    devMode={devMode} />
                 <div id='tutorialButton'>
                     <p id='tutorialButtonText'>?</p>
                 </div>

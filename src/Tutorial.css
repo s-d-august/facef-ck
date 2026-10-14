@@ -48,7 +48,7 @@
 #messageNo,
 #mouthOrderButton,
 #wipeOrderButton,
-#boydNutButton {
+#boyNutButton {
     color: white;
     font-weight: bold;
     border: white solid 0.5vh;
@@ -60,11 +60,11 @@
 
 #mouthOrderButton,
 #wipeOrderButton,
-#boydNutButton {
+#boyNutButton {
     font-size: 2.5vh;
 }
 
-#boydNutButton {
+#boyNutButton {
     display: none;
 }
 
