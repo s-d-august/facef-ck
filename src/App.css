@@ -93,7 +93,7 @@
 }
 
 body {
-  background-color: #afafaf;
+  background-color: black;
   font-family: "Jost";
 }
 
@@ -179,6 +179,7 @@ svg {
   width: 100%;
   overflow: hidden;
   justify-content: center;
+  background-color: #afafaf;
 }
 
 [id*="tongueCum"],

@@ -60,7 +60,7 @@ function svgDefs() {
             <pattern
                 xlinkHref="#pattern137"
                 id="pattern31"
-                patternTransform="matrix(0 -.47513 2.57474 0 -51.162 79.586)"
+                patternTransform="matrix(0 -.44366 1.97674 0 80.077 94.403)"
                 preserveAspectRatio="xMidYMid"
             ></pattern>
             <pattern
@@ -205,6 +205,25 @@ function svgDefs() {
                 <stop id="stop29" offset="0" stopColor="#ffbebe" stopOpacity="1"></stop>
                 <stop id="stop30" offset="1" stopColor="#ff6464" stopOpacity="1"></stop>
             </linearGradient>
+            <linearGradient
+                xlinkHref="#linearGradient62"
+                id="linearGradient63"
+                x1="986.43"
+                x2="1018.319"
+                y1="435.004"
+                y2="523.988"
+                gradientUnits="userSpaceOnUse"
+            ></linearGradient>
+            <linearGradient
+                xlinkHref="#linearGradient60"
+                id="linearGradient5"
+                x1="375.714"
+                x2="355.917"
+                y1="1218.325"
+                y2="1282.675"
+                gradientTransform="translate(-115.11 -160.34)scale(1.20396)"
+                gradientUnits="userSpaceOnUse"
+            ></linearGradient>
             <linearGradient
                 xlinkHref="#linearGradient29"
                 id="linearGradient30"
