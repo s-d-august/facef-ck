@@ -36,8 +36,8 @@ function callSmile() {
         x: 0,
         duration: 1.5
     })
-    gsap.to("#mustache", {
-        morphSVG: "#mustacheSmile",
+    gsap.to("#faceBack", {
+        morphSVG: "#faceSmile",
         duration: 2
     })
     gsap.to("#mouth", {

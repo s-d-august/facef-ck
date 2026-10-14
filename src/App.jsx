@@ -81,7 +81,6 @@ function App({ JP, setJP, devMode }) {
     const body = useRef()
     const browLeft = useRef()
     const browRight = useRef()
-    const chain = useRef()
     const cloth = useRef()
     const containerSize = useRef()
     const depthMethodRef = useRef()
@@ -136,7 +135,6 @@ function App({ JP, setJP, devMode }) {
         body.current = document.getElementById("bodyGroup");
         browLeft.current = document.getElementById("browLeft")
         browRight.current = document.getElementById("browRight")
-        chain.current = document.getElementById("chain")
         cloth.current = document.getElementById("cloth")
         containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
@@ -365,7 +363,7 @@ function App({ JP, setJP, devMode }) {
             setIsFaceCum(false)
             kkht.resetFaceCumArray()
             kkht.faceWipe({
-                elements: [chain.current, armRight.current, armLeft.current],
+                elements: [armRight.current, armLeft.current],
                 cloth: cloth.current,
                 hide: [hairPullHandGrab.current, dickHandGrab.current],
                 setter: setArmsUp,
@@ -376,10 +374,11 @@ function App({ JP, setJP, devMode }) {
         function lowerArmsHandler() {
             //   kkht.valChange(["boy"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousal.boy / 20 * sensitivityRef.current.boy))
             kkht.lowerArms({
-                elements: [chain.current, cloth.current, armRight.current, armLeft.current],
+                elements: [cloth.current, armRight.current, armLeft.current],
                 container: container,
                 setter: setArmsUp,
-                animationSetter: setInterruptUI
+                animationSetter: setInterruptUI,
+                devMode: devMode
             }
             )
         }
@@ -795,7 +794,7 @@ function App({ JP, setJP, devMode }) {
                         moveDuration: 2.5,
                         setInterruptUI,
                         faceWipeArgs: {
-                            elements: [chain.current, armRight.current, armLeft.current],
+                            elements: [armRight.current, armLeft.current],
                             cloth: cloth.current,
                             setter: setArmsUp,
                             animationSetter: setInterruptUI,
@@ -931,8 +930,8 @@ function App({ JP, setJP, devMode }) {
 
         if (!fastMorphRef.current) {
             if (arousalTier === 1 || arousalTier === 2) {
-                gsap.to("#mustache", {
-                    morphSVG: "#mustache",
+                gsap.to("#faceBack", {
+                    morphSVG: "#faceBack",
                     duration: 2
                 })
                 gsap.to("#mouth", {
@@ -944,7 +943,7 @@ function App({ JP, setJP, devMode }) {
                     type: "random",
                     bounds: {
                         maxX: 30,
-                        maxY: 20,
+                        maxY: 30,
                         minX: -30,
                         minY: 10
                     }

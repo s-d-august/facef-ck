@@ -2,13 +2,14 @@ import gsap from "gsap"
 import { callState } from "../utils/dom"
 
 export const lowerArms = (args) => {
-    const testMode = localStorage.getItem("testMode")
-    const { elements, setter, container, animationSetter } = args
+
+    const { elements, setter, container, animationSetter, devMode } = args
+
     animationSetter(true)
     const targets = [...elements]
     gsap.timeline().to(targets, {
         y: 900,
-        duration: testMode ? 0.3 : 3,
+        duration: devMode ? 0.3 : 3,
         ease: "power1.in",
         onComplete: () => {
             animationSetter(false)

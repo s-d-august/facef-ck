@@ -93,7 +93,7 @@ const Arms = () => (
                     display="inline"
                 ></path>
             </g>
-            <g id="g75" display="inline">
+            <g id="armLeft" display="inline">
                 <g id="g72" display="inline">
                     <path
                         id="path66"
