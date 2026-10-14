@@ -3,7 +3,7 @@ import svgDefs from "./svgDefs";
 
 function getTears(num) {
     return (
-        <g id={"tearsGroup" + num}>
+        <g>
             <path
                 id={"tearDownRight" + num}
                 fill="#fff"

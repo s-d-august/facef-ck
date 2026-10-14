@@ -80,7 +80,7 @@ const Dick = (props) => (
                     ry="13.845"
                 ></ellipse>
                 <g
-                    id="dickDrool-Group"
+                    id="dickDroolGroup"
                     fill="#fff"
                     fillOpacity="1"
                     stroke="none"

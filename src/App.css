@@ -232,7 +232,8 @@ svg:not(.icon) {
 #blush,
 [id*="drool"],
 #cumshot,
-[id*="faceCum"] {
+[id*="faceCum"],
+#cloth {
   opacity: 0;
 }
 
