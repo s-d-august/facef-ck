@@ -24,7 +24,7 @@ function App({ JP, setJP, devMode }) {
     const [interruptBreath, setInterruptBreath] = useState()
     const [interruptUI, setInterruptUI] = useState()
 
-    const [rosaryModeActive, setrosaryModeActive] = useState(() => localStorage.getItem("rosaryModeActive") === "true")
+    const [rosaryModeActive, setrosaryModeActive] = useState(true)
     const [rosaryMode, setrosaryMode] = useState(() => localStorage.getItem("rosaryModeOn") === "true")
 
     const [isTongueCum, setIsTongueCum] = useState(false)
@@ -58,11 +58,11 @@ function App({ JP, setJP, devMode }) {
         boy: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        man: 2500,
+        man: 250,
         boy: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
-        man: 3,
+        man: 5,
         boy: 2,
     })
 
@@ -170,6 +170,10 @@ function App({ JP, setJP, devMode }) {
             el.classList.add("interact")
         });
 
+        document.querySelectorAll(`[id^="topLine"]`).forEach(el => {
+            el.classList.add("blink")
+        });
+
     }, [])
 
     useEffect(() => {
@@ -214,11 +218,6 @@ function App({ JP, setJP, devMode }) {
 
     useEffect(() => {
         maxArousalRef.current = maxArousal;
-        if (Object.values(maxArousal).includes(1999)
-            || Object.values(maxArousal).includes(1847)) {
-            setrosaryModeActive(true)
-            localStorage.setItem("rosaryModeActive", "true")
-        }
 
         if (arousal.man > maxArousal.man) setArousal(prev => ({ ...prev, man: Math.min(maxArousal.man * 0.95, maxArousal.man - 5) }))
         if (arousal.boy > maxArousal.boy) setArousal(prev => ({ ...prev, boy: Math.min(maxArousal.boy * 0.95, maxArousal.boy - 5) }))

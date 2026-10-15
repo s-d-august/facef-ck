@@ -61,7 +61,7 @@ const Mouth = ({ rosaryMode }) => (
                     display="inline"
                     opacity="1"
                 ></path>
-                <g id="tongueCumGroup" fill="#fff" display="inline" opacity="0.853">
+                <g fill="#fff" display="inline" opacity="0.853">
                     <path
                         id="tongueCum5"
                         strokeWidth="0.775"
