@@ -10,7 +10,7 @@ const Dick = (props) => (
             preserveAspectRatio="xMinYMax meet"
         >
             {svgDefs()}
-            <g id="dickHandFingers" strokeWidth="4.816">
+            <g strokeWidth="4.816">
                 <path
                     id="path6-1"
                     fill="#2b0000"

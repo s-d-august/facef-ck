@@ -152,7 +152,8 @@ svg {
   z-index: 9;
 }
 
-.dickHandParts {
+#dickHandSvg,
+#dickHandFingers {
   opacity: 0.2;
 }
 

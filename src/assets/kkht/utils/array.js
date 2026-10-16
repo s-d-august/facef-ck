@@ -1,5 +1,13 @@
 import gsap from "gsap";
 
+export const arrayFrom = (args) => {
+    const newArray = []
+    args.forEach(el => {
+        newArray.push(document.getElementById(el))
+    });
+    return newArray
+}
+
 export const setAllTo = ({ state, setter, value }) => {
     setter(
         Object.fromEntries(Object.keys(state).map(key => [key, value]))

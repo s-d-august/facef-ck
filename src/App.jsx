@@ -138,13 +138,15 @@ function App({ JP, setJP, devMode }) {
         cloth.current = document.getElementById("cloth")
         containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
-        dickHandParts.current = gsap.utils.toArray(".dickHandParts")
+        dickHandParts.current = kkht.arrayFrom(["dickHandFingers", "dickHandSvg"])
+
+        console.log("dickhandparts", dickHandParts.current)
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
-        hairPullBeads.current = gsap.utils.toArray(".hairPullBeads").reverse()
+        hairPullBeads.current = Array.from(document.querySelectorAll(`[id^="moveBeads"]`)).reverse()
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
-        headParts.current = gsap.utils.toArray(".headParts");
-        hideHand.current = gsap.utils.toArray(".hideHand")
+        headParts.current = kkht.arrayFrom(["head", "mouthFull"]);
+        hideHand.current = document.getElementById("hairPullDiv")
         mouthButton.current = document.getElementById("mouthOrderButton")
         mouthGroup.current = document.getElementById("mouthGroup")
         tearLeft.current = document.getElementById("tearLeft")
@@ -1007,7 +1009,7 @@ function App({ JP, setJP, devMode }) {
         const sweatsParent = document.getElementById(`sweatGroup`)
         const sweats = [...sweatsParent.children]
         // Get all .eyeCenter elements
-        const eyes = gsap.utils.toArray('.eyeCenter');
+        const eyes = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`));
 
         kkht.hideOnOverlap({
             running: running,
@@ -1041,14 +1043,10 @@ function App({ JP, setJP, devMode }) {
 
         if (fastMorph || interruptUI || armsUp) {
             hairPullDraggable.current.disable()
-            hideHand.current.forEach((el) => {
-                el.style.display = "none"
-            })
+            hideHand.current.style.display = "none"
         } else {
             hairPullDraggable.current.enable()
-            hideHand.current.forEach((el) => {
-                el.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
-            })
+            hideHand.current.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
         }
 
         if (fastMorph || interruptUI) {
