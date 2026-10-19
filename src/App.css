@@ -20,6 +20,10 @@
   animation: blink 10s linear infinite
 }
 
+#blink {
+  animation: blinkInverse 10s linear infinite
+}
+
 #waitIcon {
   position: absolute;
   height: 6vh;
@@ -168,7 +172,7 @@ svg {
   z-index: 13;
 }
 
-#armsSvg {
+#armsGroup {
   z-index: 20
 }
 
@@ -326,5 +330,39 @@ svg {
 
   54% {
     opacity: 1;
+  }
+}
+
+@keyframes blinkInverse {
+  0% {
+    opacity: 0;
+  }
+
+  1% {
+    opacity: 1;
+  }
+
+  2% {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  51% {
+    opacity: 1;
+  }
+
+  52% {
+    opacity: 0;
+  }
+
+  53% {
+    opacity: 1;
+  }
+
+  54% {
+    opacity: 0;
   }
 }

@@ -27,7 +27,7 @@ const Tutorial = ({
     useEffect(() => {
 
         const bodyVisible = [
-            "body", "head", "mouthFull", "armsSvg", "positioning"
+            "body", "head", "mouthFull", "armsGroup", "positioning"
         ]
 
 
@@ -154,7 +154,7 @@ const Tutorial = ({
 
 
             var height = document.getElementById("messageBackground").getBoundingClientRect().height
-            gsap.set("#armsSvg", {
+            gsap.set("#armsGroup", {
                 y: (height * 0.065)
             })
 
@@ -177,7 +177,7 @@ const Tutorial = ({
                 document.getElementById(el).classList.remove("messageVisible")
             })
 
-            const blockVisible = ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg", "armsSvg"]
+            const blockVisible = ["dickHandFingersGroup", "dickGroup", "dickHandGrab", "dickHandGroup", "armsGroup"]
             blockVisible.forEach((el) => {
                 document.getElementById(el).style.display = "block"
             })
@@ -190,12 +190,12 @@ const Tutorial = ({
                 document.getElementById(el).style.opacity = 1
             })
 
-            const faintVisible = ["dickHandSvg", "dickHandFingers", "hairPullDiv"]
+            const faintVisible = ["dickHandGrab", "dickHandFingersGroup", "hairPullGroup"]
             faintVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 0.2
             })
 
-            gsap.to("#armsSvg", {
+            gsap.to("#armsGroup", {
                 y: 0,
                 duration: 1
             })

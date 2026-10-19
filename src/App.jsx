@@ -81,6 +81,8 @@ function App({ JP, setJP, devMode }) {
     const arousalRef = useRef(arousal);
 
     const arousalTierRef = useRef(arousalTier)
+    const beads = useRef()
+    const blush = useRef()
     const body = useRef()
     const browLeft = useRef()
     const browRight = useRef()
@@ -134,16 +136,17 @@ function App({ JP, setJP, devMode }) {
             console.log("container not rendered")
             return
         }; // Prevents error if not rendered
-        console.log(kkht.groupsToJsx(kkht.getGroups(ffkSvg)))
         armLeft.current = document.getElementById("armLeft")
         armRight.current = document.getElementById("armRight")
+        beads.current = document.getElementById("beads")
+        blush.current = document.getElementById("blush")
         body.current = document.getElementById("bodyGroup");
         browLeft.current = document.getElementById("browLeft")
         browRight.current = document.getElementById("browRight")
         cloth.current = document.getElementById("cloth")
         containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
-        dickHandParts.current = kkht.arrayFrom(["dickHandFingers", "dickHandSvg"])
+        dickHandParts.current = kkht.arrayFrom(["dickHandFingersGroup", "dickHandSvg"])
         console.log("dickhandparts", dickHandParts.current)
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
@@ -183,7 +186,7 @@ function App({ JP, setJP, devMode }) {
         });
 
         // Elements that disappear when blink fires
-        kkht.arrayFrom([`[id^="topLine"]`, "eyeLeft", "eyeRight"]).forEach(el => {
+        kkht.arrayFrom([`[id^="upper"]`, "eyeLeft", "eyeRight"]).forEach(el => {
             el.classList.add("blink")
         });
 
@@ -250,10 +253,16 @@ function App({ JP, setJP, devMode }) {
     useEffect(() => {
         var elements = [
             hairPullBeads.current,
-            document.getElementById("#beads")
+            beads.current
         ]
+        console.log("elements", elements)
         elements.forEach((el) => {
-            el.style.display = rosaryMode ? "block" : "none"
+            console.log(el)
+            if (Array.isArray(el)) {
+                el.forEach(el2 => {
+                    el2.style.display = rosaryMode ? "block" : "none"
+                })
+            } else el.style.display = rosaryMode ? "block" : "none"
 
         })
     }, [rosaryMode])
@@ -565,7 +574,7 @@ function App({ JP, setJP, devMode }) {
                     kkht.valChange("man", "up", maxArousalRef.current, setArousal, sensitivityRef.current)
                 }
                 kkht.updateFollowers({
-                    itemsArray: ["#dickHandFingers"],
+                    itemsArray: ["#dickHandFingersGroup"],
                     x: this.x,
                     y: this.y,
                     ease: "back",
@@ -574,7 +583,7 @@ function App({ JP, setJP, devMode }) {
                 })
             },
             onDragEnd: function () {
-                gsap.to("#dickHandFingers", {
+                gsap.to("#dickHandFingersGroup", {
                     y: 0,
                     duration: 0.2
                 })
@@ -929,8 +938,7 @@ function App({ JP, setJP, devMode }) {
                     : (arousalRatio > 0.2) ? setArousalTier(2)
                         : setArousalTier(1)
 
-        const blush = document.getElementById("blush")
-        kkht.renderProgress(blush, "opacity", arousal.boy, maxArousal.boy)
+        kkht.renderProgress(blush.current, "opacity", arousal.boy, maxArousal.boy)
 
         const pupilSize = gsap.timeline({ paused: true })
             .fromTo(["#pupilLeft", "#pupilRight"],

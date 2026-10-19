@@ -56,7 +56,7 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
     function startMessage() {
 
         const bodyVisible = [
-            "body", "head", "mouthFull", "armsSvg", "positioning"
+            "body", "head", "mouthFull", "armsGroup", "positioning"
         ]
 
         setInterruptUI(true)

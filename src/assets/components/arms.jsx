@@ -4,7 +4,7 @@ import { insertGroup } from "../kkht/utils/svg";
 
 const Arms = () => (
     <svg
-        id="armsSvg"
+        id="armsGroup"
         viewBox="0 0 1133.265 1179.254"
         preserveAspectRatio="xMinYMax meet"
 

@@ -2,7 +2,7 @@ import gsap from "gsap"
 import * as kkht from "../index"
 
 const bodyVisible = [
-    "body", "head", "mouthFull", "armsSvg", "positioning"
+    "body", "head", "mouthFull", "armsGroup", "positioning"
 ]
 
 export const resetPosition = ({
@@ -252,7 +252,7 @@ export const endMessage = () => {
         document.getElementById(el).classList.remove("messageVisible")
     })
 
-    const blockVisible = ["dickHandFingers", "dick", "dickHandGrab", "dickHandSvg", "armsSvg"]
+    const blockVisible = ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandSvg", "armsGroup"]
     blockVisible.forEach((el) => {
         document.getElementById(el).style.display = "block"
     })
@@ -264,12 +264,12 @@ export const endMessage = () => {
         document.getElementById(el).style.opacity = 1
     })
 
-    const faintVisible = ["dickHandSvg", "dickHandFingers", "hairPullDiv"]
+    const faintVisible = ["dickHandSvg", "dickHandFingersGroup", "hairPullDiv"]
     faintVisible.forEach((el) => {
         document.getElementById(el).style.opacity = 0.2
     })
 
-    gsap.to("#armsSvg", {
+    gsap.to("#armsGroup", {
         y: 0,
         duration: 1
     })
