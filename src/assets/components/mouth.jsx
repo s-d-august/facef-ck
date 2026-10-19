@@ -3,7 +3,6 @@ import svgDefs from "./svgDefs"
 const Mouth = ({ rosaryMode }) => (
     <svg
         id="mouthFull"
-        className="headParts"
         viewBox="0 0 1133.265 1179.254"
         preserveAspectRatio="xMinYMax meet"
 

@@ -134,15 +134,14 @@ svg {
   z-index: 20;
 }
 
-#hairPullBeadsDiv {
+#hairPullBeadsTopmost {
   display: flex !important;
   justify-content: center;
 }
 
-.topmost {
+#cumshotSvg {
   z-index: 20;
 }
-
 
 #dickHandSvg {
   z-index: 14;
@@ -218,11 +217,11 @@ svg {
 }
 
 #positioning>div,
-#positioning>div>div:not(#hairPullBeadsDiv) {
+#positioning>div>div:not(#hairPullBeadsTopmost) {
   display: contents;
 }
 
-#hairPullBeadsDiv {
+#hairPullBeadsTopmost {
   display: flex !important;
   justify-content: center;
 }

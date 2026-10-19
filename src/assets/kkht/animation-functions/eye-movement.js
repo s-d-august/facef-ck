@@ -1,7 +1,6 @@
 import gsap from "gsap";
 
 export function eyeMovement({ moveEls, bounds, type }) {
-    const [el1, el2] = moveEls;
     let tween, duration, delay
 
     const toFro = (type === "toFro")
@@ -22,7 +21,7 @@ export function eyeMovement({ moveEls, bounds, type }) {
         // Pick a single random offset so both move together
         const targetOffset = randomTarget({ x: 0, y: 0 });
 
-        tween = gsap.to([el1, el2], {
+        tween = gsap.to(moveEls, {
             x: targetOffset.x,
             y: targetOffset.y,
             duration: duration,
@@ -35,7 +34,7 @@ export function eyeMovement({ moveEls, bounds, type }) {
         })
     }
 
-    toFro ? gsap.set([el1, el2], { x: 0, y: 0 }) : null
+    toFro ? gsap.set(moveEls, { x: 0, y: 0 }) : null
     moveToRandom();
 
     window.addEventListener("resize", () => {

@@ -1,7 +1,7 @@
 import * as React from "react";
 
-const SvgIcon = (props) => (
-  <svg
+const fullSvg = (props) => (
+ ( <svg
     xmlns="http://www.w3.org/2000/svg"
     xmlnsXlink="http://www.w3.org/1999/xlink"
     id="svg1"
@@ -1120,7 +1120,7 @@ const SvgIcon = (props) => (
         ></path>
       </g>
     </g>
-  </svg>
+  </svg>)
 );
 
-export default SvgIcon;
+export default fullSvg;

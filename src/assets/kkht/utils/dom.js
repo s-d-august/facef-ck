@@ -145,8 +145,10 @@ export const renderTimelineProgress = (tl, progress) => {
 
 export const hideOnOverlap = ({ running, element1, element2 }) => {
 
+    const new2 = Array.isArray(element2) ? element2 : [element2]
+
     element1.forEach(el1 => {
-        element2.forEach(el2 => {
+        new2.forEach(el2 => {
             if (Draggable.hitTest(el1, el2, 1)) {
                 gsap.to(el1, { opacity: 0, duration: 0.2 });
             }

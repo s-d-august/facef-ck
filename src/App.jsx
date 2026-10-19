@@ -13,6 +13,9 @@ import { gsap } from 'gsap'
 import { Draggable } from 'gsap/dist/Draggable'
 import { InertiaPlugin, CustomEase, CustomWiggle, Observer, MorphSVGPlugin, DrawSVGPlugin } from 'gsap/all'
 import Setters from './assets/components/setters/setters'
+import fullSvg from './assets/components/fullSvg'
+import ffkSvg from "./assets/FFK.svg?raw";
+
 
 function App({ JP, setJP, devMode }) {
 
@@ -91,6 +94,7 @@ function App({ JP, setJP, devMode }) {
     const endingButton = useRef()
     const endingFired = useRef(false)
     const endingUnlocked = useRef()
+    const eyeCenters = useRef()
     const hairPullBeads = useRef()
     const hairPullDraggable = useRef()
     const hairPullHandGrab = useRef()
@@ -130,6 +134,7 @@ function App({ JP, setJP, devMode }) {
             console.log("container not rendered")
             return
         }; // Prevents error if not rendered
+        console.log(kkht.groupsToJsx(kkht.getGroups(ffkSvg)))
         armLeft.current = document.getElementById("armLeft")
         armRight.current = document.getElementById("armRight")
         body.current = document.getElementById("bodyGroup");
@@ -139,11 +144,12 @@ function App({ JP, setJP, devMode }) {
         containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
         dickHandParts.current = kkht.arrayFrom(["dickHandFingers", "dickHandSvg"])
-
         console.log("dickhandparts", dickHandParts.current)
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
-        hairPullBeads.current = Array.from(document.querySelectorAll(`[id^="moveBeads"]`)).reverse()
+        eyeCenters.current = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`))
+        hairPullBeads.current = Array.from(document.querySelectorAll(`[id^="moveBead"]`)).reverse()
+        console.log(eyeCenters.current, hairPullBeads.current, Array.from(document.querySelectorAll(`[id^="moveBead"]`)))
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         headParts.current = kkht.arrayFrom(["head", "mouthFull"]);
         hideHand.current = document.getElementById("hairPullDiv")
@@ -172,7 +178,12 @@ function App({ JP, setJP, devMode }) {
             el.classList.add("interact")
         });
 
-        document.querySelectorAll(`[id^="topLine"]`).forEach(el => {
+        document.querySelectorAll(`[id^="Topmost"]`).forEach(el => {
+            el.classList.add("noInteract")
+        });
+
+        // Elements that disappear when blink fires
+        kkht.arrayFrom([`[id^="topLine"]`, "eyeLeft", "eyeRight"]).forEach(el => {
             el.classList.add("blink")
         });
 
@@ -569,7 +580,7 @@ function App({ JP, setJP, devMode }) {
             }
         })
 
-        Draggable.create("#hairPullHand", {
+        Draggable.create("#hairPullHandTopmost", {
             trigger: "#hairPullHandGrab",
             cursor: "ns-resize",
             edgeResistance: 0.9,
@@ -630,7 +641,7 @@ function App({ JP, setJP, devMode }) {
                         minY: containerSize.current * -0.05,
                         maxY: containerSize.current * kkht.trainingMultiplier(
                             {
-                                id: "#hairPullHand",
+                                id: "#hairPullHandTopmost",
                                 y: this.y,
                                 maxY: (this.maxY || containerSize.current * 0.1),
                                 initial: 0.125,
@@ -640,7 +651,7 @@ function App({ JP, setJP, devMode }) {
                             })
                     });
                 } else if (depthMethodRef.current === "Arousal") {
-                    const draggable = Draggable.get("#hairPullHand");
+                    const draggable = Draggable.get("#hairPullHandTopmost");
                     if (container && draggable) {
                         const arousalRatio = arousalRef.current.boy / maxArousalRef.current.boy;
 
@@ -655,7 +666,7 @@ function App({ JP, setJP, devMode }) {
                 } else {
                     kkht.trainingMultiplier(
                         {
-                            id: "#hairPullHand",
+                            id: "#hairPullHandTopmost",
                             reset: true
                         })
                     this.applyBounds({
@@ -702,7 +713,7 @@ function App({ JP, setJP, devMode }) {
             }
 
         });
-        hairPullDraggable.current = Draggable.get("#hairPullHand")
+        hairPullDraggable.current = Draggable.get("#hairPullHandTopmost")
         dickHandDraggable.current = Draggable.get("#dickHandSvg")
 
     }, [depthMethod])
@@ -754,7 +765,7 @@ function App({ JP, setJP, devMode }) {
                         isCrying
                     })
                 }
-                gsap.to([".eyeCenter"], {
+                gsap.to(eyeCenters.current, {
                     x: 0,
                     y: 0,
                     duration: 0.2
@@ -844,7 +855,7 @@ function App({ JP, setJP, devMode }) {
 
         hairPullDraggable.current.update();
 
-        document.getElementById("boyNutButton").style.display = "none"
+        endingButton.current.style.display = "none"
         endingUnlocked.current = false
         endingFired.current = true
 
@@ -919,7 +930,7 @@ function App({ JP, setJP, devMode }) {
         kkht.renderProgress(blush, "opacity", arousal.boy, maxArousal.boy)
 
         const pupilSize = gsap.timeline({ paused: true })
-            .fromTo(".pupil",
+            .fromTo(["#pupilLeft", "#pupilRight"],
                 { scale: 0.8, transformOrigin: "center" },
                 { scale: 1.4, duration: 1 })
 
@@ -930,8 +941,7 @@ function App({ JP, setJP, devMode }) {
     }, [arousal.boy, depthMethod, approach, mouthOn, mouthOpen, holdMouthOpen]);
 
     useEffect(() => { // Elements dependent on arousalTier (eye movement, breath)
-        const eyeCenterRight = document.getElementById("eyeCenterRight");
-        const eyeCenterLeft = document.getElementById("eyeCenterLeft");
+
         let cleanup;
 
         if (!fastMorphRef.current) {
@@ -945,7 +955,7 @@ function App({ JP, setJP, devMode }) {
                     duration: 2
                 })
                 cleanup = kkht.eyeMovement({
-                    moveEls: [eyeCenterRight, eyeCenterLeft],
+                    moveEls: eyeCenters.current,
                     type: "random",
                     bounds: {
                         maxX: 30,
@@ -956,7 +966,7 @@ function App({ JP, setJP, devMode }) {
                 });
             } else if (arousalTier === 3 || arousalTier === 4) {
                 cleanup = kkht.eyeMovement({
-                    moveEls: [eyeCenterRight, eyeCenterLeft],
+                    moveEls: eyeCenters.current,
                     type: "toFro",
                     bounds: {
                         maxX: 30,
@@ -966,7 +976,7 @@ function App({ JP, setJP, devMode }) {
                     }
                 });
             } else if (arousalTier === 5) {
-                gsap.to([eyeCenterRight, eyeCenterLeft], {
+                gsap.to(eyeCenters.current, {
                     x: 0,
                     y: 0,
                     duration: 1
@@ -1008,13 +1018,11 @@ function App({ JP, setJP, devMode }) {
         // Get all sweat elements
         const sweatsParent = document.getElementById(`sweatGroup`)
         const sweats = [...sweatsParent.children]
-        // Get all .eyeCenter elements
-        const eyes = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`));
 
         kkht.hideOnOverlap({
             running: running,
             element1: sweats,
-            element2: eyes
+            element2: eyeCenters.current
         })
 
         return () => {
@@ -1046,7 +1054,7 @@ function App({ JP, setJP, devMode }) {
             hideHand.current.style.display = "none"
         } else {
             hairPullDraggable.current.enable()
-            hideHand.current.style.display = (el.id === "hairPullDiv") ? "flex" : "block"
+            hideHand.current.style.display = "flex"
         }
 
         if (fastMorph || interruptUI) {

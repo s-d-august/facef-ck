@@ -17,7 +17,6 @@ function getTears(num) {
             ></path>
             <path
                 id={"tearRight" + num}
-                className="tear"
                 fill="#fcfdff"
                 fillOpacity="0.75"
                 stroke="#fff"
@@ -40,7 +39,6 @@ function getTears(num) {
             ></path>
             <path
                 id={"tearLeft" + num}
-                className="tear"
                 fill="#fcfdff"
                 fillOpacity="0.75"
                 stroke="#fff"
@@ -57,7 +55,6 @@ function getTears(num) {
 const Head = ({ rosaryMode }) => (
     <svg
         id="head"
-        className="headParts"
         viewBox="0 0 1133.265 1179.254"
         preserveAspectRatio="xMinYMax meet"
 
@@ -84,7 +81,7 @@ const Head = ({ rosaryMode }) => (
                 strokeWidth="3"
                 d="M286.499 439.581h460.572v119.025H286.499z"
             ></path>
-            <g id="eyeLeft" className="blink"
+            <g id="eyeLeft"
                 strokeLinecap="round" display="inline" opacity="1">
                 <path
                     id="eyeFillLeft"
@@ -94,7 +91,7 @@ const Head = ({ rosaryMode }) => (
                     d="m495.336 554.091 12.677-82.062c-21.817-21.328-30.07-31.969-56.712-40.172l-103.109 14.125-17.71 55.849 7.082 23.25 39.187 28.341Z"
                     opacity="1"
                 ></path>
-                <g id="eyeCenterLeft" className="eyeCenter">
+                <g id="eyeCenterLeft">
                     <path
                         id="irisLeft"
                         fill="#7c6f91"
@@ -107,7 +104,6 @@ const Head = ({ rosaryMode }) => (
                     ></path>
                     <path
                         id="pupilLeft"
-                        className="pupil"
                         strokeWidth="16.245"
                         d="M446.72 493.196a7.684 7.684 0 0 1-7.685 7.685 7.685 7.685 0 1 1 7.685-7.685"
                         display="inline"
@@ -115,7 +111,7 @@ const Head = ({ rosaryMode }) => (
                     ></path>
                 </g>
             </g>
-            <g id="eyeRight" className="blink" strokeLinecap="round" display="inline" opacity="1">
+            <g id="eyeRight" strokeLinecap="round" display="inline" opacity="1">
                 <path
                     id="eyeFillRight"
                     fill="#fff"
@@ -124,7 +120,7 @@ const Head = ({ rosaryMode }) => (
                     d="m580.462 551.143-24.548-60.109 34.686-33.771 20.953-10.018 64.593 16.476 58.911 24.632-24.99 42.719-32.074 21.896Z"
                     opacity="1"
                 ></path>
-                <g id="eyeCenterRight" className="eyeCenter">
+                <g id="eyeCenterRight" >
 
                     <path
                         id="irisRight"
@@ -137,7 +133,6 @@ const Head = ({ rosaryMode }) => (
                     ></path>
                     <path
                         id="pupilRight"
-                        className="pupil"
                         strokeWidth="16.226"
                         d="M624.159 492.949a7.673 7.673 0 0 1-7.676 7.677 7.676 7.676 0 1 1 7.676-7.677"
                         opacity="1"
@@ -494,8 +489,6 @@ const Head = ({ rosaryMode }) => (
             <g id="moveablesLayer" strokeLinecap="round" display="inline">
                 <g id="blush">
                     <path
-                        id="blushRight"
-                        className="blush"
                         fill="url(#pattern66)"
                         strokeLinejoin="round"
                         strokeWidth="1.5"
@@ -503,8 +496,6 @@ const Head = ({ rosaryMode }) => (
                         display="inline"
                     ></path>
                     <path
-                        id="blushLeft"
-                        className="blush"
                         fill="url(#pattern63)"
                         strokeLinejoin="round"
                         strokeWidth="1.5"

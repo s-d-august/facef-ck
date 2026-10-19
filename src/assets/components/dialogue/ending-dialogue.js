@@ -5,9 +5,11 @@ export const endingDialogue = (index) => {
     return endingScripts[0]
 }
 
+const eyeCenters = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`))
+
 function lookDown() {
     gsap.timeline()
-        .to(".eyeCenter", {
+        .to(eyeCenters, {
             y: 17,
             duration: 1
         })
@@ -15,7 +17,7 @@ function lookDown() {
 
 function lookLeft() {
     gsap.timeline()
-        .to(".eyeCenter", {
+        .to(eyeCenters, {
             x: 10,
             duration: 1
         })
@@ -23,7 +25,7 @@ function lookLeft() {
 
 function lookRight() {
     gsap.timeline()
-        .to(".eyeCenter", {
+        .to(eyeCenters, {
             x: -20,
             duration: 1
         })
@@ -31,7 +33,7 @@ function lookRight() {
 
 function callSmile() {
     console.log("callSmile fired")
-    gsap.to(".eyeCenter", {
+    gsap.to(eyeCenters, {
         y: 0,
         x: 0,
         duration: 1.5

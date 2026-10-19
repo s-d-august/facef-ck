@@ -28,11 +28,10 @@ const beadPaths = [
     }]
 
 const HairPullHand = ({ rosaryMode }) => (
-    <div id="hairPullDiv" className="hideHand">
+    <div id="hairPullDiv">
         <svg
             preserveAspectRatio="xMinYMax meet"
-            id="hairPullHand"
-            className="noInteract"
+            id="hairPullHandTopmost"
             viewBox="0 0 1133.265 1179.254"
         >
             {svgDefs()}
@@ -66,7 +65,7 @@ const HairPullHand = ({ rosaryMode }) => (
             ></path>
 
         </svg>
-        <div className="noInteract" id="hairPullBeadsDiv" >
+        <div id="hairPullBeadsTopmost" >
             {beadPaths.map((bead) => (
                 <svg
                     key={bead.id}

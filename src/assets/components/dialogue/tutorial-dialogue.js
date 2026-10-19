@@ -25,14 +25,14 @@ export const tutorialDialogue = (arousalTier) => {
 
     console.log(trainingMultiplier(
         {
-            id: "#hairPullHand",
+            id: "#hairPullHandTopmost",
             initial: 0.125,
             output: true
         }))
 
     var mult = (trainingMultiplier(
         {
-            id: "#hairPullHand",
+            id: "#hairPullHandTopmost",
             output: true
         }))
 

@@ -2,10 +2,9 @@ const censored = true
 import svgDefs from "./svgDefs";
 
 const Dick = (props) => (
-    <div id="fullDickAndHandSvg" className="noInteract">
+    <div id="dickHandTopmost">
         <svg
             id="dickHandFingers"
-            className="dickHandParts"
             viewBox="0 0 1133.265 1179.254"
             preserveAspectRatio="xMinYMax meet"
         >
@@ -34,7 +33,7 @@ const Dick = (props) => (
             </g>
         </svg>
 
-        <svg viewBox="0 0 1133.265 1179.254" className="topmost" preserveAspectRatio="xMinYMax meet">
+        <svg viewBox="0 0 1133.265 1179.254" id="cumshotSvg" preserveAspectRatio="xMinYMax meet">
             <line
                 id="cumshot"
                 x1="530" y1="775" x2="530" y2="400"
@@ -130,7 +129,6 @@ const Dick = (props) => (
         </svg>
 
         <svg id="dickHandSvg"
-            className="dickHandParts"
             viewBox="0 0 1133.265 1179.254"
             preserveAspectRatio="xMinYMax meet"
         >
