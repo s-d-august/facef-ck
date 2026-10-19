@@ -1,5 +1,5 @@
 import svgPath from "svgpath"
-import svgDefs from "./svgDefs"
+import { svgDefs } from "../kkht/utils/svg"
 import { insertGroup, getPath } from "../kkht/utils/svg"
 
 const beadPaths = [
@@ -45,7 +45,6 @@ const HairPullHand = ({ }) => (
                 <svg
                     key={bead.id}
                     viewBox="0 0 1133.265 1179.254"
-                    className="hairPullBeads rosaryMode"
                     id={bead.id}
                     preserveAspectRatio="xMinYMax meet"
                 >

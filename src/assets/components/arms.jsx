@@ -1,5 +1,5 @@
 import * as React from "react";
-import svgDefs from "./svgDefs";
+import { svgDefs } from "../kkht/utils/svg";
 import { insertGroup } from "../kkht/utils/svg";
 
 const Arms = () => (

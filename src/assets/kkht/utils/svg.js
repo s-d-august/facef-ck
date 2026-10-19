@@ -23,98 +23,8 @@ export const getPath = (id) => {
     return el
 }
 
-export const getPaths = (svg) => {
-    const output = []
-
-    // Raw SVG markup string (e.g. `import src from "./FFK.svg?raw"`):
-    // parse in-memory. The document is never attached to the page.
-    if (typeof svg === "string") {
-        svg = new DOMParser().parseFromString(svg, "image/svg+xml").documentElement
-    }
-
-    // DOM node: query directly. Paint values aren't exposed as JS properties,
-    // and Inkscape files keep them in the `style` attribute, so read el.style
-    // first and fall back to presentation attributes.
-    if (svg instanceof Element) {
-        const prop = (el, cssName, attr) => el.style[cssName] || el.getAttribute(attr) || undefined
-        svg.querySelectorAll("path").forEach(el => {
-            if (el.id && !el.id.includes("path")) {
-                const stroke = prop(el, "stroke", "stroke")
-                output.push({
-                    id: el.id,
-                    d: el.getAttribute("d"),
-                    fill: prop(el, "fill", "fill"),
-                    stroke,
-                    strokeWidth: stroke !== "none" ? prop(el, "strokeWidth", "stroke-width") : null,
-                    strokeLinecap: stroke !== "none" ? prop(el, "strokeLinecap", "stroke-linecap") : null
-                })
-            }
-        })
-        return svg
-    }
-
-    // React component function -> call it to get the element
-    const element = typeof svg === "function" ? svg({}) : svg
-
-    // React element: walk the tree without mounting anything in the DOM
-    const walk = (node) => {
-        React.Children.forEach(node, (child) => {
-            if (!React.isValidElement(child)) return
-            if (child.type === "path" && child.props.id && !child.props.id.includes("path")) {
-                output.push({
-                    id: child.props.id,
-                    d: child.props.d,
-                    fill: child.props.fill,
-                    stroke: child.props.stroke,
-                    strokeWidth: child.props.stroke !== "none" ? child.props.strokeWidth : null,
-                    strokeLinecap: child.props.stroke !== "none" ? child.props.strokeLinecap : null
-                })
-            }
-            if (child.props?.children) walk(child.props.children)
-        })
-    }
-    walk(element)
-    return svg
-}
-
-export const getGroups = (svg) => {
-    const output = []
-
-    // Raw SVG markup string -> parse in-memory (never attached to the page)
-    if (typeof svg === "string") {
-        svg = new DOMParser().parseFromString(svg, "image/svg+xml").documentElement
-    }
-
-    // DOM node: real elements, movable with appendChild/insertBefore
-    if (svg instanceof Element) {
-        svg.querySelectorAll("g").forEach(el => {
-            output.push({
-                id: el.id,
-                element: el
-            })
-        })
-        return output
-    }
-
-    // React component function -> call it to get the element
-    const element = typeof svg === "function" ? svg({}) : svg
-
-    // React element: walk the tree, keeping every <g> (nested ones included).
-    // The returned elements are renderable as-is inside another <svg>.
-    const walk = (node) => {
-        React.Children.forEach(node, (child) => {
-            if (!React.isValidElement(child)) return
-            if (child.type === "g") output.push(
-                {
-                    id: child.props.id,
-                    element: child
-                }
-            )
-            if (child.props?.children) walk(child.props.children)
-        })
-    }
-    walk(element)
-    return output
+export const svgDefs = () => {
+    return domToJsx(ffkDoc.getElementById("defs1"))
 }
 
 // Attributes that must be renamed to their React prop equivalents
@@ -150,7 +60,7 @@ const isSvgTag = (name) => [
 ].includes(name)
 
 // Recursively converts a DOM SVG subtree into a React element.
-const domToJsx = (node, key) => {
+export const domToJsx = (node, key) => {
     if (node.nodeType === Node.TEXT_NODE) {
         const text = node.nodeValue.trim()
         return text ? text : null
@@ -186,21 +96,5 @@ const domToJsx = (node, key) => {
         .filter(child => child !== null)
 
     return React.createElement(tag, props, ...children)
-}
-
-// Takes the output of getGroups and returns React elements renderable in JSX.
-// React elements (from fullSvg) pass through untouched; DOM nodes (from FFK.svg
-// via `?raw`, or any mounted svg) are converted.
-export const groupsToJsx = (groups) => {
-    return groups.map(({ id, element }, i) => {
-        const key = id || i
-        if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key })
-        }
-        if (element instanceof Element) {
-            return domToJsx(element, key)
-        }
-        return null
-    }).filter(Boolean)
 }
 

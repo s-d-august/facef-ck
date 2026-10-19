@@ -19,4 +19,5 @@ export * from './utils/gsap';
 export * from './utils/math';
 export * from './utils/stats';
 export * from './utils/messages';
+export * from './utils/svg';
 export * from '../components/dialogue/ending'

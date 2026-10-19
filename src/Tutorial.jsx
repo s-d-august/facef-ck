@@ -185,14 +185,14 @@ const Tutorial = ({
             document.getElementById("settersDiv").style.display = "grid"
             document.getElementById("hairPullDiv").style.display = "none"
 
-            const opacityVisible = ["dick", "settersDiv", "dickHandGrab"]
+            const opacityVisible = ["dick", "settersDiv"]
             opacityVisible.forEach((el) => {
                 document.getElementById(el).style.opacity = 1
             })
 
-            const faintVisible = ["dickHandGrab", "dickHandFingersGroup", "hairPullGroup"]
+            const faintVisible = ["dickHandFingersGroup", "hairPullDiv"]
             faintVisible.forEach((el) => {
-                document.getElementById(el).style.opacity = 0.2
+                document.getElementById(el).style.opacity = 0.35
             })
 
             gsap.to("#armsGroup", {

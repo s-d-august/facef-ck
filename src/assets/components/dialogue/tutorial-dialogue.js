@@ -53,7 +53,7 @@ export const tutorialDialogue = (arousalTier) => {
             {
                 line: '"That includes if I bring myself off on your face."',
                 jp: '"僕がその顔を彩ってもね。"',
-                zBoost: ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandSvg"],
+                zBoost: ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandTopmost"],
                 display: "none",
                 opacity: true
             },

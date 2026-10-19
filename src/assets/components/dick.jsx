@@ -1,5 +1,5 @@
 const censored = true
-import svgDefs from "./svgDefs";
+import { svgDefs } from "../kkht/utils/svg";
 import { insertGroup } from "../kkht/utils/svg";
 
 const Dick = (props) => (
@@ -37,7 +37,7 @@ const Dick = (props) => (
             </g>
         </svg>
 
-        <svg id="dickHandSvg"
+        <svg id="dickHandTopmost"
             viewBox="0 0 1133.265 1179.254"
             preserveAspectRatio="xMinYMax meet"
         >

@@ -33,7 +33,8 @@
 }
 
 #ageCheckDiv,
-#mainDiv {
+#mainDiv,
+#blink2 {
   display: none
 }
 
@@ -147,7 +148,7 @@ svg {
   z-index: 20;
 }
 
-#dickHandSvg {
+#dickHandTopmost {
   z-index: 14;
 }
 
@@ -155,9 +156,9 @@ svg {
   z-index: 9;
 }
 
-#dickHandSvg,
+#dickHandGroup,
 #dickHandFingers {
-  opacity: 0.2;
+  opacity: 0.35;
 }
 
 #dickHandGrab {

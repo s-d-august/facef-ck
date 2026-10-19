@@ -186,7 +186,7 @@ export const advanceMessage = ({ messageSteps, index, JP, messageBox }) => {
     if (messageSteps[index].shade) {
         messageSteps[index].shade.forEach((el) => {
             if (!el.style) return
-            el.style.opacity = 0.2
+            el.style.opacity = 0.35
         })
     }
 
@@ -252,7 +252,7 @@ export const endMessage = () => {
         document.getElementById(el).classList.remove("messageVisible")
     })
 
-    const blockVisible = ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandSvg", "armsGroup"]
+    const blockVisible = ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandTopmost", "armsGroup"]
     blockVisible.forEach((el) => {
         document.getElementById(el).style.display = "block"
     })
@@ -264,9 +264,9 @@ export const endMessage = () => {
         document.getElementById(el).style.opacity = 1
     })
 
-    const faintVisible = ["dickHandSvg", "dickHandFingersGroup", "hairPullDiv"]
+    const faintVisible = ["dickHandFingersGroup", "hairPullDiv"]
     faintVisible.forEach((el) => {
-        document.getElementById(el).style.opacity = 0.2
+        document.getElementById(el).style.opacity = 0.35
     })
 
     gsap.to("#armsGroup", {

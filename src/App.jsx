@@ -61,7 +61,7 @@ function App({ JP, setJP, devMode }) {
         boy: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        man: 250,
+        man: 2500,
         boy: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
@@ -146,13 +146,11 @@ function App({ JP, setJP, devMode }) {
         cloth.current = document.getElementById("cloth")
         containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
-        dickHandParts.current = kkht.arrayFrom(["dickHandFingersGroup", "dickHandSvg"])
-        console.log("dickhandparts", dickHandParts.current)
+        dickHandParts.current = kkht.arrayFrom(["dickHandFingersGroup", "dickHandGroup", "dickHandGrab"])
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
         eyeCenters.current = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`))
         hairPullBeads.current = Array.from(document.querySelectorAll(`[id^="moveBead"]`)).reverse()
-        console.log(eyeCenters.current, hairPullBeads.current, Array.from(document.querySelectorAll(`[id^="moveBead"]`)))
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         headParts.current = kkht.arrayFrom(["head", "mouthFull"]);
         hideHand.current = document.getElementById("hairPullDiv")
@@ -177,11 +175,11 @@ function App({ JP, setJP, devMode }) {
         }
 
         // Elements that require the "interact" class
-        document.querySelectorAll(`[id^="Grab"]`).forEach(el => {
+        document.querySelectorAll(`[id*="Grab"]`).forEach(el => {
             el.classList.add("interact")
         });
 
-        document.querySelectorAll(`[id^="Topmost"]`).forEach(el => {
+        document.querySelectorAll(`[id*="Topmost"]`).forEach(el => {
             el.classList.add("noInteract")
         });
 
@@ -551,7 +549,7 @@ function App({ JP, setJP, devMode }) {
     useEffect(() => { // Sets up draggables
 
 
-        Draggable.create("#dickHandSvg", {
+        Draggable.create("#dickHandTopmost", {
             trigger: "#dickHandGrab",
             zIndexBoost: false,
             type: "y",
@@ -587,8 +585,8 @@ function App({ JP, setJP, devMode }) {
                     y: 0,
                     duration: 0.2
                 })
-                gsap.to(dickHandParts.current, { opacity: 0.2, duration: 0.2 });
-                gsap.to("#hairPullDiv", { opacity: 0.2, duration: 0.2 });
+                gsap.to(dickHandParts.current, { opacity: 0.35, duration: 0.2 });
+                gsap.to("#hairPullDiv", { opacity: 0.35, duration: 0.2 });
             }
         })
 
@@ -720,13 +718,13 @@ function App({ JP, setJP, devMode }) {
 
                 setHairPullDragging(false);
 
-                gsap.to(hideHand.current, { opacity: 0.2, duration: 0.2 });
+                gsap.to(hideHand.current, { opacity: 0.35, duration: 0.2 });
 
             }
 
         });
         hairPullDraggable.current = Draggable.get("#hairPullHandTopmost")
-        dickHandDraggable.current = Draggable.get("#dickHandSvg")
+        dickHandDraggable.current = Draggable.get("#dickHandTopmost")
 
     }, [depthMethod])
 
@@ -797,7 +795,7 @@ function App({ JP, setJP, devMode }) {
                 kkht.resetDraggable(dickHandDraggable.current, dickHandParts.current)
                 gsap.to(dickHandParts.current, {
                     y: 0,
-                    opacity: 0.2,
+                    opacity: 0.35,
                     duration: 0.2
                 })
                 if (mouthOpen) {
@@ -809,7 +807,7 @@ function App({ JP, setJP, devMode }) {
                     setHoldMouthOpen(true)
                     gsap.to(dickHandParts.current, {
                         y: 0,
-                        opacity: 0.2,
+                        opacity: 0.35,
                         duration: 0.2
                     })
 
@@ -834,7 +832,7 @@ function App({ JP, setJP, devMode }) {
             }
             gsap.to(dickHandParts.current, {
                 y: 0,
-                opacity: 0.2,
+                opacity: 0.35,
                 duration: 0.2
             })
             setArousal(prev => ({ ...prev, man: 0 }))
@@ -1116,7 +1114,7 @@ function App({ JP, setJP, devMode }) {
 
         hairLeave = () => {
 
-            gsap.to(hideHand.current, { opacity: 0.2, duration: 0.2 });
+            gsap.to(hideHand.current, { opacity: 0.35, duration: 0.2 });
 
         };
         hairPullHandGrab.current.addEventListener("touchstart", hairEnter);
@@ -1128,7 +1126,7 @@ function App({ JP, setJP, devMode }) {
         dickLeave = () => {
 
             gsap.to(dickHandParts.current, {
-                opacity: 0.2,
+                opacity: 0.35,
                 duration: 0.2
             });
 

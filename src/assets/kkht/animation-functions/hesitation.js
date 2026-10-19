@@ -12,7 +12,7 @@ export const hesitation = async ({ duration, playDuring, playAfter, setter, deep
     var eyeRight = document.getElementById("eyeRight")
     var topLineLeft = document.getElementById("upperLeftOpen")
     var topLineRight = document.getElementById("upperRightOpen")
-    var blink = document.getElementById("blink")
+    var blink = document.getElementById("blink2")
     var eyes = [eyeLeft, eyeRight, topLineLeft, topLineRight, blink]
 
 
