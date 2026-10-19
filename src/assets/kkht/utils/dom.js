@@ -131,7 +131,6 @@ export const getOverlapPercent = (rectA, rectB, extraY) => {
 }
 
 export const renderProgress = (element, attr, stat, max) => {
-    console.log("renderProgress", element)
     const newVal = function (stat) {
         if (stat >= max) { return 100 }
         else return stat / max * 100
@@ -151,7 +150,7 @@ export const hideOnOverlap = ({ running, element1, element2 }) => {
     element1.forEach(el1 => {
         new2.forEach(el2 => {
             if (Draggable.hitTest(el1, el2, 1)) {
-                gsap.to(el1, { opacity: 0, duration: 0.2 });
+                gsap.to(el1, { opacity: 0, duration: 0.35 });
             }
         });
     });

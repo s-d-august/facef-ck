@@ -61,7 +61,7 @@ function App({ JP, setJP, devMode }) {
         boy: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        man: 2500,
+        man: 250,
         boy: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
@@ -149,7 +149,8 @@ function App({ JP, setJP, devMode }) {
         dickHandParts.current = kkht.arrayFrom(["dickHandFingersGroup", "dickHandGroup", "dickHandGrab"])
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
-        eyeCenters.current = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`))
+        eyeCenters.current = Array.from(document.querySelectorAll(`[id*="eyeCenter"]`))
+        console.log(eyeCenters.current)
         hairPullBeads.current = Array.from(document.querySelectorAll(`[id^="moveBead"]`)).reverse()
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         headParts.current = kkht.arrayFrom(["head", "mouthFull"]);
@@ -1022,7 +1023,7 @@ function App({ JP, setJP, devMode }) {
             idString: "sweat",
             animation: kkht.drip,
             areaHeight: 322
-        }), 10000);
+        }), 5000);
 
         // Get all sweat elements
         const sweatsParent = document.getElementById(`sweatGroup`)

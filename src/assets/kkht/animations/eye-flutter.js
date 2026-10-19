@@ -26,7 +26,7 @@ export const eyeFlutterAnimation = (el, startString, endString) => {
     let obj = { p: 0 }
     return (
         gsap.timeline()
-            .set(".eyeCenter", {
+            .set(["#eyeCenterRight", "#eyeCenterLeft"], {
                 x: 0,
                 y: 0
             })
