@@ -248,7 +248,10 @@ function App({ JP, setJP, devMode }) {
     }, [rosaryModeActive])
 
     useEffect(() => {
-        var elements = gsap.utils.toArray(".rosaryMode")
+        var elements = [
+            hairPullBeads.current,
+            document.getElementById("#beads")
+        ]
         elements.forEach((el) => {
             el.style.display = rosaryMode ? "block" : "none"
 
@@ -607,9 +610,9 @@ function App({ JP, setJP, devMode }) {
                     increase: 0.05
                 })
                 // THESE HAVE TO BE IN onDrag!!! The values aren't current otherwise
-                const dickRect = document.getElementById("dickArea").getBoundingClientRect();
-                const headRect = document.getElementById("faceArea").getBoundingClientRect();
-                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
+                const dickRect = document.getElementById("dickGroup").getBoundingClientRect();
+                const headRect = document.getElementById("headGroup").getBoundingClientRect();
+                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickGroup
                 const direction = this.getDirection("velocity")
 
                 //    var resistance
@@ -680,9 +683,9 @@ function App({ JP, setJP, devMode }) {
             },
             zIndexBoost: false,
             onDragEnd: function () {
-                const dickRect = document.getElementById("dickArea").getBoundingClientRect();
-                const headRect = document.getElementById("faceArea").getBoundingClientRect();
-                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickArea
+                const dickRect = document.getElementById("dickGroup").getBoundingClientRect();
+                const headRect = document.getElementById("headGroup").getBoundingClientRect();
+                const percent = kkht.getOverlapPercent(headRect, dickRect, 50); // percent of headArea overlapped by dickGroup
 
                 //    var resistance
 

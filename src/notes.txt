@@ -1,0 +1,11 @@
+armsGroup
+bodyScaleGroup
+cumshotGroup
+dickHandFingersGroup
+dickGroup
+dickHandGroup
+hairPullGroup
+headGroup
+mouthGroup
+
+all w/ moveBead, tear
