@@ -626,8 +626,8 @@ function App({ JP, setJP, devMode }) {
 
                 const args = {
                     percent: percent,
-                    startApproach: 0.2,
-                    startOn: 0.325,
+                    startApproach: 0.04,
+                    startOn: 0.1,
                     setApproach,
                     setMouthOn,
                     affectedIDs: ["man", "boy"],
@@ -698,8 +698,8 @@ function App({ JP, setJP, devMode }) {
 
                 const args = {
                     percent: percent,
-                    startApproach: 0.2,
-                    startOn: 0.3,
+                    startApproach: 0.04,
+                    startOn: 0.1,
                     setApproach,
                     setMouthOn,
                     affectedIDs: ["man", "boy"],
