@@ -51,8 +51,16 @@ export const callCumshot = async (args) => {
     } else move = 1
 
     const cumVals = getXY(cumID, transformOrigin);
-    cumshot.setAttribute('x2', cumVals.x);
-    cumshot.setAttribute('y2', cumVals.y);
+    // #cumshot is a <path>, not a <line> — x2/y2 only exist as inert XML
+    // attributes on paths and never affect rendering. Re-aim by rewriting d,
+    // keeping the original start point parsed from the pristine d.
+    if (!cumshot._startPoint) {
+        const match = cumshot.getAttribute("d").match(/m\s*([-\d.]+)[,\s]+([-\d.]+)/i);
+        cumshot._startPoint = match
+            ? { x: parseFloat(match[1]), y: parseFloat(match[2]) }
+            : { x: 0, y: 0 };
+    }
+    cumshot.setAttribute("d", `M ${cumshot._startPoint.x},${cumshot._startPoint.y} L ${cumVals.x},${cumVals.y}`);
 
     async function faceWipeHandler() {
         setInterruptUI(true)
