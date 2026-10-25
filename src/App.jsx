@@ -61,12 +61,12 @@ function App({ JP, setJP, devMode }) {
         boy: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        man: localStorage.getItem("manMax") ? localStorage.getItem("manMax") : 2500,
-        boy: localStorage.getItem("boyMax") ? localStorage.getItem("boyMax") : 5000,
+        man: 250,
+        boy: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
-        man: localStorage.getItem("manSens") ? localStorage.getItem("manSens") : 5,
-        boy: localStorage.getItem("boySens") ? localStorage.getItem("boySens") : 2,
+        man: 5,
+        boy: 2,
     })
 
     const endLineRef = useRef(0)
@@ -1011,7 +1011,7 @@ function App({ JP, setJP, devMode }) {
             idString: "sweat",
             animation: kkht.drip,
             areaHeight: 322
-        }), 10000);
+        }), 5000);
 
         // Get all sweat elements
         const sweatsParent = document.getElementById(`sweatGroup`)
