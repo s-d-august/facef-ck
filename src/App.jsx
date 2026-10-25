@@ -150,7 +150,6 @@ function App({ JP, setJP, devMode }) {
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
         eyeCenters.current = Array.from(document.querySelectorAll(`[id*="eyeCenter"]`))
-        console.log(eyeCenters.current)
         hairPullBeads.current = Array.from(document.querySelectorAll(`[id^="moveBead"]`)).reverse()
         hairPullHandGrab.current = document.getElementById("hairPullHandGrab");
         headParts.current = kkht.arrayFrom(["head", "mouthFull"]);
@@ -254,9 +253,7 @@ function App({ JP, setJP, devMode }) {
             hairPullBeads.current,
             beads.current
         ]
-        console.log("elements", elements)
         elements.forEach((el) => {
-            console.log(el)
             if (Array.isArray(el)) {
                 el.forEach(el2 => {
                     el2.style.display = rosaryMode ? "block" : "none"
@@ -267,13 +264,11 @@ function App({ JP, setJP, devMode }) {
     }, [rosaryMode])
 
     useEffect(() => {
-        console.log("areTears: ", areTears)
         areTearsRef.current = areTears
     }, [areTears])
 
     useEffect(() => {
         if (areTears && arousalTier === 2 && mouthOn && isCrying) {
-            console.log("tears renew")
             kkht.tearsAnimation({
                 index: "",
                 areTears: areTearsRef,
@@ -283,7 +278,6 @@ function App({ JP, setJP, devMode }) {
                 isCrying: isCryingRef
             })
         } else if (areTears && arousalTier === 2 && !isCrying) {
-            console.log("tears once")
             kkht.tearsAnimation({
                 index: "",
                 areTears: areTearsRef,
@@ -319,21 +313,18 @@ function App({ JP, setJP, devMode }) {
                 isCrying: isCryingRef
             })
         }
-        console.log("isCrying: ", isCrying)
         if (isCrying && arousalTier <= 3) {
             var type =
                 (arousalTier === 1) ? "constant"
                     : (arousalTier === 2) ? "renew"
                         : "inEyes"
 
-            console.log("type: ", type)
             callTearsAnimation(type)
 
         }
 
         if (!isCrying && areTears) {
             if (arousalTier <= 2) {
-                console.log("tears called once")
 
                 callTearsAnimation("once")
             } else if (arousalTier >= 3) {
@@ -438,7 +429,6 @@ function App({ JP, setJP, devMode }) {
             !tongueDrool.current
         ) {
             console.error("One or more refs are null!");
-            console.log(containerSize.current, mouthGroup.current, tongueGroup.current, tongueDrool.current)
             return;
         }
 
@@ -468,7 +458,6 @@ function App({ JP, setJP, devMode }) {
 
         } else {
             if (isTongueCumRef.current) {
-                console.log("tears called once")
 
                 kkht.hesitation({
                     deepBreath: (arousalTierRef.current <= 3) ? "true" : "false",
@@ -498,7 +487,6 @@ function App({ JP, setJP, devMode }) {
                         setIsTongueCum(false)
                         kkht.valChange(["boy"], "up", maxArousalRef.current, setArousal, sensitivityRef.current, (maxArousalRef.current.boy / 15))
                         if (arousalTierRef.current <= 3) {
-                            console.log("tears called once")
                             kkht.tearsAnimation({
                                 index: "3",
                                 areTears: areTearsRef,

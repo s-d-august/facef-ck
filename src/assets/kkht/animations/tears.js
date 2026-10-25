@@ -19,8 +19,6 @@ export const tearsAnimation = ({ index, setAreTears, type, arousalTier, isCrying
     tear2 = "#tear" + t2 + num
     tearDown2 = "#tearDown" + t2 + num
 
-    console.log("tear ids: ", tear1, tear2)
-
     function tearFadeIn() {
         setTrue()
         gsap.timeline()
@@ -128,16 +126,11 @@ export const tearsAnimation = ({ index, setAreTears, type, arousalTier, isCrying
             })
     }
 
-    console.log(type, tear1, tear2, index)
-
     if (type === "inEyes") {
-        console.log("inEyes called")
         tearFadeIn()
     } else if (type === "renew") {
-        console.log("renew called")
         isRenew()
     } else if (type === "constant" || type === "once") {
-        console.log("other called. type: ", type)
         tearsTweens()
-    } else console.log("nothing recognized")
+    } 
 }
