@@ -5,7 +5,8 @@ export const endingDialogue = (index) => {
     return endingScripts[0]
 }
 
-const eyeCenters = Array.from(document.querySelectorAll(`[id^="eyeCenter"]`))
+const eyeCenters = Array.from(document.querySelectorAll(`[id*="eyeCenter"]`))
+console.log("eye centers", eyeCenters)
 
 function lookDown() {
     gsap.timeline()
