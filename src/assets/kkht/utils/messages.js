@@ -261,7 +261,6 @@ export const endMessage = (setter) => {
 
     const opacityVisible = ["dick", "settersDiv", "dickHandTopmost"]
     opacityVisible.forEach((el) => {
-        console.log("opacity visible", document.getElementById(el))
         document.getElementById(el).style.opacity = 1
     })
 
