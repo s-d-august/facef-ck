@@ -47,14 +47,14 @@ export const tutorialDialogue = (arousalTier) => {
                 line: '"If move you around, you will stay where I put you."',
                 jp: '"動かされたら、そのままにしておきます。"',
                 visible: ["hairPullDiv"],
-                display: "none",
+                display: true,
                 opacity: true
             },
             {
                 line: '"That includes if I bring myself off on your face."',
                 jp: '"僕がその顔を彩ってもね。"',
-                zBoost: ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandTopmost"],
-                display: "none",
+                zBoost: ["dickHandFingersGroup", "dick", "dickHandTopmost"],
+                display: true,
                 opacity: true
             },
             {
@@ -73,7 +73,7 @@ export const tutorialDialogue = (arousalTier) => {
                 collapseOff: ["settersDiv", "settingsContents"],
                 collapseOn: ["settingsIcon"],
                 type: "Training",
-                display: "none",
+                display: true,
                 opacity: true
             },
             {
@@ -89,7 +89,7 @@ export const tutorialDialogue = (arousalTier) => {
                 shade: settingsChildren,
                 visible: ["settersDiv"],
                 type: "Arousal",
-                display: "none",
+                display: true,
                 opacity: true
             },
             {

@@ -81,8 +81,8 @@ export const endingHandler = ({ maxArousal, JP, setArousal, setInterruptUI, endL
             } else {
                 endLineRef.current = 0
                 messageBox.onclick = null;
-                kkht.endMessage()
-                setInterruptUI(false)
+                kkht.endMessage(setInterruptUI)
+
             }
         };
 

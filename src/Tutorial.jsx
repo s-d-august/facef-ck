@@ -71,7 +71,8 @@ const Tutorial = ({
                 kkht.advanceMessage({ messageSteps, index, messageBox, JP })
                 index++
             } else {
-                endTutorial()
+                kkht.endMessage(setInterruptUI)
+                setInterruptUI(false)
                 messageBox.onclick = null
             }
         }
@@ -212,7 +213,7 @@ const Tutorial = ({
             messageLine.innerHTML = JP ? '"あら、何と熱心ですね ❤"' : '"My, aren\'t you eager ❤"'
             messageYes.style.display = "none"
             messageNo.style.display = "none"
-            messageBox.onclick = endTutorial
+            messageBox.onclick = (() => kkht.endMessage(setInterruptUI))
         }
 
         document.getElementById("tutorialButton").addEventListener("click", tutorialButtonHandler)
@@ -225,7 +226,7 @@ const Tutorial = ({
         }
 
         if (tutorialFired === true) {
-            endTutorial()
+            kkht.endMessage(setInterruptUI)
         }
 
         return () => {

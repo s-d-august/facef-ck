@@ -146,7 +146,7 @@ function App({ JP, setJP, devMode }) {
         cloth.current = document.getElementById("cloth")
         containerSize.current = window.innerHeight
         dickHandGrab.current = document.getElementById("dickHandGrab");
-        dickHandParts.current = kkht.arrayFrom(["dickHandFingersGroup", "dickHandGroup", "dickHandGrab"])
+        dickHandParts.current = kkht.arrayFrom(["dickHandFingersGroup", "dickHandGrab"])
         dickSvg.current = document.getElementById("dick")
         endingButton.current = document.getElementById("boyNutButton")
         eyeCenters.current = Array.from(document.querySelectorAll(`[id*="eyeCenter"]`))

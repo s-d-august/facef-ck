@@ -3,9 +3,9 @@ import { svgDefs } from "../kkht/utils/svg";
 import { insertGroup } from "../kkht/utils/svg";
 
 const Dick = (props) => (
-    <div id="dickHandTopmost">
+    <div id="dickHandDiv">
         <svg
-            id="dickHandFingersGroup"
+            id="dickHandFingersTopmost"
             viewBox="0 0 1133.265 1179.254"
             preserveAspectRatio="xMinYMax meet"
         >

@@ -241,7 +241,7 @@ export const messageYesHandler = (args) => {
     actualFunc(funcArgs);
 }
 
-export const endMessage = () => {
+export const endMessage = (setter) => {
 
     const displayNone = ["messageBox", "message"]
     displayNone.forEach((el) => {
@@ -252,19 +252,20 @@ export const endMessage = () => {
         document.getElementById(el).classList.remove("messageVisible")
     })
 
-    const blockVisible = ["dickHandFingersGroup", "dick", "dickHandGrab", "dickHandTopmost", "armsGroup"]
+    const blockVisible = ["dickHandFingersTopmost", "dick", "dickHandTopmost", "armsGroup"]
     blockVisible.forEach((el) => {
         document.getElementById(el).style.display = "block"
     })
 
     document.getElementById("settersDiv").style.display = "grid"
 
-    const opacityVisible = ["dick", "settersDiv", "dickHandGrab"]
+    const opacityVisible = ["dick", "settersDiv", "dickHandTopmost"]
     opacityVisible.forEach((el) => {
+        console.log("opacity visible", document.getElementById(el))
         document.getElementById(el).style.opacity = 1
     })
 
-    const faintVisible = ["dickHandFingersGroup", "hairPullDiv"]
+    const faintVisible = ["dickHandFingersGroup", "hairPullDiv", "dickHandGrab"]
     faintVisible.forEach((el) => {
         document.getElementById(el).style.opacity = 0.35
     })
@@ -274,7 +275,9 @@ export const endMessage = () => {
         duration: 1
     })
 
-    messageBox.onclick = null
+    document.getElementById("messageBox").onclick = null
 
+    // setInterruptUI(false)
+    setter(false)
     document.getElementById("waitIcon").style.display = "block"
 }
