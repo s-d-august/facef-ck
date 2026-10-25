@@ -61,7 +61,7 @@ function App({ JP, setJP, devMode }) {
         boy: 0,
     })
     const [maxArousal, setmaxArousal] = useState({
-        man: 250,
+        man: 2500,
         boy: 5000,
     })
     const [sensitivity, setSensitivity] = useState({
@@ -1011,7 +1011,7 @@ function App({ JP, setJP, devMode }) {
             idString: "sweat",
             animation: kkht.drip,
             areaHeight: 322
-        }), 5000);
+        }), 10000);
 
         // Get all sweat elements
         const sweatsParent = document.getElementById(`sweatGroup`)
