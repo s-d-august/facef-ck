@@ -47,7 +47,10 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                             step={0.1}
                             title={JP ? labelJP : label}
                             value={value ?? 1}
-                            onChange={e => setter(e.target.value)}
+                            onChange={e => {
+                                setter(e.target.value)
+                                id === "manSet" ? localStorage.setItem("manSens", e.target.value) : localStorage.setItem("boySens", e.target.value)
+                            }}
                             {...inputProps}
                         />
                     ))}
@@ -69,6 +72,7 @@ const Setters = ({ sensitivity, max, secret, modes, JP, setJP }) => {
                                     onChange={e => {
                                         const val = Number(e.target.value);
                                         setter(val === 0 ? 100 : val);
+                                        id === "manMax" ? localStorage.setItem("manMax", e.target.value) : localStorage.setItem("boyMax", e.target.value)
                                     }}
                                 />
                             </div>
